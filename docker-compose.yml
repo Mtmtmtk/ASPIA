@@ -8,6 +8,10 @@ services:
       context: ./rev-proxy
       args:
         - DOMAIN_NAME=${DOMAIN_NAME}
+        - DEV_DOMAIN_NAME=${DEV_DOMAIN_NAME}
+        - FRONTEND_DEV_ADDRESS=${FRONTEND_DEV_ADDRESS}
+        - BACKEND_ADDRESS=${BACKEND_ADDRESS}
+        - BACKEND_DEV_ADDRESS=${BACKEND_DEV_ADDRESS}
     volumes:
       - ./static:/static
       - ./frontend:/var/www/html
@@ -35,10 +39,43 @@ services:
       default:
         ipv4_address: ${FRONTEND_ADDRESS}
 
+  frontend-dev:
+    container_name: ${COMPOSE_PROJECT_NAME}_frontend-dev
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile-dev
+      args:
+        - FRONTEND_HOME=${FRONTEND_HOME}
+    volumes:
+      - ./frontend:${FRONTEND_HOME}
+      - ${FRONTEND_HOME}/node_modules/
+    stdin_open: true
+    tty: true
+    env_file:
+      - .env
+    networks:
+      default:
+        ipv4_address: ${FRONTEND_DEV_ADDRESS}
+
   backend:
     container_name: ${COMPOSE_PROJECT_NAME}_backend
     build:
       context: ./backend
+      args:
+        - BACKEND_HOME=${BACKEND_HOME}
+    stdin_open: true
+    tty: true
+    env_file:
+      - .env
+    networks:
+      default:
+        ipv4_address: ${BACKEND_ADDRESS}
+
+  backend-dev:
+    container_name: ${COMPOSE_PROJECT_NAME}_backend-dev
+    build:
+      context: ./backend
+      dockerfile: Dockerfile-dev
       args:
         - BACKEND_HOME=${BACKEND_HOME}
     volumes:
@@ -49,7 +86,7 @@ services:
       - .env
     networks:
       default:
-        ipv4_address: ${BACKEND_ADDRESS}
+        ipv4_address: ${BACKEND_DEV_ADDRESS}
 
   redis:
     restart: always

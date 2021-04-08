@@ -11,8 +11,8 @@ RUN apt-get update && \
 
 RUN pip install ducts watchdog pyyaml argh
 
-COPY ./ .
-
+COPY config_server.ini.template ./config_server.ini.template
+COPY init.sh ./init.sh
 RUN chmod +x ./init.sh
 
 ENTRYPOINT ["./init.sh"]

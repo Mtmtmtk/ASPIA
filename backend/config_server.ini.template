@@ -101,3 +101,12 @@ redis_uri_main = redis://${REDIS_ADDRESS}:6379/0?encoding=utf-8
 
 # wait timeout until reconnect (<class 'int'>)
 reconnect_timeout = 1
+
+[ducts.common_config]
+
+# root directory of all local path (<class 'pathlib.Path'>)
+# ducts_home = .
+
+# filepath to store PID (<class 'str'>)
+# pidpath = {ducts_home}/.pid/{module}_{service}.pid
+
