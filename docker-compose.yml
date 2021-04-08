@@ -1,0 +1,71 @@
+version: "3"
+
+services:
+
+  rev-proxy:
+    container_name: ${COMPOSE_PROJECT_NAME}_rev-proxy
+    build:
+      context: ./rev-proxy
+      args:
+        - DOMAIN_NAME=${DOMAIN_NAME}
+    volumes:
+      - ./static:/static
+      - ./frontend:/var/www/html
+    ports:
+      - "80:80"
+    tty: true
+    networks:
+      default:
+        ipv4_address: ${REV_PROXY_ADDRESS}
+
+  frontend:
+    container_name: ${COMPOSE_PROJECT_NAME}_frontend
+    build:
+      context: ./frontend
+      args:
+        - FRONTEND_HOME=${FRONTEND_HOME}
+    volumes:
+      - ./frontend:${FRONTEND_HOME}
+      - ${FRONTEND_HOME}/node_modules/
+    stdin_open: true
+    tty: true
+    env_file:
+      - .env
+    networks:
+      default:
+        ipv4_address: ${FRONTEND_ADDRESS}
+
+  backend:
+    container_name: ${COMPOSE_PROJECT_NAME}_backend
+    build:
+      context: ./backend
+      args:
+        - BACKEND_HOME=${BACKEND_HOME}
+    volumes:
+      - ./backend:${BACKEND_HOME}
+    stdin_open: true
+    tty: true
+    env_file:
+      - .env
+    networks:
+      default:
+        ipv4_address: ${BACKEND_ADDRESS}
+
+  redis:
+    restart: always
+    image: redis:6-alpine
+    container_name: ${COMPOSE_PROJECT_NAME}_redis
+    volumes:
+     - ./redis/data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      default:
+        ipv4_address: ${REDIS_ADDRESS}
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${NETWORK_SUBNET}
