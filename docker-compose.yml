@@ -6,94 +6,13 @@ services:
     container_name: ${COMPOSE_PROJECT_NAME}_rev-proxy
     build:
       context: ./rev-proxy
-      args:
-        - PORT=${PORT}
-        - DEV_PORT=${DEV_PORT}
-        - DOMAIN_NAME=${DOMAIN_NAME}
-        - DEV_DOMAIN_NAME=${DEV_DOMAIN_NAME}
-        - FRONTEND_DEV_ADDRESS=${FRONTEND_DEV_ADDRESS}
-        - BACKEND_ADDRESS=${BACKEND_ADDRESS}
-        - BACKEND_DEV_ADDRESS=${BACKEND_DEV_ADDRESS}
     volumes:
       - ./static:/static
       - ./frontend:/var/www/html
-    ports:
-      - "${PORT}:${PORT}"
-      - "${DEV_PORT}:${DEV_PORT}"
     tty: true
     networks:
       default:
         ipv4_address: ${REV_PROXY_ADDRESS}
-
-  frontend:
-    container_name: ${COMPOSE_PROJECT_NAME}_frontend
-    build:
-      context: ./frontend
-      args:
-        - FRONTEND_HOME=${FRONTEND_HOME}
-    volumes:
-      - ./frontend:${FRONTEND_HOME}
-      - ${FRONTEND_HOME}/node_modules/
-    stdin_open: true
-    tty: true
-    env_file:
-      - .env
-    networks:
-      default:
-        ipv4_address: ${FRONTEND_ADDRESS}
-
-  frontend-dev:
-    container_name: ${COMPOSE_PROJECT_NAME}_frontend-dev
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile-dev
-      args:
-        - FRONTEND_HOME=${FRONTEND_HOME}
-    volumes:
-      - ./frontend:${FRONTEND_HOME}
-      - ${FRONTEND_HOME}/node_modules/
-    stdin_open: true
-    tty: true
-    env_file:
-      - .env
-    networks:
-      default:
-        ipv4_address: ${FRONTEND_DEV_ADDRESS}
-
-  backend:
-    container_name: ${COMPOSE_PROJECT_NAME}_backend
-    build:
-      context: ./backend
-      args:
-        - BACKEND_HOME=${BACKEND_HOME}
-    volumes:
-      - ./backend:${BACKEND_HOME}
-      - ${BACKEND_HOME}/.pid
-    stdin_open: true
-    tty: true
-    env_file:
-      - .env
-    networks:
-      default:
-        ipv4_address: ${BACKEND_ADDRESS}
-
-  backend-dev:
-    container_name: ${COMPOSE_PROJECT_NAME}_backend-dev
-    build:
-      context: ./backend
-      dockerfile: Dockerfile-dev
-      args:
-        - BACKEND_HOME=${BACKEND_HOME}
-    volumes:
-      - ./backend:${BACKEND_HOME}
-      - ${BACKEND_HOME}/.pid
-    stdin_open: true
-    tty: true
-    env_file:
-      - .env
-    networks:
-      default:
-        ipv4_address: ${BACKEND_DEV_ADDRESS}
 
   redis:
     restart: always
