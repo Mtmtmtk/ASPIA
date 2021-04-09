@@ -1,8 +1,8 @@
 FROM python:3.9-slim-buster
 
-ARG BACKEND_HOME
+ARG HOME
 
-WORKDIR ${BACKEND_HOME}
+WORKDIR $HOME
 
 RUN apt-get update && \
     apt-get install -y gcc gettext-base && \

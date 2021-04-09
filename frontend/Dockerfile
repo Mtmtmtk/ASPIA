@@ -1,7 +1,7 @@
 FROM node:lts-alpine3.12
 
-ARG FRONTEND_HOME
-WORKDIR $FRONTEND_HOME
+ARG HOME
+WORKDIR $HOME
 
 RUN apk add git
 

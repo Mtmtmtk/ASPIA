@@ -5,13 +5,13 @@ services:
   rev-proxy:
     build:
       args:
-        - DEV_PORT=${DEV_PORT}
-        - DEV_DOMAIN_NAME=${DEV_DOMAIN_NAME}
-        - FRONTEND_DEV_ADDRESS=${FRONTEND_DEV_ADDRESS}
-        - BACKEND_DEV_ADDRESS=${BACKEND_DEV_ADDRESS}
+        - DEV_PORT=$DEV_PORT
+        - DEV_DOMAIN_NAME=$DEV_DOMAIN_NAME
+        - FRONTEND_DEV_ADDRESS=$FRONTEND_DEV_ADDRESS
+        - BACKEND_DEV_ADDRESS=$BACKEND_DEV_ADDRESS
       dockerfile: Dockerfile
     ports:
-      - "${DEV_PORT}:${DEV_PORT}"
+      - "$DEV_PORT:$DEV_PORT"
 
   frontend-dev:
     container_name: ${COMPOSE_PROJECT_NAME}_frontend-dev
@@ -19,17 +19,18 @@ services:
       context: ./frontend
       dockerfile: Dockerfile-dev
       args:
-        - FRONTEND_HOME=${FRONTEND_HOME}
+        - HOME=$FRONTEND_HOME
     volumes:
-      - ./frontend:${FRONTEND_HOME}
-      - ${FRONTEND_HOME}/node_modules/
+      - ./frontend:$FRONTEND_HOME
+      - $FRONTEND_HOME/node_modules/
     stdin_open: true
     tty: true
-    env_file:
-      - .env
+    environment:
+      - DOMAIN_NAME=$DOMAIN_NAME
+      - DEV_DOMAIN_NAME=$DEV_DOMAIN_NAME
     networks:
       default:
-        ipv4_address: ${FRONTEND_DEV_ADDRESS}
+        ipv4_address: $FRONTEND_DEV_ADDRESS
 
   backend-dev:
     container_name: ${COMPOSE_PROJECT_NAME}_backend-dev
@@ -37,14 +38,16 @@ services:
       context: ./backend
       dockerfile: Dockerfile-dev
       args:
-        - BACKEND_HOME=${BACKEND_HOME}
+        - HOME=$BACKEND_HOME
     volumes:
-      - ./backend:${BACKEND_HOME}
-      - ${BACKEND_HOME}/.pid
+      - ./backend:$BACKEND_HOME
+      - $BACKEND_HOME/.pid
+      - $BACKEND_HOME/config
     stdin_open: true
     tty: true
-    env_file:
-      - .env
+    environment:
+      - HOME=$BACKEND_HOME
+      - REDIS_ADDRESS=$REDIS_DEV_ADDRESS
     networks:
       default:
-        ipv4_address: ${BACKEND_DEV_ADDRESS}
+        ipv4_address: $BACKEND_DEV_ADDRESS

@@ -5,43 +5,46 @@ services:
   rev-proxy:
     build:
       args:
-        - PORT=${PORT}
-        - DOMAIN_NAME=${DOMAIN_NAME}
-        - BACKEND_ADDRESS=${BACKEND_ADDRESS}
+        - PORT=$PORT
+        - DOMAIN_NAME=$DOMAIN_NAME
+        - BACKEND_ADDRESS=$BACKEND_ADDRESS
       dockerfile: Dockerfile-prodonly
     ports:
-      - "${PORT}:${PORT}"
+      - "$PORT:$PORT"
 
   frontend:
     container_name: ${COMPOSE_PROJECT_NAME}_frontend
     build:
       context: ./frontend
       args:
-        - FRONTEND_HOME=${FRONTEND_HOME}
+        - HOME=$FRONTEND_HOME
     volumes:
-      - ./frontend:${FRONTEND_HOME}
-      - ${FRONTEND_HOME}/node_modules/
+      - ./frontend:$FRONTEND_HOME
+      - $FRONTEND_HOME/node_modules/
     stdin_open: true
     tty: true
-    env_file:
-      - .env
+    environment:
+      - DOMAIN_NAME=$DOMAIN_NAME
+      - DEV_DOMAIN_NAME=$DEV_DOMAIN_NAME
     networks:
       default:
-        ipv4_address: ${FRONTEND_ADDRESS}
+        ipv4_address: $FRONTEND_ADDRESS
 
   backend:
     container_name: ${COMPOSE_PROJECT_NAME}_backend
     build:
       context: ./backend
       args:
-        - BACKEND_HOME=${BACKEND_HOME}
+        - HOME=$BACKEND_HOME
     volumes:
-      - ./backend:${BACKEND_HOME}
-      - ${BACKEND_HOME}/.pid
+      - ./backend:$BACKEND_HOME
+      - $BACKEND_HOME/.pid
+      - $BACKEND_HOME/config
     stdin_open: true
     tty: true
-    env_file:
-      - .env
+    environment:
+      - HOME=$BACKEND_HOME
+      - REDIS_ADDRESS=$REDIS_ADDRESS
     networks:
       default:
-        ipv4_address: ${BACKEND_ADDRESS}
+        ipv4_address: $BACKEND_ADDRESS
