@@ -7,6 +7,8 @@ services:
     build:
       context: ./rev-proxy
       args:
+        - PORT=${PORT}
+        - DEV_PORT=${DEV_PORT}
         - DOMAIN_NAME=${DOMAIN_NAME}
         - DEV_DOMAIN_NAME=${DEV_DOMAIN_NAME}
         - FRONTEND_DEV_ADDRESS=${FRONTEND_DEV_ADDRESS}
@@ -16,7 +18,8 @@ services:
       - ./static:/static
       - ./frontend:/var/www/html
     ports:
-      - "80:80"
+      - "${PORT}:${PORT}"
+      - "${DEV_PORT}:${DEV_PORT}"
     tty: true
     networks:
       default:
