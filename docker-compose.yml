@@ -66,6 +66,9 @@ services:
       context: ./backend
       args:
         - BACKEND_HOME=${BACKEND_HOME}
+    volumes:
+      - ./backend:${BACKEND_HOME}
+      - ${BACKEND_HOME}/.pid
     stdin_open: true
     tty: true
     env_file:
@@ -83,6 +86,7 @@ services:
         - BACKEND_HOME=${BACKEND_HOME}
     volumes:
       - ./backend:${BACKEND_HOME}
+      - ${BACKEND_HOME}/.pid
     stdin_open: true
     tty: true
     env_file:
