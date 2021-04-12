@@ -7,7 +7,7 @@ services:
     image: redis:6-alpine
     container_name: ${COMPOSE_PROJECT_NAME}_redis-dev
     volumes:
-     - ./redis/data-dev:/data
+     - ../redis/data-dev:/data
     ports:
       - "$REDIS_DEV_PORT:6379"
     networks:

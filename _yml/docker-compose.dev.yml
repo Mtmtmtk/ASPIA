@@ -16,12 +16,12 @@ services:
   frontend-dev:
     container_name: ${COMPOSE_PROJECT_NAME}_frontend-dev
     build:
-      context: ./frontend
+      context: ../frontend
       dockerfile: Dockerfile-dev
       args:
         - HOME=$FRONTEND_HOME
     volumes:
-      - ./frontend:$FRONTEND_HOME
+      - ../frontend:$FRONTEND_HOME
       - $FRONTEND_HOME/node_modules/
     stdin_open: true
     tty: true
@@ -35,12 +35,12 @@ services:
   backend-dev:
     container_name: ${COMPOSE_PROJECT_NAME}_backend-dev
     build:
-      context: ./backend
+      context: ../backend
       dockerfile: Dockerfile-dev
       args:
         - HOME=$BACKEND_HOME
     volumes:
-      - ./backend:$BACKEND_HOME
+      - ../backend:$BACKEND_HOME
       - $BACKEND_HOME/.pid
       - $BACKEND_HOME/config
     stdin_open: true

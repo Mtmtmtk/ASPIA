@@ -5,10 +5,10 @@ services:
   rev-proxy:
     container_name: ${COMPOSE_PROJECT_NAME}_rev-proxy
     build:
-      context: ./rev-proxy
+      context: ../rev-proxy
     volumes:
-      - ./static:/static
-      - ./frontend:/var/www/html
+      - ../static:/static
+      - ../frontend:/var/www/html
     tty: true
     networks:
       default:
@@ -22,7 +22,7 @@ services:
     image: redis:6-alpine
     container_name: ${COMPOSE_PROJECT_NAME}_redis
     volumes:
-     - ./redis/data:/data
+     - ../redis/data:/data
     ports:
       - "$REDIS_PORT:6379"
     networks:

@@ -15,11 +15,11 @@ services:
   frontend:
     container_name: ${COMPOSE_PROJECT_NAME}_frontend
     build:
-      context: ./frontend
+      context: ../frontend
       args:
         - HOME=$FRONTEND_HOME
     volumes:
-      - ./frontend:$FRONTEND_HOME
+      - ../frontend:$FRONTEND_HOME
       - $FRONTEND_HOME/node_modules/
     stdin_open: true
     tty: true
@@ -33,11 +33,11 @@ services:
   backend:
     container_name: ${COMPOSE_PROJECT_NAME}_backend
     build:
-      context: ./backend
+      context: ../backend
       args:
         - HOME=$BACKEND_HOME
     volumes:
-      - ./backend:$BACKEND_HOME
+      - ../backend:$BACKEND_HOME
       - $BACKEND_HOME/.pid
       - $BACKEND_HOME/config
     stdin_open: true
