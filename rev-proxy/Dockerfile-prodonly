@@ -1,9 +1,3 @@
 FROM nginx:alpine
 
-ARG PORT
-ARG DOMAIN_NAME
-ARG BACKEND_ADDRESS
-
-COPY ./nginx.conf.template.prodonly /etc/nginx/nginx.conf.template
-
-RUN envsubst '$$PORT $$DOMAIN_NAME $$BACKEND_ADDRESS' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf
+ENTRYPOINT ["./init.sh", "prodonly"]
