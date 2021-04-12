@@ -4,13 +4,13 @@ services:
 
   rev-proxy:
     build:
-      args:
-        - PORT=$PORT
-        - DOMAIN_NAME=$DOMAIN_NAME
-        - BACKEND_ADDRESS=$BACKEND_ADDRESS
       dockerfile: Dockerfile-prodonly
     ports:
-      - "$PORT:$PORT"
+      - "80:80"
+      - "443:443"
+    environment:
+      - DOMAIN_NAME=$DOMAIN_NAME
+      - BACKEND_ADDRESS=$BACKEND_ADDRESS
 
   frontend:
     container_name: ${COMPOSE_PROJECT_NAME}_frontend

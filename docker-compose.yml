@@ -13,6 +13,9 @@ services:
     networks:
       default:
         ipv4_address: $REV_PROXY_ADDRESS
+    environment:
+      - ENABLE_SSL=$ENABLE_SSL
+      - EMAIL=$EMAIL
 
   redis:
     restart: always

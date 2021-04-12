@@ -6,7 +6,6 @@ http {
     default_type application/octet-stream;
 
     server {
-        listen ${PORT};
         server_name ${DOMAIN_NAME};
 
         proxy_set_header Host $host;
