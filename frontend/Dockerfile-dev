@@ -6,6 +6,5 @@ WORKDIR $HOME
 RUN apk add git
 
 COPY package.json* ./
-RUN npm install
 
-CMD ["npm","run","serve"]
+ENTRYPOINT ["./init.sh"]
