@@ -8,7 +8,7 @@ services:
       context: ../rev-proxy
     volumes:
       - ../static:/static
-      - ../frontend:/var/www/html
+      - ../frontend/dist:/var/www/html
     tty: true
     networks:
       default:
@@ -16,18 +16,6 @@ services:
     environment:
       - ENABLE_SSL=$ENABLE_SSL
       - EMAIL=$EMAIL
-
-  redis:
-    restart: always
-    image: redis:6-alpine
-    container_name: ${COMPOSE_PROJECT_NAME}_redis
-    volumes:
-     - ../redis/data:/data
-    ports:
-      - "$REDIS_PORT:6379"
-    networks:
-      default:
-        ipv4_address: $REDIS_ADDRESS
 
 networks:
   default:

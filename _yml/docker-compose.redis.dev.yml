@@ -10,6 +10,8 @@ services:
      - ../redis/data-dev:/data
     ports:
       - "$REDIS_DEV_PORT:6379"
+    depends_on: 
+      - rev-proxy
     networks:
       default:
         ipv4_address: $REDIS_DEV_ADDRESS

@@ -1,5 +1,7 @@
 #!/bin/ash
 
+chmod +rx /var/www/html/dist
+
 if [ "$1" = "prodonly" ]; then
     envsubst '$$PORT $$DOMAIN_NAME $$BACKEND_ADDRESS' < /etc/nginx/nginx.conf.template.prodonly > /etc/nginx/nginx.conf
 else
