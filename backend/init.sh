@@ -1,7 +1,7 @@
 #!/bin/bash
 
 rm -rf .pid/
-envsubst '$$REDIS_ADDRESS' < $HOME/config_server.ini.template > $HOME/config/config_server.ini
+envsubst '$$REDIS_ADDRESS' < $HOME/config/config_server.ini.template > $HOME/config/config_server.ini
 python -m ducts server start -c ./config/config_server.ini &
 
 if [ "$1" = "dev" ]; then

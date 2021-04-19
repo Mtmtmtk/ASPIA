@@ -11,7 +11,6 @@ RUN apt-get update && \
 
 RUN pip install ducts watchdog pyyaml argh
 
-COPY init.sh ./init.sh
-RUN chmod +x ./init.sh
+COPY ./ ./
 
 ENTRYPOINT ["./init.sh"]

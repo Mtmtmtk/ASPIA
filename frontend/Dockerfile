@@ -5,6 +5,10 @@ WORKDIR $HOME
 
 RUN apk add git
 
-COPY package.json* ./
+COPY ./package.json* ./
 
-ENTRYPOINT ["./init.sh"]
+RUN npm install
+
+COPY ./ ./
+
+CMD ["npm", "run", "build"]
