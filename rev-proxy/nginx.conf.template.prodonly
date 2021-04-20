@@ -6,7 +6,7 @@ http {
     default_type application/octet-stream;
 
     server {
-        listen ${PORT};
+        listen ${HTTP_PORT};
         server_name ${DOMAIN_NAME};
 
         proxy_set_header Host $host;
@@ -19,7 +19,7 @@ http {
         location / {
             alias /var/www/html/dist/;
             index index.html;
-            try_files $uri $uri/ index.html;
+            try_files $uri $uri/ /index.html;
         }
 
         location /static/ {
