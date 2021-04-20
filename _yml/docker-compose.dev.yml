@@ -6,12 +6,12 @@ services:
     build:
       dockerfile: Dockerfile
     ports:
-      - "$DEV_PORT:$DEV_PORT"
+      - "$DEV_HTTP_PORT:$DEV_HTTP_PORT"
     environment:
-      - DEV_PORT=$DEV_PORT
+      - DEV_HTTP_PORT=$DEV_HTTP_PORT
       - DEV_DOMAIN_NAME=$DEV_DOMAIN_NAME
-      - FRONTEND_DEV_ADDRESS=$FRONTEND_DEV_ADDRESS
-      - BACKEND_DEV_ADDRESS=$BACKEND_DEV_ADDRESS
+      - DEV_FRONTEND_ADDRESS=$DEV_FRONTEND_ADDRESS
+      - DEV_BACKEND_ADDRESS=$DEV_BACKEND_ADDRESS
 
   frontend-dev:
     container_name: ${COMPOSE_PROJECT_NAME}_frontend-dev
@@ -33,7 +33,7 @@ services:
       - frontend
     networks:
       default:
-        ipv4_address: $FRONTEND_DEV_ADDRESS
+        ipv4_address: $DEV_FRONTEND_ADDRESS
 
   backend-dev:
     container_name: ${COMPOSE_PROJECT_NAME}_backend-dev
@@ -45,14 +45,13 @@ services:
     volumes:
       - ../backend:$BACKEND_HOME
       - $BACKEND_HOME/.pid
-      - $BACKEND_HOME/config
     stdin_open: true
     tty: true
     environment:
       - HOME=$BACKEND_HOME
-      - REDIS_ADDRESS=$REDIS_DEV_ADDRESS
+      - REDIS_ADDRESS=$DEV_REDIS_ADDRESS
     depends_on: 
       - backend
     networks:
       default:
-        ipv4_address: $BACKEND_DEV_ADDRESS
+        ipv4_address: $DEV_BACKEND_ADDRESS

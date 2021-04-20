@@ -6,6 +6,9 @@ services:
     container_name: ${COMPOSE_PROJECT_NAME}_rev-proxy
     build:
       context: ../rev-proxy
+    ports:
+      - "$HTTP_PORT:$HTTP_PORT"
+      - "443:443"
     volumes:
       - ../static:/static
       - ../frontend/dist:/var/www/html
@@ -15,6 +18,8 @@ services:
         ipv4_address: $REV_PROXY_ADDRESS
     environment:
       - ENABLE_SSL=$ENABLE_SSL
+      - DEV_ENABLE_SSL=$DEV_ENABLE_SSL
+      - HTTP_PORT=$HTTP_PORT
       - EMAIL=$EMAIL
 
 networks:

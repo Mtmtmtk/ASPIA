@@ -5,9 +5,6 @@ services:
   rev-proxy:
     build:
       dockerfile: Dockerfile-prodonly
-    ports:
-      - "80:80"
-      - "443:443"
     environment:
       - DOMAIN_NAME=$DOMAIN_NAME
       - BACKEND_ADDRESS=$BACKEND_ADDRESS
