@@ -17,8 +17,8 @@ services:
     container_name: ${COMPOSE_PROJECT_NAME}_frontend-dev
     build:
       context: ../frontend
-      dockerfile: Dockerfile-dev
       args:
+        - SERVICE_NAME=frontend-dev
         - HOME=$FRONTEND_HOME
     volumes:
       - ../frontend:$FRONTEND_HOME
