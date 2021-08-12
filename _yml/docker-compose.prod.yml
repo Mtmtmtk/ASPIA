@@ -28,6 +28,7 @@ services:
     build:
       context: ../frontend
       args:
+        - SERVICE_NAME=frontend
         - HOME=$FRONTEND_HOME
     volumes:
       - ../frontend/dist:$FRONTEND_HOME/dist
@@ -47,6 +48,7 @@ services:
     build:
       context: ../backend
       args:
+        - SERVICE_NAME=backend
         - HOME=$BACKEND_HOME
     stdin_open: true
     tty: true
