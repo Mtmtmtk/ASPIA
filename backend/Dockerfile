@@ -10,7 +10,11 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 RUN pip install ducts watchdog pyyaml argh
+RUN pip install -U pip && pip install poetry 
+RUN poetry config virtualenvs.create false
+RUN poetry install
 
 COPY ./ ./
+COPY ./ .
 
 ENTRYPOINT ["./init.sh"]
