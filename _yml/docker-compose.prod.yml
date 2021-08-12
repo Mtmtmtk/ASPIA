@@ -28,6 +28,7 @@ services:
     build:
       context: ../frontend
       args:
+        - SERVICE_NAME=frontend
         - HOME=$FRONTEND_HOME
     volumes:
       - ../frontend/dist:$FRONTEND_HOME/dist
