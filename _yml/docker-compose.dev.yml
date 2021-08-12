@@ -39,8 +39,8 @@ services:
     container_name: ${COMPOSE_PROJECT_NAME}_backend-dev
     build:
       context: ../backend
-      dockerfile: Dockerfile-dev
       args:
+        - SERVICE_NAME=backend-dev
         - HOME=$BACKEND_HOME
     volumes:
       - ../backend:$BACKEND_HOME
