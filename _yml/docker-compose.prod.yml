@@ -47,6 +47,7 @@ services:
     build:
       context: ../backend
       args:
+        - SERVICE_NAME=backend
         - HOME=$BACKEND_HOME
     stdin_open: true
     tty: true
