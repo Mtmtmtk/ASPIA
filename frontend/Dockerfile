@@ -3,12 +3,12 @@ FROM node:lts-alpine3.12
 ARG HOME
 WORKDIR $HOME
 
-RUN apk add git
+ARG SERVICE_NAME
+ENV SERVICE_NAME ${SERVICE_NAME}
 
-COPY ./package.json* ./
-
+COPY ./package.json .
 RUN npm install
 
 COPY ./ ./
 
-CMD ["npm", "run", "build"]
+ENTRYPOINT ["./entrypoint.sh"]
