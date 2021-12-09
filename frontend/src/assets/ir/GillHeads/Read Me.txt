@@ -1,0 +1,87 @@
+
+Format(s): 
+Mono
+B-Format (4 Channel Files)
+
+Mono: 
+
+    mine_site1_1way_mono.wav
+
+Sample Rate: 96 kHz
+Number of Channels: 1
+Bits per Sample: 24
+Duration: 5 s
+File Size: 1.37 MB
+File Format: wav
+
+
+    mine_site2_1way_mono.wav
+
+Sample Rate: 96 kHz
+Number of Channels: 1
+Bits per Sample: 24
+Duration: 5 s
+File Size: 1.37 MB
+File Format: wav
+
+
+    mine_site1_2way_mono.wav
+
+Sample Rate: 96 kHz
+Number of Channels: 1
+Bits per Sample: 24
+Duration: 5 s
+File Size: 1.37 MB
+File Format: wav
+
+
+    mine_site2_2way_mono.wav
+
+Sample Rate: 96 kHz
+Number of Channels: 1
+Bits per Sample: 24
+Duration: 5 s
+File Size: 1.37 MB
+File Format: wav
+
+B-Format: Multichannel: 
+
+    mine_site1_1way_bformat.wav
+
+Sample Rate: 96 kHz
+Number of Channels: 4
+Bits per Sample: 24
+Duration: 5 s
+File Size: 5.49 MB
+File Format: wav
+
+
+    mine_site2_1way_bformat.wav
+
+Sample Rate: 96 kHz
+Number of Channels: 4
+Bits per Sample: 24
+Duration: 5 s
+File Size: 5.49 MB
+File Format: wav
+
+
+    mine_site1_2way_bformat.wav
+
+Sample Rate: 96 kHz
+Number of Channels: 4
+Bits per Sample: 24
+Duration: 5 s
+File Size: 5.49 MB
+File Format: wav
+
+
+    mine_site2_2way_bformat.wav
+
+Sample Rate: 96 kHz
+Number of Channels: 4
+Bits per Sample: 24
+Duration: 5 s
+File Size: 5.49 MB
+File Format: wav
+

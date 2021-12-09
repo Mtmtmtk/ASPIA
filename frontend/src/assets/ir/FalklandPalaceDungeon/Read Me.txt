@@ -1,0 +1,19 @@
+
+Format(s): 
+B-Format (4 Channel Files)
+
+B-Format: Multichannel: 
+
+    bottledungeon1_sf_edited.wav
+
+Sample Rate: 96 kHz
+Number of Channels: 4
+Bits per Sample: 32
+Duration: 3 s
+File Size: 4.39 MB
+File Format: wav
+Source Sound: Balloon pop
+Microphone: Soundfield SPS422B Microphone
+Source Location: Opening of the dungeon
+Microphone Location: Opening of the dungeon
+Source Receiver Distance (m): 0.3 m

@@ -1,0 +1,72 @@
+
+Format(s): 
+B-Format (4 Channel Files)
+
+B-Format: Multichannel: 
+
+    rir_jack_lyons_lp1_96k.wav
+
+Sample Rate: 96 kHz
+Number of Channels: 4
+Bits per Sample: 16
+Duration: 4 s
+File Size: 2.93 MB
+File Format: wav
+Source Sound: Logarithmic Sine Sweep; 20Hz - 22kHz, 50 seconds @ 96kHz Sampling rate
+Microphone: Soundfield ST450
+Source Location: Centre of Orchestra
+Microphone Location: Conductor's Position
+Source Receiver Distance (m): 3.00 m
+Source Height: 1.50 m
+Receiver Height: 1.80 m
+
+
+    rir_jack_lyons_lp2_96k.wav
+
+Sample Rate: 96 kHz
+Number of Channels: 4
+Bits per Sample: 16
+Duration: 4 s
+File Size: 2.93 MB
+File Format: wav
+Source Sound: Logarithmic Sine Sweep; 20Hz - 22kHz, 50 seconds @ 96kHz Sampling rate
+Microphone: Soundfield ST450
+Source Location: Centre of Orchestra
+Microphone Location: Central Seating Block (Seat D22)
+Source Receiver Distance (m): 10.00 m
+Source Height: 1.50 m
+Receiver Height: 1.20 m
+
+
+    rir_jack_lyons_lp3_96k.wav
+
+Sample Rate: 96 kHz
+Number of Channels: 4
+Bits per Sample: 16
+Duration: 4 s
+File Size: 2.93 MB
+File Format: wav
+Source Sound: Logarithmic Sine Sweep; 20Hz - 22kHz, 50 seconds @ 96kHz Sampling rate
+Microphone: Soundfield ST450
+Source Location: Centre of Orchestra
+Microphone Location: Stage Right Seating Block (Seat D5)
+Source Receiver Distance (m): 10.00 m
+Source Height: 1.50 m
+Receiver Height: 1.20 m
+
+
+    rir_jack_lyons_lp4_96k.wav
+
+Sample Rate: 96 kHz
+Number of Channels: 4
+Bits per Sample: 16
+Duration: 4 s
+File Size: 2.93 MB
+File Format: wav
+Source Sound: Logarithmic Sine Sweep; 20Hz - 22kHz, 50 seconds @ 96kHz Sampling rate
+Microphone: Soundfield ST450
+Source Location: Centre of Orchestra
+Microphone Location: Stage Left Seating Block (Seat D32)
+Source Receiver Distance (m): 10.00 m
+Source Height: 1.50 m
+Receiver Height: 1.20 m

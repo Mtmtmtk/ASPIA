@@ -1,0 +1,112 @@
+
+Format(s): 
+B-Format (4 Channel Files)
+
+B-Format: Multichannel: 
+
+    ir_p1.wav
+
+Sample Rate: 96 kHz
+Number of Channels: 4
+Bits per Sample: 16
+Duration: 2 s
+File Size: 1.46 MB
+File Format: wav
+Source Sound: Genelec 8130A
+Microphone: Soundfield ST450 MKII Microphone
+Source Location: Centre of pathway, 3.82m left of curve. (See schematic image 1)
+Microphone Location: Centre of pathway, center of curve. (See schematic image 1)
+Source Receiver Distance (m): 3.82 m
+Source Height: 1.5 m
+Receiver Height: 1.2 m
+Temperature: 5 °C
+
+
+    ir_p2.wav
+
+Sample Rate: 96 kHz
+Number of Channels: 4
+Bits per Sample: 16
+Duration: 2 s
+File Size: 1.46 MB
+File Format: wav
+Source Sound: Genelec 8130A
+Microphone: Soundfield ST450 MKII Microphone
+Source Location: Centre of pathway, 3.82m left to center of curve. (See schematic image 1)
+Microphone Location: Centre of pathway, right of curve. (See schematic image 1)
+Source Receiver Distance (m): 6 m
+Source Height: 1.5 m
+Receiver Height: 1.2 m
+Temperature: 5 °C
+
+
+    ir_p3.wav
+
+Sample Rate: 96 kHz
+Number of Channels: 4
+Bits per Sample: 16
+Duration: 2 s
+File Size: 1.46 MB
+File Format: wav
+Source Sound: Genelec 8130A
+Microphone: Soundfield ST450 MKII Microphone
+Source Location: Centre of pathway, 3.82m left of curve. (See schematic image 1).
+Microphone Location: Left of pathway, right of curve. (See schematic image 1). IR a little corrupted by the presence of water drips.
+Source Receiver Distance (m): 11.1 m
+Source Height: 1.5 m
+Receiver Height: 1.2 m
+Temperature: 5 °C
+
+
+    ir_p4.wav
+
+Sample Rate: 96 kHz
+Number of Channels: 4
+Bits per Sample: 16
+Duration: 2 s
+File Size: 1.46 MB
+File Format: wav
+Source Sound: Genelec 8130A
+Microphone: Soundfield ST450 MKII Microphone
+Source Location: Centre of pathway, 3.82m left of curve. (See schematic image 1)
+Microphone Location: Right of pathway, right of curve. (See schematic image 1). IR a little corrupted by the presence of water drips.
+Source Receiver Distance (m): 13.7 m
+Source Height: 1.5 m
+Receiver Height: 1.2 m
+Temperature: 5 °C
+
+
+    ir_p5.wav
+
+Sample Rate: 96 kHz
+Number of Channels: 4
+Bits per Sample: 16
+Duration: 2 s
+File Size: 1.46 MB
+File Format: wav
+Source Sound: Genelec 8130A
+Microphone: Soundfield ST450 MKII Microphone
+Source Location: Centre of pathway, just right of curve. (See schematic image 2)
+Microphone Location: Centre of pathway, right of curve. (See schematic image 2)
+Source Receiver Distance (m): 3 m
+Source Height: 1.5 m
+Receiver Height: 1.2 m
+Temperature: 5 °C
+
+
+    ir_p6.wav
+
+Sample Rate: 96 kHz
+Number of Channels: 4
+Bits per Sample: 16
+Duration: 2 s
+File Size: 1.46 MB
+File Format: wav
+Source Sound: Genelec 8130A
+Microphone: Soundfield ST450 MKII Microphone
+Source Location: Centre of pathway, just right of curve. (See schematic image 2).
+Microphone Location: Centre of pathway, right of curve, next to opening. (See schematic image 2). IR a little corrupted by the presence of water drips.
+Source Receiver Distance (m): 6 m
+Source Height: 1.5 m
+Receiver Height: 1.2 m
+Temperature: 5 °C
