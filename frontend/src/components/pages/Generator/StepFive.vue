@@ -24,7 +24,6 @@
             <v-col>
                 <v-btn
                     color='primary'
-                    @click='progress += 10'
                 >test progress
                 </v-btn>
             </v-col>
@@ -46,9 +45,8 @@ import { library } from '../library.js'
 export default{
     data: () => ({
         library,
-        progress:0
     }),
-    props:['spaceName'],
+    props:['spaceName','progress'],
     methods:{
         continueStep(){
             this.$emit('change-step', 6);

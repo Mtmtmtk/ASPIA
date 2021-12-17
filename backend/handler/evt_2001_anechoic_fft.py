@@ -10,10 +10,6 @@ class Handler(EventHandler):
 
     def setup(self, handler_spec, manager):
         handler_spec.set_description('UK Dissertation')
-        try:
-        except Exception as e:
-            import traceback
-            traceback.print_exc()
         return handler_spec
 
     async def handle(self, event):     

@@ -8,7 +8,10 @@
         <v-row>
             <v-col>
                 <v-btn
+                    id='downloadButton'
                     color='#AFB42B'
+                    :href='audioURL'
+                    download
                 >
                     <v-icon>mdi-download</v-icon>download
                 </v-btn>
@@ -37,7 +40,7 @@ export default{
     data: () => ({
         library,
     }),
-    props:['spaceName'],
+    props:['spaceName','audioURL'],
     methods:{
         continueStep(){
             this.$emit('change-step', 1);
@@ -46,5 +49,9 @@ export default{
             this.$emit('change-step', 6);
         }
     },
+    mounted(){
+        const downloadButton = document.getElementById('downloadButton');
+        downloadButton.setAttribute('download', 'convoluted.wav');
+    }
 }
 </script>

@@ -71,7 +71,8 @@ export default{
     methods:{
         continueStep(){
             this.$emit('change-step', 5);
-            this.$emit('submit-form', 'submit')
+            this.$emit('send-IR-name', 'submit')
+            console.log('hakka_four')
         },
         cancelStep(){
             this.$emit('change-step', 3);

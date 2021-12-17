@@ -21,5 +21,5 @@ class Handler(EventHandler):
         print('foo')
         return await self.call(**event.data)
 
-    async def call(self, recording, ir):
-        return await self.evt_calculation.convolute(recording, ir)
+    async def call(self, recording, sampling_rate: int, ir):
+        return await self.evt_calculation.convolute(recording, sampling_rate, ir)
