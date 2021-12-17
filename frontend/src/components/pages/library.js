@@ -2,12 +2,10 @@ export const library = [
     
     {
         name:'1st Baptist Church Nashville',
+        abbr:'1stBaptist',
         description: '1st Baptist Church East Nashville is a historic church at 601 Main Street in Nashville, Tennessee.',
         image:require('@/assets/img/1stBaptist.jpg'),
         plan:require('@/assets/plan/1stBaptist.png'),
-        ir:[
-            require('../../assets/ir/1stBaptist/stereo/1st_baptist_nashville_balcony.wav'),
-        ],
         acousticParams:[
             {
                 'param': 'RT60 (s)',
@@ -78,8 +76,39 @@ export const library = [
     },
     {
         name:'Alcuin College, University of York',
+        abbr:'AlcuinCollege',
         description: 'Impulse responses recorded in a semi enclosed courtyard in Alcuin College on the University of York campus. The courtyard is formed of six buildings, with a 2.4m high wall connecting the buildings. Receivers S1R1, S1R2, and S1R3 sit at different distances forming an axis from source position S1. This axis was chosen as it is roughly parallel to the faces of the buildings to the north and south of the courtyard. Receivers S2R1, S2R2, and S2R3 form an axis from source S2 in order to approximate the diagonal span of the courtyard (limited by line of sight due to minor obstacles in the courtyard). These sets of receiver positions were chosen to compare the acoustic properties of a direct sound path orthogonal to the surrounding geometry with those of sound path at an oblique angle. S3R1 is positioned out of the line of sight of source S3, with acoustic coupling provided by the glass frontage of the north eastern building. Position S4 was inside a ground floor room adjacent to position S3. For positions S1R1 – S3R1 three impulse responses have been made; one with a single directional sound source (indicated by ‘front’ in the filename), one using a starter pistol (indicated by ‘spist’, and the other with an array of four directional sound sources pointing in different directions in an attempt to better approximate an omni-directional source. For positions S4R1-S4R2 only a single speakerorientation has been used due to the loudspeaker being inside a room. In each case the soundfield microphone is pointed directly at the loudspeaker.',
         image:require('@/assets/img/AlcuinCollege.jpg'),
+        plan:require('@/assets/plan/AlcuinCollege.jpg'),
+        audioTypes:{
+            'b-format':[
+                's1r1_spist_bform.wav',
+                's1r2_spist_bform.wav',
+                's1r3_spist_bform.wav',
+                's2r1_spist_bform.wav',
+                's2r2_spist_bform.wav',
+                's2r3_spist_bform.wav',
+                's3r1_spist_bform.wav',
+                's4r1_spist_bform.wav',
+                's4r2_spist_bform.wav',
+                'alcuin_s1r1_bformat.wav',
+                'alcuin_s1r2_bformat.wav',
+                'alcuin_s1r3_bformat.wav',
+                'alcuin_s2r1_bformat.wav',
+                'alcuin_s2r2_bformat.wav',
+                'alcuin_s2r3_bformat.wav',
+                'alcuin_s3r1_bformat.wav',
+                'alcuin_s4r1_bformat.wav',
+                'alcuin_s4r2_bformat.wav',
+                'alcuin_s1r1front_bformat.wav',
+                'alcuin_s1r2front_bformat.wav',
+                'alcuin_s1r3front_bformat.wav',
+                'alcuin_s2r1front_bformat.wav',
+                'alcuin_s2r2front_bformat.wav',
+                'alcuin_s2r3front_bformat.wav',
+                'alcuin_s3r1front_bformat.wav',
+            ]
+        },
         ir:[
             require('../../assets/ir/AlcuinCollege/b-format/s1r1_spist_bform.wav'),
         ],
@@ -153,6 +182,7 @@ export const library = [
     },
     {
         name:'Arthur Sykes Rymer Auditorium, University of York',
+        abbr:'ArthurSykes',
         description: '',
         image:require('@/assets/img/ArthurSykes.jpg'),
         ir:[
@@ -228,6 +258,7 @@ export const library = [
     },
     {
         name:'Central Hall, University of York',
+        abbr:'CentralHall',
         description: 'These Impulse Responses were recorded in the Central Hall venue of the University of York. The space is primarily used for lectures and conferences; to emulate this scenario; a sound source was placed centered on the stage of the venue while six different microphone positions were chosen to sample the acoustics of the space. As can be seen in the images, the microphone placements were chosen by dividing Central Hall into four audience areas: the stalls on the floor in the centre of the space (Stalls), the central block of seating (positions 3C, 3L), the block to the left of the stage (positions 3C, 3L), and a single position just above the entrance to the Hall and below stairs (diagonal block of seating (2L)). Position 2L was chosen at a non-chair position, because of potential interesting filtering effects of the stairs above the receiver as well as due to the lack of chairs below it. The rear of the stage had a projection screen lowered that was 1.4 m from the source, as would have been the case during the simulated scenario. The microphone in the central region (Stalls) was placed in front of the speaker, 5.1 m from the source. All microphone positions were 1.2 m above the floor at seat positions while the source was positioned at 1.5 m above stage level (both in compliance with ISO 3382-1:2009). The soundfield microphone orientation was always chosen to be orthogonal to the line of seats, facing the centre of the space.',
         image:require('@/assets/img/CentralHall.jpg'),
         ir:[
@@ -303,6 +334,7 @@ export const library = [
     },
     {
         name:'Creswell Crags',
+        abbr:'CreswellCrags',
         description: 'A series of IRs recorded at Creswell Crags – including some recorded inside one of the caves using a sine sweep, and in the main gorge using a starter pistol.',
         image:require('@/assets/img/CreswellCrags.jpg'),
         ir:[
@@ -378,6 +410,7 @@ export const library = [
     },
     {
         name:'Elveden Hall (Suffolk England)',
+        abbr:'ElvedenHall',
         description: 'Various rooms of Elveden Hall, captured in 2001 on Sony D10 DAT using pair of AKG 451s in XY, and starter’s pistol. The Hall, formerly the private residence of the Maharajah Duleep Singh and then the first Lord Iveagh, had at the time of these recordings not been lived in for decades. Elveden Hall, which was enlarged to its present size by Lord Iveagh at the end of the 19th century, consists of three floors in two enormous wings flanking a dramatic Marble Hall (which has featured as a location in films such as Eyes Wide Shut and Tomb Raider). The IRs offered here are a small subset of dozens made throughout the entire building, attempting to document every accessible room and closet, as part of research in a collaboration between artists Matt Rogalsky and Chlöe Steele entitled PERFECT IMPERFECT.',
         image:require('@/assets/img/ElvedenHall.jpg'),
         ir:[
@@ -453,6 +486,7 @@ export const library = [
     },
     {
         name:'Falkland Palace Bottle Dungeon',
+        abbr:'FalklandPalaceDungeon',
         description: 'An Impulse Response recorded in the bottle dungeon found in Falkland Palace.',
         image:require('@/assets/img/FalklandPalaceDungeon.jpg'),
         ir:[
@@ -528,6 +562,7 @@ export const library = [
     },
     {
         name:'Falkland Palace Royal Tennis Court',
+        abbr:'FalklandPalaceTennis',
         description: 'These impulse responses were recorded in a tennis court with no roof. The court is designed for Real Tennis, or Caitch and can be found at Falkland Palace in Fife. It was originally built for King James V of Scotland and construction began in 1539.',
         image:require('@/assets/img/FalklandPalaceTennis.jpg'),
         ir:[
@@ -603,6 +638,7 @@ export const library = [
     },
     {
         name:'Genesis 6 Studio - Live Room Drum Set Up',
+        abbr:'Genesis6',
         description: 'Genesis 6 building is located within the York University Campus and is home to the Department of Electronic Engineering Audio Lab. Within this building is a large recording studio which consists of a control room and live recoding room which is used for teaching, researching and other academic practices. The live room is acoustically treated with 12 panels. Each panel consists of an MDF wooden frame and is filled with Rockwool acoustic insulation. Rockwool absorbs noise and reduces acoustic reflections by impeding sound transmission throughout the structure of the fibers, with the panels placed on the wall to absorb both upper and lower frequencies. Despite the low reverberation time caused by the acoustic treatment, the data collected was done so to recreate a 5 piece drum set setup within the space. In total there are 8 omi-directional Impulse Responses (IRs) each directly relating to a specific drum or cymbal, with their own individual location and height. Each drum piece source position was done so using a Swept Sine of 20Hz – 22kHz lasting 10 seconds, this was repeated four times in different directions. This process was used to capture the omnidirectional sound that the drum set would produce. The microphone receiver was positioned directly in front of the kick position and was set at ear level to simulate a listener being in the room.',
         image:require('@/assets/img/Genesis6.jpg'),
         ir:[
@@ -678,6 +714,7 @@ export const library = [
     },
     {
         name:'Gill Heads Mine',
+        abbr:'GillHeads',
         description: 'These Impulse Responses were recorded in a disused mine found near Trollers Gill called Gill Heads Mine. The mine was used to extract Lead and Fluorite and was closed down as recently as the 1980s. Impulse responses were recorded at two sites (labelled site 1 and site 2) inside the mine not more than 30 m from the entrance. For each site there are two sets of impulse responses: One is made with a single directional sound source (IR-1), and the other is made with an array of two directional sound sources pointing in opposite directions in an attempt to better approximate an omni-directional source (IR-2).',
         image:require('@/assets/img/GillHeads.jpg'),
         ir:[
@@ -753,6 +790,7 @@ export const library = [
     },
     {
         name:'Hamilton Mausoleum',
+        abbr:'Hamilton',
         description: 'Construction on the Hamilton Mausoleum, Hamilton, Scotland, built for the 10th Duke of Hamilton, started in 1842 and was completed in 1858. It is constructed of marble and sandstone and is surmounted by a dome 36m in height, with two main spaces, a crypt in the lower section, and a chapel that was supposed to be used for worship. However the construction materials, size, shape and dimensions of the latter result in a complex, dense and very long reverberation, and hence render it almost useless for speech presentation. In fact the Guinness Book of World Records claims that the Hamilton Mausoleum has the longest “echo” of any building, recorded on 27 May 1994 as taking 15s for the sound of the reverberation caused by slamming one of the main doors to die away to nothing. The space is now often used by recording musicians for its unique acoustic properties. The interior of Hamilton Mausoleum is approximately octagonal in plan, with a diameter of 18 m. Each side of the octagon is either a plane wall or a further semicircular alcove. The results presented below having the microphone assembly in the centre and the source placed to one side, just outside one of the alcoves, giving a source-receiver distance of 4.8 m.',
         image:require('@/assets/img/Hamilton.jpg'),
         ir:[
@@ -828,6 +866,7 @@ export const library = [
     },
     {
         name:'Heslington Church',
+        abbr:'Heslington',
         description: 'Heslington Church (St. Paul’s) is a Methodist church situated on land where a church has been present since the 11th century. By the mid 19th century the building was considered too small and the material was in poor state. This led to the construction of what makes up the modern church on this site. When new housing estates and the university were built nearby, the church was once again considered too small and extensive extensions and alterations were made to the building in 1973. Of special note in these most recent alterations is the conversion of the chancel to a side-chapel, and the moving of the high altar to a large nave on the main space’s side wall. The end result was the complete reorientation of the church from the traditional lengthways layout to an unusual ‘landscape’ orientation, with the congregation facing the nave on the side wall. The reorientation of the space was a main reason we chose this location for our acoustic measurements. The unusual position of the priest’s speaking position relative to the congregation could give interesting results (especially for speech intelligibility) in a space originally acoustically designed for a more traditional church layout. The loudspeaker was set up in the nave just in front of the altar at standing head height. The first five receiver positions were situated in the middle of the front row of each set of pews at seated head height, allowing for measurements of speech intelligibility from typical listener positions in the new orientation of the church. A sixth receiver was positioned in the central rear section of the church, providing impulse responses intended for creative musical use. The seventh receiver position was in the corner of the room, in order to capture all of the modes of vibration present in the space.',
         image:require('@/assets/img/Heslington.jpg'),
         ir:[
@@ -903,6 +942,7 @@ export const library = [
     },
     {
         name:'Hoffmann Lime Kiln (Langcliffe, UK)',
+        abbr:'Hoffmann',
         description: 'The Hoffmann Lime Kiln, situated in Langcliffe, UK within the Yorkshire Dales National Park is the most structurally complete of the remaining (Hoffmann) lime kilns in the UK. Built in 1873, the industrial scale lime kiln was commissioned by the Craven Lime Company and stood operational until 1931. For more historical and architectural information on the kiln visit the Craven Museum website: (https://www.cravenmuseum.org/archaeology/fact-sheets/the-hoffmann-kiln/). It’s large stone construction, semi-cylindrical shape and many open entrances provide an interesting basis for impulse response measurement. This page presents six Impulse Responses, taken from various positions within the kiln, each coming with their own spatial description and five auralised examples. All measurements were taken in accordance with the ISO-3382 regulations.',
         image:require('@/assets/img/Hoffmann.jpg'),
         ir:[
@@ -978,6 +1018,7 @@ export const library = [
     },
     {
         name:'Innocent Railway Tunnel',
+        abbr:'Innocent',
         description: 'The innocent railway tunnel, or St Leonards Tunnel, is found just South East of the centre of Edinburgh, close to Arthur’s Seat. It was built in 1831, and designed to accommodate two railway tracks. It is 517 m long and straight, with a semicircular cross-section that is 6 m wide and 4.5 m high. The tunnel was closed in 1968 when this section of the railway was dismantled. In 1981 it was reopened as a footpath and later a tarmac surface was applied the floor of the tunnel. It now is also used as a cycle path and is part of the national cycling network. The first measurement, labelled “middle”, was made roughly in the middle of the tunnel, with a distance of 10 m between the loudspeaker and the microphone. A second set of impulse responses was then measured at the South East entrance of the tunnel, at 6 different positions relative to entrance – labelled “entrance” (a), (b), (c), (d), (e) and (f). For the second set the distance between the loudspeaker and microphone was 5 m. The transducer positions for each measurement are illustrated by the diagrams found in the “Images” tab. For each measurement there are two sets of impulse responses: One is made with a single directional sound source (IR-1), and the other is made with an array of four directional sound sources pointing in different directions in an attempt to better approximate an omni-directional source (IR-2). The impulse responses recorded near the tunnel entrance have been normalised with respect to each other, so that the relative sound levels between measurements has been preserved.',
         image:require('@/assets/img/Innocent.jpg'),
         ir:[
@@ -1053,6 +1094,7 @@ export const library = [
     },
     {
         name:'Jack Lyons Concert Hall',
+        abbr:'JackLyons',
         description: '4 B-Format Room Impulse Responses recorded in the Jack Lyons Concert Hall at the University of York. The concert hall is hexagonally shaped with a seating capacity of up to 350 people. It regularly used for musical performance hosting a variety of performances from students and professionals alike. Each impulse has been measured at a different position in the room (conductor & the middle of each seating block). Each impulse consists of 4 speaker directions (front,back,left,right) that have been combined and normalised to simulate an omnidirectional source from the source position.',
         image:require('@/assets/img/JackLyons.jpg'),
         ir:[
@@ -1128,6 +1170,7 @@ export const library = [
     },
     {
         name:'Koli National Park Summer',
+        abbr:'KoliSummer',
         description: 'Impulse Responses measured in the forest of Koli National Park in Finland during mid-summer. There was no snow on the ground at this time. Impulse responses were captured at four sites and were measured using a B-format Soundfield microphone. For each site there are two sets of impulse responses: One is made with a single directional sound source (IR-1), and the other is made with an array of four directional sound sources pointing in different directions in an attempt to better approximate an omni-directional source (IR-2).',
         image:require('@/assets/img/KoliSummer.jpg'),
         ir:[
@@ -1203,6 +1246,7 @@ export const library = [
     },
     {
         name:'Koli National Park Winter',
+        abbr:'KoliWinter',
         description: '',
         image:require('@/assets/img/KoliWinter.jpg'),
         ir:[
@@ -1210,6 +1254,7 @@ export const library = [
     },
     {
         name:'Lady Chapel, St Albans Cathedral',
+        abbr:'LadyChapel',
         description: '',
         image:require('@/assets/img/LadyChapel.jpg'),
         ir:[
@@ -1217,6 +1262,7 @@ export const library = [
     },
     {
         name:'Maes Howe',
+        abbr:'MaesHowe',
         description: '',
         image:require('@/assets/img/MaesHowe.jpg'),
         ir:[
@@ -1224,6 +1270,7 @@ export const library = [
     },
     {
         name:'Newgrange',
+        abbr:'Newgrange',
         description: '',
         image:require('@/assets/img/Newgrange.jpg'),
         ir:[
@@ -1231,6 +1278,7 @@ export const library = [
     },
     {
         name:'R1 Nuclear Reactor Hall',
+        abbr:'R1Nuclear',
         description: '',
         image:require('@/assets/img/R1Nuclear.jpg'),
         ir:[
@@ -1238,6 +1286,7 @@ export const library = [
     },
     {
         name:'Ron Cooke Hub, University of York',
+        abbr:'RonCooke',
         description: '',
         image:require('@/assets/img/RonCooke.jpg'),
         ir:[
@@ -1245,6 +1294,7 @@ export const library = [
     },
     {
         name:'Saint Lawrence Church Molebeek-Wersbeek Belgium',
+        abbr:'SaintLawrence',
         description: '',
         image:require('@/assets/img/SaintLawrence.jpg'),
         ir:[
@@ -1252,6 +1302,7 @@ export const library = [
     },
     {
         name:"Spokane Woman's Club",
+        abbr:'Spokane',
         description: '',
         image:require('@/assets/img/Spokane.jpg'),
         ir:[
@@ -1259,6 +1310,7 @@ export const library = [
     },
     {
         name:'Spring Lane Building, University of York',
+        abbr:'SpringLane',
         description: '',
         image:require('@/assets/img/SpringLane.jpg'),
         ir:[
@@ -1266,91 +1318,109 @@ export const library = [
     },
     {
         name:"St Andrew's Church",
+        abbr:'StAndrews',
         description: '',
         image:require('@/assets/img/StAndrews.jpg'),
     },
     {
         name:"St Matthew's Church - Walsall",
+        abbr:'StMatthews',
         description: '',
         image:require('@/assets/img/StMatthews.jpg'),
     },
     {
         name:"St George's Episcopal Church",
+        abbr:'StGeorges',
         description: '',
         image:require('@/assets/img/StGeorges.jpg'),
     },
     {
         name:"St Margaret's Church - National Centre for Early Music",
+        abbr:'StMargarets',
         description: '',
         image:require('@/assets/img/StMargarets.jpg'),
     },
     {
         name:"St Mary's Abbey Reconstruction",
+        abbr:'StMarys',
         description: '',
         image:require('@/assets/img/StMarys.jpg'),
     },
     {
         name:"St Patrik's Church, Patrigton",
+        abbr:'StPatriks',
         description: '',
         image:require('@/assets/img/StPatriks.jpg'),
     },
     {
         name:"St Patrik's Church, Patrigton - Model",
+        abbr:'StPatriksModel',
         description: '',
         image:require('@/assets/img/StPatriksModel.png'),
     },
     {
         name:"Stairway, University of York",
+        abbr:'Stairway',
         description: '',
         image:require('@/assets/img/Stairway.jpg'),
     },
     {
         name:"Terry's Factory Warehouse",
+        abbr:'TerrysFactory',
         description: '',
         image:require('@/assets/img/TerrysFactory.jpg'),
     },
     {
         name:"Terry's Typing Room",
+        abbr:'TerrysTypingRoom',
         description: '',
         image:require('@/assets/img/TerrysTypingRoom.jpg'),
     },
     {
         name:"The Dixon Studio Theatre - University of York",
+        abbr:'DixonStudio',
         description: '',
         image:require('@/assets/img/DixonStudio.jpg'),
     },
     {
         name:"The Shrine and Parish Church of All Saints North Street",
+        abbr:'ShrineAndParish',
         description: '',
         image:require('@/assets/img/ShrineAndParish.jpg'),
     },
     {
         name:"Troller's Gill",
+        abbr:'TrollersGill',
         description: '',
         image:require('@/assets/img/TrollersGill.jpg'),
     },
     {
         name:"Tvísöngur Sound Sculpture, Iceland (Model)",
+        abbr:'Tvisongur',
         description: '',
         image:require('@/assets/img/Tvisongur.png'),
     },
     {
         name:"Tyndall Bruce Monument",
+        abbr:'TyndallBruce',
         description: '',
         image:require('@/assets/img/TyndallBruce.jpg'),
     },
     {
         name:"Usina del Arte Symphony Hall",
+        abbr:'UsinaDelArte',
         description: '',
         image:require('@/assets/img/UsinaDelArte.jpg'),
     },
     {
         name:"York Guildhall Council Chamber",
+        abbr:'YorkGuildhall',
         description: '',
         image:require('@/assets/img/YorkGuildhall.jpg'),
     },
     {
         name:"York Minster",
+        abbr:'YorkMinster',
         description: '',
         image:require('@/assets/img/YorkMinster.jpg'),
     },

@@ -54,9 +54,10 @@
         </v-stepper-step>
         <v-stepper-content step='4'>
             <step-four
+                :duct='duct'
                 :spaceName='chosenSpace'
                 @change-step='changeStep'
-                @send-IR-name ='submitForm'
+                @send-type-and-ir='submitForm'
             />
         </v-stepper-content>
 
@@ -199,15 +200,17 @@ export default{
             };
             reader.readAsArrayBuffer(args[0]);
         },
-        submitForm(IRName){
-            if(IRName != ''){
-                console.log('hakka');
+        submitForm(...args){
+            const _audioType = args[0];
+            console.log(_audioType);
+            const _ir = args[1];
+            if(_ir != ''){
                 this.duct.invokeOnOpen(async () => {
                     try {
                         let ret = await this.duct.call(this.duct.EVENT.CONVOLUTION,{
                             recording: this.recording, 
                             sampling_rate: this.recordingSplRate, 
-                            ir: IRName
+                            ir: _ir
                         });
                         this.convolutedAudioArr = ret;
                         console.log(this.convolutedAudioArr);
@@ -219,7 +222,6 @@ export default{
             }
         }
     },
-
     created(){
     }
 }

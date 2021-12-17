@@ -9,6 +9,8 @@
             <v-col>
                 <v-btn
                     color='#AFB42B'
+                    :href='sweptSine'
+                    download
                 >
                     <v-icon>mdi-download</v-icon>download
                 </v-btn>
@@ -42,6 +44,9 @@
 </template>
 <script>
 export default{
+    data: () => ({
+        sweptSine: require('@/assets/swept_sine.wav')
+    }),
     methods:{
         continueStep(){
             this.$emit('change-step', 3);

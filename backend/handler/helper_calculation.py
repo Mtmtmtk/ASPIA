@@ -11,7 +11,7 @@ class Convolution():
     async def convolute(self, recording, sampling_rate, ir):
         anechoic_data = recording
         anechoic_sr = sampling_rate
-        ir_data, ir_sr = sf.read('./impulse_response/1st_baptist_nashville_balcony.wav')
+        ir_data, ir_sr = sf.read('./impulse_response/1stBaptist/1st_baptist_nashville_balcony.wav')
         ir_left = []
         ir_right = []
         if len(ir_data[0]) ==2:

@@ -50,7 +50,6 @@ export default{
     methods:{
         continueStep(){
             this.$emit('change-step', 6);
-            this.progress = 0
         },
         cancelStep(){
             this.$emit('change-step', 4);

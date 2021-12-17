@@ -2,17 +2,45 @@
     <v-container>
         <v-row>
             <v-col cols='4'>
-                <v-img 
-                    :src='spacePlanImg'
-                />
+                <v-dialog
+                    v-model='dialog'
+                    width='500' 
+                >
+                    <template v-slot:activator='{ on, attrs }'>
+                        <v-card
+                            v-on='on'
+                            v-bind='attrs'
+                            @click='dialog = true'
+                        >
+                            <v-img :src='spacePlanImg'/>
+                        </v-card>
+                    </template>
+                    <v-card>
+                        <v-img :src='spacePlanImg'/>
+                        <v-card-text>
+                            <v-btn 
+                                color='#26A69A'
+                                @click='dialog = false'
+                            >Close
+                            </v-btn>
+                        </v-card-text>
+                    </v-card>
+                </v-dialog>
             </v-col>
             <v-col cols='6'>
                 <v-select
-                    id='ir'
+                    v-model='selectedType'
+                    filled
+                    color='#26A69A'
+                    :items='audioTypes'
+                    label='Choose Audio Type'
+                />
+                <v-select
+                    v-if='selectedType'
                     v-model='selectedIR'
                     filled
                     color='#26A69A'
-                    :items='audioItems'
+                    :items='IRItems'
                     label='Choose Impulse Response'
                 />
             </v-col>
@@ -39,49 +67,59 @@ import { library } from '../library.js'
 export default{
     data: () => ({
         library,
-        sampleItems:['position1','position2','position3','position4'],
+        audioTypes:[],
+        IRItems:[],
+        abbr:'',
+        selectedType:'',
         selectedIR:'',
+        dialog:false
     }),
-    props:['spaceName'],
+    props:['spaceName','duct'],
     computed:{
         spacePlanImg(){
-            const _nameList = this.library.map(el => el.name)
-            const _ind = _nameList.indexOf(this.spaceName);
+            const _nameList = this.library.map(el => el.name);
+            const _idx = _nameList.indexOf(this.spaceName);
             const _planImgList = this.library.map(el => el.plan);
             let _planImgAdr = '';
-            if(_ind == -1){
+            if(_idx == -1){
                 _planImgAdr = require('@/assets/plan/noImage.jpeg');
             }else{
-                if(_planImgList[_ind] != undefined) _planImgAdr = _planImgList[_ind];
+                if(_planImgList[_idx] != undefined) _planImgAdr = _planImgList[_idx];
                 else _planImgAdr = require('@/assets/plan/noImage.jpeg');
             } 
             return _planImgAdr
         },
-        audioItems(){
-            if(this.spaceName != ''){
-                const _nameList = this.library.map(el => el.name)
-                const _ind = _nameList.indexOf(this.spaceName);
-                const _IRLists = this.library.map(el => el.ir);
-                const _IRList = _IRLists[_ind]
-                //const _filenames = _IRList.map(el => el.match(/([^/]*)\./)[1]);    
-                return _IRList
-            }else return []
-        }
     },
     methods:{
         continueStep(){
             this.$emit('change-step', 5);
-            this.$emit('send-IR-name', 'submit')
-            console.log('hakka_four')
+            this.$emit('send-type-and-ir', [this.selectedType,this.selectedIR])
         },
         cancelStep(){
             this.$emit('change-step', 3);
         },
     },
     watch:{
-        spaceName(){
-            console.log(this.spaceName)
-            this.selectedIR = ''
+        async spaceName(){
+            console.log(this.spaceName);
+            this.selectedIR = '';
+            this.selectedType = '';
+            this.audioTypes = [];
+            this.IRItems = [];
+            const _nameList = this.library.map(el => el.name);
+            const _idx = _nameList.indexOf(this.spaceName);
+            this.abbr = this.library.map(el => el.abbr)[_idx];
+            this.audioTypes = await this.duct.call(this.duct.EVENT.AUDIO_TYPE_GET, { abbr: this.abbr })
+        },
+        async selectedType(){
+            this.selectedIR = '';
+            this.IRItems = await this.duct.call(
+                this.duct.EVENT.IR_LIST_GET, 
+                { 
+                    abbr: this.abbr, 
+                    audioType: this.selectedType
+                }
+            );
         }
     },
 }
