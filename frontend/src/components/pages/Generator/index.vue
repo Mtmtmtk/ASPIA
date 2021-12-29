@@ -16,16 +16,10 @@
 </template>
 <script>
 import StepperView from './StepperView.vue'
-import ducts from '@iflb/ducts-client'
 export default{
     components:{
         StepperView
     },
-    data:() => ({
-        duct: new ducts.Duct(),
-    }),
-    created(){
-        this.duct.open("/ducts/wsd");
-    }
+    props:['duct'],
 }
 </script>

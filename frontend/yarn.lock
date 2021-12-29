@@ -997,6 +997,13 @@
     "@types/connect" "*"
     "@types/node" "*"
 
+"@types/chart.js@^2.7.55":
+  "integrity" "sha512-MWx/zZlh4wHBbM4Tm4YsZyYGb1/LkTiFLFwX/FXb0EJCvXX2xWTRHwlJ2RAAEXWxLrOdaAWP8vFtJXny+4CpEw=="
+  "resolved" "https://registry.npmjs.org/@types/chart.js/-/chart.js-2.9.35.tgz"
+  "version" "2.9.35"
+  dependencies:
+    "moment" "^2.10.2"
+
 "@types/connect-history-api-fallback@*":
   "integrity" "sha512-h8QJa8xSb1WD4fpKBDcATDNGXghFj6/3GRWG6dhmRcu0RX1Ubasur2Uvx5aeEwlf0MwblEC2bMzzMQntxnw/Cw=="
   "resolved" "https://registry.npmjs.org/@types/connect-history-api-fallback/-/connect-history-api-fallback-1.3.5.tgz"
@@ -2377,6 +2384,29 @@
   "integrity" "sha512-mT8iDcrh03qDGRRmoA2hmBJnxpllMR+0/0qlzjqZES6NdiWDcZkCNAk4rPFZ9Q85r27unkiNNg8ZOiwZXBHwcA=="
   "resolved" "https://registry.npmjs.org/chardet/-/chardet-0.7.0.tgz"
   "version" "0.7.0"
+
+"chart.js@^2.9.4", "chart.js@>= 2.5":
+  "integrity" "sha512-B07aAzxcrikjAPyV+01j7BmOpxtQETxTSlQ26BEYJ+3iUkbNKaOJ/nDbT6JjyqYxseM0ON12COHYdU2cTIjC7A=="
+  "resolved" "https://registry.npmjs.org/chart.js/-/chart.js-2.9.4.tgz"
+  "version" "2.9.4"
+  dependencies:
+    "chartjs-color" "^2.1.0"
+    "moment" "^2.10.2"
+
+"chartjs-color-string@^0.6.0":
+  "integrity" "sha512-TIB5OKn1hPJvO7JcteW4WY/63v6KwEdt6udfnDE9iCAZgy+V4SrbSxoIbTw/xkUIapjEI4ExGtD0+6D3KyFd7A=="
+  "resolved" "https://registry.npmjs.org/chartjs-color-string/-/chartjs-color-string-0.6.0.tgz"
+  "version" "0.6.0"
+  dependencies:
+    "color-name" "^1.0.0"
+
+"chartjs-color@^2.1.0":
+  "integrity" "sha512-haqOg1+Yebys/Ts/9bLo/BqUcONQOdr/hoEr2LLTRl6C5LXctUdHxsCYfvQVg5JIxITrfCNUDr4ntqmQk9+/0w=="
+  "resolved" "https://registry.npmjs.org/chartjs-color/-/chartjs-color-2.4.1.tgz"
+  "version" "2.4.1"
+  dependencies:
+    "chartjs-color-string" "^0.6.0"
+    "color-convert" "^1.9.3"
 
 "check-types@^8.0.3":
   "integrity" "sha512-YpeKZngUmG65rLudJ4taU7VLkOCTMhNl/u4ctNC56LQS/zJTyNH0Lrtwm1tfTsbLlwvlfsA2d1c8vCf/Kh2KwQ=="
@@ -5673,6 +5703,11 @@
   dependencies:
     "minimist" "^1.2.5"
 
+"moment@^2.10.2":
+  "integrity" "sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ=="
+  "resolved" "https://registry.npmjs.org/moment/-/moment-2.29.1.tgz"
+  "version" "2.29.1"
+
 "move-concurrently@^1.0.1":
   "integrity" "sha1-viwAX9oy4LKa8fBdfEszIUxwH5I="
   "resolved" "https://registry.npmjs.org/move-concurrently/-/move-concurrently-1.0.1.tgz"
@@ -7126,11 +7161,6 @@
   "resolved" "https://registry.npmjs.org/require-all/-/require-all-3.0.0.tgz"
   "version" "3.0.0"
 
-"require-dir@^1.2.0":
-  "integrity" "sha512-LY85DTSu+heYgDqq/mK+7zFHWkttVNRXC9NKcKGyuGLdlsfbjEPrIEYdCVrx6hqnJb+xSu3Lzaoo8VnmOhhjNA=="
-  "resolved" "https://registry.npmjs.org/require-dir/-/require-dir-1.2.0.tgz"
-  "version" "1.2.0"
-
 "require-directory@^2.1.1":
   "integrity" "sha1-jGStX9MNqxyXbiNE/+f3kqam30I="
   "resolved" "https://registry.npmjs.org/require-directory/-/require-directory-2.1.1.tgz"
@@ -8442,6 +8472,13 @@
     "global" "^4.3.2"
     "regenerator-runtime" "^0.12.1"
     "vue" "^2.5.17"
+
+"vue-chartjs@^3.5.1":
+  "integrity" "sha512-foocQbJ7FtveICxb4EV5QuVpo6d8CmZFmAopBppDIGKY+esJV8IJgwmEW0RexQhxqXaL/E1xNURsgFFYyKzS/g=="
+  "resolved" "https://registry.npmjs.org/vue-chartjs/-/vue-chartjs-3.5.1.tgz"
+  "version" "3.5.1"
+  dependencies:
+    "@types/chart.js" "^2.7.55"
 
 "vue-eslint-parser@^7.0.0":
   "integrity" "sha512-qh3VhDLeh773wjgNTl7ss0VejY9bMMa0GoDG2fQVyDzRFdiU3L7fw74tWZDHNQXdZqxO3EveQroa9ct39D2nqg=="

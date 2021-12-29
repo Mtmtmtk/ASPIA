@@ -26,11 +26,6 @@
         <v-row>
             <v-col>
                 <v-btn
-                    color='#26A69A'
-                    @click='continueStep'
-                >Continue
-                </v-btn>
-                <v-btn
                     text
                     color='#8D6E63'
                     @click='cancelStep'

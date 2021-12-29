@@ -2,7 +2,7 @@
     <v-container>
         <v-row>
             <v-col>
-                Register your recording.
+                Register your recording. (Current acceptable format: monoral .wav)
             </v-col>
         </v-row>
         <v-row>
@@ -44,7 +44,5 @@ export default{
             this.continueDisabled = false;
         }
     },
-    watch:{
-    }
 }
 </script>

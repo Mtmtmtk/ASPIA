@@ -159,6 +159,7 @@ export const library = [
         abbr:'ArthurSykes',
         description: '',
         image:require('@/assets/img/ArthurSykes.jpg'),
+        plan:require('../../assets/plan/ArthurSykes.png'),
         ir:[
             require('@/assets/ir/ArthurSykes/b-format/s1r2.wav'),
         ],
@@ -235,6 +236,7 @@ export const library = [
         abbr:'CentralHall',
         description: 'These Impulse Responses were recorded in the Central Hall venue of the University of York. The space is primarily used for lectures and conferences; to emulate this scenario; a sound source was placed centered on the stage of the venue while six different microphone positions were chosen to sample the acoustics of the space. As can be seen in the images, the microphone placements were chosen by dividing Central Hall into four audience areas: the stalls on the floor in the centre of the space (Stalls), the central block of seating (positions 3C, 3L), the block to the left of the stage (positions 3C, 3L), and a single position just above the entrance to the Hall and below stairs (diagonal block of seating (2L)). Position 2L was chosen at a non-chair position, because of potential interesting filtering effects of the stairs above the receiver as well as due to the lack of chairs below it. The rear of the stage had a projection screen lowered that was 1.4 m from the source, as would have been the case during the simulated scenario. The microphone in the central region (Stalls) was placed in front of the speaker, 5.1 m from the source. All microphone positions were 1.2 m above the floor at seat positions while the source was positioned at 1.5 m above stage level (both in compliance with ISO 3382-1:2009). The soundfield microphone orientation was always chosen to be orthogonal to the line of seats, facing the centre of the space.',
         image:require('@/assets/img/CentralHall.jpg'),
+        plan:require('../../assets/plan/CentralHall.jpg'),
         ir:[
             require('@/assets/ir/CentralHall/b-format/ir_centre_stalls.wav'),
         ],
@@ -311,6 +313,7 @@ export const library = [
         abbr:'CreswellCrags',
         description: 'A series of IRs recorded at Creswell Crags – including some recorded inside one of the caves using a sine sweep, and in the main gorge using a starter pistol.',
         image:require('@/assets/img/CreswellCrags.jpg'),
+        plan:require('../../assets/plan/noImage.jpeg'),
         ir:[
             require('@/assets/ir/CreswellCrags/b-format/2_s_mainlevel_r_mouth.wav'),
         ],
@@ -387,6 +390,7 @@ export const library = [
         abbr:'ElvedenHall',
         description: 'Various rooms of Elveden Hall, captured in 2001 on Sony D10 DAT using pair of AKG 451s in XY, and starter’s pistol. The Hall, formerly the private residence of the Maharajah Duleep Singh and then the first Lord Iveagh, had at the time of these recordings not been lived in for decades. Elveden Hall, which was enlarged to its present size by Lord Iveagh at the end of the 19th century, consists of three floors in two enormous wings flanking a dramatic Marble Hall (which has featured as a location in films such as Eyes Wide Shut and Tomb Raider). The IRs offered here are a small subset of dozens made throughout the entire building, attempting to document every accessible room and closet, as part of research in a collaboration between artists Matt Rogalsky and Chlöe Steele entitled PERFECT IMPERFECT.',
         image:require('@/assets/img/ElvedenHall.jpg'),
+        plan:require('../../assets/plan/noImage.jpeg'),
         ir:[
             require('../../assets/ir/ElvedenHall/stereo/1a_marble_hall.wav'),
         ],
@@ -463,6 +467,7 @@ export const library = [
         abbr:'FalklandPalaceDungeon',
         description: 'An Impulse Response recorded in the bottle dungeon found in Falkland Palace.',
         image:require('@/assets/img/FalklandPalaceDungeon.jpg'),
+        plan:require('../../assets/plan/noImage.jpeg'),
         ir:[
             require('../../assets/ir/FalklandPalaceDungeon/b-format/bottledungeon1_sf_edited.wav'),
         ],

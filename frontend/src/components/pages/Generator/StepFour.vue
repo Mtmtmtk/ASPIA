@@ -29,19 +29,21 @@
             </v-col>
             <v-col cols='6'>
                 <v-select
-                    v-model='selectedType'
+                    v-model='selectedFormat'
                     filled
                     color='#26A69A'
                     :items='audioTypes'
-                    label='Choose Audio Type'
+                    label='Select IR Audio Format'
+                    prepend-inner-icon='mdi-speaker-wireless'
                 />
                 <v-select
-                    v-if='selectedType'
+                    v-if='selectedFormat'
                     v-model='selectedIR'
                     filled
                     color='#26A69A'
                     :items='IRItems'
-                    label='Choose Impulse Response'
+                    label='Select Impulse Response'
+                    prepend-inner-icon='mdi-waveform'
                 />
             </v-col>
         </v-row>
@@ -49,6 +51,7 @@
             <v-col>
                 <v-btn
                     color='#26A69A'
+                    :disabled='continueDisabled'
                     @click='continueStep'
                 >Continue
                 </v-btn>
@@ -70,9 +73,10 @@ export default{
         audioTypes:[],
         IRItems:[],
         abbr:'',
-        selectedType:'',
+        selectedFormat:'',
         selectedIR:'',
-        dialog:false
+        dialog:false,
+        continueDisabled:true
     }),
     props:['spaceName','duct'],
     computed:{
@@ -93,7 +97,7 @@ export default{
     methods:{
         continueStep(){
             this.$emit('change-step', 5);
-            this.$emit('send-type-and-ir', [this.selectedType,this.selectedIR])
+            this.$emit('send-abbr-audiotype-and-ir', [this.abbr,this.selectedFormat,this.selectedIR])
         },
         cancelStep(){
             this.$emit('change-step', 3);
@@ -103,7 +107,7 @@ export default{
         async spaceName(){
             console.log(this.spaceName);
             this.selectedIR = '';
-            this.selectedType = '';
+            this.selectedFormat = '';
             this.audioTypes = [];
             this.IRItems = [];
             const _nameList = this.library.map(el => el.name);
@@ -111,15 +115,19 @@ export default{
             this.abbr = this.library.map(el => el.abbr)[_idx];
             this.audioTypes = await this.duct.call(this.duct.EVENT.AUDIO_TYPE_GET, { abbr: this.abbr })
         },
-        async selectedType(){
+        async selectedFormat(){
             this.selectedIR = '';
             this.IRItems = await this.duct.call(
                 this.duct.EVENT.IR_LIST_GET, 
                 { 
                     abbr: this.abbr, 
-                    audioType: this.selectedType
+                    audioType: this.selectedFormat
                 }
             );
+        },
+        selectedIR(){
+            if(this.selectedIR != '') this.continueDisabled = false;
+            else this.continueDisabled = true;
         }
     },
 }

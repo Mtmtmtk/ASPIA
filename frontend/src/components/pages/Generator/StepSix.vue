@@ -2,28 +2,34 @@
     <v-container>
         <v-row>
             <v-col>
-                All done! Please download your original spatial audio.
+                Now Processing... Please wait for a while.
             </v-col>
         </v-row>
         <v-row>
             <v-col>
-                <v-btn
-                    id='downloadButton'
+                <v-progress-linear
+                    v-model='progress'
                     color='#AFB42B'
-                    :href='audioURL'
-                    download
+                    height='25'
+                    striped
+                    rounded
                 >
-                    <v-icon>mdi-download</v-icon>download
-                </v-btn>
+                    <template v-slot:default='{ value }'>
+                        <strong>{{ Math.ceil(value) }}%</strong>
+                    </template>
+                </v-progress-linear>
             </v-col>
         </v-row>
         <v-row>
             <v-col>
                 <v-btn
-                    color='#26A69A'
-                    @click='continueStep'
-                >Continue
+                    color='primary'
+                >test progress
                 </v-btn>
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-col>
                 <v-btn
                     text
                     color='#8D6E63'
@@ -40,18 +46,19 @@ export default{
     data: () => ({
         library,
     }),
-    props:['spaceName','audioURL'],
+    props:['spaceName','progress'],
     methods:{
         continueStep(){
-            this.$emit('change-step', 1);
+            this.$emit('change-step', 7);
         },
         cancelStep(){
-            this.$emit('change-step', 6);
+            this.$emit('change-step', 5);
         }
     },
-    mounted(){
-        const downloadButton = document.getElementById('downloadButton');
-        downloadButton.setAttribute('download', 'convoluted.wav');
+    watch:{
+        progress(){
+            if(this.progress == 100)this.continueStep();
+        },
     }
 }
 </script>

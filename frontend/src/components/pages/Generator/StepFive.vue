@@ -2,34 +2,23 @@
     <v-container>
         <v-row>
             <v-col>
-                Now Processing... Please wait for a while.
-            </v-col>
-        </v-row>
-        <v-row>
-            <v-col>
-                <v-progress-linear
-                    v-model='progress'
-                    color='#AFB42B'
-                    height='25'
-                    striped
-                    rounded
-                >
-                    <template v-slot:default='{ value }'>
-                        <strong>{{ Math.ceil(value) }}%</strong>
-                    </template>
-                </v-progress-linear>
+                <v-select
+                    v-model='selectedChannels'
+                    filled
+                    color='#26A69A'
+                    :items='outputChannelItems'
+                    label='Choose output channels'
+                    prepend-inner-icon='mdi-speaker-multiple'
+                />
             </v-col>
         </v-row>
         <v-row>
             <v-col>
                 <v-btn
-                    color='primary'
-                >test progress
+                    color='#26A69A'
+                    @click='continueStep'
+                >Continue
                 </v-btn>
-            </v-col>
-        </v-row>
-        <v-row>
-            <v-col>
                 <v-btn
                     text
                     color='#8D6E63'
@@ -45,20 +34,31 @@ import { library } from '../library.js'
 export default{
     data: () => ({
         library,
+        selectedChannels:'',
+        outputChannelItems:[],
     }),
-    props:['spaceName','progress'],
+    props:['IRAudioType'],
     methods:{
         continueStep(){
             this.$emit('change-step', 6);
+            console.log('Five')
+            this.$emit('call-ducts', this.selectedChannels);
         },
         cancelStep(){
             this.$emit('change-step', 4);
         }
     },
     watch:{
-        progress(){
-            if(this.progress == 100)this.continueStep();
-        },
-    }
+        IRAudioType(){
+            console.log(this.IRAudioType);
+            if(this.IRAudioType == 'stereo'){
+                this.outputChannelItems = ['stereo', 'mono'];
+            }else if(this.IRAudioType == 'mono'){
+                this.outputChannelItems = ['mono'];
+            }else if(this.IRAudioType == 'b-format'){
+                this.outputChannelItems = ['b-format', 'stereo', 'mono'];
+            }
+        }
+    } 
 }
 </script>

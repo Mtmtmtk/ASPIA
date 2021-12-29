@@ -11,7 +11,7 @@ class Handler(EventHandler):
     def setup(self, handler_spec, manager):
         handler_spec.set_description('UK Dissertation')
         try:
-            self.evt_calculation = manager.load_helper_module('helper_calculation').Convolution()
+            self.evt_convolution = manager.get_handler_module('CONVOLUTE')
         except Exception as e:
             import traceback
             traceback.print_exc()
@@ -21,5 +21,5 @@ class Handler(EventHandler):
         print('foo')
         return await self.call(**event.data)
 
-    async def call(self, recording, sampling_rate: int, ir):
-        return await self.evt_calculation.convolute(recording, sampling_rate, ir)
+    async def call(self, recording, sampling_rate: int, path:str, output_channels: str):
+        return await self.evt_convolution.call(recording, sampling_rate, path, output_channels)

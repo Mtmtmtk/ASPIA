@@ -84,6 +84,7 @@
             <v-container>
                 <component 
                     :is=currentComponent
+                    :duct='duct'
                 />      
             </v-container>
         </v-main>
@@ -98,19 +99,24 @@
 import BackgroundImage from '@/assets/img/JackLyons.jpg'
 import Resources from '@/components/pages/Resources'
 import Generator from '@/components/pages/Generator'
+import IrAnalysis from '@/components/pages/IrAnalysis'
 import AboutThisApp from '@/components/pages/AboutThisApp'
+import ducts from '@iflb/ducts-client'
 export default{
     components:{
         Resources,
         Generator,
+        IrAnalysis,
         AboutThisApp
     },
     data:() => ({
+        duct: new ducts.Duct(),
         drawer:true,
         backgroundImage: BackgroundImage,
         currentComponent:'generator',
         menuItems:[
             { title: 'Generator', icon: 'mdi-surround-sound', to: 'generator' },
+            { title: 'IRAnalysis', icon: 'mdi-sine-wave', to: 'ir-analysis' },
             { title: 'Resources', icon: 'mdi-semantic-web', to: 'resources' },
             { title: 'OpenAIR', icon: 'mdi-web-box', to: 'openair' },
             { title: 'About this app', icon: 'mdi-information', to: 'about-this-app' },
@@ -137,6 +143,9 @@ export default{
         closeMenu(){
             this.drawer = false;
         }
+    },
+    created(){
+        this.duct.open("/ducts/wsd");
     }
 }
 </script>
