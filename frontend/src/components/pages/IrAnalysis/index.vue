@@ -13,6 +13,7 @@
                     :irArr='irArr'
                     :splRate='splRate'
                     :channels='channels'
+                    :timestamp='timestamp'
                     @change-component='changeComponent'
                     @get-ir-info='getIrInfo'
                 />
@@ -33,6 +34,7 @@ export default{
         irArr:[],
         splRate:0,
         channels:0,
+        timestamp:[]
     }),
     props:['duct'],
     methods:{
@@ -44,6 +46,7 @@ export default{
             this.irArr    = args[0];
             this.splRate  = args[1];
             this.channels = args[2];
+            this.timestamp = args[3];
         }
     }
 }

@@ -69,6 +69,7 @@ export default{
         recording:[],
         recordingSplRate:null,
         channels:null,
+        timestamp:[],
         manualSplRateInput:false,
         manualChannelsInput:false,
         manualSplRate:0,
@@ -84,19 +85,38 @@ export default{
         getIRData(file){
             if(file){
                 const reader = new FileReader();
+                const audioContext = new AudioContext();
                 const vue = this;
+                const decodedDone = function(decoded){
+                    const sampleRate = decoded.sampleRate;
+                    const channels = decoded.numberOfChannels;
+                    const allChannelsArr = [];
+                    for(let i = 0; i < channels; i++){
+                        let typedArray = new Float32Array(decoded.length);
+                        typedArray = decoded.getChannelData(i);
+                        let singleArray = [];
+                        if(typedArray.length > 44100*4){
+                            singleArray = Array.from(typedArray).splice(0, 44100*4);
+                        }else{
+                            singleArray = Array.from(typedArray);
+                        }
+                        allChannelsArr.push(singleArray);
+                    }
+                    vue.recording = allChannelsArr;
+                    vue.recordingSplRate = sampleRate;
+                    vue.channels = channels;
+
+                    let timestamp = [];
+                    const signallength = vue.recording[0].length;
+                    for(let i=1; i<signallength; i++){
+                        timestamp.push(Number((1/vue.recordingSplRate * i).toFixed(3)));
+                    }
+                    vue.timestamp = timestamp
+
+                }
                 reader.onloadend = function(evt) {
-                    vue.recording = Array.from(new Int16Array(evt.target.result));
-
-                    const view = new DataView(evt.target.result);
-                    vue.recordingSplRate = view.getUint32(24, true);
-                    if(vue.recordingSplRate == 0) vue.manualSplRateInput = true;
-                    else vue.manualSplRateInput = false;
-
-                    vue.channels=view.getUint16(22,true);
-                    if(vue.channels == 0) vue.manualChannelsInput = true;
-                    else vue.manualChannelsInput = false;
-                    
+                    const arrayBuffer = evt.target.result;
+                    audioContext.decodeAudioData(arrayBuffer, decodedDone)
                 };
                 reader.readAsArrayBuffer(file);
             }else{
@@ -115,7 +135,12 @@ export default{
         },
         startAnalysis(){
             this.$emit('change-component', 'ir-analysis');
-            this.$emit('get-ir-info', [ this.recording, this.recordingSplRate, this.channels ]);
+            this.$emit('get-ir-info', [ 
+                this.recording, 
+                this.recordingSplRate, 
+                this.channels , 
+                this.timestamp
+            ]);
         }
     }
 

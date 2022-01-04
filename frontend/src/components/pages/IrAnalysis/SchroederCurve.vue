@@ -1,0 +1,153 @@
+<template>
+    <v-card
+        light
+        flat
+        tile
+        color='#E0E0E0'
+        class='rounded-b-lg'
+    >
+        <v-overlay
+            absolute
+            color='#E0E0E0'
+            :value='loading'
+        >
+            <v-progress-circular
+                indeterminate
+                color='#26A69A'
+                size='64'
+            />
+        </v-overlay>
+        <v-card-text>
+            <!--<v-row class='pt-5 pl-1'>
+                <v-col cols='4' lg='4'>
+                    <v-select
+                        v-model='selectedHz'
+                        prepend-inner-icon='mdi-sine-wave'
+                        :items='selectItems' 
+                        :item-text='selectItems.text'
+                        :item-value='selectItems.value'
+                        item-color='#26A69A'
+                        color='#26A69A'
+                        solo
+                        flat
+                    />
+                </v-col>
+            </v-row>-->
+            <v-row class='pt-0 mt-0'>
+                <v-col cols='12'>
+                    <v-select
+                        v-model='selectedHz'
+                        prepend-inner-icon='mdi-sine-wave'
+                        :items='selectItems' 
+                        :item-text='selectItems.text'
+                        :item-value='selectItems.value'
+                        item-color='#26A69A'
+                        color='#26A69A'
+                        solo
+                        flat
+                    />
+                    <line-chart 
+                        :data='chartData'
+                        :options='chartOptions'
+                    /> 
+                </v-col>
+            </v-row>
+        </v-card-text>
+    </v-card>
+</template>
+<script>
+import LineChart from './Charts/LineChart.vue'
+export default{
+    components:{
+        LineChart
+    },
+    props:['schroederDB','timestamp'],
+    data:() => ({
+        loading:true,
+        selectedHz:'31.5',
+        selectItems:[
+            { text: '31.5 Hz', value:'31.5' },
+            { text: '63 Hz', value:'63' },
+            { text: '125 Hz', value:'125' },
+            { text: '250 Hz', value:'250' },
+            { text: '500 Hz', value:'500' },
+            { text: '1 kHz', value:'1k' },
+            { text: '2 kHz', value:'2k' },
+            { text: '4 kHz', value:'4k' },
+            { text: '8 kHz', value:'8k' },
+            { text: '16 kHz', value:'16k' },
+        ],
+        chartOptions: {
+            maintainAspectRatio:false,
+            animation:{
+                duration:0
+            },
+            scales:{
+                xAxes:[{
+                    ticks:{
+                        stepSize:0.10
+                    },
+                    scaleLabel: {
+                        display:true,
+                        labelString:'Time (s)'
+                    }
+                }],
+                yAxes:[{
+                    scaleLabel: {
+                        display:true,
+                        labelString:'dB'
+                    }
+                }]
+            },
+            legend:{
+                display:false
+            },
+            tooltips:{
+                enabled:false
+            }
+        },
+        chartData: { labels:[], datasets:[] },
+        signalPerChannel:[],
+    }),
+    computed:{
+    },
+    watch:{
+        schroederDB(){
+            this.updateChartData();
+        },
+        selectedHz(){
+            this.updateChartData()
+        }
+    },
+    methods:{
+        updateChartData(){
+            this.loading = true;
+            let _data = { labels:[], datasets:[] };
+            console.log(this.schroederDB);
+            _data.labels = this.schroederDB.time_stamp.map(el => el.toFixed(2));
+            const color = ['#26A69A','#B2DfD8']
+            const _ind = this.selectItems.map(el => el.value).indexOf(this.selectedHz);
+            const _dataLabel = this.selectItems.map(el => el.text)[_ind];
+            _data.datasets.push({
+                label: _dataLabel,
+                data: this.schroederDB[this.selectedHz],
+                borderWidth:3,
+                fill:true,
+                lineTension:0.2,
+                borderColor: color[0],
+                backgroundColor:color[1],
+                pointRadius:0.01,
+
+            });
+            this.chartData = _data;
+            console.log(this.chartData)
+        }
+    },  
+    mounted(){
+        this.updateChartData();
+    },
+    beforeUpdate(){
+        this.loading = false;
+    }
+}
+</script>
