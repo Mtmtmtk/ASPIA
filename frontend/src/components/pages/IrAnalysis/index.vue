@@ -7,18 +7,25 @@
         </v-row>
         <v-row>
             <v-col cols='12'>
-                <component
-                    :is='currentComponent'
-                    :duct='duct'
-                    :irArr='irArr'
-                    :splRate='splRate'
-                    :channels='channels'
-                    :timestamp='timestamp'
+                <ir-input
                     @change-component='changeComponent'
                     @get-ir-info='getIrInfo'
                 />
             </v-col>
         </v-row>
+        <v-row v-if='fileSelected'>
+            <v-col cols='12'>
+                <ir-analysis
+                    :duct='duct'
+                    :irArr='irArr'
+                    :splRate='splRate'
+                    :channels='channels'
+                    :audioURL='audioURL'
+                    :fileName='fileName'
+                />
+            </v-col>
+        </v-row>
+
     </v-container>
 </template>
 <script>
@@ -34,7 +41,10 @@ export default{
         irArr:[],
         splRate:0,
         channels:0,
-        timestamp:[]
+        timestamp:[],
+        audioURL:'',
+        fileName:'',
+        fileSelected: false
     }),
     props:['duct'],
     methods:{
@@ -46,8 +56,10 @@ export default{
             this.irArr    = args[0];
             this.splRate  = args[1];
             this.channels = args[2];
-            this.timestamp = args[3];
-        }
+            this.audioURL = args[3];
+            this.fileName = args[4];
+            this.fileSelected = true;
+        },
     }
 }
 </script>

@@ -12,13 +12,12 @@ class Handler(EventHandler):
 
     def setup(self, handler_spec, manager):
         handler_spec.set_description('UK Dissertation')
-        self.evt_reshape_ir = manager.get_handler_module('RESHAPE_IR')
+        self.evt_resample_ir_chart = manager.get_handler_module('RESAMPLE_IR_CHART')
         return handler_spec
 
     async def handle(self, event):     
         return await self.call(**event.data)
 
-    async def call(self, ir_arr, spl_rate: int, channels:int):
-        reshaped_ir = await self.evt_reshape_ir.call(ir_arr, spl_rate, channels)
-        reshaped_ir = reshaped_ir[reshaped_ir.index % 10 == 0]
-        return reshaped_ir.to_dict(orient='list')
+    async def call(self, ir_arr):
+        [ resampled_ir, time_stamp ]  = await self.evt_resample_ir_chart.call(ir_arr)
+        return [ resampled_ir.to_dict(orient='list'), time_stamp.tolist() ]

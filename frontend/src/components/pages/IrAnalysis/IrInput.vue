@@ -7,7 +7,7 @@
     >
         <v-row class='ps-5 pt-3'>
             <v-col>
-                Choose an impulse response vue you want to analyse.
+                Choose an impulse response you want to analyse.
             </v-col>
         </v-row>
         <v-card-text>
@@ -66,6 +66,7 @@
 <script>
 export default{
     data:() => ({
+        fileName:'',
         recording:[],
         recordingSplRate:null,
         channels:null,
@@ -74,6 +75,7 @@ export default{
         manualChannelsInput:false,
         manualSplRate:0,
         manualChannels:0,
+        audioURL:'',
     }),
     computed:{
         buttonDisbled(){
@@ -82,43 +84,10 @@ export default{
         }
     },
     methods:{
-        getIRData(file){
+        async getIRData(file){
             if(file){
-                const reader = new FileReader();
-                const audioContext = new AudioContext();
-                const vue = this;
-                const decodedDone = function(decoded){
-                    const sampleRate = decoded.sampleRate;
-                    const channels = decoded.numberOfChannels;
-                    const allChannelsArr = [];
-                    for(let i = 0; i < channels; i++){
-                        let typedArray = new Float32Array(decoded.length);
-                        typedArray = decoded.getChannelData(i);
-                        let singleArray = [];
-                        if(typedArray.length > 44100*4){
-                            singleArray = Array.from(typedArray).splice(0, 44100*4);
-                        }else{
-                            singleArray = Array.from(typedArray);
-                        }
-                        allChannelsArr.push(singleArray);
-                    }
-                    vue.recording = allChannelsArr;
-                    vue.recordingSplRate = sampleRate;
-                    vue.channels = channels;
-
-                    let timestamp = [];
-                    const signallength = vue.recording[0].length;
-                    for(let i=1; i<signallength; i++){
-                        timestamp.push(Number((1/vue.recordingSplRate * i).toFixed(3)));
-                    }
-                    vue.timestamp = timestamp
-
-                }
-                reader.onloadend = function(evt) {
-                    const arrayBuffer = evt.target.result;
-                    audioContext.decodeAudioData(arrayBuffer, decodedDone)
-                };
-                reader.readAsArrayBuffer(file);
+                await this.readIRAsArrayBuffer(file);
+                await this.readIRAsDataURL(file);
             }else{
                 this.recording = [];
                 this.recordingSplRate = null;
@@ -126,6 +95,45 @@ export default{
                 this.manualChannelsInput = false;
                 this.manualSplRateInput = false;
             }
+        },
+        readIRAsArrayBuffer(file){
+            console.log(file)
+            this.fileName = file.name;
+            const reader = new FileReader();
+            const audioContext = new AudioContext();
+            const vue = this;
+            const decodedDone = function(decoded){
+                const sampleRate = decoded.sampleRate;
+                const channels = decoded.numberOfChannels;
+                const allChannelsArr = [];
+                for(let i = 0; i < channels; i++){
+                    let typedArray = new Float32Array(decoded.length);
+                    typedArray = decoded.getChannelData(i);
+                    let singleArray = [];
+                    if(typedArray.length * channels > 44100*18){
+                        singleArray = Array.from(typedArray).splice(0, 44100*18/channels);
+                    }else{
+                        singleArray = Array.from(typedArray);
+                    }
+                    allChannelsArr.push(singleArray);
+                }
+                vue.recording = allChannelsArr;
+                vue.recordingSplRate = sampleRate;
+                vue.channels = channels;
+            }
+            reader.onload = function(evt) {
+                const arrayBuffer = evt.target.result;
+                audioContext.decodeAudioData(arrayBuffer, decodedDone)
+            };
+            reader.readAsArrayBuffer(file);
+        },
+        readIRAsDataURL(file){
+            const reader = new FileReader();
+            const vue = this;
+            reader.onload = function(evt) {
+                vue.audioURL = evt.target.result;
+            };
+            reader.readAsDataURL(file);
         },
         changeSplRate(){
             this.recordingSplRate = parseInt(this.manualSplRate);
@@ -138,8 +146,9 @@ export default{
             this.$emit('get-ir-info', [ 
                 this.recording, 
                 this.recordingSplRate, 
-                this.channels , 
-                this.timestamp
+                this.channels, 
+                this.audioURL,
+                this.fileName
             ]);
         }
     }

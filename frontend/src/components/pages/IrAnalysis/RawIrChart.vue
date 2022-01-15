@@ -31,7 +31,7 @@ export default{
     components:{
         LineChart
     },
-    props:['reshapedIr','channels','splRate','timestamp'],
+    props:['reshapedIr','channels','splRate','timestamp','ductCalling'],
     data:() => ({
         loading:false,
         chartOptions: {
@@ -53,6 +53,10 @@ export default{
                     scaleLabel: {
                         display:true,
                         labelString:'Amplitude'
+                    },
+                    ticks:{
+                        max:1.0,
+                        min:-1.0
                     }
                 }]
             },
@@ -71,28 +75,41 @@ export default{
             else return []
         }
     },
-    mounted(){
-        console.log(this.reshapedIr)
-        let _data = { labels:[], datasets:[] };
-        _data.labels = this.timestamp;
-        const colorPalette = ['#26A69A','#A64316','#A4A61E', '#6F37A6']
-        for(let channelArr of this.reshapedIr){
-            const _ind = this.reshapedIr.indexOf(channelArr);
-            _data.datasets.push({
-                label: this.channelName[_ind],
-                data: this.reshapedIr[_ind],
-                borderWidth:3,
-                fill:false,
-                lineTension:0,
-                borderColor: colorPalette[_ind],
-                pointRadius:0.01,
-            });
-        } 
-        this.chartData = _data;
-        console.log(this.chartData)
+    methods:{
+        renderChart(){
+            if(this.reshapedIr.length != 0){
+                let _data = { labels:[], datasets:[] };
+                _data.labels = this.timestamp;
+                const colorPalette = ['#26A69A','#A64316','#A4A61E', '#6F37A6']
+                for(let channelArr of this.reshapedIr){
+                    const _ind = this.reshapedIr.indexOf(channelArr);
+                    _data.datasets.push({
+                        label: this.channelName[_ind],
+                        data: this.reshapedIr[_ind],
+                        borderWidth:1,
+                        fill:false,
+                        lineTension:0,
+                        borderColor: colorPalette[_ind],
+                        pointRadius:0.01,
+                    });
+                } 
+                this.chartData = _data;
+                this.loading = false;
+            }else{
+                this.loading = true;
+            }
+        }
     },
-    beforeUpdate(){
-        this.loading = false;
+    watch:{
+        reshapedIr(){
+            this.renderChart();
+        },
+        ductCalling(){
+            if(this.ductCalling == true)this.loading=true;
+        }
+    },
+    mounted(){
+        this.renderChart();
     }
 }
 </script>

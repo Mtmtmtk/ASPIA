@@ -18,21 +18,6 @@
             />
         </v-overlay>
         <v-card-text>
-            <!--<v-row class='pt-5 pl-1'>
-                <v-col cols='4' lg='4'>
-                    <v-select
-                        v-model='selectedHz'
-                        prepend-inner-icon='mdi-sine-wave'
-                        :items='selectItems' 
-                        :item-text='selectItems.text'
-                        :item-value='selectItems.value'
-                        item-color='#26A69A'
-                        color='#26A69A'
-                        solo
-                        flat
-                    />
-                </v-col>
-            </v-row>-->
             <v-row class='pt-0 mt-0'>
                 <v-col cols='12'>
                     <v-select
@@ -42,8 +27,9 @@
                         :item-text='selectItems.text'
                         :item-value='selectItems.value'
                         item-color='#26A69A'
+                        label='Octave Band'
                         color='#26A69A'
-                        solo
+                        outlined
                         flat
                     />
                     <line-chart 
@@ -61,7 +47,7 @@ export default{
     components:{
         LineChart
     },
-    props:['schroederDB','timestamp'],
+    props:['schroederDB','timestamp','ductCalling'],
     data:() => ({
         loading:true,
         selectedHz:'31.5',
@@ -109,45 +95,45 @@ export default{
         chartData: { labels:[], datasets:[] },
         signalPerChannel:[],
     }),
-    computed:{
-    },
     watch:{
         schroederDB(){
             this.updateChartData();
         },
         selectedHz(){
             this.updateChartData()
+        },
+        ductCalling(){
+            if(this.ductCalling == true)this.loading = true;
         }
     },
     methods:{
         updateChartData(){
-            this.loading = true;
-            let _data = { labels:[], datasets:[] };
-            console.log(this.schroederDB);
-            _data.labels = this.schroederDB.time_stamp.map(el => el.toFixed(2));
-            const color = ['#26A69A','#B2DfD8']
-            const _ind = this.selectItems.map(el => el.value).indexOf(this.selectedHz);
-            const _dataLabel = this.selectItems.map(el => el.text)[_ind];
-            _data.datasets.push({
-                label: _dataLabel,
-                data: this.schroederDB[this.selectedHz],
-                borderWidth:3,
-                fill:true,
-                lineTension:0.2,
-                borderColor: color[0],
-                backgroundColor:color[1],
-                pointRadius:0.01,
+            if(Object.keys(this.schroederDB).length != 0){
+                let _data = { labels:[], datasets:[] };
+                _data.labels = this.schroederDB.time_stamp.map(el => el.toFixed(2));
+                const color = ['#26A69A','#B2DfD8']
+                const _ind = this.selectItems.map(el => el.value).indexOf(this.selectedHz);
+                const _dataLabel = this.selectItems.map(el => el.text)[_ind];
+                _data.datasets.push({
+                    label: _dataLabel,
+                    data: this.schroederDB[this.selectedHz],
+                    borderWidth:3,
+                    fill:true,
+                    lineTension:0.2,
+                    borderColor: color[0],
+                    backgroundColor:color[1],
+                    pointRadius:0.01,
 
-            });
-            this.chartData = _data;
-            console.log(this.chartData)
+                });
+                this.chartData = _data;
+                this.loading = false;
+            }else{
+                this.loading = true;
+            }
         }
     },  
     mounted(){
         this.updateChartData();
     },
-    beforeUpdate(){
-        this.loading = false;
-    }
 }
 </script>

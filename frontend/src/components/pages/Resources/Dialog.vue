@@ -30,14 +30,14 @@
                             controls 
                             crossorigin
                             playsinline
-                            plyr-color-main='#37474F'
+                            :style='playerStyle'
                         >
                             <source
                                 :src=irExample
                                 type="audio/wav"
                             />
                         </audio>
-                        </vue-plyr>
+                    </vue-plyr>
                 </v-col>
             </v-row>
             <v-row>
@@ -70,6 +70,13 @@ export default{
     components:{
         ParameterTable
     },
+    data:() => ({
+        playerStyle:{
+            '--plyr-color-main':'#26A69A',
+            '--plyr-audio-controls-background':'#E0E0E0',
+            '--plyr-badge-border-radius':'100px',
+        },
+    }),
     props: ['name','description','image','tableItems','irExamples'],
     computed:{
         irExample(){
