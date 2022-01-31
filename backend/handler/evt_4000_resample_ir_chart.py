@@ -1,7 +1,6 @@
 from ducts.spi import EventHandler
 import numpy as np
 import pandas as pd
-from matplotlib import pyplot
 import logging
 import resampy
 logger = logging.getLogger(__name__)

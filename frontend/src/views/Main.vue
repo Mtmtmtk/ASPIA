@@ -14,7 +14,7 @@
             </template>
             <v-app-bar-nav-icon @click='drawer = !drawer'/>
             <v-app-bar-title>
-                Automatic Spatial Audio Generator
+                Multi Signal Processing Tool
             </v-app-bar-title>
             <v-spacer />
             <v-btn 
@@ -36,20 +36,13 @@
                 <v-icon>mdi-linkedin</v-icon>
             </v-btn>
         </v-app-bar>
+
         <v-navigation-drawer 
             app
             v-model='drawer' 
             color='#37474F'
             dark
         >
-            <v-list-item>
-                <v-list-item-content>
-                    <v-list-item-title class='text-h6'>
-                        Menu
-                    </v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-            <v-divider />
             <v-list>
                 <v-list-item
                     v-for="item in menuItems"
@@ -66,6 +59,37 @@
             </v-list>
             <v-divider />
 
+            <template v-slot:prepend>
+                <v-list>
+                    <v-list-item>
+                        <v-list-item-content>
+                            <v-list-item-title class='text-h6'>
+                                Menu
+                            </v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                    <v-divider />
+                    <v-list-item>
+                        <v-list-item-content>
+                                <v-card
+                                    flat
+                                    tile
+                                    :ripple='false'
+                                    @click='showPage("openair")'
+                                >
+                                    <v-img
+                                        class='d-flex justify-start'
+                                        max-height='30'
+                                        :src="require('@/assets/img/openair.png')"
+                                        contain
+                                    >
+                                    </v-img>
+                                </v-card>
+                        </v-list-item-content>
+                    </v-list-item>
+                    <v-divider/>
+                </v-list>
+            </template>
             <template v-slot:append>
                 <v-list>
                     <v-list-item @click="closeMenu">
@@ -100,28 +124,20 @@ export default{
         duct: new ducts.Duct(),
         drawer:true,
         backgroundImage: BackgroundImage,
-        currentComponent:'generator',
         menuItems:[
             { title: 'Generator', icon: 'mdi-surround-sound', to: '/main/generator' },
             { title: 'IRAnalysis', icon: 'mdi-sine-wave', to: '/main/ir-analysis' },
+            { title: 'Theory', icon: 'mdi-calculator-variant-outline', to: '/main/theory' },
             { title: 'Resources', icon: 'mdi-semantic-web', to: '/main/resources' },
-            //{ title: 'OpenAIR', icon: 'mdi-web-box', to: 'openair' },
             { title: 'About this app', icon: 'mdi-information', to: '/main/about-this-app' },
         ],
     }),
     methods:{
-        //changeComponent(url){
-        //    if(url == 'openair'){
-        //        window.open('https://www.openairlib.net/','_blank')
-        //    }else{
-        //        this.currentComponent = url;
-        //        console.log(this.currentComponent)
-        //    }
-        //},
         showPage(key){
             if(key == 'github') window.open('https://github.com/Mtmtmtk','_blank');
             else if(key == 'wordpress') window.open('https://ms2676.wordpress.com/','_blank');
             else if(key == 'linkedin') window.open('https://www.linkedin.com/in/motoki-saito-0167931b7/','_blank');
+            else if(key == 'openair') window.open('https://www.openairlib.net/','_blank');
         },
         closeMenu(){
             this.drawer = false;

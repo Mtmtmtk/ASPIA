@@ -142,7 +142,6 @@ export default{
             this.channels = parseInt(this.manualChannels);
         },
         startAnalysis(){
-            this.$emit('change-component', 'ir-analysis');
             this.$emit('get-ir-info', [ 
                 this.recording, 
                 this.recordingSplRate, 

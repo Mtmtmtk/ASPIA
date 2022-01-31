@@ -2,7 +2,7 @@
     <v-container>
         <v-row>
             <v-col>
-                Prepare the swept sine wave recording and register it. You can download the swept sine wave below. the positions of the sound source and receiver should be the same as Step1.
+                Prepare the swept sine wave recording and register it. You can download the swept sine wave below. The positions of the sound source and receiver should be the same as Step1.
             </v-col>
         </v-row>
         <v-row>

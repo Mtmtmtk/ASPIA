@@ -6,15 +6,14 @@
             </v-col>
         </v-row>
         <v-row>
-            <v-col cols='12'>
+            <v-col>
                 <ir-input
-                    @change-component='changeComponent'
                     @get-ir-info='getIrInfo'
                 />
             </v-col>
         </v-row>
         <v-row v-if='fileSelected'>
-            <v-col cols='12'>
+            <v-col>
                 <ir-analysis
                     :duct='duct'
                     :irArr='irArr'
@@ -37,7 +36,6 @@ export default{
         IrAnalysis
     },
     data:() =>({
-        currentComponent:'ir-input',
         irArr:[],
         splRate:0,
         channels:0,
@@ -48,9 +46,6 @@ export default{
     }),
     props:['duct'],
     methods:{
-        changeComponent(name){
-            this.currentComponent = name;
-        },
         getIrInfo(...args){
             args = args.flat();
             this.irArr    = args[0];
@@ -58,7 +53,8 @@ export default{
             this.channels = args[2];
             this.audioURL = args[3];
             this.fileName = args[4];
-            this.fileSelected = true;
+            this.fileSelected = false;
+            this.$nextTick(()=> (this.fileSelected = true));
         },
     }
 }

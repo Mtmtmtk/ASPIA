@@ -1,0 +1,19 @@
+<template>
+    <v-overlay
+        absolute
+        color='#E0E0E0'
+        :value='loading'
+        z-index=2
+    >
+        <v-progress-circular
+            indeterminate
+            color='#26A69A'
+            size='64'
+        />
+    </v-overlay>
+</template>
+<script>
+export default{
+    props:['loading']
+}
+</script>

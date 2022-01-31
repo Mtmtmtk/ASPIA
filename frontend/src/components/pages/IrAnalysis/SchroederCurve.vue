@@ -6,17 +6,9 @@
         color='#E0E0E0'
         class='rounded-b-lg'
     >
-        <v-overlay
-            absolute
-            color='#E0E0E0'
-            :value='loading'
-        >
-            <v-progress-circular
-                indeterminate
-                color='#26A69A'
-                size='64'
-            />
-        </v-overlay>
+        <loading-overlay 
+            :loading='loading'
+        />
         <v-card-text>
             <v-row class='pt-0 mt-0'>
                 <v-col cols='12'>
@@ -33,7 +25,7 @@
                         flat
                     />
                     <line-chart 
-                        :data='chartData'
+                        :chartData='chartData'
                         :options='chartOptions'
                     /> 
                 </v-col>
@@ -43,9 +35,11 @@
 </template>
 <script>
 import LineChart from './Charts/LineChart.vue'
+import LoadingOverlay from '@/components/ui/LoadingOverlay'
 export default{
     components:{
-        LineChart
+        LineChart,
+        LoadingOverlay
     },
     props:['schroederDB','timestamp','ductCalling'],
     data:() => ({
@@ -63,16 +57,14 @@ export default{
             { text: '8 kHz', value:'8k' },
             { text: '16 kHz', value:'16k' },
         ],
+        chartData: { labels:[], datasets:[] },
         chartOptions: {
             maintainAspectRatio:false,
-            animation:{
-                duration:0
-            },
+            animation:{ duration:0 },
+            legend:{ display:false },
+            tooltips:{ enabled:false },
             scales:{
                 xAxes:[{
-                    ticks:{
-                        stepSize:0.10
-                    },
                     scaleLabel: {
                         display:true,
                         labelString:'Time (s)'
@@ -85,22 +77,14 @@ export default{
                     }
                 }]
             },
-            legend:{
-                display:false
-            },
-            tooltips:{
-                enabled:false
-            }
         },
-        chartData: { labels:[], datasets:[] },
-        signalPerChannel:[],
     }),
     watch:{
         schroederDB(){
             this.updateChartData();
         },
         selectedHz(){
-            this.updateChartData()
+            this.updateChartData();
         },
         ductCalling(){
             if(this.ductCalling == true)this.loading = true;
@@ -127,8 +111,6 @@ export default{
                 });
                 this.chartData = _data;
                 this.loading = false;
-            }else{
-                this.loading = true;
             }
         }
     },  

@@ -1,8 +1,8 @@
 from ducts.spi import EventHandler
 import numpy as np
 import pandas as pd
-import logging
 from scipy import signal
+import logging
 logger = logging.getLogger(__name__)
 
 class Handler(EventHandler):
@@ -34,33 +34,23 @@ class Handler(EventHandler):
     async def handle(self, event):     
         return await self.call(**event.data)
 
-    async def call(self, ir_arr, spl_rate: int, channels:int, filter_type:str, order:int):
-        average_ir = await self.evt_pick_representative_ir.call(ir_arr,channels)
-
-        df_output = pd.DataFrame(columns=['31.5','63','125','250','500','1k','2k','4k','8k','16k','time_stamp'])
+    async def call(self, spl_rate:int, filter_type:str, order:int):
+        df_amp = pd.DataFrame(columns=['31.5','63','125','250','500','1k','2k','4k','8k','16k'])
+        sr_freq = []
+        isStableDict = {}
         for octave in self.octave_band:
             fbp = octave['bandpass']
-            filtered_ir = self.bandpassFilter(average_ir, spl_rate, fbp, filter_type,order)
-            sr_filtered_ir = pd.Series(filtered_ir)
-            df = pd.DataFrame(columns=['energy','sum_energy','schroeder(db)'])
-            df['energy'] = filtered_ir**2
+            [ amp_dB, w, isStable ] = self.bandpassFreqResponse(spl_rate, fbp, filter_type,order)
+            df_amp[octave['center']] = amp_dB
+            sr_freq = pd.Series(w)
+            isStableDict[octave['center']] = isStable
+        return [ df_amp.to_dict(orient='list'), sr_freq.tolist(), isStableDict ]
+        #return df_parameter.to_dict('records')
 
-            total_energy = np.sum(df['energy'])
-            energy_cumsum = np.cumsum(df['energy'])
-            energy_cumsum = np.append(0, energy_cumsum)
-            energy_cumsum = np.delete(energy_cumsum, -1)
-
-            df['sum_energy'] = total_energy - energy_cumsum
-            df['schroeder(db)'] = 10 * np.log10(df['sum_energy']/total_energy)
-            df_output[octave['center']] = df['schroeder(db)']
-        df_output['time_stamp'] = df_output.index / spl_rate
-
-        df_output = df_output[df_output.index % 10 == 0]
-        return df_output.to_dict(orient='list')
-
-    def bandpassFilter(self, ir, fs, fbp, filter_type,order):
-        nyquist = fs / 2.0
-        normalized_cutoff = np.array(fbp) / nyquist
+    def bandpassFreqResponse(self, fs, fbp, filter_type, order):
+        iir_filters = ['Butterworth','Chebychev1','Chebychev2','Elliptic','Bessel']
+        nyq = fs / 2.0 
+        normalized_cutoff = np.array(fbp) / nyq
         b=[]
         a=[]
         if filter_type=='Butterworth':
@@ -76,5 +66,10 @@ class Handler(EventHandler):
         elif filter_type=='FIR':
             b = signal.firwin(numtaps=order, cutoff=np.array(fbp), fs=fs, pass_zero=False)
             a = 1
-        filtered_ir = signal.lfilter(b,a,ir)
-        return filtered_ir
+        w,h = signal.freqz(b,a, worN=2048 ,fs=fs)
+        isStable = True
+        if filter_type in iir_filters:
+            if True in (np.abs(np.roots(a)) > 1):
+                isStable = False
+        amp_dB = 20 * np.log10(np.abs(h)/np.max(np.abs(h)))
+        return [ amp_dB, w, isStable ]

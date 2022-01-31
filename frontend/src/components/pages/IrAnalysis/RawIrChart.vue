@@ -6,20 +6,12 @@
         color='#E0E0E0'
         class='rounded-b-lg'
     >
-        <v-overlay
-            absolute
-            color='#E0E0E0'
-            :value='loading'
-        >
-            <v-progress-circular
-                indeterminate
-                color='#26A69A'
-                size='64'
-            />
-        </v-overlay>
+        <loading-overlay 
+            :loading='loading'
+        />
         <v-card-text>
             <line-chart 
-                :data='chartData'
+                :chartData='chartData'
                 :options='chartOptions'
             /> 
         </v-card-text>
@@ -27,23 +19,22 @@
 </template>
 <script>
 import LineChart from './Charts/LineChart.vue'
+import LoadingOverlay from '@/components/ui/LoadingOverlay'
 export default{
     components:{
-        LineChart
+        LineChart,
+        LoadingOverlay
     },
     props:['reshapedIr','channels','splRate','timestamp','ductCalling'],
     data:() => ({
-        loading:false,
+        loading:true,
+        chartData: { labels:[], datasets:[] },
         chartOptions: {
             maintainAspectRatio:false,
-            animation:{
-                duration:0
-            },
+            animation:{ duration:0 },
+            tooltips:{ enabled:false },
             scales:{
                 xAxes:[{
-                    ticks:{
-                        stepSize:0.10
-                    },
                     scaleLabel: {
                         display:true,
                         labelString:'Time (s)'
@@ -60,12 +51,7 @@ export default{
                     }
                 }]
             },
-            tooltips:{
-                enabled:false
-            }   
         },
-        chartData: { labels:[], datasets:[] },
-        signalPerChannel:[],
     }),
     computed:{
         channelName(){
@@ -95,8 +81,6 @@ export default{
                 } 
                 this.chartData = _data;
                 this.loading = false;
-            }else{
-                this.loading = true;
             }
         }
     },
@@ -105,7 +89,7 @@ export default{
             this.renderChart();
         },
         ductCalling(){
-            if(this.ductCalling == true)this.loading=true;
+            this.loading=this.ductCalling;
         }
     },
     mounted(){

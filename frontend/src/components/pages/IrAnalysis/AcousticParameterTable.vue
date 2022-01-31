@@ -8,6 +8,7 @@
             absolute
             color='#E0E0E0'
             :value='loading'
+            z-index=2
         >
             <v-progress-circular
                 indeterminate

@@ -37,7 +37,7 @@ export default{
     }),
     methods:{
         continueStep(){
-            this.$emit('change-step', 2);
+            this.$emit('change-step', 3);
         },
         emitRecordingFile(file){
             this.$emit('accept-recording-file', file, 'recording');

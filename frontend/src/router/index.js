@@ -15,19 +15,23 @@ const routes = [
         children: [
             {
                 path: 'generator',
-                component: () => import("@/components/pages/Generator/index.vue")
+                component: () => import("@/components/pages/Generator")
             },
             {
                 path: 'ir-analysis',
-                component: () => import("../components/pages/IrAnalysis/index.vue")
+                component: () => import("../components/pages/IrAnalysis")
             },
             {
                 path: 'resources',
-                component: () => import("../components/pages/Resources/index.vue")
+                component: () => import("../components/pages/Resources")
+            },
+            {
+                path: 'theory',
+                component: () => import("../components/pages/Theory")
             },
             {
                 path: 'about-this-app',
-                component: () => import("../components/pages/AboutThisApp/index.vue")
+                component: () => import("../components/pages/AboutThisApp")
             }
         ]
     },
