@@ -5,21 +5,36 @@
             <v-row><v-col>{{sentences[0] + ' ' + sentences[1]}}</v-col></v-row>
             <vue-mathjax :formula='formulas[0]' />
             <v-row><v-col>{{sentences[2]}}</v-col></v-row>
+            <v-img 
+                class='mt-1'
+                max-height='250'
+                contain
+                :src='images[0]'
+            />
+            <v-row class='pt-0 mt-0 text-center'><v-col>Fig.1. Schroeder Curve</v-col></v-row>
             <v-row><v-col>{{sentences[3]}}</v-col></v-row>
-            <v-row justify='center' class='pt-0 mt-0 text-center'>
-                <v-col cols='9'>
-                    <v-data-table 
-                        dense    
-                        :headers='octaveBandHeaders'
-                        :items='octaveBandItems'
-                        disable-sort
-                        hide-default-footer
-                    />
-                </v-col>
-            </v-row>
-            <v-row class='pt-0 mt-0 text-center'><v-col>Fig.1. Centre Frequency and its octave band</v-col></v-row>
+            <v-row class='pt-0 mt-0 text-center'><v-col>Table 1. Centre Frequency and its octave band[1]</v-col></v-row>
+            <v-data-table 
+                dense    
+                :headers='octaveBandHeaders'
+                :items='octaveBandItems'
+                disable-sort
+                hide-default-footer
+            />
             <v-row class='pb-3'><v-col>{{sentences[4] + ' ' + sentences[5]}}</v-col></v-row>
             <acoustic-parameters-expansion-panels/>
+        </v-card-text>
+        <v-card-text>
+            <v-row class='text-h6'><v-col>Reference</v-col></v-row>
+            <v-row
+                v-for='(ref, ind) in references'
+                :key='ref'
+                class='my-0 py-0'
+            >
+                <v-col>
+                    {{'['+ Number(ind+1) + '] ' + ref}}
+                </v-col>
+            </v-row>
         </v-card-text>
     </v-card>
 </template>
@@ -59,6 +74,12 @@ export default{
         formulas(){
             return this.contents.IrAnalysis.formulas
         },
+        images(){
+            return this.contents.IrAnalysis.images
+        },
+        references(){
+            return this.contents.IrAnalysis.references
+        }
     },
 }
 </script>

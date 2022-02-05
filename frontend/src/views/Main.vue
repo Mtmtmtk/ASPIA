@@ -41,6 +41,7 @@
             app
             v-model='drawer' 
             color='#37474F'
+            width='210'
             dark
         >
             <v-list>

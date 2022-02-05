@@ -18,24 +18,21 @@
 <script>
 import ReverberationTime from './AcousticParameterCards/ReverberationTime'
 import EarlyDecayTime from './AcousticParameterCards/EarlyDecayTime'
-import CFifty from './AcousticParameterCards/CFifty'
-import CEighty from './AcousticParameterCards/CEighty'
-import DFifty from './AcousticParameterCards/DFifty'
+import Clarity from './AcousticParameterCards/Clarity'
+import Definition from './AcousticParameterCards/Definition'
 export default{
     components:{
         ReverberationTime,
         EarlyDecayTime,
-        CFifty,
-        CEighty,
-        DFifty
+        Clarity,
+        Definition
     },
     data:() => ({
         panelItems:[
             { header: 'Reverberation Time (RT60)', component:'reverberation-time'},
             { header: 'Early Decay Time (EDT)', component:'early-decay-time' },
-            { header: 'C50', component:'c-fifty' },
-            { header: 'C80', component:'c-eighty' },
-            { header: 'D50', component:'d-fifty' },
+            { header: 'Clarity (C50 and C80)', component:'clarity' },
+            { header: 'Definition (D50)', component:'definition' },
         ]
     }),
     methods:{

@@ -54,13 +54,23 @@ export const contents = {
             'When analysing the impulse response, the Schroeder Curve is the critital factor for the evaluation.',
             'The definition of the Schroeder Curve is as follows:',
             'As you can see this equation, the Schroeder Curve is the energy decay curve, which describes the remaining energy at a time point t.',
-            'The evaluation is mostly executed with every octave band (See Fig.1).',
+            'The evaluation is mostly executed with every octave band (See Table 1).',
             'There are five representive acoustic parameters (Reverberation time, Early decay time, C50, C80, and D50) that describes the character of the closed space.',
             'Expand the following panels to see what each parameter means.'
         ],
         formulas:[
             '$${ S(t) = {10 \\log_{10}{\\int_t^\\infty h^2(t)dt \\over \\int_0^\\infty h^2(t)dt}} \\ \\mathrm{dB}}$$'
         ],
-        images:[],
+        images:[
+            require('@/assets/theory/Schroeder.png')
+        ],
+        references:[
+            "The Engineering ToolBox, 'Ocatave Band Frequeincies,' Engineering ToolBox, https://www.engineeringtoolbox.com/octave-bands-frequency-limits-d_1602.html (Accessed Feb. 1, 2022)",
+            "Marshall Long, 'Design of Studios and Listening Rooms' in Architectural Acoustics, 2nd ed., Amsterdam; London: Academic Press, 2013, ch. 21, pp.829-871.",
+            "Nebvraska Acoustics Group, 'Typical Values', concerthalls.org, http://www.concerthalls.org/?page_id=147 (Accessed Feb. 3, 2022)",
+            "Mike Barron, 'Interpretation of Early Decay Times in Concert Auditoria', Acta Acustica united with Acustica, vol.81, pp.320-331, July 1995. [Online]. Avaliable: https://www.researchgate.net/publication/233681112_Interpretation_of_Early_Decay_Times_in_Concert_Auditoria (Accessed: Feb. 1, 2022)",
+            "Nebvraska Acoustics Group, 'Clarity', concerthalls.org, http://www.concerthalls.org/?page_id=86 (Accessed Feb. 3, 2022)",
+            "Marshall Long, 'An acoustics measurement program for evaluating auditoriums based on the early/late sound energy ratio,' Journal of the Acoustical Society of America, vol.96, pp.2251-2261, 1994."
+        ],
     }
 }
