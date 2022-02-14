@@ -1,21 +1,21 @@
 <template>
     <v-container>
         <v-row>
-            <v-col class='text-h2'>
-                <font color='#CFD8DC'>Resources</font>
+            <v-col class="text-h2">
+                <font color="#CFD8DC">Resources</font>
             </v-col>
         </v-row>
         <v-row>
-            <v-col cols='3' 
-                v-for='hall in library' 
-                :key='hall.name'
+            <v-col cols="3" 
+                v-for="hall in library" 
+                :key="hall.name"
             >
                 <information-card 
-                    :name='hall.name'
-                    :description='hall.description'
-                    :image='hall.image'
-                    :tableItems='hall.acousticParams'
-                    :irExamples='hall.ir'
+                    :name="hall.name"
+                    :description="hall.description"
+                    :images="hall.images"
+                    :table-items="hall.acousticParams"
+                    :ir="hall.ir"
                 />
             </v-col>
         </v-row>
@@ -25,14 +25,9 @@
 import InformationCard from './InformationCard'
 import { library } from '../library.js'
 export default{
-    components:{
-        InformationCard
-    },
+    components:{ InformationCard },
     data:() => ({
         library
     }),
-    created(){
-        console.log(this.library[0].ir2)
-    }
 }
 </script>

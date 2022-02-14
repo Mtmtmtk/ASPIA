@@ -1,26 +1,26 @@
 <template>
     <v-container>
         <v-row>
-            <v-col cols='4'>
+            <v-col cols="4">
                 <v-dialog
-                    v-model='dialog'
-                    width='500' 
+                    v-model="dialog"
+                    width="500"
                 >
-                    <template v-slot:activator='{ on, attrs }'>
+                    <template v-slot:activator="{ on, attrs }">
                         <v-card
-                            v-on='on'
-                            v-bind='attrs'
-                            @click='dialog = true'
+                            v-on="on"
+                            v-bind="attrs"
+                            @click="dialog = true"
                         >
-                            <v-img :src='spacePlanImg'/>
+                            <v-img :src="spacePlanImg"/>
                         </v-card>
                     </template>
                     <v-card>
-                        <v-img :src='spacePlanImg'/>
+                        <v-img :src="spacePlanImg"/>
                         <v-card-text>
                             <v-btn 
-                                color='#26A69A'
-                                @click='dialog = false'
+                                color="#26A69A"
+                                @click="dialog = false"
                             >Close
                             </v-btn>
                         </v-card-text>
@@ -29,45 +29,37 @@
             </v-col>
             <v-col cols='6'>
                 <v-select
-                    v-model='selectedFormat'
+                    v-model="selectedFormat"
                     filled
-                    color='#26A69A'
-                    :items='audioTypes'
-                    label='Select IR Audio Format'
-                    prepend-inner-icon='mdi-speaker-wireless'
+                    color="#26A69A"
+                    :items="audioTypes"
+                    label="Select IR Audio Format"
+                    prepend-inner-icon="mdi-speaker-wireless"
                 />
                 <v-select
-                    v-if='selectedFormat'
-                    v-model='selectedIR'
+                    v-if="selectedFormat"
+                    v-model="selectedIR"
                     filled
-                    color='#26A69A'
-                    :items='IRItems'
-                    label='Select Impulse Response'
-                    prepend-inner-icon='mdi-waveform'
+                    color="#26A69A"
+                    :items="IRItems"
+                    label="Select Impulse Response"
+                    prepend-inner-icon="mdi-waveform"
                 />
             </v-col>
         </v-row>
-        <v-row>
-            <v-col>
-                <v-btn
-                    color='#26A69A'
-                    :disabled='continueDisabled'
-                    @click='continueStep'
-                >Continue
-                </v-btn>
-                <v-btn
-                    text
-                    color='#8D6E63'
-                    @click='cancelStep'
-                >Cancel
-                </v-btn>
-            </v-col>
-        </v-row>
+        <step-changer 
+            :continue-required="true"
+            :continue-disabled="continueDisabled"
+            :cancel-required="true"
+            @change-step="changeStep"   
+        />
     </v-container>
 </template>
 <script>
 import { library } from '../library.js'
+import StepChanger from '../../ui/StepChanger'
 export default{
+    components:{ StepChanger },
     data: () => ({
         library,
         audioTypes:[],
@@ -95,13 +87,10 @@ export default{
         },
     },
     methods:{
-        continueStep(){
-            this.$emit('change-step', 5);
-            this.$emit('send-abbr-audiotype-and-ir', [this.abbr,this.selectedFormat,this.selectedIR])
-        },
-        cancelStep(){
-            this.$emit('change-step', 3);
-        },
+        changeStep(val){
+            this.$emit('change-step', val);
+            if(val == 1) this.$emit('send-abbr-audiotype-and-ir', [this.abbr,this.selectedFormat,this.selectedIR])
+        }
     },
     watch:{
         async spaceName(){

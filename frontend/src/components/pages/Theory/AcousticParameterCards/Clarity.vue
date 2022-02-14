@@ -1,17 +1,17 @@
 <template>
-    <v-card color='#323232' flat>
+    <v-card color="#323232" flat>
         <v-card-title>Clarity</v-card-title>
-        <v-card-text class='text-body-1'>
+        <v-card-text class="text-body-1">
             <v-row><v-col>{{sentences[0] + ' ' + sentences[1]}}</v-col></v-row>   
-            <vue-mathjax :formula='formulas[0]'/>
+            <vue-mathjax :formula="formulas[0]"/>
             <v-row><v-col>{{sentences[2] + ' ' + sentences[3] + ' ' + sentences[4] + ' ' + sentences[5]}}</v-col></v-row>   
-            <v-row class='pt-0 mt-0 text-center'><v-col>Table 3. Clarity in concert halls[5]</v-col></v-row>
+            <v-row class="pt-0 mt-0 text-center"><v-col>Table 3. Clarity in concert halls[5]</v-col></v-row>
             <v-data-table 
-                class='text-body-2'
+                class="text-body-2"
                 dense
                 hide-default-footer
-                :headers='clarityHeaders'
-                :items='clarityItems'
+                :headers="clarityHeaders"
+                :items="clarityItems"
             />
         </v-card-text>
     </v-card>

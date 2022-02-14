@@ -9,15 +9,15 @@
 </template>
 <script>
 import ducts from '@iflb/ducts-client'
+import { test } from '../../components/pages/library.js'
 export default{
     data:() => ({
+        test,
         duct: new ducts.Duct(),
     }),
-    methods:{
-    },
     created(){
         this.duct.open("/ducts/wsd");
-
+        console.log(this.test);
     }
 }
 </script>

@@ -1,105 +1,101 @@
 <template>
     <v-card
-        rounded='lg'
-        elevation='5' 
+        rounded="lg"
+        elevation="5" 
         dark 
     >
         <v-stepper
             vertical
-            v-model='stepper'
+            v-model="stepper"
         >
         <v-stepper-step
-            :complete='stepper > 1'
-            step='1'
-            color='#26A69A'
+            :complete="stepper > 1"
+            step="1"
+            color="#26A69A"
         >Step1: Your Recording
         </v-stepper-step>
-        <v-stepper-content step='1'>
+        <v-stepper-content step="1">
             <step-one 
-                @change-step='changeStep'
-                @accept-recording-file='getAnechoicData'
+                @change-step="changeStep"
+                @accept-recording-file="getAnechoicData"
             />
         </v-stepper-content>
 
         <v-stepper-step
-            :complete='stepper > 2'
-            step='2'
-            color='#26A69A'
+            :complete="stepper > 2"
+            step="2"
+            color="#26A69A"
         >Step2: Swept Sine Wave
         </v-stepper-step>
-        <v-stepper-content step='2'>
+        <v-stepper-content step="2">
             <step-two 
-                @change-step='changeStep'
+                @change-step="changeStep"
             />
         </v-stepper-content>
 
         <v-stepper-step
-            :complete='stepper > 3'
-            step='3'
-            color='#26A69A'
+            :complete="stepper > 3"
+            step="3"
+            color="#26A69A"
         >Step3: Select Space
         </v-stepper-step>
-        <v-stepper-content step='3'>
+        <v-stepper-content step="3">
             <step-three 
-                @change-step='changeStep'
-                @send-space-name='determineSpace'
+                @change-step="changeStep"
+                @send-space-name="determineSpace"
             />
         </v-stepper-content>
 
         <v-stepper-step
-            :complete='stepper > 4'
-            step='4'
-            color='#26A69A'
+            :complete="stepper > 4"
+            step="4"
+            color="#26A69A"
         >Step4: Select Position
         </v-stepper-step>
-        <v-stepper-content step='4'>
+        <v-stepper-content step="4">
             <step-four
-                :duct='duct'
-                :spaceName='chosenSpace'
-                @change-step='changeStep'
-                @send-abbr-audiotype-and-ir='getImpulseResponseData'
+                :duct="duct"
+                :space-name="chosenSpace"
+                @change-step="changeStep"
+                @send-abbr-audiotype-and-ir="getImpulseResponseData"
             />
         </v-stepper-content>
 
         <v-stepper-step
-            :complete='stepper > 5'
-            step='5'
-            color='#26A69A'
+            :complete="stepper > 5"
+            step="5"
+            color="#26A69A"
         >Step5: Select Output Channel(s)
         </v-stepper-step>
-        <v-stepper-content step='5'>
+        <v-stepper-content step="5">
             <step-five
-                :IRAudioType='IRAudioType'
-                @change-step='changeStep'
-                @call-ducts='callDucts'
+                :ir-audio-type="IRAudioType"
+                @change-step="changeStep"
+                @emit-output-channels="callDucts"
             />
         </v-stepper-content>
 
         <v-stepper-step
-            :complete='stepper > 6'
-            step='6'
-            color='#26A69A'
+            :complete="stepper > 6"
+            step="6"
+            color="#26A69A"
         >Step6: Convolution
         </v-stepper-step>
         <v-stepper-content step='6'>
             <step-six
-                :spaceName='chosenSpace'
-                @change-step='changeStep'
-                :progress='progress'
+                :space-name="chosenSpace"
+                :progress="progress"
             />
         </v-stepper-content>
 
         <v-stepper-step
-            :complete='stepper > 7'
-            step='7'
-            color='#26A69A'
+            :complete="stepper > 7"
+            step="7"
+            color="#26A69A"
         >Step7: Download
         </v-stepper-step>
-        <v-stepper-content step='7'>
-            <step-seven
-                :audioURL='audioURL'
-                @change-step='changeStep'
-            />
+        <v-stepper-content step="7">
+            <step-seven :audio-url="audioURL" />
         </v-stepper-content>
         </v-stepper>
     </v-card>
@@ -112,7 +108,6 @@ import StepFour  from './StepFour.vue'
 import StepFive  from './StepFive.vue'
 import StepSix   from './StepSix.vue'
 import StepSeven from './StepSeven.vue'
-
 export default{
     components:{
         StepOne,
@@ -121,7 +116,7 @@ export default{
         StepFour,
         StepFive,
         StepSix,
-        StepSeven
+        StepSeven,
     },
     data: () => ({
         stepper:1,
@@ -258,7 +253,7 @@ export default{
             return _view
         },
         changeStep(stepVal){
-            this.stepper = stepVal;
+            this.stepper = this.stepper + stepVal;
         },
         determineSpace(name){
             this.chosenSpace = name;

@@ -3,78 +3,78 @@
         light
         flat
         tile
-        color='#E0E0E0'
-        class='rounded-b-lg'
+        color="#E0E0E0"
+        class="rounded-b-lg"
     >
         <loading-overlay 
-            :loading='loading'
+            :loading="loading"
         />
         <v-card-text>
-            <v-row class='pt-0 mt-0'>
-                <v-col cols='6'>
-                    <v-card color='#E0E0E0' flat>
+            <v-row class="pt-0 mt-0">
+                <v-col cols="6">
+                    <v-card color="#E0E0E0" flat>
                         <v-select
-                            v-model='selectedHz'
-                            prepend-inner-icon='mdi-sine-wave'
-                            :items='octaveBands' 
-                            :item-text='octaveBands.text'
-                            :item-value='octaveBands.value'
-                            item-color='#26A69A'
-                            label='Octave Band'
-                            color='#26A69A'
+                            v-model="selectedHz"
+                            prepend-inner-icon="mdi-sine-wave"
+                            :items="octaveBands"
+                            :item-text="octaveBands.text"
+                            :item-value="octaveBands.value"
+                            item-color="#26A69A"
+                            label="Octave Band"
+                            color="#26A69A"
                             outlined
                             flat
                         />
                         <line-chart 
-                            :chartData='chartData'
-                            :options='chartOptions'
+                            :chart-data="chartData"
+                            :options="chartOptions"
                         /> 
                     </v-card>
                 </v-col>
                 <v-col cols='6'>
                     <v-card color='#E0E0E0' flat>
                         <v-text-field
-                            v-model='filterOrder'
-                            label='Filter Order'
+                            v-model="filterOrder"
+                            label="Filter Order"
                             outlined
-                            type='number'
-                            @blur='updateFilterChart'
+                            type="number"
+                            @blur="updateFilterChart"
                         />
                         <v-select
-                            v-model='filterType'
-                            prepend-inner-icon='mdi-filter'
-                            :items='filterTypes'
-                            label='Filter Type'
+                            v-model="filterType"
+                            prepend-inner-icon="mdi-filter"
+                            :items="filterTypes"
+                            label="Filter Type"
                             outlined
-                            @change='updateFilterChart'
+                            @change="updateFilterChart"
                         />
                         <v-alert
-                            v-if='orderWaring'
+                            v-if="orderWaring"
                             dense
-                            type='warning'
+                            type="warning"
                         > The larger order might cause a long calculation time. Consider to make the order smaller.
                         </v-alert>
                         <v-alert
-                            v-if='unstableFilter'
+                            v-if="unstableFilter"
                             dense
-                            type='error'
+                            type="error"
                         > The filter is unstable at {{ unstableHz }}. Please change the order or the type.
                         </v-alert>
                         <v-alert
-                            v-if='invalidOrderError'
+                            v-if="invalidOrderError"
                             dense
-                            type='error'
+                            type="error"
                         > The order of the FIR filter should be an odd number.
                         </v-alert>
                         <v-row>
-                            <v-col cols='6'>
+                            <v-col cols="6">
                             </v-col>
-                            <v-col cols='6' class='d-flex justify-end'>
+                            <v-col cols="6" class="d-flex justify-end">
                                 <v-btn 
-                                    color='#26A69A'
+                                    color="#26A69A"
                                     dark
-                                    :disabled='buttonDisabled'
-                                    @click='updateAnalysis'
+                                    :disabled="buttonDisabled"
+                                    @click="updateAnalysis"
                                 >apply to analysis
                                 </v-btn>
                             </v-col>
@@ -88,6 +88,7 @@
 <script>
 import LineChart from './Charts/LineChart.vue'
 import LoadingOverlay from '@/components/ui/LoadingOverlay'
+import { octaveBands } from '../library.js'
 export default{
     components:{
         LineChart,
@@ -100,18 +101,7 @@ export default{
         invalidOrderError:false,
         unstableFilter:false,
         selectedHz:'31.5',
-        octaveBands:[
-            { text: '31.5 Hz', value:'31.5' },
-            { text: '63 Hz',   value:'63' },
-            { text: '125 Hz',  value:'125' },
-            { text: '250 Hz',  value:'250' },
-            { text: '500 Hz',  value:'500' },
-            { text: '1 kHz',   value:'1k' },
-            { text: '2 kHz',   value:'2k' },
-            { text: '4 kHz',   value:'4k' },
-            { text: '8 kHz',   value:'8k' },
-            { text: '16 kHz',  value:'16k' },
-        ],
+        octaveBands,
         chartOptions: {},
         chartData: { labels:[], datasets:[] },
         filterOrder:3001,
@@ -180,7 +170,6 @@ export default{
                     lineTension:0.2,
                     borderColor: color[0],
                     pointRadius:0.01,
-
                 });
                 this.chartData = _data;
             }

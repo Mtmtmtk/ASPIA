@@ -1,26 +1,26 @@
 <template>
     <v-container>
         <v-row>
-            <v-col class='text-h2'>
-                <font color='#CFD8DC'>Theory</font>
+            <v-col class="text-h2">
+                <font color="#CFD8DC">Theory</font>
             </v-col>
         </v-row>
         <v-card 
             flat
             dark
-            height='600' 
-            color='#323232' 
-            class='mt-5'
+            height="600" 
+            color="#323232"
+            class="mt-5"
         >
             <v-card-text>
                 <v-row>
-                    <v-col cols='3'>
+                    <v-col cols="3">
                         <v-card flat>
                             <v-list>
                                 <v-list-item 
-                                    v-for='item in drawerItems'
-                                    :key='item.val'
-                                    @click='changeComponent(item.to)'
+                                    v-for="item in drawerItems"
+                                    :key="item.val"
+                                    @click="changeComponent(item.to)"
                                 >
                                     <v-list-item-icon>
                                         <v-icon>{{ item.icon }}</v-icon>
@@ -32,8 +32,8 @@
                             </v-list>
                         </v-card>
                     </v-col>
-                    <v-col cols='9'>
-                        <component :is='currentComponent'/>
+                    <v-col cols="9">
+                        <component :is="currentComponent" />
                     </v-col>
                 </v-row>
             </v-card-text>

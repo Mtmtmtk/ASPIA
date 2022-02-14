@@ -118,7 +118,7 @@
     </div>
 </template>
 <script>
-import BackgroundImage from '@/assets/img/JackLyons.jpg'
+import BackgroundImage from '@/assets/img/JackLyons/1_JackLyons.jpg'
 import ducts from '@iflb/ducts-client'
 export default{
     data:() => ({

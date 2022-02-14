@@ -3,59 +3,48 @@
         <v-row>
             <v-col>
                 <v-select
-                    v-model='selectedChannels'
+                    v-model="selectedChannels"
                     filled
-                    color='#26A69A'
-                    :items='outputChannelItems'
-                    label='Choose output channels'
-                    prepend-inner-icon='mdi-speaker-multiple'
+                    color="#26A69A"
+                    :items="outputChannelItems"
+                    label="Choose output channels"
+                    prepend-inner-icon="mdi-speaker-multiple"
                 />
             </v-col>
         </v-row>
-        <v-row>
-            <v-col>
-                <v-btn
-                    color='#26A69A'
-                    @click='continueStep'
-                >Continue
-                </v-btn>
-                <v-btn
-                    text
-                    color='#8D6E63'
-                    @click='cancelStep'
-                >Cancel
-                </v-btn>
-            </v-col>
-        </v-row>
+        <step-changer 
+            :continue-required="true"
+            :continue-disabled="false"
+            :cancel-required="true"
+            @change-step="changeStep"   
+        />
     </v-container>
 </template>
 <script>
 import { library } from '../library.js'
+import StepChanger from '../../ui/StepChanger'
 export default{
+    components:{ StepChanger },
     data: () => ({
         library,
         selectedChannels:'',
         outputChannelItems:[],
     }),
-    props:['IRAudioType'],
+    props:['IrAudioType'],
     methods:{
-        continueStep(){
-            this.$emit('change-step', 6);
-            console.log('Five')
-            this.$emit('call-ducts', this.selectedChannels);
-        },
-        cancelStep(){
-            this.$emit('change-step', 4);
+        changeStep(val){
+            this.$emit('change-step',val);
+            if(val == 1) this.$emit('emit-output-channels', this.selectedChannels);
         }
     },
     watch:{
-        IRAudioType(){
-            console.log(this.IRAudioType);
-            if(this.IRAudioType == 'stereo'){
+        IrAudioType(){
+            console.log(this.IrAudioType);
+            if(this.IrAudioType == 'stereo'){
                 this.outputChannelItems = ['stereo', 'mono'];
-            }else if(this.IRAudioType == 'mono'){
+            }else if(this.IrAudioType == 'mono'){
                 this.outputChannelItems = ['mono'];
-            }else if(this.IRAudioType == 'b-format'){
+            }else if(this.IrAudioType == 'b-format'){
                 this.outputChannelItems = ['b-format', 'stereo', 'mono'];
             }
         }

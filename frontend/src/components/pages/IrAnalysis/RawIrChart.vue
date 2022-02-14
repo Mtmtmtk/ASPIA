@@ -3,16 +3,16 @@
         light
         flat
         tile
-        color='#E0E0E0'
-        class='rounded-b-lg'
+        color="#E0E0E0"
+        class="rounded-b-lg"
     >
         <loading-overlay 
-            :loading='loading'
+            :loading="loading"
         />
         <v-card-text>
             <line-chart 
-                :chartData='chartData'
-                :options='chartOptions'
+                :chart-data="chartData"
+                :options="chartOptions"
             /> 
         </v-card-text>
     </v-card>
@@ -25,7 +25,7 @@ export default{
         LineChart,
         LoadingOverlay
     },
-    props:['reshapedIr','channels','splRate','timestamp','ductCalling'],
+    props:['resampledIr','channels','splRate','timestamp','ductCalling'],
     data:() => ({
         loading:true,
         chartData: { labels:[], datasets:[] },
@@ -63,15 +63,16 @@ export default{
     },
     methods:{
         renderChart(){
-            if(this.reshapedIr.length != 0){
+            console.log(this.resampledIr)
+            if(this.resampledIr.length != 0){
                 let _data = { labels:[], datasets:[] };
                 _data.labels = this.timestamp;
                 const colorPalette = ['#26A69A','#A64316','#A4A61E', '#6F37A6']
-                for(let channelArr of this.reshapedIr){
-                    const _ind = this.reshapedIr.indexOf(channelArr);
+                for(let channelArr of this.resampledIr){
+                    const _ind = this.resampledIr.indexOf(channelArr);
                     _data.datasets.push({
                         label: this.channelName[_ind],
-                        data: this.reshapedIr[_ind],
+                        data: this.resampledIr[_ind],
                         borderWidth:1,
                         fill:false,
                         lineTension:0,
@@ -85,7 +86,7 @@ export default{
         }
     },
     watch:{
-        reshapedIr(){
+        resampledIr(){
             this.renderChart();
         },
         ductCalling(){

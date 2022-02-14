@@ -1,62 +1,61 @@
 <template>
     <v-card 
-        rounded='lg'
-        elevation='5' 
+        rounded="lg"
+        elevation="5" 
         dark 
-        color='#323232'
+        color="#323232"
     >
-        <v-row class='ps-5 pt-3'>
+        <v-row class="ps-5 pt-3">
             <v-col>
                 Choose an impulse response you want to analyse.
             </v-col>
         </v-row>
         <v-card-text>
             <v-file-input
-                label='Choose IR'
-                prepend-icon='mdi-paperclip'
-                @change='getIRData'
+                label="Choose IR"
+                prepend-icon="mdi-paperclip"
+                @change="getIRData"
             >
             </v-file-input>
         </v-card-text>
 
-        <v-row v-if='manualSplRateInput' class='ps-5 pt-3'>
+        <!--<v-row v-if="manualSplRateInput" class="ps-5 pt-3">
             <v-col>
                 Coundn't get a sampling rate from the file. Please enter it manually.
             </v-col>
         </v-row>
-        <v-card-text v-if='manualSplRateInput'>
-            <v-col cols='4'>
+        <v-card-text v-if="manualSplRateInput">
+            <v-col cols="4">
                 <v-text-field
-                    v-model='manualSplRate'
-                    @blur='changeSplRate'
-                    suffix='Hz'
+                    v-model="manualSplRate"
+                    @blur="changeSplRate"
+                    suffix="Hz"
                 />
             </v-col>
         </v-card-text>
 
-        <v-row v-if='manualChannelsInput' class='ps-5 pt-3'>
+        <v-row v-if="manualChannelsInput" class="ps-5 pt-3">
             <v-col>
                 Coundn't get a number of channels from the file. Please enter it manually.
             </v-col>
         </v-row>
-        <v-card-text v-if='manualChannelsInput'>
-            <v-col cols='4'>
+        <v-card-text v-if="manualChannelsInput">
+            <v-col cols="4">
                 <v-text-field
-                    v-model='manualChannels'
-                    @blur='changeChannels'
+                    v-model="manualChannels"
+                    @blur="changeChannels"
                 />
             </v-col>
-        </v-card-text>
+        </v-card-text>-->
 
         <v-card-text>
             <v-row>
                 <v-col>
                     <v-btn
-                        color='#26A69A'
-                        :disabled='buttonDisbled'
-                        @click='startAnalysis'
-                    >
-                        start analysis
+                        color="#26A69A"
+                        :disabled="buttonDisbled"
+                        @click="startAnalysis"
+                    >start analysis
                     </v-btn>
                 </v-col>
             </v-row>
@@ -130,9 +129,7 @@ export default{
         readIRAsDataURL(file){
             const reader = new FileReader();
             const vue = this;
-            reader.onload = function(evt) {
-                vue.audioURL = evt.target.result;
-            };
+            reader.onload = function(evt){ vue.audioURL = evt.target.result; };
             reader.readAsDataURL(file);
         },
         changeSplRate(){

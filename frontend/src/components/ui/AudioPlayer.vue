@@ -1,0 +1,27 @@
+<template>
+    <vue-plyr>
+        <audio 
+            controls 
+            crossorigin
+            playsinline
+            :style="playerStyle"
+        >
+            <source
+                :src="audioSrc"
+                type="audio/wav"
+            />
+        </audio>
+    </vue-plyr>
+</template>
+<script>
+export default{
+    data:()=>({
+        playerStyle:{
+            '--plyr-color-main':'#26A69A',
+            '--plyr-audio-controls-background':'#E0E0E0',
+            '--plyr-badge-border-radius':'100px',
+        },
+    }),
+    props:['audioSrc'] 
+}
+</script>

@@ -1,43 +1,46 @@
 <template>
     <v-card 
-        rounded='lg'
-        elevation='5' 
-        color='#323232'
+        rounded="lg"
+        elevation="5" 
+        color="#323232"
         dark
     >
         <v-card-title>Result / {{fileName}}</v-card-title>
         <v-card-text>
-            <audio-player 
-                :audioURL='audioURL'
-            />
+            <v-row>
+                <v-col class="text-body-1">
+                    Audio Player
+                </v-col>
+            </v-row>
+            <audio-player :audio-src="audioSrc"/>
         </v-card-text>
         <v-card-text>
             <chart-tabs
-                :defaultFilterType='defaultFilterType'
-                :defaultOrder='defaultOrder'
-                :reshapedIr='reshapedIr'
-                :channels='channels'
-                :splRate='splRate'
-                :timestamp='timestamp'
-                :schroederDB='schroederDB'
-                :powerPerFreq='powerPerFreq'
-                :freq='freq'
-                :isStableObj='isStableObj'
-                :ductCalling='ductCalling'
-                @emit-filter-info='updateFilterChart'
-                @update-analysis='updateAnalysis'
+                :default-filter-type="defaultFilterType"
+                :default-order="defaultOrder"
+                :resampled-ir="resampledIr"
+                :channels="channels"
+                :spl-rate="splRate"
+                :timestamp="timestamp"
+                :schroeder-decibels="schroederDecibels"
+                :power-per-freq="powerPerFreq"
+                :freq="freq"
+                :is-stable-obj="isStableObj"
+                :duct-calling="ductCalling"
+                @emit-filter-info="updateFilterChart"
+                @update-analysis="updateAnalysis"
             />
         </v-card-text>
         <v-card-text>
             <acoustic-parameter-table 
-                :acousticParameters='acousticParameters'
-                :ductCalling='ductCalling'
+                :acoustic-parameters="acousticParameters"
+                :duct-calling="ductCalling"
             />
         </v-card-text>
     </v-card>
 </template>
 <script>
-import AudioPlayer from './AudioPlayer.vue'
+import AudioPlayer from '../../ui/AudioPlayer.vue'
 import ChartTabs from './ChartTabs.vue'
 import AcousticParameterTable from './AcousticParameterTable.vue'
 export default{
@@ -47,9 +50,9 @@ export default{
         AcousticParameterTable,
     },
     data:() => ({
-        reshapedIr:[],
+        resampledIr:[],
         acousticParameters:[],
-        schroederDB:{},
+        schroederDecibels:{},
         timestamp:[],
         powerPerFreq:{},
         freq:{},
@@ -58,15 +61,14 @@ export default{
         defaultOrder:3001,
         isStableObj:{}
     }),
-    props:['duct','irArr','splRate','channels','audioURL','fileName'],
+    props:['duct','irArr','splRate','channels','audioSrc','fileName'],
     methods:{
         async callDuct(_filterType, _order, rawIrRequired){
             this.ductCalling = true;
             if (rawIrRequired == true){
                 let irDict = {};
                 [ irDict, this.timestamp ]  = await this.duct.call(this.duct.EVENT.RESAMPLE_IR_CHART_GET, { ir_arr: this.irArr });
-                this.reshapedIr = Object.values(irDict);
-                console.log(this.reshapedIr)    
+                this.resampledIr = Object.values(irDict);
             }
             this.acousticParameters  = await this.duct.call(this.duct.EVENT.ACOUSTIC_PARAMETER_GET, {
                 ir_arr: this.irArr,
@@ -75,7 +77,7 @@ export default{
                 filter_type: _filterType,
                 order: _order
             });
-            this.schroederDB  = await this.duct.call(this.duct.EVENT.SCHROEDER_CURVE, {
+            this.schroederDecibels  = await this.duct.call(this.duct.EVENT.SCHROEDER_CURVE, {
                 ir_arr: this.irArr,
                 spl_rate: this.splRate,
                 channels: this.channels,

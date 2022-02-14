@@ -3,30 +3,30 @@
         light
         flat
         tile
-        color='#E0E0E0'
-        class='rounded-b-lg'
+        color="#E0E0E0"
+        class="rounded-b-lg"
     >
         <loading-overlay 
-            :loading='loading'
+            :loading="loading"
         />
         <v-card-text>
-            <v-row class='pt-0 mt-0'>
-                <v-col cols='12'>
+            <v-row class="pt-0 mt-0">
+                <v-col cols="12">
                     <v-select
-                        v-model='selectedHz'
-                        prepend-inner-icon='mdi-sine-wave'
-                        :items='selectItems' 
-                        :item-text='selectItems.text'
-                        :item-value='selectItems.value'
-                        item-color='#26A69A'
-                        label='Octave Band'
-                        color='#26A69A'
+                        v-model="selectedHz"
+                        prepend-inner-icon="mdi-sine-wave"
+                        :items="octaveBands"
+                        :item-text="octaveBands.text"
+                        :item-value="octaveBands.value"
+                        item-color="#26A69A"
+                        label="Octave Band"
+                        color="#26A69A"
                         outlined
                         flat
                     />
                     <line-chart 
-                        :chartData='chartData'
-                        :options='chartOptions'
+                        :chart-data="chartData"
+                        :options="chartOptions"
                     /> 
                 </v-col>
             </v-row>
@@ -36,27 +36,17 @@
 <script>
 import LineChart from './Charts/LineChart.vue'
 import LoadingOverlay from '@/components/ui/LoadingOverlay'
+import { octaveBands } from '../library.js'
 export default{
     components:{
         LineChart,
         LoadingOverlay
     },
-    props:['schroederDB','timestamp','ductCalling'],
+    props:['schroederDecibels','timestamp','ductCalling'],
     data:() => ({
         loading:true,
         selectedHz:'31.5',
-        selectItems:[
-            { text: '31.5 Hz', value:'31.5' },
-            { text: '63 Hz', value:'63' },
-            { text: '125 Hz', value:'125' },
-            { text: '250 Hz', value:'250' },
-            { text: '500 Hz', value:'500' },
-            { text: '1 kHz', value:'1k' },
-            { text: '2 kHz', value:'2k' },
-            { text: '4 kHz', value:'4k' },
-            { text: '8 kHz', value:'8k' },
-            { text: '16 kHz', value:'16k' },
-        ],
+        octaveBands,
         chartData: { labels:[], datasets:[] },
         chartOptions: {
             maintainAspectRatio:false,
@@ -80,7 +70,7 @@ export default{
         },
     }),
     watch:{
-        schroederDB(){
+        schroederDecibels(){
             this.updateChartData();
         },
         selectedHz(){
@@ -92,15 +82,15 @@ export default{
     },
     methods:{
         updateChartData(){
-            if(Object.keys(this.schroederDB).length != 0){
+            if(Object.keys(this.schroederDecibels).length != 0){
                 let _data = { labels:[], datasets:[] };
-                _data.labels = this.schroederDB.time_stamp.map(el => el.toFixed(2));
+                _data.labels = this.schroederDecibels.time_stamp.map(el => el.toFixed(2));
                 const color = ['#26A69A','#B2DfD8']
-                const _ind = this.selectItems.map(el => el.value).indexOf(this.selectedHz);
-                const _dataLabel = this.selectItems.map(el => el.text)[_ind];
+                const _ind = this.octaveBands.map(el => el.value).indexOf(this.selectedHz);
+                const _dataLabel = this.octaveBands.map(el => el.text)[_ind];
                 _data.datasets.push({
                     label: _dataLabel,
-                    data: this.schroederDB[this.selectedHz],
+                    data: this.schroederDecibels[this.selectedHz],
                     borderWidth:3,
                     fill:true,
                     lineTension:0.2,

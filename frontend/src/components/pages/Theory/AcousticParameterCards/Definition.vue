@@ -1,17 +1,17 @@
 <template>
-    <v-card color='#323232' flat>
+    <v-card color="#323232" flat>
         <v-card-title>Definition</v-card-title>
-        <v-card-text class='text-body-1'>
+        <v-card-text class="text-body-1">
             <v-row><v-col>{{sentences[0] + ' ' + sentences[1]}}</v-col></v-row>   
-            <vue-mathjax :formula='formulas[0]'/>
+            <vue-mathjax :formula="formulas[0]"/>
             <v-row><v-col>{{sentences[2] + ' ' + sentences[3]}}</v-col></v-row>   
-            <v-row class='pt-0 mt-0 text-center'><v-col>Table 4. Definition and its score[6]</v-col></v-row>
+            <v-row class="pt-0 mt-0 text-center"><v-col>Table 4. Definition and its score[6]</v-col></v-row>
             <v-data-table 
-                class='text-body-2'
+                class="text-body-2"
                 dense
                 hide-default-footer
-                :headers='definitionHeaders'
-                :items='definitionItems'
+                :headers="definitionHeaders"
+                :items="definitionItems"
             />
         </v-card-text>
     </v-card>

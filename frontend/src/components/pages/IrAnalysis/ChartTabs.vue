@@ -1,47 +1,47 @@
 <template>
     <div>
         <v-tabs
-            background-color='#E0E0E0'
-            color='#26A69A'
+            background-color="#E0E0E0"
+            color="#26A69A"
             light
-            v-model='chartTab'
-            class='rounded-t-lg'
+            v-model="chartTab"
+            class="rounded-t-lg"
         >
             <v-tab>raw ir</v-tab>
             <v-tab>schroeder curve</v-tab>
             <v-tab>Filter Settings</v-tab>
         </v-tabs>
         <v-tabs-items 
-            v-model='chartTab'
-            class='rounded-b-lg'
+            v-model="chartTab"
+            class="rounded-b-lg"
         >
             <v-tab-item>
                 <raw-ir-chart 
-                    :reshapedIr='reshapedIr'
-                    :channels='channels'
-                    :splRate='splRate'
-                    :timestamp='timestamp'
-                    :ductCalling='ductCalling'
+                    :resampled-ir="resampledIr"
+                    :channels="channels"
+                    :spl-rate="splRate"
+                    :timestamp="timestamp"
+                    :duct-calling="ductCalling"
                 />
             </v-tab-item>
             <v-tab-item>
                 <schroeder-curve
-                    :schroederDB='schroederDB'
-                    :timestamp='timestamp'
-                    :ductCalling='ductCalling'
+                    :schroeder-decibels="schroederDecibels"
+                    :timestamp="timestamp"
+                    :duct-calling="ductCalling"
                 />
             </v-tab-item>
             <v-tab-item>
                 <filter-settings 
-                    :reshapedIr='reshapedIr'
-                    :defaultFilterType='defaultFilterType'
-                    :defaultOrder='defaultOrder'
-                    :powerPerFreq='powerPerFreq'
-                    :freq='freq'
-                    :isStableObj='isStableObj'
-                    :ductCalling='ductCalling'
-                    @emit-filter-info='emitFilterInfo'
-                    @update-analysis='updateAnalysis'
+                    :reshaped-ir="resampledIr"
+                    :default-filter-type="defaultFilterType"
+                    :default-order="defaultOrder"
+                    :power-per-freq="powerPerFreq"
+                    :freq="freq"
+                    :is-stable-obj="isStableObj"
+                    :duct-calling="ductCalling"
+                    @emit-filter-info="emitFilterInfo"
+                    @update-analysis="updateAnalysis"
                 />
             </v-tab-item>
         </v-tabs-items>
@@ -63,11 +63,11 @@ export default{
     props:[
         'defaultFilterType',
         'defaultOrder',
-        'reshapedIr',
+        'resampledIr',
         'channels',
         'splRate',
         'timestamp',
-        'schroederDB',
+        'schroederDecibels',
         'powerPerFreq',
         'freq',
         'isStableObj',

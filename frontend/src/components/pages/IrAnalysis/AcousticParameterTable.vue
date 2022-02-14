@@ -1,38 +1,38 @@
 <template>
     <v-card 
-        rounded='lg'
-        elevation='5' 
+        rounded="lg"
+        elevation="5"
         dark
     >
         <v-overlay
             absolute
-            color='#E0E0E0'
-            :value='loading'
-            z-index=2
+            color="#E0E0E0"
+            :value="loading"
+            z-index="2"
         >
             <v-progress-circular
                 indeterminate
-                color='#26A69A'
-                size='64'
+                color="#26A69A"
+                size="64"
             />
         </v-overlay>
         <v-card-text>
             <v-data-table
-                :headers='headers'
-                :items='items'
+                :headers="headers"
+                :items="items"
             >
-                <template v-slot:item.parameter='{ item }'>
+                <template v-slot:item.parameter="{ item }">
                     <v-tooltip 
                         bottom 
-                        color='#004D40'
-                        max-width='400'
+                        color="#004D40"
+                        max-width="400"
                     >
-                        <template v-slot:activator='{ on }'>
-                            <span v-on='on'>{{ item.parameter }}</span>
+                        <template v-slot:activator="{ on }">
+                            <span v-on="on">{{ item.parameter }}</span>
                         </template>
-                        <p class='text-h6 pb-0 mb-0'>{{item.parameter}}</p>
-                        <p class='text-b1 pt-0 mt-0 text-justify'>{{tooltipText[item.parameter]}}</p>
-                        <vue-mathjax :formula='formula[item.parameter]' />
+                        <p class="text-h6 pb-0 mb-0">{{item.parameter}}</p>
+                        <p class="text-b1 pt-0 mt-0 text-justify">{{tooltipText[item.parameter]}}</p>
+                        <vue-mathjax :formula="formula[item.parameter]" />
                     </v-tooltip>
                 </template>
             </v-data-table>

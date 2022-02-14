@@ -3,14 +3,14 @@
         focusable
     >
         <v-expansion-panel
-            v-for='item in panelItems'
-            :key='item.header'
+            v-for="item in panelItems"
+            :key="item.header"
         >
-            <v-expansion-panel-header color='#323232'>
+            <v-expansion-panel-header color="#323232">
                 {{item.header}}
             </v-expansion-panel-header>
-            <v-expansion-panel-content color='#323232'>
-                <component :is='item.component'/>
+            <v-expansion-panel-content color="#323232">
+                <component :is="item.component"/>
             </v-expansion-panel-content>
         </v-expansion-panel>
     </v-expansion-panels>

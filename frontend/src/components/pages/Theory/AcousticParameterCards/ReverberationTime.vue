@@ -1,24 +1,24 @@
 <template>
-    <v-card color='#323232' flat>
+    <v-card color="#323232" flat>
         <v-card-title>Reverberation Time (RT60)</v-card-title>
-        <v-card-text class='text-body-1'>
+        <v-card-text class="text-body-1">
             <v-row><v-col>{{sentences[0] + ' ' + sentences[1]}}</v-col></v-row>   
-            <vue-mathjax :formula='formulas[0]' />
+            <vue-mathjax :formula="formulas[0]" />
             <v-row><v-col>{{sentences[2] + ' ' + sentences[3]}}</v-col></v-row>   
             <v-img 
-                class='mt-1'
-                max-height='300'
+                class="mt-1"
+                max-height="300"
                 contain
-                :src='images[0]'
+                :src="images[0]"
             />
-            <v-row class='pt-0 mt-0 text-center'><v-col>Fig.2. Optimum RT60 in the middle frequency range [2]</v-col></v-row>
-            <v-row class='pt-0 mt-0 text-center'><v-col>Table 2. Reverberation Time in concert halls[3]</v-col></v-row>
+            <v-row class="pt-0 mt-0 text-center"><v-col>Fig.2. Optimum RT60 in the middle frequency range [2]</v-col></v-row>
+            <v-row class="pt-0 mt-0 text-center"><v-col>Table 2. Reverberation Time in concert halls[3]</v-col></v-row>
             <v-data-table 
-                class='text-body-2'
+                class="text-body-2"
                 dense
                 hide-default-footer
-                :headers='RTHeaders'
-                :items='RTItems'
+                :headers="RTHeaders"
+                :items="RTItems"
             />
         </v-card-text>
     </v-card>
