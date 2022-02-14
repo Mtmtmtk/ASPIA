@@ -32,7 +32,7 @@
             />
         </v-card-text>
         <v-card-text>
-            <acoustic-parameter-table 
+            <acoustic-parameter-table-card 
                 :acoustic-parameters="acousticParameters"
                 :duct-calling="ductCalling"
             />
@@ -42,12 +42,12 @@
 <script>
 import AudioPlayer from '../../ui/AudioPlayer.vue'
 import ChartTabs from './ChartTabs.vue'
-import AcousticParameterTable from './AcousticParameterTable.vue'
+import AcousticParameterTableCard from './AcousticParameterTableCard'
 export default{
     components:{
         AudioPlayer,
         ChartTabs,
-        AcousticParameterTable,
+        AcousticParameterTableCard,
     },
     data:() => ({
         resampledIr:[],

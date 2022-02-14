@@ -25,7 +25,7 @@ export const library = [
         ],
         acousticParams:[
             {
-                'param': 'RT60 (s)',
+                'parameter': 'RT60 (s)',
                 '31.5': '5.68',
                 '63': '4.41',
                 '125': '3.86',
@@ -38,7 +38,7 @@ export const library = [
                 '16k': '0.92'
             },
             {
-                'param': 'EDT (s)',
+                'parameter': 'EDT (s)',
                 '31.5': '7.95',
                 '63': '3.22',
                 '125': '3.09',
@@ -51,7 +51,7 @@ export const library = [
                 '16k': '0.02'
             },
             {
-                'param': 'D50',
+                'parameter': 'D50',
                 '31.5': '0.13',
                 '63': '0.12',
                 '125': '0.06',
@@ -64,7 +64,7 @@ export const library = [
                 '16k': '0.99'
             },
             {
-                'param': 'C50 (dB)',
+                'parameter': 'C50 (dB)',
                 '31.5': '-8.36',
                 '63': '-8.46',
                 '125': '-11.69',
@@ -77,7 +77,7 @@ export const library = [
                 '16k': '19.26'
             },
             {
-                'param': 'C80 (dB)',
+                'parameter': 'C80 (dB)',
                 '31.5': '-7.48',
                 '63': '-6.47',
                 '125': '-9.22',
@@ -107,7 +107,7 @@ export const library = [
         ],
         acousticParams:[
             {
-                'param': 'RT60 (s)',
+                'parameter': 'RT60 (s)',
                 '31.5': '1.99',
                 '63': '2.22',
                 '125': '1.99',
@@ -120,7 +120,7 @@ export const library = [
                 '16k': '0.90'
             },
             {
-                'param': 'EDT (s)',
+                'parameter': 'EDT (s)',
                 '31.5': '2.15',
                 '63': '2.15',
                 '125': '1.51',
@@ -133,7 +133,7 @@ export const library = [
                 '16k': '0.23'
             },
             {
-                'param': 'D50',
+                'parameter': 'D50',
                 '31.5': '0.14',
                 '63': '0.41',
                 '125': '0.46',
@@ -146,7 +146,7 @@ export const library = [
                 '16k': '0.92'
             },
             {
-                'param': 'C50 (dB)',
+                'parameter': 'C50 (dB)',
                 '31.5': '-7.93',
                 '63': '-1.58',
                 '125': '-0.74',
@@ -159,7 +159,7 @@ export const library = [
                 '16k': '10.53'
             },
             {
-                'param': 'C80 (dB)',
+                'parameter': 'C80 (dB)',
                 '31.5': '-4.86',
                 '63': '-0.13',
                 '125': '1.04',
@@ -190,7 +190,7 @@ export const library = [
         ],
         acousticParams:[
             {
-                'param': 'RT60 (s)',
+                'parameter': 'RT60 (s)',
                 '31.5': '2.66',
                 '63': '1.22',
                 '125': '0.50',
@@ -203,7 +203,7 @@ export const library = [
                 '16k': '0.18'
             },
             {
-                'param': 'EDT (s)',
+                'parameter': 'EDT (s)',
                 '31.5': '0.76',
                 '63': '0.51',
                 '125': '0.51',
@@ -216,7 +216,7 @@ export const library = [
                 '16k': '0.12'
             },
             {
-                'param': 'D50',
+                'parameter': 'D50',
                 '31.5': '0.48',
                 '63': '0.72',
                 '125': '0.63',
@@ -229,7 +229,7 @@ export const library = [
                 '16k': '1.00'
             },
             {
-                'param': 'C50 (dB)',
+                'parameter': 'C50 (dB)',
                 '31.5': '-0.34',
                 '63': '4.02',
                 '125': '2.18',
@@ -242,7 +242,7 @@ export const library = [
                 '16k': '25.97'
             },
             {
-                'param': 'C80 (dB)',
+                'parameter': 'C80 (dB)',
                 '31.5': '4.63',
                 '63': '11.53',
                 '125': '9,76',
@@ -275,7 +275,7 @@ export const library = [
         ],
         acousticParams:[
             {
-                'param': 'RT60 (s)',
+                'parameter': 'RT60 (s)',
                 '31.5': '2.67',
                 '63': '1.58',
                 '125': '1.42',
@@ -288,7 +288,7 @@ export const library = [
                 '16k': '1.95'
             },
             {
-                'param': 'EDT (s)',
+                'parameter': 'EDT (s)',
                 '31.5': '1.54',
                 '63': '1.54',
                 '125': '1.67',
@@ -301,7 +301,7 @@ export const library = [
                 '16k': '0.64'
             },
             {
-                'param': 'D50',
+                'parameter': 'D50',
                 '31.5': '0.11',
                 '63': '0.32',
                 '125': '0.30',
@@ -314,7 +314,7 @@ export const library = [
                 '16k': '0.72'
             },
             {
-                'param': 'C50 (dB)',
+                'parameter': 'C50 (dB)',
                 '31.5': '-9.17',
                 '63': '-3.18',
                 '125': '-3.67',
@@ -327,7 +327,7 @@ export const library = [
                 '16k': '4.01'
             },
             {
-                'param': 'C80 (dB)',
+                'parameter': 'C80 (dB)',
                 '31.5': '-5.68',
                 '63': '0.69',
                 '125': '-1.77',
@@ -355,7 +355,7 @@ export const library = [
         ],
         acousticParams:[
             {
-                'param': 'RT60 (s)',
+                'parameter': 'RT60 (s)',
                 '31.5': '1,35',
                 '63': '1.19',
                 '125': '1.12',
@@ -368,7 +368,7 @@ export const library = [
                 '16k': '0.23'
             },
             {
-                'param': 'EDT (s)',
+                'parameter': 'EDT (s)',
                 '31.5': '1.02',
                 '63': '1.02',
                 '125': '1.02',
@@ -381,7 +381,7 @@ export const library = [
                 '16k': '0.12'
             },
             {
-                'param': 'D50',
+                'parameter': 'D50',
                 '31.5': '0.53',
                 '63': '0.53',
                 '125': '0.64',
@@ -394,7 +394,7 @@ export const library = [
                 '16k': '0.99'
             },
             {
-                'param': 'C50 (dB)',
+                'parameter': 'C50 (dB)',
                 '31.5': '0.45',
                 '63': '0.52',
                 '125': '2.44',
@@ -407,7 +407,7 @@ export const library = [
                 '16k': '21.36'
             },
             {
-                'param': 'C80 (dB)',
+                'parameter': 'C80 (dB)',
                 '31.5': '5.58',
                 '63': '4.13',
                 '125': '4.30',
@@ -436,7 +436,7 @@ export const library = [
         ],
         acousticParams:[
             {
-                'param': 'RT60 (s)',
+                'parameter': 'RT60 (s)',
                 '31.5': '40.51',
                 '63': '22.68',
                 '125': '8.1',
@@ -449,7 +449,7 @@ export const library = [
                 '16k': '1.16'
             },
             {
-                'param': 'EDT (s)',
+                'parameter': 'EDT (s)',
                 '31.5': '0.38',
                 '63': '0.38',
                 '125': '2.3',
@@ -462,7 +462,7 @@ export const library = [
                 '16k': '0.89'
             },
             {
-                'param': 'D50',
+                'parameter': 'D50',
                 '31.5': '0.88',
                 '63': '0.89',
                 '125': '0.32',
@@ -475,7 +475,7 @@ export const library = [
                 '16k': '0.55'
             },
             {
-                'param': 'C50 (dB)',
+                'parameter': 'C50 (dB)',
                 '31.5': '8.5',
                 '63': '9.2',
                 '125': '-3.23',
@@ -488,7 +488,7 @@ export const library = [
                 '16k': '0.93'
             },
             {
-                'param': 'C80 (dB)',
+                'parameter': 'C80 (dB)',
                 '31.5': '12.24',
                 '63': '10.07',
                 '125': '-1.05',
@@ -515,7 +515,7 @@ export const library = [
         ],
         acousticParams:[
             {
-                'param': 'RT60 (s)',
+                'parameter': 'RT60 (s)',
                 '31.5': '2.63',
                 '63': '2.55',
                 '125': '2.09',
@@ -528,7 +528,7 @@ export const library = [
                 '16k': '0.30'
             },
             {
-                'param': 'EDT (s)',
+                'parameter': 'EDT (s)',
                 '31.5': '0.65',
                 '63': '2.57',
                 '125': '1.42',
@@ -541,7 +541,7 @@ export const library = [
                 '16k': '0.27'
             },
             {
-                'param': 'D50',
+                'parameter': 'D50',
                 '31.5': '0.36',
                 '63': '0.23',
                 '125': '0.44',
@@ -554,7 +554,7 @@ export const library = [
                 '16k': '0.94'
             },
             {
-                'param': 'C50 (dB)',
+                'parameter': 'C50 (dB)',
                 '31.5': '-2.43',
                 '63': '-5.13',
                 '125': '-1.09',
@@ -567,7 +567,7 @@ export const library = [
                 '16k': '12.01'
             },
             {
-                'param': 'C80 (dB)',
+                'parameter': 'C80 (dB)',
                 '31.5': '7.52',
                 '63': '-3.36',
                 '125': '1.45',
@@ -594,7 +594,7 @@ export const library = [
         ],
         acousticParams:[
             {
-                'param': 'RT60 (s)',
+                'parameter': 'RT60 (s)',
                 '31.5': '9.24',
                 '63': '4.96',
                 '125': '5.19',
@@ -607,7 +607,7 @@ export const library = [
                 '16k': '0.52'
             },
             {
-                'param': 'EDT (s)',
+                'parameter': 'EDT (s)',
                 '31.5': '1.90',
                 '63': '1.90',
                 '125': '1.51',
@@ -620,7 +620,7 @@ export const library = [
                 '16k': '0.23'
             },
             {
-                'param': 'D50',
+                'parameter': 'D50',
                 '31.5': '0.01',
                 '63': '0.44',
                 '125': '0.57',
@@ -633,7 +633,7 @@ export const library = [
                 '16k': '0.92'
             },
             {
-                'param': 'C50 (dB)',
+                'parameter': 'C50 (dB)',
                 '31.5': '-22.00',
                 '63': '-1.13',
                 '125': '1.18',
@@ -646,7 +646,7 @@ export const library = [
                 '16k': '10.69'
             },
             {
-                'param': 'C80 (dB)',
+                'parameter': 'C80 (dB)',
                 '31.5': '-18.71',
                 '63': '-0.64',
                 '125': '3.24',
@@ -678,7 +678,7 @@ export const library = [
         ],
         acousticParams:[
             {
-                'param': 'RT60 (s)',
+                'parameter': 'RT60 (s)',
                 '31.5': '0.80',
                 '63': '0.57',
                 '125': '0.28',
@@ -691,7 +691,7 @@ export const library = [
                 '16k': '0.18'
             },
             {
-                'param': 'EDT (s)',
+                'parameter': 'EDT (s)',
                 '31.5': '0.98',
                 '63': '0.73',
                 '125': '0.34',
@@ -704,7 +704,7 @@ export const library = [
                 '16k': '0.22'
             },
             {
-                'param': 'D50',
+                'parameter': 'D50',
                 '31.5': '0.26',
                 '63': '0.46',
                 '125': '0.92',
@@ -717,7 +717,7 @@ export const library = [
                 '16k': '0.98'
             },
             {
-                'param': 'C50 (dB)',
+                'parameter': 'C50 (dB)',
                 '31.5': '-4.65',
                 '63': '-0.74',
                 '125': '10.63',
@@ -730,7 +730,7 @@ export const library = [
                 '16k': '17.54'
             },
             {
-                'param': 'C80 (dB)',
+                'parameter': 'C80 (dB)',
                 '31.5': '-2.33',
                 '63': '5.82',
                 '125': '16.50',
@@ -774,7 +774,7 @@ export const library = [
         ],
         acousticParams:[
             {
-                'param': 'RT60 (s)',
+                'parameter': 'RT60 (s)',
                 '31.5': '2.29',
                 '63': '2.01',
                 '125': '1.33',
@@ -787,7 +787,7 @@ export const library = [
                 '16k': '0.32'
             },
             {
-                'param': 'EDT (s)',
+                'parameter': 'EDT (s)',
                 '31.5': '1.45',
                 '63': '0.94',
                 '125': '1.07',
@@ -800,7 +800,7 @@ export const library = [
                 '16k': '0.17'
             },
             {
-                'param': 'D50',
+                'parameter': 'D50',
                 '31.5': '0.43',
                 '63': '0.71',
                 '125': '0.75',
@@ -813,7 +813,7 @@ export const library = [
                 '16k': '0.98'
             },
             {
-                'param': 'C50 (dB)',
+                'parameter': 'C50 (dB)',
                 '31.5': '-1.19',
                 '63': '3.91',
                 '125': '4.87',
@@ -826,7 +826,7 @@ export const library = [
                 '16k': '17.18'
             },
             {
-                'param': 'C80 (dB)',
+                'parameter': 'C80 (dB)',
                 '31.5': '0.98',
                 '63': '5.56',
                 '125': '6.4',
@@ -856,7 +856,7 @@ export const library = [
         ],
         acousticParams:[
             {
-                'param': 'RT60 (s)',
+                'parameter': 'RT60 (s)',
                 '31.5': '29.05',
                 '63': '22.88',
                 '125': '19.27',
@@ -869,7 +869,7 @@ export const library = [
                 '16k': '0.67'
             },
             {
-                'param': 'EDT (s)',
+                'parameter': 'EDT (s)',
                 '31.5': '15.55',
                 '63': '14.78',
                 '125': '13.24',
@@ -882,7 +882,7 @@ export const library = [
                 '16k': '0.06'
             },
             {
-                'param': 'D50',
+                'parameter': 'D50',
                 '31.5': '0.05',
                 '63': '0.17',
                 '125': '0.13',
@@ -895,7 +895,7 @@ export const library = [
                 '16k': '0.99'
             },
             {
-                'param': 'C50 (dB)',
+                'parameter': 'C50 (dB)',
                 '31.5': '-13.27',
                 '63': '-6.86',
                 '125': '-8.39',
@@ -908,7 +908,7 @@ export const library = [
                 '16k': '19.69'
             },
             {
-                'param': 'C80 (dB)',
+                'parameter': 'C80 (dB)',
                 '31.5': '-5.36',
                 '63': '-4.44',
                 '125': '-7.08',
@@ -953,7 +953,7 @@ export const library = [
         ],
         acousticParams:[
             {
-                'param': 'RT60 (s)',
+                'parameter': 'RT60 (s)',
                 '31.5': '3.73',
                 '63': '1.28',
                 '125': '1.40',
@@ -966,7 +966,7 @@ export const library = [
                 '16k': '0.59'
             },
             {
-                'param': 'EDT (s)',
+                'parameter': 'EDT (s)',
                 '31.5': '1.38',
                 '63': '1.25',
                 '125': '1.12',
@@ -979,7 +979,7 @@ export const library = [
                 '16k': '0.61'
             },
             {
-                'param': 'D50',
+                'parameter': 'D50',
                 '31.5': '0.18',
                 '63': '0.56',
                 '125': '0.39',
@@ -992,7 +992,7 @@ export const library = [
                 '16k': '0.78'
             },
             {
-                'param': 'C50 (dB)',
+                'parameter': 'C50 (dB)',
                 '31.5': '-6.51',
                 '63': '1.09',
                 '125': '-2.03',
@@ -1005,7 +1005,7 @@ export const library = [
                 '16k': '5.40'
             },
             {
-                'param': 'C80 (dB)',
+                'parameter': 'C80 (dB)',
                 '31.5': '-2.63',
                 '63': '3.34',
                 '125': '1.56',
@@ -1039,7 +1039,7 @@ export const library = [
         ],
         acousticParams:[
             {
-                'param': 'RT60 (s)',
+                'parameter': 'RT60 (s)',
                 '31.5': '2.833',
                 '63': '2.07',
                 '125': '1.50',
@@ -1052,7 +1052,7 @@ export const library = [
                 '16k': '0.26'
             },
             {
-                'param': 'EDT (s)',
+                'parameter': 'EDT (s)',
                 '31.5': '0.92',
                 '63': '0.79',
                 '125': '0.66',
@@ -1065,7 +1065,7 @@ export const library = [
                 '16k': '0.40'
             },
             {
-                'param': 'D50',
+                'parameter': 'D50',
                 '31.5': '0.57',
                 '63': '0.36',
                 '125': '0.55',
@@ -1078,7 +1078,7 @@ export const library = [
                 '16k': '0.92'
             },
             {
-                'param': 'C50 (dB)',
+                'parameter': 'C50 (dB)',
                 '31.5': '1.23',
                 '63': '-2.56',
                 '125': '0.86',
@@ -1091,7 +1091,7 @@ export const library = [
                 '16k': '10.50'
             },
             {
-                'param': 'C80 (dB)',
+                'parameter': 'C80 (dB)',
                 '31.5': '4.92',
                 '63': '6.35',
                 '125': '6.90',
@@ -1133,7 +1133,7 @@ export const library = [
         ],
         acousticParams:[
             {
-                'param': 'RT60 (s)',
+                'parameter': 'RT60 (s)',
                 '31.5': '5.28',
                 '63': '4.88',
                 '125': '5.35',
@@ -1146,7 +1146,7 @@ export const library = [
                 '16k': '0.48'
             },
             {
-                'param': 'EDT (s)',
+                'parameter': 'EDT (s)',
                 '31.5': '0.94',
                 '63': '4.26',
                 '125': '3.63',
@@ -1159,7 +1159,7 @@ export const library = [
                 '16k': '0.17'
             },
             {
-                'param': 'D50',
+                'parameter': 'D50',
                 '31.5': '0.38',
                 '63': '0.35',
                 '125': '0.37',
@@ -1172,7 +1172,7 @@ export const library = [
                 '16k': '0.98'
             },
             {
-                'param': 'C50 (dB)',
+                'parameter': 'C50 (dB)',
                 '31.5': '-2.10',
                 '63': '-2.76',
                 '125': '-2.22',
@@ -1185,7 +1185,7 @@ export const library = [
                 '16k': '16.91'
             },
             {
-                'param': 'C80 (dB)',
+                'parameter': 'C80 (dB)',
                 '31.5': '5.18',
                 '63': '-0.86',
                 '125': '-0.87',
@@ -1213,7 +1213,7 @@ export const library = [
         ],
         acousticParams:[
             {
-                'param': 'RT60 (s)',
+                'parameter': 'RT60 (s)',
                 '31.5': '3.55',
                 '63': '2.28',
                 '125': '2.18',
@@ -1226,7 +1226,7 @@ export const library = [
                 '16k': '5.53'
             },
             {
-                'param': 'EDT (s)',
+                'parameter': 'EDT (s)',
                 '31.5': '2.72',
                 '63': '1.95',
                 '125': '1.70',
@@ -1239,7 +1239,7 @@ export const library = [
                 '16k': '0.42'
             },
             {
-                'param': 'D50',
+                'parameter': 'D50',
                 '31.5': '0.06',
                 '63': '0.19',
                 '125': '0.25',
@@ -1252,7 +1252,7 @@ export const library = [
                 '16k': '0.83'
             },
             {
-                'param': 'C50 (dB)',
+                'parameter': 'C50 (dB)',
                 '31.5': '-12.08',
                 '63': '-6.40',
                 '125': '-4.76',
@@ -1265,7 +1265,7 @@ export const library = [
                 '16k': '6.90'
             },
             {
-                'param': 'C80 (dB)',
+                'parameter': 'C80 (dB)',
                 '31.5': '-7.02',
                 '63': '-2.45',
                 '125': '-0.66',
@@ -1298,7 +1298,7 @@ export const library = [
         ],
         acousticParams:[
             {
-                'param': 'RT60 (s)',
+                'parameter': 'RT60 (s)',
                 '31.5': '0.50',
                 '63': '0.46',
                 '125': '0.23',
@@ -1311,7 +1311,7 @@ export const library = [
                 '16k': '0.23'
             },
             {
-                'param': 'EDT (s)',
+                'parameter': 'EDT (s)',
                 '31.5': '0.48',
                 '63': '0.36',
                 '125': '0.23',
@@ -1324,7 +1324,7 @@ export const library = [
                 '16k': '0.10'
             },
             {
-                'param': 'D50',
+                'parameter': 'D50',
                 '31.5': '0.67',
                 '63': '0.90',
                 '125': '0.99',
@@ -1337,7 +1337,7 @@ export const library = [
                 '16k': '1.00'
             },
             {
-                'param': 'C50 (dB)',
+                'parameter': 'C50 (dB)',
                 '31.5': '3.07',
                 '63': '9.49',
                 '125': '19.63',
@@ -1350,7 +1350,7 @@ export const library = [
                 '16k': '24.88'
             },
             {
-                'param': 'C80 (dB)',
+                'parameter': 'C80 (dB)',
                 '31.5': '16.69',
                 '63': '24.10',
                 '125': '25.99',
@@ -1384,7 +1384,7 @@ export const library = [
         ],
         acousticParams:[
             {
-                'param': 'RT60 (s)',
+                'parameter': 'RT60 (s)',
                 '31.5': '0.16',
                 '63': '0.18',
                 '125': '0.07',
@@ -1397,7 +1397,7 @@ export const library = [
                 '16k': '0.22'
             },
             {
-                'param': 'EDT (s)',
+                'parameter': 'EDT (s)',
                 '31.5': '0.47',
                 '63': '0.35',
                 '125': '0.23',
@@ -1410,7 +1410,7 @@ export const library = [
                 '16k': '0.09'
             },
             {
-                'param': 'D50',
+                'parameter': 'D50',
                 '31.5': '0.54',
                 '63': '0.89',
                 '125': '1.00',
@@ -1423,7 +1423,7 @@ export const library = [
                 '16k': '1.00'
             },
             {
-                'param': 'C50 (dB)',
+                'parameter': 'C50 (dB)',
                 '31.5': '0.74',
                 '63': '8.94',
                 '125': '38.77',
@@ -1436,7 +1436,7 @@ export const library = [
                 '16k': '28.41'
             },
             {
-                'param': 'C80 (dB)',
+                'parameter': 'C80 (dB)',
                 '31.5': '10.65',
                 '63': '18.68',
                 '125': '42.65',
@@ -1465,7 +1465,7 @@ export const library = [
         ],
         acousticParams:[
             {
-                'param': 'RT60 (s)',
+                'parameter': 'RT60 (s)',
                 '31.5': '3.44',
                 '63': '3.28',
                 '125': '3.31.5',
@@ -1478,7 +1478,7 @@ export const library = [
                 '16k': '0.63'
             },
             {
-                'param': 'EDT (s)',
+                'parameter': 'EDT (s)',
                 '31.5': '2.14',
                 '63': '2.52',
                 '125': '2.40',
@@ -1491,7 +1491,7 @@ export const library = [
                 '16k': '0.22'
             },
             {
-                'param': 'D50',
+                'parameter': 'D50',
                 '31.5': '0.13',
                 '63': '0.34',
                 '125': '0.19',
@@ -1504,7 +1504,7 @@ export const library = [
                 '16k': '0.96'
             },
             {
-                'param': 'C50 (dB)',
+                'parameter': 'C50 (dB)',
                 '31.5': '-8.39',
                 '63': '-2.96',
                 '125': '-6.22',
@@ -1517,7 +1517,7 @@ export const library = [
                 '16k': '14.40'
             },
             {
-                'param': 'C80 (dB)',
+                'parameter': 'C80 (dB)',
                 '31.5': '-5.66',
                 '63': '-2.13',
                 '125': '-0.65',
@@ -1546,7 +1546,7 @@ export const library = [
         ],
         acousticParams:[
             {
-                'param': 'RT60 (s)',
+                'parameter': 'RT60 (s)',
                 '31.5': '0.78',
                 '63': '0.84',
                 '125': '0.76',
@@ -1559,7 +1559,7 @@ export const library = [
                 '16k': '0.29'
             },
             {
-                'param': 'EDT (s)',
+                'parameter': 'EDT (s)',
                 '31.5': '0.75',
                 '63': '0.75',
                 '125': '0.63',
@@ -1572,7 +1572,7 @@ export const library = [
                 '16k': '0.11'
             },
             {
-                'param': 'D50',
+                'parameter': 'D50',
                 '31.5': '0.16',
                 '63': '0.63',
                 '125': '0.77',
@@ -1585,7 +1585,7 @@ export const library = [
                 '16k': '1.00'
             },
             {
-                'param': 'C50 (dB)',
+                'parameter': 'C50 (dB)',
                 '31.5': '-7.32',
                 '63': '2.22',
                 '125': '5.13',
@@ -1598,7 +1598,7 @@ export const library = [
                 '16k': '24.81'
             },
             {
-                'param': 'C80 (dB)',
+                'parameter': 'C80 (dB)',
                 '31.5': '3.03',
                 '63': '6.03',
                 '125': '8.65',
@@ -1632,7 +1632,7 @@ export const library = [
         ],
         acousticParams:[
             {
-                'param': 'RT60 (s)',
+                'parameter': 'RT60 (s)',
                 '31.5': '20.36',
                 '63': '6.09',
                 '125': '0.37',
@@ -1645,7 +1645,7 @@ export const library = [
                 '16k': '0.17'
             },
             {
-                'param': 'EDT (s)',
+                'parameter': 'EDT (s)',
                 '31.5': '0.78',
                 '63': '0.78',
                 '125': '0.27',
@@ -1658,7 +1658,7 @@ export const library = [
                 '16k': '0.14'
             },
             {
-                'param': 'D50',
+                'parameter': 'D50',
                 '31.5': '0.39',
                 '63': '0.27',
                 '125': '0.94',
@@ -1671,7 +1671,7 @@ export const library = [
                 '16k': '1.00'
             },
             {
-                'param': 'C50 (dB)',
+                'parameter': 'C50 (dB)',
                 '31.5': '-1.92',
                 '63': '-4.25',
                 '125': '12.02',
@@ -1684,7 +1684,7 @@ export const library = [
                 '16k': '25.81'
             },
             {
-                'param': 'C80 (dB)',
+                'parameter': 'C80 (dB)',
                 '31.5': '4.34',
                 '63': '2.65',
                 '125': '15.01',
@@ -1720,7 +1720,7 @@ export const library = [
         ],
         acousticParams:[
             {
-                'param': 'RT60 (s)',
+                'parameter': 'RT60 (s)',
                 '31.5': '6.98',
                 '63': '5.45',
                 '125': '4.49',
@@ -1733,7 +1733,7 @@ export const library = [
                 '16k': '0.98'
             },
             {
-                'param': 'EDT (s)',
+                'parameter': 'EDT (s)',
                 '31.5': '6.15',
                 '63': '5.12',
                 '125': '3.84',
@@ -1746,7 +1746,7 @@ export const library = [
                 '16k': '0.51'
             },
             {
-                'param': 'D50',
+                'parameter': 'D50',
                 '31.5': '0.02',
                 '63': '0.11',
                 '125': '0.13',
@@ -1759,7 +1759,7 @@ export const library = [
                 '16k': '0.79'
             },
             {
-                'param': 'C50 (dB)',
+                'parameter': 'C50 (dB)',
                 '31.5': '-17.33',
                 '63': '-9.15',
                 '125': '-8.29',
@@ -1772,7 +1772,7 @@ export const library = [
                 '16k': '5.76'
             },
             {
-                'param': 'C80 (dB)',
+                'parameter': 'C80 (dB)',
                 '31.5': '-15.65',
                 '63': '-7.04',
                 '125': '-4.51',
@@ -1806,7 +1806,7 @@ export const library = [
         ],
         acousticParams:[
             {
-                'param': 'RT60 (s)',
+                'parameter': 'RT60 (s)',
                 '31.5': '2.25',
                 '63': '1.44',
                 '125': '1.53',
@@ -1819,7 +1819,7 @@ export const library = [
                 '16k': '0.63'
             },
             {
-                'param': 'EDT (s)',
+                'parameter': 'EDT (s)',
                 '31.5': '1.57',
                 '63': '1.19',
                 '125': '0.42',
@@ -1832,7 +1832,7 @@ export const library = [
                 '16k': '0.42'
             },
             {
-                'param': 'D50',
+                'parameter': 'D50',
                 '31.5': '0.23',
                 '63': '0.53',
                 '125': '0.73',
@@ -1845,7 +1845,7 @@ export const library = [
                 '16k': '0.79'
             },
             {
-                'param': 'C50 (dB)',
+                'parameter': 'C50 (dB)',
                 '31.5': '-5.32',
                 '63': '0.56',
                 '125': '4.32',
@@ -1858,7 +1858,7 @@ export const library = [
                 '16k': '5.76'
             },
             {
-                'param': 'C80 (dB)',
+                'parameter': 'C80 (dB)',
                 '31.5': '-0.50',
                 '63': '2.65',
                 '125': '11.29',
@@ -1884,7 +1884,7 @@ export const library = [
         ],
         acousticParams:[
             {
-                'param': 'RT60 (s)',
+                'parameter': 'RT60 (s)',
                 '31.5': '1.71',
                 '63': '1.59',
                 '125': '1.51',
@@ -1897,7 +1897,7 @@ export const library = [
                 '16k': '0.54'
             },
             {
-                'param': 'EDT (s)',
+                'parameter': 'EDT (s)',
                 '31.5': '1.53',
                 '63': '1.66',
                 '125': '1.28',
@@ -1910,7 +1910,7 @@ export const library = [
                 '16k': '0.25'
             },
             {
-                'param': 'D50',
+                'parameter': 'D50',
                 '31.5': '0.13',
                 '63': '0.38',
                 '125': '0.51',
@@ -1923,7 +1923,7 @@ export const library = [
                 '16k': '0.95'
             },
             {
-                'param': 'C50 (dB)',
+                'parameter': 'C50 (dB)',
                 '31.5': '-8.43',
                 '63': '-2.21',
                 '125': '0.25',
@@ -1936,7 +1936,7 @@ export const library = [
                 '16k': '12.96'
             },
             {
-                'param': 'C80 (dB)',
+                'parameter': 'C80 (dB)',
                 '31.5': '0.01',
                 '63': '-0.52',
                 '125': '2.63',
@@ -1962,7 +1962,7 @@ export const library = [
         ],
         acousticParams:[
             {
-                'param': 'RT60 (s)',
+                'parameter': 'RT60 (s)',
                 '31.5': '2.44',
                 '63': '1.87',
                 '125': '1.88',
@@ -1975,7 +1975,7 @@ export const library = [
                 '16k': '0.65'
             },
             {
-                'param': 'EDT (s)',
+                'parameter': 'EDT (s)',
                 '31.5': '1.46',
                 '63': '1.33',
                 '125': '1.33',
@@ -1988,7 +1988,7 @@ export const library = [
                 '16k': '0.44'
             },
             {
-                'param': 'D50',
+                'parameter': 'D50',
                 '31.5': '0.37',
                 '63': '0.14',
                 '125': '0.30',
@@ -2001,7 +2001,7 @@ export const library = [
                 '16k': '0.89'
             },
             {
-                'param': 'C50 (dB)',
+                'parameter': 'C50 (dB)',
                 '31.5': '-2.34',
                 '63': '-7.75',
                 '125': '-3.61',
@@ -2014,7 +2014,7 @@ export const library = [
                 '16k': '9.03'
             },
             {
-                'param': 'C80 (dB)',
+                'parameter': 'C80 (dB)',
                 '31.5': '0.01',
                 '63': '0.28',
                 '125': '3.72',
@@ -2042,7 +2042,7 @@ export const library = [
         ],
         acousticParams:[
             {
-                'param': 'RT60 (s)',
+                'parameter': 'RT60 (s)',
                 '31.5': '21.10',
                 '63': '12.11',
                 '125': '6.21',
@@ -2055,7 +2055,7 @@ export const library = [
                 '16k': '1.45'
             },
             {
-                'param': 'EDT (s)',
+                'parameter': 'EDT (s)',
                 '31.5': '1.74',
                 '63': '2.13',
                 '125': '4.17',
@@ -2068,7 +2068,7 @@ export const library = [
                 '16k': '0.21'
             },
             {
-                'param': 'D50',
+                'parameter': 'D50',
                 '31.5': '0.28',
                 '63': '0.36',
                 '125': '0.37',
@@ -2081,7 +2081,7 @@ export const library = [
                 '16k': '0.93'
             },
             {
-                'param': 'C50 (dB)',
+                'parameter': 'C50 (dB)',
                 '31.5': '-4.10',
                 '63': '-2.51',
                 '125': '-2.28',
@@ -2094,7 +2094,7 @@ export const library = [
                 '16k': '10.99'
             },
             {
-                'param': 'C80 (dB)',
+                'parameter': 'C80 (dB)',
                 '31.5': '0.44',
                 '63': '-1.02',
                 '125': '-1.14',
@@ -2127,7 +2127,7 @@ export const library = [
         ],
         acousticParams:[
             {
-                'param': 'RT60 (s)',
+                'parameter': 'RT60 (s)',
                 '31.5': '4.46',
                 '63': '1.53',
                 '125': '1.65',
@@ -2140,7 +2140,7 @@ export const library = [
                 '16k': '1.54'
             },
             {
-                'param': 'EDT (s)',
+                'parameter': 'EDT (s)',
                 '31.5': '1.59',
                 '63': '1.33',
                 '125': '1.07',
@@ -2153,7 +2153,7 @@ export const library = [
                 '16k': '0.43'
             },
             {
-                'param': 'D50',
+                'parameter': 'D50',
                 '31.5': '0.20',
                 '63': '0.30',
                 '125': '0.39',
@@ -2166,7 +2166,7 @@ export const library = [
                 '16k': '0.86'
             },
             {
-                'param': 'C50 (dB)',
+                'parameter': 'C50 (dB)',
                 '31.5': '-5.99',
                 '63': '-3.59',
                 '125': '-1.96',
@@ -2179,7 +2179,7 @@ export const library = [
                 '16k': '7.73'
             },
             {
-                'param': 'C80 (dB)',
+                'parameter': 'C80 (dB)',
                 '31.5': '0.74',
                 '63': '0.26',
                 '125': '3.76',
@@ -2208,7 +2208,7 @@ export const library = [
         ],
         acousticParams:[
             {
-                'param': 'RT60 (s)',
+                'parameter': 'RT60 (s)',
                 '31.5': '1.92',
                 '63': '2.35',
                 '125': '1.42',
@@ -2221,7 +2221,7 @@ export const library = [
                 '16k': '0.55'
             },
             {
-                'param': 'EDT (s)',
+                'parameter': 'EDT (s)',
                 '31.5': '1.57',
                 '63': '1.31.5',
                 '125': '1.05',
@@ -2234,7 +2234,7 @@ export const library = [
                 '16k': '0.16'
             },
             {
-                'param': 'D50',
+                'parameter': 'D50',
                 '31.5': '0.09',
                 '63': '0.63',
                 '125': '0.68',
@@ -2247,7 +2247,7 @@ export const library = [
                 '16k': '0.98'
             },
             {
-                'param': 'C50 (dB)',
+                'parameter': 'C50 (dB)',
                 '31.5': '-10.25',
                 '63': '2.22',
                 '125': '3.27',
@@ -2260,7 +2260,7 @@ export const library = [
                 '16k': '16.67'
             },
             {
-                'param': 'C80 (dB)',
+                'parameter': 'C80 (dB)',
                 '31.5': '-2.38',
                 '63': '3.99',
                 '125': '5.42',
@@ -2293,7 +2293,7 @@ export const library = [
         ],
         acousticParams:[
             {
-                'param': 'RT60 (s)',
+                'parameter': 'RT60 (s)',
                 '31.5': '5.19',
                 '63': '1.15',
                 '125': '1.30',
@@ -2306,7 +2306,7 @@ export const library = [
                 '16k': '0.75'
             },
             {
-                'param': 'EDT (s)',
+                'parameter': 'EDT (s)',
                 '31.5': '1.19',
                 '63': '1.19',
                 '125': '0.94',
@@ -2319,7 +2319,7 @@ export const library = [
                 '16k': '0.55'
             },
             {
-                'param': 'D50',
+                'parameter': 'D50',
                 '31.5': '0.09',
                 '63': '0.28',
                 '125': '0.21',
@@ -2332,7 +2332,7 @@ export const library = [
                 '16k': '0.86'
             },
             {
-                'param': 'C50 (dB)',
+                'parameter': 'C50 (dB)',
                 '31.5': '-10.19',
                 '63': '-4.01',
                 '125': '-5.85',
@@ -2345,7 +2345,7 @@ export const library = [
                 '16k': '7.81'
             },
             {
-                'param': 'C80 (dB)',
+                'parameter': 'C80 (dB)',
                 '31.5': '-3.63',
                 '63': '1.35',
                 '125': '2.57',
@@ -2373,7 +2373,7 @@ export const library = [
         ],
         acousticParams:[
             {
-                'param': 'RT60 (s)',
+                'parameter': 'RT60 (s)',
                 '31.5': '6.51',
                 '63': '6.05',
                 '125': '3.96',
@@ -2386,7 +2386,7 @@ export const library = [
                 '16k': '1.10'
             },
             {
-                'param': 'EDT (s)',
+                'parameter': 'EDT (s)',
                 '31.5': '9.36',
                 '63': '2.06',
                 '125': '2.06',
@@ -2399,7 +2399,7 @@ export const library = [
                 '16k': '0.14'
             },
             {
-                'param': 'D50',
+                'parameter': 'D50',
                 '31.5': '0.14',
                 '63': '0.27',
                 '125': '0.27',
@@ -2412,7 +2412,7 @@ export const library = [
                 '16k': '0.98'
             },
             {
-                'param': 'C50 (dB)',
+                'parameter': 'C50 (dB)',
                 '31.5': '-7.98',
                 '63': '-4.38',
                 '125': '-4.22',
@@ -2425,7 +2425,7 @@ export const library = [
                 '16k': '16.25'
             },
             {
-                'param': 'C80 (dB)',
+                'parameter': 'C80 (dB)',
                 '31.5': '-4.99',
                 '63': '-1.69',
                 '125': '-1.70',
@@ -2458,7 +2458,7 @@ export const library = [
         ],
         acousticParams:[
             {
-                'param': 'RT60 (s)',
+                'parameter': 'RT60 (s)',
                 '31.5': '21.00',
                 '63': '2.69',
                 '125': '1.82',
@@ -2471,7 +2471,7 @@ export const library = [
                 '16k': '0.52'
             },
             {
-                'param': 'EDT (s)',
+                'parameter': 'EDT (s)',
                 '31.5': '2.39',
                 '63': '2.13',
                 '125': '1.63',
@@ -2484,7 +2484,7 @@ export const library = [
                 '16k': '0.47'
             },
             {
-                'param': 'D50',
+                'parameter': 'D50',
                 '31.5': '0.06',
                 '63': '0.22',
                 '125': '0.41',
@@ -2497,7 +2497,7 @@ export const library = [
                 '16k': '0.85'
             },
             {
-                'param': 'C50 (dB)',
+                'parameter': 'C50 (dB)',
                 '31.5': '-12.22',
                 '63': '-5.48',
                 '125': '-1.58',
@@ -2510,7 +2510,7 @@ export const library = [
                 '16k': '7.44'
             },
             {
-                'param': 'C80 (dB)',
+                'parameter': 'C80 (dB)',
                 '31.5': '-3.16',
                 '63': '-3.53',
                 '125': '-0.03',
@@ -2542,7 +2542,7 @@ export const library = [
         ],
         acousticParams:[
             {
-                'param': 'RT60 (s)',
+                'parameter': 'RT60 (s)',
                 '31.5': '16.75',
                 '63': '16.38',
                 '125': '16.13',
@@ -2555,7 +2555,7 @@ export const library = [
                 '16k': '5.51'
             },
             {
-                'param': 'EDT (s)',
+                'parameter': 'EDT (s)',
                 '31.5': '21.30',
                 '63': '20.66',
                 '125': '18.49',
@@ -2568,7 +2568,7 @@ export const library = [
                 '16k': '1.46'
             },
             {
-                'param': 'D50',
+                'parameter': 'D50',
                 '31.5': '0.00',
                 '63': '0.00',
                 '125': '0.00',
@@ -2581,7 +2581,7 @@ export const library = [
                 '16k': '0.55'
             },
             {
-                'param': 'C50 (dB)',
+                'parameter': 'C50 (dB)',
                 '31.5': '-25.44',
                 '63': '-25.40',
                 '125': '-25.77',
@@ -2594,7 +2594,7 @@ export const library = [
                 '16k': '0.79'
             },
             {
-                'param': 'C80 (dB)',
+                'parameter': 'C80 (dB)',
                 '31.5': '-23.51',
                 '63': '-22.95',
                 '125': '-20.96',
@@ -2632,7 +2632,7 @@ export const library = [
         ],
         acousticParams:[
             {
-                'param': 'RT60 (s)',
+                'parameter': 'RT60 (s)',
                 '31.5': '4.94',
                 '63': '1.92',
                 '125': '1.61',
@@ -2645,7 +2645,7 @@ export const library = [
                 '16k': '0.74'
             },
             {
-                'param': 'EDT (s)',
+                'parameter': 'EDT (s)',
                 '31.5': '2.25',
                 '63': '1.74',
                 '125': '1.49',
@@ -2658,7 +2658,7 @@ export const library = [
                 '16k': '0.33'
             },
             {
-                'param': 'D50',
+                'parameter': 'D50',
                 '31.5': '0.17',
                 '63': '0.35',
                 '125': '0.43',
@@ -2671,7 +2671,7 @@ export const library = [
                 '16k': '0.92'
             },
             {
-                'param': 'C50 (dB)',
+                'parameter': 'C50 (dB)',
                 '31.5': '-7.01',
                 '63': '-2.67',
                 '125': '-1.29',
@@ -2684,7 +2684,7 @@ export const library = [
                 '16k': '10.33'
             },
             {
-                'param': 'C80 (dB)',
+                'parameter': 'C80 (dB)',
                 '31.5': '-0.74',
                 '63': '-0.09',
                 '125': '1.18',
@@ -2714,7 +2714,7 @@ export const library = [
         ],
         acousticParams:[
             {
-                'param': 'RT60 (s)',
+                'parameter': 'RT60 (s)',
                 '31.5': '1.81',
                 '63': '1.80',
                 '125': '1.78',
@@ -2727,7 +2727,7 @@ export const library = [
                 '16k': '0.70'
             },
             {
-                'param': 'EDT (s)',
+                'parameter': 'EDT (s)',
                 '31.5': '2.08',
                 '63': '1.95',
                 '125': '2.08',
@@ -2740,7 +2740,7 @@ export const library = [
                 '16k': '0.67'
             },
             {
-                'param': 'D50',
+                'parameter': 'D50',
                 '31.5': '0.17',
                 '63': '0.32',
                 '125': '0.29',
@@ -2753,7 +2753,7 @@ export const library = [
                 '16k': '0.79'
             },
             {
-                'param': 'C50 (dB)',
+                'parameter': 'C50 (dB)',
                 '31.5': '-6.95',
                 '63': '-3.28',
                 '125': '-3.85',
@@ -2766,7 +2766,7 @@ export const library = [
                 '16k': '5.64'
             },
             {
-                'param': 'C80 (dB)',
+                'parameter': 'C80 (dB)',
                 '31.5': '-1.24',
                 '63': '-0.94',
                 '125': '-1.54',
@@ -2793,7 +2793,7 @@ export const library = [
         ],
         acousticParams:[
             {
-                'param': 'RT60 (s)',
+                'parameter': 'RT60 (s)',
                 '31.5': '1.04',
                 '63': '1.67',
                 '125': '1.08',
@@ -2806,7 +2806,7 @@ export const library = [
                 '16k': '0.52'
             },
             {
-                'param': 'EDT (s)',
+                'parameter': 'EDT (s)',
                 '31.5': '0.73',
                 '63': '0.73',
                 '125': '0.47',
@@ -2819,7 +2819,7 @@ export const library = [
                 '16k': '0.35'
             },
             {
-                'param': 'D50',
+                'parameter': 'D50',
                 '31.5': '0.25',
                 '63': '0.80',
                 '125': '0.77',
@@ -2832,7 +2832,7 @@ export const library = [
                 '16k': '0.91'
             },
             {
-                'param': 'C50 (dB)',
+                'parameter': 'C50 (dB)',
                 '31.5': '-4.80',
                 '63': '5.94',
                 '125': '5.31.5',
@@ -2845,7 +2845,7 @@ export const library = [
                 '16k': '10.16'
             },
             {
-                'param': 'C80 (dB)',
+                'parameter': 'C80 (dB)',
                 '31.5': '1.29',
                 '63': '7.06',
                 '125': '11.61',
@@ -2872,7 +2872,7 @@ export const library = [
         ],
         acousticParams:[
             {
-                'param': 'RT60 (s)',
+                'parameter': 'RT60 (s)',
                 '31.5': '88.64',
                 '63': '69.60',
                 '125': '66.81',
@@ -2885,7 +2885,7 @@ export const library = [
                 '16k': '9.74'
             },
             {
-                'param': 'EDT (s)',
+                'parameter': 'EDT (s)',
                 '31.5': '4.16',
                 '63': '4.67',
                 '125': '3.77',
@@ -2898,7 +2898,7 @@ export const library = [
                 '16k': '0.57'
             },
             {
-                'param': 'D50',
+                'parameter': 'D50',
                 '31.5': '0.05',
                 '63': '0.13',
                 '125': '0.12',
@@ -2911,7 +2911,7 @@ export const library = [
                 '16k': '0.85'
             },
             {
-                'param': 'C50 (dB)',
+                'parameter': 'C50 (dB)',
                 '31.5': '-12.50',
                 '63': '-8.33',
                 '125': '-8.84',
@@ -2924,7 +2924,7 @@ export const library = [
                 '16k': '7.55'
             },
             {
-                'param': 'C80 (dB)',
+                'parameter': 'C80 (dB)',
                 '31.5': '-4.84',
                 '63': '-3.65',
                 '125': '-6.20',
@@ -2954,7 +2954,7 @@ export const library = [
         ],
         acousticParams:[
             {
-                'param': 'RT60 (s)',
+                'parameter': 'RT60 (s)',
                 '31.5': '1.93',
                 '63': '1.60',
                 '125': '1.63',
@@ -2967,7 +2967,7 @@ export const library = [
                 '16k': '0.57'
             },
             {
-                'param': 'EDT (s)',
+                'parameter': 'EDT (s)',
                 '31.5': '1.40',
                 '63': '1.01',
                 '125': '0.88',
@@ -2980,7 +2980,7 @@ export const library = [
                 '16k': '0.24'
             },
             {
-                'param': 'D50',
+                'parameter': 'D50',
                 '31.5': '0.09',
                 '63': '0.43',
                 '125': '0.51',
@@ -2993,7 +2993,7 @@ export const library = [
                 '16k': '0.92'
             },
             {
-                'param': 'C50 (dB)',
+                'parameter': 'C50 (dB)',
                 '31.5': '-10.05',
                 '63': '-1.19',
                 '125': '0.13',
@@ -3006,7 +3006,7 @@ export const library = [
                 '16k': '10.82'
             },
             {
-                'param': 'C80 (dB)',
+                'parameter': 'C80 (dB)',
                 '31.5': '-1.74',
                 '63': '3.14',
                 '125': '3.23',
@@ -3037,7 +3037,7 @@ export const library = [
         ],
         acousticParams:[
             {
-                'param': 'RT60 (s)',
+                'parameter': 'RT60 (s)',
                 '31.5': '1.76',
                 '63': '1.55',
                 '125': '1.16',
@@ -3050,7 +3050,7 @@ export const library = [
                 '16k': '0.41'
             },
             {
-                'param': 'EDT (s)',
+                'parameter': 'EDT (s)',
                 '31.5': '2.46',
                 '63': '1.70',
                 '125': '0.93',
@@ -3063,7 +3063,7 @@ export const library = [
                 '16k': '0.42'
             },
             {
-                'param': 'D50',
+                'parameter': 'D50',
                 '31.5': '0.12',
                 '63': '0.33',
                 '125': '0.44',
@@ -3076,7 +3076,7 @@ export const library = [
                 '16k': '0.87'
             },
             {
-                'param': 'C50 (dB)',
+                'parameter': 'C50 (dB)',
                 '31.5': '-8.69',
                 '63': '-3.00',
                 '125': '-1.00',
@@ -3089,7 +3089,7 @@ export const library = [
                 '16k': '8.24'
             },
             {
-                'param': 'C80 (dB)',
+                'parameter': 'C80 (dB)',
                 '31.5': '-7.53',
                 '63': '-0.30',
                 '125': '2.54',
@@ -3121,7 +3121,7 @@ export const library = [
         ],
         acousticParams:[
             {
-                'param': 'RT60 (s)',
+                'parameter': 'RT60 (s)',
                 '31.5': '43.05',
                 '63': '30.04',
                 '125': '18.76',
@@ -3134,7 +3134,7 @@ export const library = [
                 '16k': '0.81'
             },
             {
-                'param': 'EDT (s)',
+                'parameter': 'EDT (s)',
                 '31.5': '1.72',
                 '63': '1.47',
                 '125': '1.85',
@@ -3147,7 +3147,7 @@ export const library = [
                 '16k': '0.57'
             },
             {
-                'param': 'D50',
+                'parameter': 'D50',
                 '31.5': '0.02',
                 '63': '0.20',
                 '125': '0.16',
@@ -3160,7 +3160,7 @@ export const library = [
                 '16k': '0.76'
             },
             {
-                'param': 'C50 (dB)',
+                'parameter': 'C50 (dB)',
                 '31.5': '-17.72',
                 '63': '-5.90',
                 '125': '-7.36',
@@ -3173,7 +3173,7 @@ export const library = [
                 '16k': '5.05'
             },
             {
-                'param': 'C80 (dB)',
+                'parameter': 'C80 (dB)',
                 '31.5': '-6.54',
                 '63': '-4.46',
                 '125': '-2.69',
@@ -3208,7 +3208,7 @@ export const library = [
         ],
         acousticParams:[
             {
-                'param': 'RT60 (s)',
+                'parameter': 'RT60 (s)',
                 '31.5': '0.66',
                 '63': '0.68',
                 '125': '0.58',
@@ -3221,7 +3221,7 @@ export const library = [
                 '16k': '0.27'
             },
             {
-                'param': 'EDT (s)',
+                'parameter': 'EDT (s)',
                 '31.5': '0.64',
                 '63': '0.51',
                 '125': '0.51',
@@ -3234,7 +3234,7 @@ export const library = [
                 '16k': '0.12'
             },
             {
-                'param': 'D50',
+                'parameter': 'D50',
                 '31.5': '0.53',
                 '63': '0.72',
                 '125': '0.79',
@@ -3247,7 +3247,7 @@ export const library = [
                 '16k': '0.98'
             },
             {
-                'param': 'C50 (dB)',
+                'parameter': 'C50 (dB)',
                 '31.5': '0.59',
                 '63': '0.72',
                 '125': '0.79',
@@ -3260,7 +3260,7 @@ export const library = [
                 '16k': '0.98'
             },
             {
-                'param': 'C80 (dB)',
+                'parameter': 'C80 (dB)',
                 '31.5': '7.33',
                 '63': '9.38',
                 '125': '11.73',
@@ -3293,7 +3293,7 @@ export const library = [
         ],
         acousticParams:[
             {
-                'param': 'RT60 (s)',
+                'parameter': 'RT60 (s)',
                 '31.5': '2.17',
                 '63': '2.14',
                 '125': '2.14',
@@ -3306,7 +3306,7 @@ export const library = [
                 '16k': '0.72'
             },
             {
-                'param': 'EDT (s)',
+                'parameter': 'EDT (s)',
                 '31.5': '2.49',
                 '63': '2.49',
                 '125': '2.75',
@@ -3319,7 +3319,7 @@ export const library = [
                 '16k': '0.95'
             },
             {
-                'param': 'D50',
+                'parameter': 'D50',
                 '31.5': '0.04',
                 '63': '0.10',
                 '125': '0.15',
@@ -3332,7 +3332,7 @@ export const library = [
                 '16k': '0.50'
             },
             {
-                'param': 'C50 (dB)',
+                'parameter': 'C50 (dB)',
                 '31.5': '-14.33',
                 '63': '-9.50',
                 '125': '-7.51',
@@ -3345,7 +3345,7 @@ export const library = [
                 '16k': '-0.07'
             },
             {
-                'param': 'C80 (dB)',
+                'parameter': 'C80 (dB)',
                 '31.5': '-7.46',
                 '63': '-5.08',
                 '125': '-6.63',
@@ -3374,7 +3374,7 @@ export const library = [
         ],
         acousticParams:[
             {
-                'param': 'RT60 (s)',
+                'parameter': 'RT60 (s)',
                 '31.5': '12.85',
                 '63': '13.00',
                 '125': '3.61',
@@ -3387,7 +3387,7 @@ export const library = [
                 '16k': '0.25'
             },
             {
-                'param': 'EDT (s)',
+                'parameter': 'EDT (s)',
                 '31.5': '2.41',
                 '63': '2.92',
                 '125': '1.77',
@@ -3400,7 +3400,7 @@ export const library = [
                 '16k': '0.11'
             },
             {
-                'param': 'D50',
+                'parameter': 'D50',
                 '31.5': '0.14',
                 '63': '0.37',
                 '125': '0.53',
@@ -3413,7 +3413,7 @@ export const library = [
                 '16k': '1.00'
             },
             {
-                'param': 'C50 (dB)',
+                'parameter': 'C50 (dB)',
                 '31.5': '-7.98',
                 '63': '-2.38',
                 '125': '0.48',
@@ -3426,7 +3426,7 @@ export const library = [
                 '16k': '24.32'
             },
             {
-                'param': 'C80 (dB)',
+                'parameter': 'C80 (dB)',
                 '31.5': '-1.20',
                 '63': '0.04',
                 '125': '1.43',
@@ -3443,7 +3443,7 @@ export const library = [
     {
         name:"Usina del Arte Symphony Hall",
         abbr:'UsinaDelArte',
-        description: 'All the equipment and the procedure of the measurement was carried out according to ISO 3382. The instruments used included: 2 Svantek 959 sound level meters, 4 Earthworks M50 omnidirectional microphones, an Outline dodecahedron omnidirectional source, a Kemar dummy head with pinnae simulator, a Soundfield SPS200 microphone, a Focusrite Scarlett 8i6 external sound card and a Macbook with Aurora module running within Audacity. All microphones were located at all receiver positions. All instruments were previously calibrated with a 94 dB 1 kHz tone generated by a Svantek SV31.5 acoustic calibrator. The measurements took place on June 2nd 2014 between 9:00 and 18:00 h. Background noise was measured with the sound level meter at the early beginning of the experiment in 10 physical points inside the room in Slow mode with 30 seconds integration interval. In order to obtain the impulse responses of the hall, a 50 second logarithmic sine sweep (LSS) from 40 Hz to 16 kHz at 16 bits 48 kHz sample rate and its inverse filter were generated for reproducing, recording and later de-convolution and post processing. It was assured a minimum signal to noise ratio of 30 dB for all frequency bands. A combination of 2 sound source positions in the stage and 5 receiver positions in the audience area were used. The impulse responses obtained by the dummy head were used to calculate the IACC full while the ones obtained with the omnidirectional microphones were used for the acoustical parameters including the sound field diffusion coefficient (SFDC) estimator calculation over third octave bands from 250 Hz to 8 kHz. Results are in Gaussian white noise units (GWNu). All SFDC values used Ct-r as tsplit for separating the physical early from the late sound field. Also, the relative crossover times, Ct-r, were calculated for all 5 receiver positions. With the responses obtained by the Soundfield microphone, the 3D impulse response could be post processed. The analysis of impulse responses in three dimensions represents a novel and useful tool for the study of concert halls. For this reason, analysis of impulse responses in 3D was performed using the technique of interpretation developed by Cacavelos et al. For analysis settings 1 ms time windows were used in order to achieve greater accuracy, thus avoiding overlapping reflections in a single window. A low-pass filter at 5 kHz was applied to the signal in order to avoid phase distortion. The choice of the filter cutoff frequency is given by the distance between the tetrahedral microphone capsules used in the measurement. The number of vectors shown was rigged to 256 in order to achieve clarity in the resulting graphs. The displayed acoustical parameters are EDT, RT30, C80, D50, IACC Full, STI, RaSTI, AlCons%, SFDC (Early, Late and Total) and Ct-r. The numerical method for calculating the first eight parameters was examined and explained in detail by Leo Beranek. All the results were averaged among all the obtained samples and the standard deviation of the mean was calculated and displayed. Given the magnitude of the obtained results, the computational error of the calculation was not taken into account.',
+        description: 'All the equipment and the procedure of the measurement was carried out according to ISO 3382. The instruments used included: 2 Svantek 959 sound level meters, 4 Earthworks M50 omnidirectional microphones, an Outline dodecahedron omnidirectional source, a Kemar dummy head with pinnae simulator, a Soundfield SPS200 microphone, a Focusrite Scarlett 8i6 external sound card and a Macbook with Aurora module running within Audacity. All microphones were located at all receiver positions. All instruments were previously calibrated with a 94 dB 1 kHz tone generated by a Svantek SV31.5 acoustic calibrator. The measurements took place on June 2nd 2014 between 9:00 and 18:00 h. Background noise was measured with the sound level meter at the early beginning of the experiment in 10 physical points inside the room in Slow mode with 30 seconds integration interval. In order to obtain the impulse responses of the hall, a 50 second logarithmic sine sweep (LSS) from 40 Hz to 16 kHz at 16 bits 48 kHz sample rate and its inverse filter were generated for reproducing, recording and later de-convolution and post processing. It was assured a minimum signal to noise ratio of 30 dB for all frequency bands. A combination of 2 sound source positions in the stage and 5 receiver positions in the audience area were used. The impulse responses obtained by the dummy head were used to calculate the IACC full while the ones obtained with the omnidirectional microphones were used for the acoustical parametereters including the sound field diffusion coefficient (SFDC) estimator calculation over third octave bands from 250 Hz to 8 kHz. Results are in Gaussian white noise units (GWNu). All SFDC values used Ct-r as tsplit for separating the physical early from the late sound field. Also, the relative crossover times, Ct-r, were calculated for all 5 receiver positions. With the responses obtained by the Soundfield microphone, the 3D impulse response could be post processed. The analysis of impulse responses in three dimensions represents a novel and useful tool for the study of concert halls. For this reason, analysis of impulse responses in 3D was performed using the technique of interpretation developed by Cacavelos et al. For analysis settings 1 ms time windows were used in order to achieve greater accuracy, thus avoiding overlapping reflections in a single window. A low-pass filter at 5 kHz was applied to the signal in order to avoid phase distortion. The choice of the filter cutoff frequency is given by the distance between the tetrahedral microphone capsules used in the measurement. The number of vectors shown was rigged to 256 in order to achieve clarity in the resulting graphs. The displayed acoustical parametereters are EDT, RT30, C80, D50, IACC Full, STI, RaSTI, AlCons%, SFDC (Early, Late and Total) and Ct-r. The numerical method for calculating the first eight parametereters was examined and explained in detail by Leo Beranek. All the results were averaged among all the obtained samples and the standard deviation of the mean was calculated and displayed. Given the magnitude of the obtained results, the computational error of the calculation was not taken into account.',
         images:[
             require('@/assets/img/UsinaDelArte/1_UsinaDelArte.jpg'),
             require('@/assets/img/UsinaDelArte/2_facede.png'),
@@ -3457,7 +3457,7 @@ export const library = [
         ],
         acousticParams:[
             {
-                'param': 'RT60 (s)',
+                'parameter': 'RT60 (s)',
                 '31.5': '2.15',
                 '63': '1.48',
                 '125': '1.63',
@@ -3470,7 +3470,7 @@ export const library = [
                 '16k': '1.11'
             },
             {
-                'param': 'EDT (s)',
+                'parameter': 'EDT (s)',
                 '31.5': '1.83',
                 '63': '1.45',
                 '125': '1.45',
@@ -3483,7 +3483,7 @@ export const library = [
                 '16k': '1.19'
             },
             {
-                'param': 'D50',
+                'parameter': 'D50',
                 '31.5': '0.08',
                 '63': '0.20',
                 '125': '0.40',
@@ -3496,7 +3496,7 @@ export const library = [
                 '16k': '0.44'
             },
             {
-                'param': 'C50 (dB)',
+                'parameter': 'C50 (dB)',
                 '31.5': '-10.33',
                 '63': '-6.01',
                 '125': '-1.69',
@@ -3509,7 +3509,7 @@ export const library = [
                 '16k': '-1.00'
             },
             {
-                'param': 'C80 (dB)',
+                'parameter': 'C80 (dB)',
                 '31.5': '-2.99',
                 '63': '-3.18',
                 '125': '-0.69',
@@ -3543,7 +3543,7 @@ export const library = [
         ],
         acousticParams:[
             {
-                'param': 'RT60 (s)',
+                'parameter': 'RT60 (s)',
                 '31.5': '3.63',
                 '63': '2.25',
                 '125': '0.73',
@@ -3556,7 +3556,7 @@ export const library = [
                 '16k': '0.46'
             },
             {
-                'param': 'EDT (s)',
+                'parameter': 'EDT (s)',
                 '31.5': '1.39',
                 '63': '1.27',
                 '125': '0.88',
@@ -3569,7 +3569,7 @@ export const library = [
                 '16k': '0.50'
             },
             {
-                'param': 'D50',
+                'parameter': 'D50',
                 '31.5': '0.02',
                 '63': '0.29',
                 '125': '0.63',
@@ -3582,7 +3582,7 @@ export const library = [
                 '16k': '0.80'
             },
             {
-                'param': 'C50 (dB)',
+                'parameter': 'C50 (dB)',
                 '31.5': '-16.68',
                 '63': '-3.81',
                 '125': '2.13',
@@ -3595,7 +3595,7 @@ export const library = [
                 '16k': '5.93'
             },
             {
-                'param': 'C80 (dB)',
+                'parameter': 'C80 (dB)',
                 '31.5': '-6.85',
                 '63': '-1.72',
                 '125': '6.92',
@@ -3625,7 +3625,7 @@ export const library = [
         ],
         acousticParams:[
             {
-                'param': 'RT60 (s)',
+                'parameter': 'RT60 (s)',
                 '31.5': '7.54',
                 '63': '8.14',
                 '125': '7.85',
@@ -3638,7 +3638,7 @@ export const library = [
                 '16k': '18.86'
             },
             {
-                'param': 'EDT (s)',
+                'parameter': 'EDT (s)',
                 '31.5': '4.56',
                 '63': '5.46',
                 '125': '6.86',
@@ -3651,7 +3651,7 @@ export const library = [
                 '16k': '0.98'
             },
             {
-                'param': 'D50',
+                'parameter': 'D50',
                 '31.5': '0.05',
                 '63': '0.28',
                 '125': '0.29',
@@ -3664,7 +3664,7 @@ export const library = [
                 '16k': '0.64'
             },
             {
-                'param': 'C50 (dB)',
+                'parameter': 'C50 (dB)',
                 '31.5': '-12.97',
                 '63': '-4.12',
                 '125': '-3.81',
@@ -3677,7 +3677,7 @@ export const library = [
                 '16k': '2.42'
             },
             {
-                'param': 'C80 (dB)',
+                'parameter': 'C80 (dB)',
                 '31.5': '-10.58',
                 '63': '-1.77',
                 '125': '-1.76',

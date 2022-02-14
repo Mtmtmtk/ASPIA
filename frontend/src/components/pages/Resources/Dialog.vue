@@ -48,7 +48,7 @@
             </v-row>
             <v-row>
                 <v-col>
-                    <parameter-table :table-items="tableItems"/>
+                    <acoustic-parameter-table colorClass="grey darken-3" :items="tableItems"/>
                 </v-col>
             </v-row>
             <v-row>
@@ -70,11 +70,11 @@
     </v-card>
 </template>
 <script>
-import ParameterTable from './ParameterTable.vue'
+import AcousticParameterTable from '../../ui/AcousticParameterTable'
 import AudioPlayer from '../../ui/AudioPlayer.vue'
 export default{
     components:{
-        ParameterTable,
+        AcousticParameterTable,
         AudioPlayer,
     },
     props: ['name','description','images','tableItems','ir'],
