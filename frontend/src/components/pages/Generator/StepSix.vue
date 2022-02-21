@@ -31,8 +31,18 @@ export default{
     props:['spaceName','progress'],
     watch:{
         progress(){
-            if(this.progress == 100)this.continueStep();
+            if(this.progress == 100)this.changeStep();
         },
+    },
+    methods:{
+        changeStep(){
+            console.log('fuga');
+            this.$emit('change-step',1);
+        }
+    },
+    mounted(){
+        console.log('hoge')
+        console.log('hoge')
     }
 }
 </script>

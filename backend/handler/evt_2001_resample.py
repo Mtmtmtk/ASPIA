@@ -33,6 +33,7 @@ class Handler(EventHandler):
 
         output_ir = []
         fft_len = 1
+        ir_len = 0
 
         if output_channels == 'mono':
             ir = []
@@ -52,6 +53,7 @@ class Handler(EventHandler):
             ir_resampled = resampy.resample(ir, ir_sr, anechoic_sr)
 
             output_ir = ir_resampled / np.amax(ir_resampled)
+            ir_len = len(output_ir)
         elif output_channels == 'stereo':
             ir_left = []
             ir_right = []
@@ -67,6 +69,7 @@ class Handler(EventHandler):
 
             output_ir = np.array([ir_left_resampled, ir_right_resampled])
             output_ir = output_ir / np.amax(output_ir)
+            ir_len = len(output_ir[0])
         elif output_channels == 'b-format':
             ir_W = ir_data[:,0]
             ir_Y = ir_data[:,1]
@@ -80,11 +83,12 @@ class Handler(EventHandler):
 
             output_ir = np.array([ir_W_resampled, ir_Y_resampled, ir_Z_resampled, ir_X_resampled])
             output_ir = output_ir / np.amax(output_ir)
+            ir_len = len(output_ir[0])
 
-        while 2*fft_len < len(output_ir[0]) + len(anechoic_data) - 1:
+        while 2*fft_len < ir_len + len(anechoic_data) - 1:
             fft_len *= 2
         fft_len *= 2
 
-        return [anechoic_data ,output_ir, fft_len]
+        return [anechoic_data ,output_ir, fft_len,anechoic_sr]
 
 

@@ -85,6 +85,7 @@
             <step-six
                 :space-name="chosenSpace"
                 :progress="progress"
+                @change-step="changeStep"
             />
         </v-stepper-content>
 
@@ -108,6 +109,38 @@ import StepFour  from './StepFour.vue'
 import StepFive  from './StepFive.vue'
 import StepSix   from './StepSix.vue'
 import StepSeven from './StepSeven.vue'
+
+const encodeFunc = function(samples,samplingRate, _channels, _blockSize){
+        const _buffer = new ArrayBuffer(44 + samples.length*2);
+        let _view = new DataView(_buffer);
+        const writeString = function(view, offset, str){
+            for(let i=0; i < str.length; i++) view.setUint8(offset + i, str.charCodeAt(i));
+        }
+        const floatTo16BitPCM = function(output, offset, input){
+            for(let i=0; i < input.length; i++, offset +=2){
+                let s = Math.max(-1, Math.min(1, input[i]));
+                output.setInt16(offset, s<0 ? s*0x8000 : s*0x7FFF, true);
+            }
+        }
+        const _fileSize = 44 + samples.length*2 - 8;
+
+        writeString(_view, 0, 'RIFF');//riff識別
+        _view.setUint32(4, _fileSize, true);//chunk size
+        writeString(_view, 8, 'WAVE')//format
+        writeString(_view,12, 'fmt ');//fmt識別子(最後にスペース開けるのめっちゃ大事)
+        _view.setUint32(16, 16, true);//fmt chunk's byte
+        _view.setUint16(20,  1, true);//sound format: 1 means non-compressed linear PCM format
+        _view.setUint16(22,  _channels, true);//channel(s) one or two
+        _view.setUint32(24, samplingRate  , true);//sampling rate
+        _view.setUint32(28, samplingRate*_blockSize, true);//sampling rate * block size
+        _view.setUint16(32, _blockSize, true);//block size: channel(s) * bit/8
+        _view.setUint16(34, 16, true);//bit per sample
+        writeString(_view, 36, 'data');
+        _view.setUint32(40, samples.length*2, true);
+        floatTo16BitPCM(_view, 44, samples);
+        return _view
+}
+
 export default{
     components:{
         StepOne,
@@ -151,19 +184,42 @@ export default{
     watch:{
         convolutedAudioArr(){
             this.audioURL = this.exportWAV(this.convolutedAudioArr)
-            console.log(this.audioURL)
         },
     }, 
     methods:{
         getAnechoicData(...args){
             this.form[args[1]] = args[0];
             const reader = new FileReader();
-            const that = this
-            reader.onloadend = function(evt) {
-                console.log(evt.target.result)
-                that.recording = Array.from(new Int16Array(evt.target.result));
-                const view = new DataView(evt.target.result)
-                that.recordingSplRate = view.getUint32(24, true)
+            const audioContext = new AudioContext();
+            const vue = this
+            //reader.onloadend = function(evt) {
+            //    console.log(evt.target.result)
+            //    //vue.recording = Array.from(new Int16Array(evt.target.result));
+            //    const view = new DataView(evt.target.result)
+            //    //vue.recordingSplRate = view.getUint32(24, true);
+            //};
+            const decodedDone = function(decoded){
+                const sampleRate = decoded.sampleRate;
+                const channels = decoded.numberOfChannels;
+                const allChannelsArr = [];
+                for(let i = 0; i < channels; i++){
+                    let typedArray = new Float32Array(decoded.length);
+                    typedArray = decoded.getChannelData(i);
+                    let singleArray = [];
+                    singleArray = Array.from(typedArray);
+                    allChannelsArr.push(singleArray);
+                }
+                if(allChannelsArr.length == 1){
+                    vue.recording = allChannelsArr.flat();
+                }else{
+                    vue.recording = allChannelsArr;
+                }
+                vue.recordingSplRate = sampleRate;
+                vue.channels = channels;
+            };
+            reader.onload = function(evt) {
+                const arrayBuffer = evt.target.result;
+                audioContext.decodeAudioData(arrayBuffer, decodedDone)
             };
             reader.readAsArrayBuffer(args[0]);
         },
@@ -174,25 +230,20 @@ export default{
             this.ir = args[2];
             console.log(this.IRAudioType);
         },
-        callDucts(channels){
+        async callDucts(channels){
             this.outputChannels = channels;
-            console.log(this.outputChannels);
+            console.log(this.ir)
             if(this.ir != ''){
-                this.duct.invokeOnOpen(async () => {
-                    try {
-                        const _path = './impulse_response/' + this.abbr + '/' + this.IRAudioType + '/' + this.ir
-                        let ret = await this.duct.call(this.duct.EVENT.EXPORT_CONVOLUTION,{
-                            recording: this.recording, 
-                            sampling_rate: this.recordingSplRate, 
-                            path: _path,
-                            output_channels: this.outputChannels
-                        });
-                        this.convolutedAudioArr = ret;
-                        this.progress = 50;
-                    }catch{
-                        console.error()
-                    }
-                })
+                const _path = './impulse_response/' + this.abbr + '/' + this.IRAudioType + '/' + this.ir
+                console.log(this.recordingSplRate)
+                let ret = await this.duct.call(this.duct.EVENT.EXPORT_CONVOLUTION,{
+                    recording: this.recording, 
+                    sampling_rate: this.recordingSplRate, 
+                    path: _path,
+                    output_channels: this.outputChannels
+                });
+                this.convolutedAudioArr = ret;
+                this.progress = 50;
             }
         },
         exportWAV(audioData){
@@ -220,37 +271,9 @@ export default{
             return _samples 
         },
         encodeWAV(samples, samplingRate){
-            const _buffer = new ArrayBuffer(44 + samples.length*2);
-            let _view = new DataView(_buffer);
-            const writeString = function(view, offset, str){
-                for(let i=0; i < str.length; i++) view.setUint8(offset + i, str.charCodeAt(i));
-            }
-            const floatTo16BitPCM = function(output, offset, input){
-                for(let i=0; i < input.length; i++, offset +=2){
-                    let s = Math.max(-1, Math.min(1, input[i]));
-                    output.setInt16(offset, s<0 ? s*0x8000 : s*0x7FFF, true);
-                }
-            }
-
             const _channels  = this.wavHeaderInfo[this.outputChannels].channels
             const _blockSize = this.wavHeaderInfo[this.outputChannels].blockSize
-            const _fileSize = 44 + samples.length*2 - 8;
-
-            writeString(_view, 0, 'RIFF');//riff識別
-            _view.setUint32(4, _fileSize, true);//chunk size
-            writeString(_view, 8, 'WAVE')//format
-            writeString(_view,12, 'fmt ');//fmt識別子(最後にスペース開けるのめっちゃ大事)
-            _view.setUint32(16, 16, true);//fmt chunk's byte
-            _view.setUint16(20,  1, true);//sound format: 1 means non-compressed linear PCM format
-            _view.setUint16(22,  _channels, true);//channel(s) one or two
-            _view.setUint32(24, samplingRate  , true);//sampling rate
-            _view.setUint32(28, samplingRate*_blockSize, true);//sampling rate * block size
-            _view.setUint16(32, _blockSize, true);//block size: channel(s) * bit/8
-            _view.setUint16(34, 16, true);//bit per sample
-            writeString(_view, 36, 'data');
-            _view.setUint32(40, samples.length*2, true);
-            floatTo16BitPCM(_view, 44, samples);
-            return _view
+            return encodeFunc(samples, samplingRate, _channels, _blockSize)
         },
         changeStep(stepVal){
             this.stepper = this.stepper + stepVal;
