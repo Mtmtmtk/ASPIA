@@ -1,10 +1,6 @@
 <template>
     <div>
-        <v-img
-            :src='require("@/assets/img/openair.png")'
-            contain
-        >
-        </v-img>
+        test
     </div>
 </template>
 <script>
@@ -17,7 +13,13 @@ export default{
     }),
     created(){
         this.duct.open("/ducts/wsd");
-        console.log(this.test);
+        console.log(this.duct)
+        this.duct.invokeOnOpen(async () => {
+            let ret = await this.duct.call(this.duct.EVENT.TEST,{
+                test_running: "test"
+            });
+            console.log(ret);
+        });
     }
 }
 </script>

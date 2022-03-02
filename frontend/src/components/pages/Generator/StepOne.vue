@@ -39,7 +39,7 @@ export default{
         },
         emitRecordingFile(file){
             console.log(file);
-            this.$emit('accept-recording-file', file, 'recording');
+            this.$emit('accept-recording-file', file);
             this.continueDisabled = false;
         }
     },

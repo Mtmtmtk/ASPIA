@@ -8,96 +8,97 @@
             vertical
             v-model="stepper"
         >
-        <v-stepper-step
-            :complete="stepper > 1"
-            step="1"
-            color="#26A69A"
-        >Step1: Your Recording
-        </v-stepper-step>
-        <v-stepper-content step="1">
-            <step-one 
-                @change-step="changeStep"
-                @accept-recording-file="getAnechoicData"
-            />
-        </v-stepper-content>
+            <v-stepper-step
+                :complete="stepper > 1"
+                step="1"
+                color="#26A69A"
+            >Step1: Your Recording
+            </v-stepper-step>
+            <v-stepper-content step="1">
+                <step-one 
+                    @change-step="changeStep"
+                    @accept-recording-file="getReordingData"
+                />
+            </v-stepper-content>
 
-        <v-stepper-step
-            :complete="stepper > 2"
-            step="2"
-            color="#26A69A"
-        >Step2: Swept Sine Wave
-        </v-stepper-step>
-        <v-stepper-content step="2">
-            <step-two 
-                @change-step="changeStep"
-            />
-        </v-stepper-content>
+            <v-stepper-step
+                :complete="stepper > 2"
+                step="2"
+                color="#26A69A"
+            >Step2: Swept Sine Wave
+            </v-stepper-step>
+            <v-stepper-content step="2">
+                <step-two 
+                    @change-step="changeStep"
+                    @accept-recording-file="getSweptSineData"
+                />
+            </v-stepper-content>
 
-        <v-stepper-step
-            :complete="stepper > 3"
-            step="3"
-            color="#26A69A"
-        >Step3: Select Space
-        </v-stepper-step>
-        <v-stepper-content step="3">
-            <step-three 
-                @change-step="changeStep"
-                @send-space-name="determineSpace"
-            />
-        </v-stepper-content>
+            <v-stepper-step
+                :complete="stepper > 3"
+                step="3"
+                color="#26A69A"
+            >Step3: Select Space
+            </v-stepper-step>
+            <v-stepper-content step="3">
+                <step-three 
+                    @change-step="changeStep"
+                    @send-space-name="determineSpace"
+                />
+            </v-stepper-content>
 
-        <v-stepper-step
-            :complete="stepper > 4"
-            step="4"
-            color="#26A69A"
-        >Step4: Select Position
-        </v-stepper-step>
-        <v-stepper-content step="4">
-            <step-four
-                :duct="duct"
-                :space-name="chosenSpace"
-                @change-step="changeStep"
-                @send-abbr-audiotype-and-ir="getImpulseResponseData"
-            />
-        </v-stepper-content>
+            <v-stepper-step
+                :complete="stepper > 4"
+                step="4"
+                color="#26A69A"
+            >Step4: Select Position
+            </v-stepper-step>
+            <v-stepper-content step="4">
+                <step-four
+                    :duct="duct"
+                    :space-name="chosenSpace"
+                    @change-step="changeStep"
+                    @send-abbr-audiotype-and-ir="getImpulseResponseData"
+                />
+            </v-stepper-content>
 
-        <v-stepper-step
-            :complete="stepper > 5"
-            step="5"
-            color="#26A69A"
-        >Step5: Select Output Channel(s)
-        </v-stepper-step>
-        <v-stepper-content step="5">
-            <step-five
-                :ir-audio-type="IRAudioType"
-                @change-step="changeStep"
-                @emit-output-channels="callDucts"
-            />
-        </v-stepper-content>
+            <v-stepper-step
+                :complete="stepper > 5"
+                step="5"
+                color="#26A69A"
+            >Step5: Select Output Channel(s)
+            </v-stepper-step>
+            <v-stepper-content step="5">
+                <step-five
+                    :ir-audio-type="IRAudioType"
+                    @change-step="changeStep"
+                    @emit-output-channels="callDucts"
+                />
+            </v-stepper-content>
 
-        <v-stepper-step
-            :complete="stepper > 6"
-            step="6"
-            color="#26A69A"
-        >Step6: Convolution
-        </v-stepper-step>
-        <v-stepper-content step='6'>
-            <step-six
-                :space-name="chosenSpace"
-                :progress="progress"
-                @change-step="changeStep"
-            />
-        </v-stepper-content>
+            <v-stepper-step
+                :complete="stepper > 6"
+                step="6"
+                color="#26A69A"
+            >Step6: Convolution
+            </v-stepper-step>
+            <v-stepper-content step='6'>
+                <step-six
+                    :space-name="chosenSpace"
+                    :progress="progress"
+                    @change-step="changeStep"
+                />
+            </v-stepper-content>
 
-        <v-stepper-step
-            :complete="stepper > 7"
-            step="7"
-            color="#26A69A"
-        >Step7: Download
-        </v-stepper-step>
-        <v-stepper-content step="7">
-            <step-seven :audio-url="audioURL" />
-        </v-stepper-content>
+            <v-stepper-step
+                :complete="stepper > 7"
+                step="7"
+                color="#26A69A"
+            >Step7: Download
+            </v-stepper-step>
+            <v-stepper-content step="7">
+                <step-seven :audio-url="audioURL" />
+            </v-stepper-content>
         </v-stepper>
     </v-card>
 </template>
@@ -109,6 +110,35 @@ import StepFour  from './StepFour.vue'
 import StepFive  from './StepFive.vue'
 import StepSix   from './StepSix.vue'
 import StepSeven from './StepSeven.vue'
+
+const decodeFunc = function(file,vue,target){
+    const reader = new FileReader();
+    const audioContext = new AudioContext();
+    const postProcessFunc = function(decoded){
+        let allChannelsArr = [];
+        const channels = decoded.numberOfChannels;
+        for(let i = 0; i < channels; i++){
+            let typedArray = new Float32Array(decoded.length);
+            typedArray = decoded.getChannelData(i);
+            const singleArray = Array.from(typedArray);
+            allChannelsArr.push(singleArray);
+        }
+        if(target == 'recording'){
+            vue.ductsInputForm.recordingSplRate = decoded.sampleRate;
+            if(allChannelsArr.length == 1) vue.ductsInputForm.recording = allChannelsArr.flat();
+            else vue.ductsInputForm.recording = allChannelsArr;
+        }else if(target == 'swept_sine'){
+            vue.ductsInputForm.sweptSineSplRate = decoded.sampleRate;
+            if(allChannelsArr.length == 1) vue.ductsInputForm.sweptSine = allChannelsArr.flat();
+            else vue.ductsInputForm.sweptSine = allChannelsArr;
+        }
+    };
+    reader.onload = function(evt) {
+        const arrayBuffer = evt.target.result;
+        audioContext.decodeAudioData(arrayBuffer, postProcessFunc)
+    };
+    reader.readAsArrayBuffer(file);
+}
 
 const encodeFunc = function(samples,samplingRate, _channels, _blockSize){
         const _buffer = new ArrayBuffer(44 + samples.length*2);
@@ -123,7 +153,6 @@ const encodeFunc = function(samples,samplingRate, _channels, _blockSize){
             }
         }
         const _fileSize = 44 + samples.length*2 - 8;
-
         writeString(_view, 0, 'RIFF');//riff識別
         _view.setUint32(4, _fileSize, true);//chunk size
         writeString(_view, 8, 'WAVE')//format
@@ -153,18 +182,19 @@ export default{
     },
     data: () => ({
         stepper:1,
-        form:{},
         chosenSpace:'',
-        recording:[],
-        recordingSplRate: null,
-        abbr:'',
+        ductsInputForm:{
+            recording:[],
+            recordingSplRate:0,
+            sweptSine:[],
+            sweptSineSplRate:0,
+            irPath:'',
+            outputChannels:0
+        },
         IRAudioType:'',
-        ir:'',
-        outputChannels:'',
         convolutedAudioArr:[],
-        audioURL:{},
+        audioURL:'',
         progress:0,
-        channels:0,
         wavHeaderInfo:{
             mono:{
                 channels:1,
@@ -187,68 +217,38 @@ export default{
         },
     }, 
     methods:{
-        getAnechoicData(...args){
-            this.form[args[1]] = args[0];
-            const reader = new FileReader();
-            const audioContext = new AudioContext();
-            const vue = this
-            //reader.onloadend = function(evt) {
-            //    console.log(evt.target.result)
-            //    //vue.recording = Array.from(new Int16Array(evt.target.result));
-            //    const view = new DataView(evt.target.result)
-            //    //vue.recordingSplRate = view.getUint32(24, true);
-            //};
-            const decodedDone = function(decoded){
-                const sampleRate = decoded.sampleRate;
-                const channels = decoded.numberOfChannels;
-                const allChannelsArr = [];
-                for(let i = 0; i < channels; i++){
-                    let typedArray = new Float32Array(decoded.length);
-                    typedArray = decoded.getChannelData(i);
-                    let singleArray = [];
-                    singleArray = Array.from(typedArray);
-                    allChannelsArr.push(singleArray);
-                }
-                if(allChannelsArr.length == 1){
-                    vue.recording = allChannelsArr.flat();
-                }else{
-                    vue.recording = allChannelsArr;
-                }
-                vue.recordingSplRate = sampleRate;
-                vue.channels = channels;
-            };
-            reader.onload = function(evt) {
-                const arrayBuffer = evt.target.result;
-                audioContext.decodeAudioData(arrayBuffer, decodedDone)
-            };
-            reader.readAsArrayBuffer(args[0]);
+        getReordingData(file){
+            decodeFunc(file,this,'recording');
+        },
+        getSweptSineData(file){
+            decodeFunc(file,this,'swept_sine');
+            console.log(this.ductsInputForm);
         },
         getImpulseResponseData(...args){
             args = args.flat();
-            this.abbr = args[0]; 
             this.IRAudioType = args[1];
-            this.ir = args[2];
-            console.log(this.IRAudioType);
+            this.ductsInputForm.irPath = './impulse_response/' + args[0] + '/' + args[1] + '/' + args[2]
         },
         async callDucts(channels){
-            this.outputChannels = channels;
-            console.log(this.ir)
-            if(this.ir != ''){
-                const _path = './impulse_response/' + this.abbr + '/' + this.IRAudioType + '/' + this.ir
-                console.log(this.recordingSplRate)
-                let ret = await this.duct.call(this.duct.EVENT.EXPORT_CONVOLUTION,{
-                    recording: this.recording, 
-                    sampling_rate: this.recordingSplRate, 
-                    path: _path,
-                    output_channels: this.outputChannels
-                });
-                this.convolutedAudioArr = ret;
-                this.progress = 50;
-            }
+            this.ductsInputForm.outputChannels = channels;
+            console.log(this.ductsInputForm.irPath)
+            console.log(channels)
+            console.log(this.ductsInputForm.outputChannels)
+            let ret = await this.duct.call(this.duct.EVENT.EXPORT_CONVOLUTION,{
+                recording: this.ductsInputForm.recording, 
+                recording_spl_rate: this.ductsInputForm.recordingSplRate, 
+                //swept_sine: this.ductsInputForm.sweptSine,
+                //swept_sine_spl_rate: this.ductsInputForm.sweptSineSplRate,
+                ir_path: this.ductsInputForm.irPath,
+                output_channels: this.ductsInputForm.outputChannels,
+                swept_sine: this.ductsInputForm.sweptSine,
+                swept_sine_spl_rate: this.ductsInputForm.sweptSineSplRate,
+            });
+            this.convolutedAudioArr = ret;
+            this.progress = 50;
         },
         exportWAV(audioData){
             const _dataview  = this.encodeWAV(this.mergeBuffers(audioData), this.recordingSplRate)
-            this.progress=70;
             const _audioBlob = new Blob([_dataview], { type: 'audio/wav' });
             let _myURL = window.URL || window.webkitURL;
             const url = _myURL.createObjectURL(_audioBlob);
@@ -257,12 +257,13 @@ export default{
         },
         mergeBuffers(audioData){
             let _splLength = 0;
-            for(let _ind = 0; _ind < audioData.length; _ind++) _splLength += audioData[_ind].length;
+            for(let _idx = 0; _idx < audioData.length; _idx++) _splLength += audioData[_idx].length;
             let _samples = new Float32Array(_splLength);
             _samples = audioData.flat();
             let _splInd = 0;
+            const channels = audioData.length;
             for(let j=0; j < audioData[0].length; j++){
-                for(let i=0; i < audioData.length; i++){
+                for(let i=0; i < channels; i++){
                     _samples[_splInd] = audioData[i][j];
                     _splInd++;
                 }
@@ -271,8 +272,8 @@ export default{
             return _samples 
         },
         encodeWAV(samples, samplingRate){
-            const _channels  = this.wavHeaderInfo[this.outputChannels].channels
-            const _blockSize = this.wavHeaderInfo[this.outputChannels].blockSize
+            const _channels  = this.wavHeaderInfo[this.ductsInputForm.outputChannels].channels
+            const _blockSize = this.wavHeaderInfo[this.ductsInputForm.outputChannels].blockSize
             return encodeFunc(samples, samplingRate, _channels, _blockSize)
         },
         changeStep(stepVal){
