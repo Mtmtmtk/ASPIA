@@ -14,7 +14,7 @@
                             :key="`image_no_${i}`"
                         >
                             <v-card>    
-                                <v-img contain :src="image"/>
+                                <v-img contain height="500" :src="image"/>
                             </v-card>
                         </v-carousel-item>
                     </v-carousel>
