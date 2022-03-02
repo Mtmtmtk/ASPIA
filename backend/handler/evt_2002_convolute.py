@@ -25,13 +25,12 @@ class Handler(EventHandler):
     async def handle(self, event):     
         return {}
 
-    async def call(self, recording, sampling_rate: int, path:str, output_channels: str):
-        [anechoic_data, ir_resampled, fft_len] = await self.evt_resample.call(recording,sampling_rate, path, output_channels)
+    async def call(self, recording, recording_spl_rate: int, swept_sine, swept_sine_spl_rate:int, ir_path:str, output_channels: str):
+        [anechoic_data, ir_resampled, fft_len] = await self.evt_resample.call(recording,recording_spl_rate, swept_sine, swept_sine_spl_rate, ir_path, output_channels)
 
         ir_resampled_fft = np.fft.fft(ir_resampled, n=fft_len)
         anechoic_fft = np.fft.fft(anechoic_data, n=fft_len)
         cv_sound_fft = ir_resampled_fft * anechoic_fft
-
 
         cv_sound = np.fft.ifft(cv_sound_fft)
         cv_sound = cv_sound.real

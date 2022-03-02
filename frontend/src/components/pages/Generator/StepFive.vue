@@ -33,8 +33,8 @@ export default{
     props:['IrAudioType'],
     methods:{
         changeStep(val){
-            this.$emit('change-step',val);
             if(val == 1) this.$emit('emit-output-channels', this.selectedChannels);
+            this.$emit('change-step',val);
         }
     },
     watch:{

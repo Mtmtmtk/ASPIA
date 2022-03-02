@@ -38,7 +38,8 @@ export default{
             this.$emit('change-step', val);
         },
         emitRecordingFile(file){
-            this.$emit('accept-recording-file', file, 'recording');
+            console.log(file);
+            this.$emit('accept-recording-file', file);
             this.continueDisabled = false;
         }
     },

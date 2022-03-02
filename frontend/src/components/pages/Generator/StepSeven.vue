@@ -8,7 +8,6 @@
         <v-row>
             <v-col>
                 <v-btn
-                    id="downloadButton"
                     color="#AFB42B"
                     :href="audioUrl"
                     download
@@ -26,9 +25,9 @@ export default{
         library,
     }),
     props:['spaceName','audioUrl'],
-    mounted(){
-        const downloadButton = document.getElementById('downloadButton');
-        downloadButton.setAttribute('download', 'convoluted.wav');
-    }
+    //mounted(){
+    //    const downloadButton = document.getElementById('downloadButton');
+    //    downloadButton.setAttribute('download', 'convoluted.wav');
+    //}
 }
 </script>
