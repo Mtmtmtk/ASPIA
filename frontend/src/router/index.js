@@ -22,6 +22,10 @@ const routes = [
                 component: () => import("../components/pages/IrAnalysis")
             },
             {
+                path: 'spectrogram',
+                component: () => import("../components/pages/Spectrogram")
+            },
+            {
                 path: 'resources',
                 component: () => import("../components/pages/Resources")
             },
