@@ -3,12 +3,6 @@
         <v-card-title>{{ name }}</v-card-title>
         <v-card-text>
             <v-row justify="center" class="pb-0">
-                <!--<v-col cols="6">
-                    <v-img
-                        contain
-                        :src="images"
-                    />
-                </v-col>-->
                 <v-col>
                     <v-carousel
                         hide-delimiter-background
@@ -39,10 +33,14 @@
                     <strong>IR Example</strong>
                 </v-col>
             </v-row>
-            <v-row>
+            <v-row class="pb-2">
                 <v-col>
-                    <audio-player 
-                        :audio-src="audioSrc"
+                    <iflb-audio-player
+                        :src="audioSrc"
+                        :is-required="{
+                            skipBackward:false,
+                            skipForward:false,
+                        }"
                     />
                 </v-col>
             </v-row>
@@ -71,15 +69,16 @@
 </template>
 <script>
 import AcousticParameterTable from '../../ui/AcousticParameterTable'
-import AudioPlayer from '../../ui/AudioPlayer.vue'
+import IflbAudioPlayer from '../../ui/IflbAudioPlayer'
 export default{
     components:{
         AcousticParameterTable,
-        AudioPlayer,
+        IflbAudioPlayer
     },
     props: ['name','description','images','tableItems','ir'],
     computed:{
         audioSrc(){
+            console.log(this.ir[0])
             if(this.ir != undefined) return this.ir[0]
             else return 0
         }

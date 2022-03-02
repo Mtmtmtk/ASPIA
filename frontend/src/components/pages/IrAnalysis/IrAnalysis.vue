@@ -12,7 +12,15 @@
                     Audio Player
                 </v-col>
             </v-row>
-            <audio-player :audio-src="audioSrc"/>
+            <iflb-audio-player 
+                :src="audioSrc"
+                :is-required="{
+                    skipBackward:false,
+                    skipForward:false,
+                    downloadIcon:false,
+                    playbackSpeedIcon:false
+                }"
+            />
         </v-card-text>
         <v-card-text>
             <chart-tabs
@@ -40,12 +48,12 @@
     </v-card>
 </template>
 <script>
-import AudioPlayer from '../../ui/AudioPlayer.vue'
+import IflbAudioPlayer from '../../ui/IflbAudioPlayer.vue'
 import ChartTabs from './ChartTabs.vue'
 import AcousticParameterTableCard from './AcousticParameterTableCard'
 export default{
     components:{
-        AudioPlayer,
+        IflbAudioPlayer,
         ChartTabs,
         AcousticParameterTableCard,
     },
