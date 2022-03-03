@@ -3,6 +3,7 @@
         :headers="headers"
         :items="items"
         :class="colorClass"
+        hide-default-footer
     >
         <template v-slot:item.parameter="{ item }">
             <v-tooltip 
