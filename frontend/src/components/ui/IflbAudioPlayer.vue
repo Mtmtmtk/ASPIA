@@ -181,6 +181,7 @@ export default{
             this.audio.play();
             this.playIntvlFunc = setInterval(()=>{
                 this.currentTime = this.audio.currentTime;
+                this.getCurrentTime();
             },100);
         },
         pause(){
@@ -224,6 +225,7 @@ export default{
         changeCurrentTime(val){
             this.audio.currentTime = val;
             this.currentTime = this.audio.currentTime;
+            this.getCurrentTime();
         },
         changePlaybackSpeed(val=1){
             this.audio.playbackRate = val;

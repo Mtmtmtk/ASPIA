@@ -27,7 +27,8 @@
     "vue-plyr": "^7.0.0",
     "vue-router": "^3.5.3",
     "vue-template-compiler": "^2.6.11",
-    "vuetify": "^2.5.8"
+    "vuetify": "^2.5.8",
+    "wavesurfer.js":"^6.0.3"
   },
   "eslintConfig": {
     "root": true,
