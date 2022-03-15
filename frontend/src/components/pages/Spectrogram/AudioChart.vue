@@ -4,7 +4,6 @@
         flat
         tile
         color="#E0E0E0"
-        class="rounded-b-lg"
     >
         <loading-overlay 
             :loading="loading"
@@ -18,40 +17,59 @@
     </v-card>
 </template>
 <script>
-import LineChart from './Charts/LineChart.vue'
+import LineChart from '@/components/ui/Charts/LineChart.vue'
 import LoadingOverlay from '@/components/ui/LoadingOverlay'
 export default{
     components:{
         LineChart,
         LoadingOverlay
     },
-    props:['resampledIr','channels','splRate','timestamp','ductCalling'],
-    data:() => ({
-        loading:true,
-        chartData: { labels:[], datasets:[] },
-        chartOptions: {
-            maintainAspectRatio:false,
-            animation:{ duration:0 },
-            tooltips:{ enabled:false },
-            scales:{
-                xAxes:[{
-                    scaleLabel: {
-                        display:true,
-                        labelString:'Time (s)'
-                    }
-                }],
-                yAxes:[{
-                    scaleLabel: {
-                        display:true,
-                        labelString:'Amplitude'
-                    },
-                    ticks:{
-                        max:1.0,
-                        min:-1.0
-                    }
-                }]
-            },
+    props:{
+        audioArr:{
+            type: Array,
+            default: ()=>([])
         },
+        channels:{
+            type: Number,
+            default: ()=>(0)
+        },
+        timestamp:{
+            type:Array,
+            default: ()=>([])
+        },
+        loading:{
+            type:Boolean,
+            default: ()=>(false)
+        },
+        chartOptions:{
+            type: Object,
+            default: ()=>({
+                maintainAspectRatio:false,
+                animation:{ duration:0 },
+                tooltips:{ enabled:false },
+                scales:{
+                    xAxes:[{
+                        scaleLabel: {
+                            display:true,
+                            labelString:'Time (s)'
+                        }
+                    }],
+                    yAxes:[{
+                        scaleLabel: {
+                            display:true,
+                            labelString:'Amplitude'
+                        },
+                        ticks:{
+                            max:1.0,
+                            min:-1.0
+                        }
+                    }]
+                },
+            })
+        },
+    },
+    data:() => ({
+        chartData: { labels:[], datasets:[] },
     }),
     computed:{
         channelName(){
@@ -63,16 +81,15 @@ export default{
     },
     methods:{
         renderChart(){
-            console.log(this.resampledIr)
-            if(this.resampledIr.length != 0){
+            if(this.audioArr.length != 0){
                 let _data = { labels:[], datasets:[] };
                 _data.labels = this.timestamp;
                 const colorPalette = ['#26A69A','#A64316','#A4A61E', '#6F37A6']
-                for(let channelArr of this.resampledIr){
-                    const _ind = this.resampledIr.indexOf(channelArr);
+                for(let channelArr of this.audioArr){
+                    const _ind = this.audioArr.indexOf(channelArr);
                     _data.datasets.push({
                         label: this.channelName[_ind],
-                        data: this.resampledIr[_ind],
+                        data: this.audioArr[_ind],
                         borderWidth:1,
                         fill:false,
                         lineTension:0,
@@ -81,17 +98,13 @@ export default{
                     });
                 } 
                 this.chartData = _data;
-                this.loading = false;
             }
         }
     },
     watch:{
-        resampledIr(){
+        audioArr(){
             this.renderChart();
         },
-        ductCalling(){
-            this.loading=this.ductCalling;
-        }
     },
     mounted(){
         this.renderChart();

@@ -36,12 +36,12 @@ const routes = [
             {
                 path: 'about-this-app',
                 component: () => import("../components/pages/AboutThisApp")
+            },
+            {
+                path: 'pg',
+                component: () => import("../views/Playground/Main.vue")
             }
         ]
-    },
-    {
-        path: '/pg',
-        component: () => import("@/views/Playground/Main"),
     },
 ]
 const router = new VueRouter({

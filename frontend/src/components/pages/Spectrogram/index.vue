@@ -6,54 +6,71 @@
             </v-col>
         </v-row>
         <v-row>
+            <v-col>
+                <audio-input
+                    @get-audio-info="getAudioInfo"
+                />
+            </v-col>
+        </v-row>
+        <v-row>
             <v-col cols="12">
-                <v-card dark color="#323232">
-                    <v-card-text class="text-h6 pb-0">
-                        Result
-                    </v-card-text>
-                    <v-card-text>
-                        <v-wave-surfer 
-                            :src="require('../recorder.wav')"
-                            :current-time="currentTime"
-                        />
-                    </v-card-text>
-                    <v-card-text class="text-body-1 py-0">
-                        Control Panel
-                    </v-card-text>
-                    <v-card-text class="pb-7">
-                        <iflb-audio-player 
-                            :src="require('../recorder.wav')"
-                            :is-required="{
-                                fastForward:false,
-                                rewind:false,
-                                skipBackward:false,
-                                skipForward:false,
-                                downloadIcon:false,
-                                playbackSpeedIcon:false
-                            }"
-                            @get-current-time="getCurrentTime"
-                        />
-                    </v-card-text>
-                </v-card>
+                <spectrogram-result
+                    v-if="resultShown" 
+                    :duct="duct"
+                    :src="src"
+                    :analyser-node="analyserNode"
+                    :resampled-audio="resampledAudioArray"
+                    :channels="channels"
+                    :timestamp="timestamp"
+                    :duct-calling="ductCalling"
+                />
             </v-col>
         </v-row>
     </v-container>
 </template>
 <script>
-import IflbAudioPlayer from "../../ui/IflbAudioPlayer.vue"
-import VWaveSurfer from "../../ui/VWaveSurfer.vue"
+import AudioInput from "./AudioInput"
+import SpectrogramResult from "./SpectrogramResult"
 export default{
-    components: { 
-        IflbAudioPlayer,
-        VWaveSurfer 
+    components:{ 
+        AudioInput,
+        SpectrogramResult, 
     },
     data:() => ({
-        currentTime:0
+        ductCalling:false,
+        audioArray:[],
+        audioSplRate:'',
+        channels:'',
+        src:'',
+        fileName:'',
+        resultShown:false,
+        resampledAudioArray:[],
+        timestamp:[]
     }),
     props:['duct'],
+    watch:{
+        audioArray(){
+            if(this.audioArray.length != 0) this.callDuct();
+        }
+    },
     methods:{
-        getCurrentTime(val){
-            this.currentTime = val;
+        getAudioInfo(args){
+            console.log(args);
+            this.audioArray=args[0];
+            this.audioSplRate=args[1];
+            this.channels=args[2];
+            this.src=args[3];
+            this.fileName=args[4];
+            this.analyserNode=args[5];
+            this.resultShown=true;
+        },
+        async callDuct(){
+            this.ductCalling = true;
+            let resampledDict = {};
+            [ resampledDict, this.timestamp ]  = await this.duct.call(this.duct.EVENT.RESAMPLE_CHART_GET, { arr: this.audioArray });
+            this.resampledAudioArray = Object.values(resampledDict);
+            console.log(this.resampledAudioArray);
+            this.ductCalling = false;
         }
     }
 }

@@ -14,7 +14,7 @@
         </v-row>
         <v-row v-if="fileSelected">
             <v-col>
-                <ir-analysis
+                <ir-result
                     :duct="duct"
                     :ir-arr="irArr"
                     :spl-rate="splRate"
@@ -29,11 +29,11 @@
 </template>
 <script>
 import IrInput from './IrInput'
-import IrAnalysis from './IrAnalysis'
+import IrResult from './IrResult'
 export default{
     components:{
         IrInput,
-        IrAnalysis
+        IrResult
     },
     data:() =>({
         irArr:[],

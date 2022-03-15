@@ -67,9 +67,7 @@
                         > The order of the FIR filter should be an odd number.
                         </v-alert>
                         <v-row>
-                            <v-col cols="6">
-                            </v-col>
-                            <v-col cols="6" class="d-flex justify-end">
+                            <v-col cols="12" class="d-flex justify-end">
                                 <v-btn 
                                     color="#26A69A"
                                     dark
@@ -86,7 +84,7 @@
     </v-card>
 </template>
 <script>
-import LineChart from './Charts/LineChart.vue'
+import LineChart from '@/components/ui/Charts/LineChart.vue'
 import LoadingOverlay from '@/components/ui/LoadingOverlay'
 import { octaveBands } from '../library.js'
 export default{
@@ -95,8 +93,6 @@ export default{
         LoadingOverlay
     },
     data:() =>({
-        //loading:true,
-        loading:false,
         orderWaring:false,
         invalidOrderError:false,
         unstableFilter:false,
@@ -110,9 +106,9 @@ export default{
         buttonDisabled:false,
         unstableHz:''
     }),
-    props:['reshapedIr','defaultFilterType','defaultOrder','powerPerFreq','freq','isStableObj','ductCalling'],
+    props:['resampledIr','defaultFilterType','defaultOrder','powerPerFreq','freqList','stabilityCheckObj','loading'],
     watch:{
-        reshapedIr(){
+        resampledIr(){
             this.filterOrder = this.defaultOrder;
             this.filterType = this.defaultFilterType;
         },
@@ -122,25 +118,16 @@ export default{
         selectedHz(){
             this.switchChartByOctave()
         },
-        ductCalling(){
-            this.loading = this.ductCalling     
-        },
-        isStableObj(){
-            let unstableHzList = [];
-            const _boolList = Object.values(this.isStableObj);
-            const _HzList = Object.keys(this.isStableObj);
-            if(_boolList.includes(false)){
-                for(let _ind=0; _ind < _HzList.length; _ind++){
-                    if(_boolList[_ind] == false) unstableHzList.push(_HzList[_ind]);
-                }
+        stabilityCheckObj(){
+            const unstableHzList = this.stabilityCheckObj.filter(el => el.isStable == false).map(el => el.hz);
+            if(unstableHzList.length != 0){
                 this.unstableFilter = true;
                 this.buttonDisabled = true;
             }else{
                 this.unstableFilter = false;
                 this.buttonDisabled = false;
             }
-            this.unstableHz = unstableHzList.join('Hz, ');
-            this.unstableHz = this.unstableHz.concat('','Hz');
+            this.unstableHz = unstableHzList.join('Hz, ').concat('','Hz');
         },
         filterOrder(){
             if(this.filterOrder > 5000) this.orderWaring = true;
@@ -149,18 +136,18 @@ export default{
     },
     methods:{
         switchChartByOctave(){
-            this.switchChartByOctaveData();
-            this.switchChartByOctaveOptions();
+            this.switchChartData();
+            this.switchChartOptions();
         },
-        switchChartByOctaveData(){
+        switchChartData(){
             if(Object.keys(this.powerPerFreq).length != 0){
                 let _data = { labels:[], datasets:[] };
                 const color = ['#26A69A','#B2DfD8']
-                const _ind = this.octaveBands.map(el => el.value).indexOf(this.selectedHz);
-                const _dataLabel = this.octaveBands.map(el => el.text)[_ind];
+                const _idx = this.octaveBands.map(el => el.value).indexOf(this.selectedHz);
+                const _dataLabel = this.octaveBands.map(el => el.text)[_idx];
                 let _dataInDataset=[];
-                for(let _ind=0; _ind < this.powerPerFreq[this.selectedHz].length; _ind++){
-                    _dataInDataset.push({ x: Number(this.freq[_ind].toFixed()), y: Number(this.powerPerFreq[this.selectedHz][_ind].toFixed(1)) });
+                for(let _idx=0; _idx < this.powerPerFreq[this.selectedHz].length; _idx++){
+                    _dataInDataset.push({ x: Number(this.freqList[_idx].toFixed()), y: Number(this.powerPerFreq[this.selectedHz][_idx].toFixed(1)) });
                 }
                 _data.datasets.push({
                     label: _dataLabel,
@@ -174,26 +161,18 @@ export default{
                 this.chartData = _data;
             }
         },
-        switchChartByOctaveOptions(){
+        switchChartOptions(){
             let _options = { 
                 maintainAspectRatio:false,
                 animation:{ duration:0 },
                 legend:{ display:false },
                 scales:{
                     xAxes:[{
-                        scaleLabel: {
-                            display:true,
-                            labelString:'Frequency (Hz)'
-                        },
+                        scaleLabel: { display:true, labelString:'Frequency (Hz)' },
                         type:'logarithmic',
                         ticks:{ callback:(val)=>(val) }
                     }],
-                    yAxes:[{
-                        scaleLabel: {
-                            display:true,
-                            labelString:'Gain (dB)'
-                        }
-                    }]
+                    yAxes:[{ scaleLabel: { display:true, labelString:'Gain (dB)' } }]
                 },
                 tooltips:{
                     callbacks:{ label: (tooltipItem) => (tooltipItem.xLabel + 'Hz: ' + tooltipItem.yLabel + 'dB' ) }
@@ -208,6 +187,9 @@ export default{
         updateFilterChart(){
             if(this.filterType == 'FIR' && this.filterOrder%2 == 0){
                 this.invalidOrderError = true;
+                this.buttonDisabled = true;
+            }else if(this.filterType != 'FIR' && this.filterOrder > 10){
+                this.orderWaring = true;
                 this.buttonDisabled = true;
             }else{
                 this.$emit('emit-filter-info', { 

@@ -16,30 +16,29 @@
             class="rounded-b-lg"
         >
             <v-tab-item>
-                <raw-ir-chart 
-                    :resampled-ir="resampledIr"
+                <ir-chart
+                    :audio-arr="resampledIr"
                     :channels="channels"
-                    :spl-rate="splRate"
                     :timestamp="timestamp"
-                    :duct-calling="ductCalling"
+                    :loading="ductCalling"
                 />
             </v-tab-item>
             <v-tab-item>
                 <schroeder-curve
                     :schroeder-decibels="schroederDecibels"
                     :timestamp="timestamp"
-                    :duct-calling="ductCalling"
+                    :loading="ductCalling"
                 />
             </v-tab-item>
             <v-tab-item>
                 <filter-settings 
-                    :reshaped-ir="resampledIr"
+                    :resampled-ir="resampledIr"
                     :default-filter-type="defaultFilterType"
                     :default-order="defaultOrder"
                     :power-per-freq="powerPerFreq"
-                    :freq="freq"
-                    :is-stable-obj="isStableObj"
-                    :duct-calling="ductCalling"
+                    :freq-list="freqList"
+                    :stability-check-obj="stabilityCheckObj"
+                    :loading="ductCalling"
                     @emit-filter-info="emitFilterInfo"
                     @update-analysis="updateAnalysis"
                 />
@@ -48,12 +47,12 @@
     </div>
 </template>
 <script>
-import RawIrChart from './RawIrChart.vue'
-import SchroederCurve from './SchroederCurve.vue'
-import FilterSettings from './FilterSettings.vue'
+import IrChart from './IrChart'
+import SchroederCurve from './SchroederCurve'
+import FilterSettings from './FilterSettings'
 export default{
     components:{
-        RawIrChart,
+        IrChart,
         SchroederCurve,
         FilterSettings,
     },
@@ -69,8 +68,8 @@ export default{
         'timestamp',
         'schroederDecibels',
         'powerPerFreq',
-        'freq',
-        'isStableObj',
+        'freqList',
+        'stabilityCheckObj',
         'ductCalling'
     ],
     methods:{
