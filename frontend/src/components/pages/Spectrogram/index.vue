@@ -18,10 +18,14 @@
                     v-if="resultShown" 
                     :duct="duct"
                     :src="src"
-                    :analyser-node="analyserNode"
+                    :file-name="fileName"
                     :resampled-audio="resampledAudioArray"
                     :channels="channels"
                     :timestamp="timestamp"
+                    :sampling-points="samplingPoints"
+                    :spect-db="spectDb"
+                    :spect-pow="spectPow"
+                    :spect-amp="spectAmp"
                     :duct-calling="ductCalling"
                 />
             </v-col>
@@ -45,7 +49,11 @@ export default{
         fileName:'',
         resultShown:false,
         resampledAudioArray:[],
-        timestamp:[]
+        timestamp:[],
+        spectDb:[],
+        spectPow:[],
+        spectAmp:[],
+        samplingPoints:2048
     }),
     props:['duct'],
     watch:{
@@ -61,7 +69,6 @@ export default{
             this.channels=args[2];
             this.src=args[3];
             this.fileName=args[4];
-            this.analyserNode=args[5];
             this.resultShown=true;
         },
         async callDuct(){
@@ -69,7 +76,17 @@ export default{
             let resampledDict = {};
             [ resampledDict, this.timestamp ]  = await this.duct.call(this.duct.EVENT.RESAMPLE_CHART_GET, { arr: this.audioArray });
             this.resampledAudioArray = Object.values(resampledDict);
-            console.log(this.resampledAudioArray);
+
+            this.spectDb = await this.duct.call(this.duct.EVENT.SPECTROGRAM_DB_GET,{
+                sampling_points: this.samplingPoints
+            });
+            this.spectPow = await this.duct.call(this.duct.EVENT.SPECTROGRAM_POWER_GET,{
+                sampling_points: this.samplingPoints
+            });
+            this.spectAmp = await this.duct.call(this.duct.EVENT.SPECTROGRAM_AMP_GET,{
+                sampling_points: this.samplingPoints
+            });
+            console.log(this.spectDb);
             this.ductCalling = false;
         }
     }

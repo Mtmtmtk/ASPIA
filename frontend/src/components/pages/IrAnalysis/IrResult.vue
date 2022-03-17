@@ -5,7 +5,7 @@
         color="#323232"
         dark
     >
-        <v-card-title>Result / {{fileName}}</v-card-title>
+        <v-card-title>Result / {{ fileName }}</v-card-title>
         <v-card-text>
             <v-row>
                 <v-col class="text-body-1">

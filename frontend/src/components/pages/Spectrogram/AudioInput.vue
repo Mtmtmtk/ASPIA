@@ -42,8 +42,6 @@ export default{
         channels:null,
         timestamp:[],
         audioURL:'',
-        analyserNode:null,
-        currentTimeTest:0,
     }),
     computed:{
         buttonDisabled(){
@@ -54,8 +52,8 @@ export default{
     methods:{
         async getAudioData(file){
             if(file){
-                await this.readAudioAsArrayBuffer(file);
                 this.getFileName(file);
+                await this.readAudioAsArrayBuffer(file);
                 await this.readAudioAsDataURL(file);
             }else{
                 this.audioArray = [];
@@ -91,8 +89,6 @@ export default{
             reader.onload = function(evt) {
                 const arrayBuffer = evt.target.result;
                 audioContext.decodeAudioData(arrayBuffer, decodedDone)
-                vue.analyserNode = audioContext.createAnalyser();
-                vue.analyserNode.connect(audioContext.destination);
             };
             reader.readAsArrayBuffer(file);
         },
@@ -112,7 +108,6 @@ export default{
                 this.channels, 
                 this.audioURL,
                 this.fileName,
-                this.analyserNode
             ]);
         }
     }

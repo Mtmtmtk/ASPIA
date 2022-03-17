@@ -134,7 +134,6 @@ export default{
     },
     watch:{
         src(){
-            console.log(this.src)
             this.audio = new Audio(this.src);
             this.audio.volume = 0.5;
             this.volume=this.audio.volume;

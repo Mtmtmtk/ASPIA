@@ -281,7 +281,7 @@ export default{
                     sampling_points: this.samplingPoints
                 });
             }
-            console.log(this.duct.EVENT.SPECTROGRAM_POWER_GET)
+            console.log(typeof(this.duct))
         });
     }
 }
