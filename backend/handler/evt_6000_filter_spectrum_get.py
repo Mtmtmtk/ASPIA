@@ -38,13 +38,15 @@ class Handler(EventHandler):
         df_amp = pd.DataFrame(columns=['31.5','63','125','250','500','1k','2k','4k','8k','16k'])
         sr_freq = []
         isStableDict = {}
+        stabilityCheckList = []
         for octave in self.octave_band:
             fbp = octave['bandpass']
             [ amp_dB, w, isStable ] = self.bandpassFreqResponse(spl_rate, fbp, filter_type,order)
             df_amp[octave['center']] = amp_dB
             sr_freq = pd.Series(w)
-            isStableDict[octave['center']] = isStable
-        return [ df_amp.to_dict(orient='list'), sr_freq.tolist(), isStableDict ]
+            #isStableDict[octave['center']] = isStable
+            stabilityCheckList.append({ 'hz': octave['center'], 'isStable': isStable })
+        return [ df_amp.to_dict(orient='list'), sr_freq.tolist(), stabilityCheckList ]
         #return df_parameter.to_dict('records')
 
     def bandpassFreqResponse(self, fs, fbp, filter_type, order):

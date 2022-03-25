@@ -14,7 +14,7 @@
             </template>
             <v-app-bar-nav-icon @click='drawer = !drawer'/>
             <v-app-bar-title>
-                Multi Signal Processing Tool
+                Signal Processing Pedia
             </v-app-bar-title>
             <v-spacer />
             <v-btn 
@@ -128,6 +128,7 @@ export default{
         menuItems:[
             { title: 'Generator', icon: 'mdi-surround-sound', to: '/main/generator' },
             { title: 'IRAnalysis', icon: 'mdi-sine-wave', to: '/main/ir-analysis' },
+            { title: 'Spectrogram', icon: 'mdi-chart-bar', to: '/main/spectrogram' },
             { title: 'Theory', icon: 'mdi-calculator-variant-outline', to: '/main/theory' },
             { title: 'Resources', icon: 'mdi-semantic-web', to: '/main/resources' },
             { title: 'About this app', icon: 'mdi-information', to: '/main/about-this-app' },

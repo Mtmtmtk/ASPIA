@@ -17,14 +17,14 @@ class Handler(EventHandler):
     async def handle(self, event):     
         return {}
 
-    async def call(self, ir_arr):
-        np_ir = np.array(ir_arr).T
+    async def call(self, arr):
+        np_ir = np.array(arr).T
         df = pd.DataFrame(np_ir)
         df_resampled = pd.DataFrame(columns=df.columns)
         for i in df.columns:
-            ir_arr = df.iloc[:,i].values
-            ir_arr_resampled = resampy.resample(ir_arr, 44100, 44100/10)
-            df_resampled.iloc[:,i] = ir_arr_resampled
+            arr = df.iloc[:,i].values
+            arr_resampled = resampy.resample(arr, 44100, 44100/10)
+            df_resampled.iloc[:,i] = arr_resampled
         df_resampled = df_resampled / df_resampled.abs().max(axis=0).max(axis=0)
         
         ir_bigger = df_resampled.max(axis=1)

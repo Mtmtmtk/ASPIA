@@ -34,7 +34,7 @@
     </v-card>
 </template>
 <script>
-import LineChart from './Charts/LineChart.vue'
+import LineChart from '@/components/ui/Charts/LineChart.vue'
 import LoadingOverlay from '@/components/ui/LoadingOverlay'
 import { octaveBands } from '../library.js'
 export default{
@@ -42,9 +42,8 @@ export default{
         LineChart,
         LoadingOverlay
     },
-    props:['schroederDecibels','timestamp','ductCalling'],
+    props:['schroederDecibels','timestamp','loading'],
     data:() => ({
-        loading:true,
         selectedHz:'31.5',
         octaveBands,
         chartData: { labels:[], datasets:[] },
@@ -76,9 +75,6 @@ export default{
         selectedHz(){
             this.updateChartData();
         },
-        ductCalling(){
-            if(this.ductCalling == true)this.loading = true;
-        }
     },
     methods:{
         updateChartData(){
@@ -100,7 +96,6 @@ export default{
 
                 });
                 this.chartData = _data;
-                this.loading = false;
             }
         }
     },  

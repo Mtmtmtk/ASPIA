@@ -13,8 +13,6 @@
 </template>
 <script>
 export default{
-    data:() =>({
-    }),
-    props:['src'],
+    props: ['src']
 }
 </script>

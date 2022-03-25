@@ -35,9 +35,9 @@
             </v-row>
             <v-row class="pb-2">
                 <v-col>
-                    <iflb-audio-player
+                    <v-audio
                         :src="audioSrc"
-                        :is-required="{
+                        :display-flags="{
                             skipBackward:false,
                             skipForward:false,
                         }"
@@ -69,18 +69,17 @@
 </template>
 <script>
 import AcousticParameterTable from '../../ui/AcousticParameterTable'
-import IflbAudioPlayer from '../../ui/IflbAudioPlayer'
+import VAudio from '../../ui/VAudio'
 export default{
     components:{
         AcousticParameterTable,
-        IflbAudioPlayer
+        VAudio
     },
     props: ['name','description','images','tableItems','ir'],
     computed:{
         audioSrc(){
             console.log(this.ir[0])
-            if(this.ir != undefined) return this.ir[0]
-            else return 0
+            return (this.ir != undefined) ? this.ir[0] : 0
         }
     },
     methods:{

@@ -11,18 +11,17 @@
     </v-card>
 </template>
 <script>
-import LoadingOverlay from '../../ui/LoadingOverlay'
-import AcousticParameterTable from '../../ui/AcousticParameterTable'
+import LoadingOverlay from '@/components/ui/LoadingOverlay'
+import AcousticParameterTable from '@/components/ui/AcousticParameterTable'
 export default{
     components:{
         LoadingOverlay,
         AcousticParameterTable
     },
     data:() => ({
-        loading:false,
         items:[],
     }),
-    props:['acousticParameters','ductCalling'],
+    props:['acousticParameters','loading'],
     methods:{
         renderTable(){
             if(this.acousticParameters.length != 0){
@@ -31,9 +30,6 @@ export default{
                 this.items[1].parameter = 'EDT (s)'
                 this.items[3].parameter = 'C50 (dB)'
                 this.items[4].parameter = 'C80 (dB)'
-                this.loading = false;
-            }else{
-                this.loading = true;
             }
         }
     },
@@ -41,9 +37,6 @@ export default{
         acousticParameters(){
             this.renderTable();
         },
-        ductCalling(){
-            if(this.ductCalling == true) this.loading = true;
-        }
     },
 }
 </script>

@@ -22,7 +22,7 @@
                     @click="changePlaybackSpeed(item.val)"
                 >
                     <v-list-item-content :color="item.color">
-                        <v-list-item-title>{{item.title}}</v-list-item-title>
+                        <v-list-item-title>{{ item.title }}</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
             </v-list-item-group>
@@ -31,21 +31,21 @@
 </template>
 <script>
 export default{
-    data:() =>({
-        selectedItem:3,
-        items:[
-            { title:'x2.0',  val:'2.0', color:'#FFFFFF' },
-            { title:'x1.5',  val:'1.5', color:'#FFFFFF' },
-            { title:'x1.25', val:'1.25',color:'#FFFFFF' },
-            { title:'x1.0',  val:'1.0', color:'#FFFFFF' },
-            { title:'x0.75', val:'0.75',color:'#FFFFFF' },
-            { title:'x0.5',  val:'0.5', color:'#FFFFFF' },
+    data: () => ({
+        selectedItem: 3, 
+        items: [
+            { title: 'x2.0',  val: '2.0',  color: '#FFFFFF' }, 
+            { title: 'x1.5',  val: '1.5',  color: '#FFFFFF' }, 
+            { title: 'x1.25', val: '1.25', color: '#FFFFFF' }, 
+            { title: 'x1.0',  val: '1.0',  color: '#FFFFFF' }, 
+            { title: 'x0.75', val: '0.75', color: '#FFFFFF' }, 
+            { title: 'x0.5',  val: '0.5',  color: '#FFFFFF' }, 
         ]
-    }),
-    methods:{
+    }), 
+    methods: {
         changePlaybackSpeed(val){
-            this.$emit('change-playback-speed',Number(val));
+            this.$emit('change-playback-speed', Number(val));
         }
-    },
+    }
 }
 </script>

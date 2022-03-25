@@ -5,28 +5,33 @@
         hide-details
         color="#616161"
         track-color="#616161"
-        step="0.001"
+        step="0.01"
         min="0"
         :max="duration"
         @change="changeTime"
+        @mousedown="emitMouseCondition"
+        @mouseup="emitMouseCondition"
     />
 </template>
 <script>
 export default{
-    props:{
+    props: {
         currentTime: {
-            type: Number,
+            type: Number, 
             default: () => (0)
-        },
+        }, 
         duration: {
-            type: Number,
+            type: Number, 
             default: () => (0)
         }
-    },
-    methods:{
+    }, 
+    methods: {
         changeTime(val){
             this.$emit('seeked', val);
+        },
+        emitMouseCondition(val){
+            this.$emit('change-mouse-condition', val.type);
         }
-    },
+    }, 
 }
 </script>
