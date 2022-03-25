@@ -12,9 +12,9 @@
                     Audio Player
                 </v-col>
             </v-row>
-            <iflb-audio-player 
+            <v-audio 
                 :src="audioSrc"
-                :is-required="{
+                :display-flags="{
                     skipBackward:false,
                     skipForward:false,
                     downloadIcon:false,
@@ -48,12 +48,12 @@
     </v-card>
 </template>
 <script>
-import IflbAudioPlayer from '@/components/ui/IflbAudioPlayer'
+import VAudio from '@/components/ui/VAudio'
 import ChartTabs from './ChartTabs'
 import AcousticParameterTableCard from './AcousticParameterTableCard'
 export default{
     components:{
-        IflbAudioPlayer,
+        VAudio,
         ChartTabs,
         AcousticParameterTableCard,
     },
@@ -75,24 +75,24 @@ export default{
             this.ductCalling = true;
             if (rawIrRequired == true){
                 let irDict = {};
-                [ irDict, this.timestamp ]  = await this.duct.call(this.duct.EVENT.RESAMPLE_CHART_GET, { arr: this.irArr });
+                [ irDict, this.timestamp ] = await this.duct.call(this.duct.EVENT.RESAMPLE_CHART_GET, { arr: this.irArr });
                 this.resampledIr = Object.values(irDict);
             }
-            this.acousticParameters  = await this.duct.call(this.duct.EVENT.ACOUSTIC_PARAMETER_GET, {
+            this.acousticParameters = await this.duct.call(this.duct.EVENT.ACOUSTIC_PARAMETER_GET, {
                 ir_arr: this.irArr,
                 spl_rate: this.splRate,
                 channels: this.channels,
                 filter_type: _filterType,
                 order: _order
             });
-            this.schroederDecibels  = await this.duct.call(this.duct.EVENT.SCHROEDER_CURVE, {
+            this.schroederDecibels = await this.duct.call(this.duct.EVENT.SCHROEDER_CURVE, {
                 ir_arr: this.irArr,
                 spl_rate: this.splRate,
                 channels: this.channels,
                 filter_type: _filterType,
                 order: _order
             });
-            [this.powerPerFreq, this.freqList, this.stabilityCheckObj]  = await this.duct.call(this.duct.EVENT.FILTER_SPECTRUM_GET, {
+            [this.powerPerFreq, this.freqList, this.stabilityCheckObj] = await this.duct.call(this.duct.EVENT.FILTER_SPECTRUM_GET, {
                 spl_rate: this.splRate,
                 filter_type: _filterType,
                 order: _order
@@ -102,7 +102,7 @@ export default{
         async updateFilterChart(args){
             const _filterType = args.filterType;
             const _order = args.order;
-            [this.powerPerFreq, this.freqList, this.stabilityCheckObj]  = await this.duct.call(this.duct.EVENT.FILTER_SPECTRUM_GET, {
+            [this.powerPerFreq, this.freqList, this.stabilityCheckObj] = await this.duct.call(this.duct.EVENT.FILTER_SPECTRUM_GET, {
                 spl_rate: this.splRate,
                 filter_type: _filterType,
                 order: Number(_order)
@@ -116,11 +116,11 @@ export default{
     },
     watch:{
         irArr(){
-            this.callDuct(this.defaultFilterType,this.defaultOrder,true);
+            this.callDuct(this.defaultFilterType, this.defaultOrder,true);
         },
     },
     mounted(){
-        if(this.irArr.length != 0) this.callDuct(this.defaultFilterType,this.defaultOrder,true);
+        if(this.irArr.length != 0) this.callDuct(this.defaultFilterType, this.defaultOrder,true);
     }
 }
 </script>

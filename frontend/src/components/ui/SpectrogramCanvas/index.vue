@@ -181,25 +181,20 @@ export default{
             if(mode == 'decibel'){
                 const minDB = this.decibelRange[0];
                 const maxDB = this.decibelRange[1];
-                if(maxDB == 0){
-                    repValues = [
-                        0.0, 
-                        (minDB/3).toPrecision(2), 
-                        (2*minDB/3).toPrecision(2), 
-                        `< ${minDB.toPrecision(2)}`
-                    ];
-                }else{
-                    repValues = [
-                        `> ${maxDB.toPrecision(2)}`, 
-                        ((minDB - maxDB)/3 + maxDB).toPrecision(2), 
-                        (2*(minDB-maxDB)/3 + maxDB).toPrecision(2), 
-                        `< ${minDB.toPrecision(2)}`
-                    ];
-                }
+                repValues = (maxDB == 0) ? [
+                    0.0, 
+                    (minDB/3).toPrecision(2), 
+                    (2*minDB/3).toPrecision(2), 
+                    `< ${minDB.toPrecision(2)}`
+                ] : [
+                    `> ${maxDB.toPrecision(2)}`, 
+                    ((minDB - maxDB)/3 + maxDB).toPrecision(2), 
+                    (2*(minDB-maxDB)/3 + maxDB).toPrecision(2), 
+                    `< ${minDB.toPrecision(2)}`
+                ];
                 const yCoordineates = [14, 108, 203, 298];
-                for(let idx in repValues){
+                for(let idx in repValues)
                     this.writeText(20, yCoordineates[idx], cContext, repValues[idx]);
-                }
                 cContext.save();
                 cContext.rotate(0.5 * Math.PI);
                 this.writeText(140, -30, cContext, 'dB');

@@ -24,8 +24,10 @@ class Handler(EventHandler):
     async def call(self,test_message:str):
         return {}
 
-    async def preprocess(self,sampling_points):
-        sample_audio, sample_sr = sf.read('./impulse_response/Stairway/stereo/stairwell_ortf.wav')
+    async def preprocess(self, data:list, spl_rate:int, sampling_points:str):
+        #sample_audio, sample_sr = sf.read('./impulse_response/Stairway/stereo/stairwell_ortf.wav')
+        sample_sr = spl_rate
+        sample_audio = np.array(data).T
         mono_audio = []
         if(isinstance(sample_audio[0], np.ndarray) == False):
             mono_audio = sample_audio
@@ -44,8 +46,8 @@ class Handler(EventHandler):
         freq_bin = np.round(np.arange(first_center_freq, last_center_freq, sample_sr/N),3)
         return [mono_audio, 44100, N, overlap, window, overlap_trials, freq_bin]
 
-    async def get_amplitude(self, sampling_points:int):
-        [mono_audio, sample_sr, N, overlap, window, overlap_trials, freq_bin] = await self.preprocess(sampling_points)
+    async def get_amplitude(self, data:list, spl_rate:int, sampling_points:int):
+        [mono_audio, sample_sr, N, overlap, window, overlap_trials, freq_bin] = await self.preprocess(data, spl_rate, sampling_points)
         df_fft = pd.DataFrame(index=range(int(N/2)*overlap_trials),columns=['time','center_frequency','amplitude']) 
         for i in range(overlap_trials):
             start = int((N-overlap) * i)
@@ -64,8 +66,8 @@ class Handler(EventHandler):
         print(df_fft)
         return df_fft
 
-    async def get_power(self, sampling_points):
-        [mono_audio, sample_sr, N, overlap, window, overlap_trials, freq_bin] = await self.preprocess(sampling_points)
+    async def get_power(self, data:list, spl_rate:int, sampling_points):
+        [mono_audio, sample_sr, N, overlap, window, overlap_trials, freq_bin] = await self.preprocess(data, spl_rate, sampling_points)
         df_fft = pd.DataFrame(index=range(int(N/2)*overlap_trials),columns=['time','center_frequency','amplitude','power']) 
         for i in range(overlap_trials):
             start = int((N-overlap) * i)
@@ -86,8 +88,8 @@ class Handler(EventHandler):
         print(df_fft)
         return df_fft
 
-    async def get_decibel(self, sampling_points):
-        [mono_audio, sample_sr, N, overlap, window, overlap_trials, freq_bin] = await self.preprocess(sampling_points)
+    async def get_decibel(self, data:list, spl_rate:int, sampling_points):
+        [mono_audio, sample_sr, N, overlap, window, overlap_trials, freq_bin] = await self.preprocess(data, spl_rate, sampling_points)
         df_fft = pd.DataFrame(index=range(int(N/2)*overlap_trials),columns=['time','center_frequency','power','decibel']) 
         for i in range(overlap_trials):
             start = int((N-overlap) * i)

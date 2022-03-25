@@ -12,9 +12,9 @@
                     Audio Player
                 </v-col>
             </v-row>
-            <iflb-audio-player 
+            <v-audio 
                 :src="src"
-                :is-required="{
+                :display-flags="{
                     skipBackward:false,
                     skipForward:false,
                     downloadIcon:false,
@@ -34,34 +34,17 @@
                 :spect-amp="spectAmp"
                 :duct="duct"
             />
-            <!--<audio-chart
-                :audio-arr="resampledAudio"
-                :channels="channels"
-                :timestamp="timestamp"
-                :loading="ductCalling"
-            />
-            <spectrogram-canvas
-                :duct="duct"
-            />-->
-
         </v-card-text>
     </v-card>
 </template>
 <script>
-import IflbAudioPlayer from "@/components/ui/IflbAudioPlayer.vue"
-//import AudioChart from "./AudioChart"
-//import SpectrogramCanvas from "@/components/ui/SpectrogramCanvas/index.vue"
+import VAudio from "@/components/ui/VAudio"
 import ChartTabs from "./ChartTabs"
 export default{
     components: { 
-        IflbAudioPlayer,
-        //AudioChart,
-        //SpectrogramCanvas,
+        VAudio,
         ChartTabs
     },
-    data:() => ({
-        currentTime:0,
-    }),
     props:[
         'duct',
         'src',
@@ -75,10 +58,5 @@ export default{
         'spectAmp',
         'ductCalling',
     ],
-    methods:{
-        getCurrentTime(val){
-            this.currentTime = val;
-        }
-    }
 }
 </script>

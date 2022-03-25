@@ -63,7 +63,6 @@ export default{
     },
     methods:{
         getAudioInfo(args){
-            console.log(args);
             this.audioArray=args[0];
             this.audioSplRate=args[1];
             this.channels=args[2];
@@ -74,19 +73,24 @@ export default{
         async callDuct(){
             this.ductCalling = true;
             let resampledDict = {};
-            [ resampledDict, this.timestamp ]  = await this.duct.call(this.duct.EVENT.RESAMPLE_CHART_GET, { arr: this.audioArray });
+            [ resampledDict, this.timestamp ] = await this.duct.call(this.duct.EVENT.RESAMPLE_CHART_GET, { arr: this.audioArray });
             this.resampledAudioArray = Object.values(resampledDict);
 
             this.spectDb = await this.duct.call(this.duct.EVENT.SPECTROGRAM_DB_GET,{
+                data: this.audioArray,
+                spl_rate: this.audioSplRate,
                 sampling_points: this.samplingPoints
             });
             this.spectPow = await this.duct.call(this.duct.EVENT.SPECTROGRAM_POWER_GET,{
+                data: this.audioArray,
+                spl_rate: this.audioSplRate,
                 sampling_points: this.samplingPoints
             });
             this.spectAmp = await this.duct.call(this.duct.EVENT.SPECTROGRAM_AMP_GET,{
+                data: this.audioArray,
+                spl_rate: this.audioSplRate,
                 sampling_points: this.samplingPoints
             });
-            console.log(this.spectDb);
             this.ductCalling = false;
         }
     }
