@@ -26,19 +26,18 @@
     </v-container>
 </template>
 <script>
-import StepChanger from '../../ui/StepChanger'
+import StepChanger from '@/components/ui/StepChanger'
 export default{
-    components:{ StepChanger },
+    components: { StepChanger },
     data: () => ({
         file:'',
         continueDisabled: true
     }),
-    methods:{
+    methods: {
         changeStep(val){
             this.$emit('change-step', val);
         },
         emitRecordingFile(file){
-            console.log(file);
             this.$emit('accept-recording-file', file);
             this.continueDisabled = false;
         }

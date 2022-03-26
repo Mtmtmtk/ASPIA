@@ -22,7 +22,7 @@
 </template>
 <script>
 import { library } from '../library.js'
-import StepChanger from '../../ui/StepChanger'
+import StepChanger from '@/components/ui/StepChanger'
 export default{
     components:{ StepChanger },
     data: () => ({
@@ -30,22 +30,22 @@ export default{
         selectedChannels:'',
         outputChannelItems:[],
     }),
-    props:['IrAudioType'],
+    props:['irFormat'],
     methods:{
         changeStep(val){
-            if(val == 1) this.$emit('emit-output-channels', this.selectedChannels);
+            if(val == 1) 
+                this.$emit('get-output-channels', this.selectedChannels);
             this.$emit('change-step',val);
         }
     },
     watch:{
-        IrAudioType(){
-            console.log(this.IrAudioType);
-            if(this.IrAudioType == 'stereo'){
-                this.outputChannelItems = ['stereo', 'mono'];
-            }else if(this.IrAudioType == 'mono'){
-                this.outputChannelItems = ['mono'];
-            }else if(this.IrAudioType == 'b-format'){
+        irFormat(){
+            if(this.irFormat == 'b-format'){
                 this.outputChannelItems = ['b-format', 'stereo', 'mono'];
+            }else if(this.irFormat == 'stereo'){
+                this.outputChannelItems = ['stereo', 'mono'];
+            }else if(this.irFormat == 'mono'){
+                this.outputChannelItems = ['mono'];
             }
         }
     } 

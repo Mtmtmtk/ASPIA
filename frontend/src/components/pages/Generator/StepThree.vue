@@ -33,18 +33,16 @@
 </template>
 <script>
 import { library } from '../library.js'
-import StepChanger from '../../ui/StepChanger'
+import StepChanger from '@/components/ui/StepChanger'
 export default{
     components:{ StepChanger },
-    data: () => ({
-        library
-    }),
+    data: () => ({ library }),
     methods:{
         changeStep(val){
             this.$emit('change-step', val);
         },
         emitSpaceName(name){
-            this.$emit('send-space-name', name)
+            this.$emit('get-space-name', name)
             this.changeStep(1);
         }
     }

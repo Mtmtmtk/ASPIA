@@ -25,9 +25,6 @@ export default{
         library,
     }),
     props:['spaceName','audioUrl'],
-    //mounted(){
-    //    const downloadButton = document.getElementById('downloadButton');
-    //    downloadButton.setAttribute('download', 'convoluted.wav');
     //}
 }
 </script>

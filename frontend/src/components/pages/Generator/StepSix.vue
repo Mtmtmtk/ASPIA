@@ -28,21 +28,17 @@ export default{
     data: () => ({
         library,
     }),
-    props:['spaceName','progress'],
+    props:['spaceName', 'progress'],
     watch:{
         progress(){
-            if(this.progress == 100)this.changeStep();
+            if(this.progress == 100)
+                this.changeStep();
         },
     },
     methods:{
         changeStep(){
-            console.log('fuga');
             this.$emit('change-step',1);
         }
     },
-    mounted(){
-        console.log('hoge')
-        console.log('hoge')
-    }
 }
 </script>

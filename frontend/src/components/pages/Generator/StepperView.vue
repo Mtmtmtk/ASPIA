@@ -43,7 +43,7 @@
             <v-stepper-content step="3">
                 <step-three 
                     @change-step="changeStep"
-                    @send-space-name="determineSpace"
+                    @get-space-name="getSpaceName"
                 />
             </v-stepper-content>
 
@@ -56,9 +56,9 @@
             <v-stepper-content step="4">
                 <step-four
                     :duct="duct"
-                    :space-name="chosenSpace"
+                    :space-name="spaceName"
                     @change-step="changeStep"
-                    @send-abbr-audiotype-and-ir="getImpulseResponseData"
+                    @get-ir-path="getImpulseResponseData"
                 />
             </v-stepper-content>
 
@@ -70,9 +70,9 @@
             </v-stepper-step>
             <v-stepper-content step="5">
                 <step-five
-                    :ir-audio-type="IRAudioType"
+                    :ir-format="irFormat"
                     @change-step="changeStep"
-                    @emit-output-channels="callDucts"
+                    @get-output-channels="callDucts"
                 />
             </v-stepper-content>
 
@@ -84,7 +84,7 @@
             </v-stepper-step>
             <v-stepper-content step='6'>
                 <step-six
-                    :space-name="chosenSpace"
+                    :space-name="spaceName"
                     :progress="progress"
                     @change-step="changeStep"
                 />
@@ -97,7 +97,7 @@
             >Step7: Download
             </v-stepper-step>
             <v-stepper-content step="7">
-                <step-seven :audio-url="audioURL" />
+                <step-seven :audio-url="audioUrl" />
             </v-stepper-content>
         </v-stepper>
     </v-card>
@@ -111,7 +111,7 @@ import StepFive  from './StepFive.vue'
 import StepSix   from './StepSix.vue'
 import StepSeven from './StepSeven.vue'
 
-const decodeFunc = function(file,vue,target){
+const decodeFunc = function(file, vue, target){
     const reader = new FileReader();
     const audioContext = new AudioContext();
     const postProcessFunc = function(decoded){
@@ -125,33 +125,31 @@ const decodeFunc = function(file,vue,target){
         }
         if(target == 'recording'){
             vue.ductsInputForm.recordingSplRate = decoded.sampleRate;
-            if(allChannelsArr.length == 1) vue.ductsInputForm.recording = allChannelsArr.flat();
-            else vue.ductsInputForm.recording = allChannelsArr;
+            vue.ductsInputForm.recording = (allChannelsArr.length == 1) ? allChannelsArr.flat() : allChannelsArr;
         }else if(target == 'swept_sine'){
             vue.ductsInputForm.sweptSineSplRate = decoded.sampleRate;
-            if(allChannelsArr.length == 1) vue.ductsInputForm.sweptSine = allChannelsArr.flat();
-            else vue.ductsInputForm.sweptSine = allChannelsArr;
+            vue.ductsInputForm.sweptSine = (allChannelsArr.length == 1) ? allChannelsArr.flat() : allChannelsArr;
         }
     };
     reader.onload = function(evt) {
         const arrayBuffer = evt.target.result;
-        audioContext.decodeAudioData(arrayBuffer, postProcessFunc)
+        audioContext.decodeAudioData(arrayBuffer, postProcessFunc);
     };
     reader.readAsArrayBuffer(file);
 }
 
-const encodeFunc = function(samples,samplingRate, _channels, _blockSize){
-        const _buffer = new ArrayBuffer(44 + samples.length*2);
+const encodeFunc = function(samples, samplingRate, _channels, _blockSize){
+        const _buffer = new ArrayBuffer(44 + samples.length * 2);
         let _view = new DataView(_buffer);
         const writeString = function(view, offset, str){
-            for(let i=0; i < str.length; i++) view.setUint8(offset + i, str.charCodeAt(i));
-        }
+            for(let i = 0; i < str.length; i++) view.setUint8(offset + i, str.charCodeAt(i));
+        };
         const floatTo16BitPCM = function(output, offset, input){
-            for(let i=0; i < input.length; i++, offset +=2){
+            for(let i = 0; i < input.length; i++, offset += 2){
                 let s = Math.max(-1, Math.min(1, input[i]));
                 output.setInt16(offset, s<0 ? s*0x8000 : s*0x7FFF, true);
             }
-        }
+        };
         const _fileSize = 44 + samples.length*2 - 8;
         writeString(_view, 0, 'RIFF');//riff識別
         _view.setUint32(4, _fileSize, true);//chunk size
@@ -181,106 +179,101 @@ export default{
         StepSeven,
     },
     data: () => ({
-        stepper:1,
-        chosenSpace:'',
-        ductsInputForm:{
-            recording:[],
-            recordingSplRate:0,
-            sweptSine:[],
-            sweptSineSplRate:0,
-            irPath:'',
-            outputChannels:0
+        stepper: 1,
+        ductsInputForm: {
+            recording: [],
+            recordingSplRate: 0,
+            sweptSine: [],
+            sweptSineSplRate: 0,
+            irPath: '',
+            outputChannels: 0
         },
-        IRAudioType:'',
-        convolutedAudioArr:[],
-        audioURL:'',
-        progress:0,
-        wavHeaderInfo:{
-            mono:{
-                channels:1,
-                blockSize:2
+        spaceName: '',
+        irFormat: '',
+        cvAudioArr: [],
+        audioUrl: '',
+        progress: 0,
+        wavHeaderInfo: {
+            mono: {
+                channels: 1,
+                blockSize: 2
             },
-            stereo:{
-                channels:2,
-                blockSize:4,
+            stereo: {
+                channels: 2,
+                blockSize: 4,
             },
-            'b-format':{
-                channels:4,
-                blockSize:8
+            'b-format': {
+                channels: 4,
+                blockSize: 8
             }
         }
     }),
     props:['duct'],
     watch:{
-        convolutedAudioArr(){
-            this.audioURL = this.exportWAV(this.convolutedAudioArr)
+        cvAudioArr(){
+            this.audioUrl = this.exportWAV(this.cvAudioArr);
         },
     }, 
     methods:{
+        changeStep(stepVal){
+            this.stepper = this.stepper + stepVal;
+        },
         getReordingData(file){
-            decodeFunc(file,this,'recording');
+            decodeFunc(file, this, 'recording');
         },
         getSweptSineData(file){
-            decodeFunc(file,this,'swept_sine');
-            console.log(this.ductsInputForm);
+            decodeFunc(file, this, 'swept_sine');
         },
-        getImpulseResponseData(...args){
-            args = args.flat();
-            this.IRAudioType = args[1];
-            this.ductsInputForm.irPath = './impulse_response/' + args[0] + '/' + args[1] + '/' + args[2]
+        getSpaceName(name){
+            this.spaceName = name;
+        },
+        getImpulseResponseData(args){
+            this.irFormat = args[1];
+            this.ductsInputForm.irPath = './impulse_response/' + args[0] + '/' + args[1] + '/' + args[2];
         },
         async callDucts(channels){
             this.ductsInputForm.outputChannels = channels;
-            console.log(this.ductsInputForm.irPath)
-            console.log(channels)
-            console.log(this.ductsInputForm.outputChannels)
             let ret = await this.duct.call(this.duct.EVENT.EXPORT_CONVOLUTION,{
                 recording: this.ductsInputForm.recording, 
                 recording_spl_rate: this.ductsInputForm.recordingSplRate, 
-                //swept_sine: this.ductsInputForm.sweptSine,
-                //swept_sine_spl_rate: this.ductsInputForm.sweptSineSplRate,
                 ir_path: this.ductsInputForm.irPath,
                 output_channels: this.ductsInputForm.outputChannels,
                 swept_sine: this.ductsInputForm.sweptSine,
                 swept_sine_spl_rate: this.ductsInputForm.sweptSineSplRate,
             });
-            this.convolutedAudioArr = ret;
-            this.progress = 50;
+            this.cvAudioArr = ret;
         },
         exportWAV(audioData){
-            const _dataview  = this.encodeWAV(this.mergeBuffers(audioData), this.recordingSplRate)
+            const _dataview  = this.encodeWAV(this.mergeBuffers(audioData), this.ductsInputForm.recordingSplRate);
             const _audioBlob = new Blob([_dataview], { type: 'audio/wav' });
             let _myURL = window.URL || window.webkitURL;
             const url = _myURL.createObjectURL(_audioBlob);
-            this.progress=100;
+            this.progress = 100;
             return url
+        },
+        encodeWAV(samples, samplingRate){
+            const _channels  = this.wavHeaderInfo[this.ductsInputForm.outputChannels].channels;
+            const _blockSize = this.wavHeaderInfo[this.ductsInputForm.outputChannels].blockSize;
+            return encodeFunc(samples, samplingRate, _channels, _blockSize)
         },
         mergeBuffers(audioData){
             let _splLength = 0;
-            for(let _idx = 0; _idx < audioData.length; _idx++) _splLength += audioData[_idx].length;
+            for(let _idx = 0; _idx < audioData.length; _idx++) 
+                _splLength += audioData[_idx].length;
+
             let _samples = new Float32Array(_splLength);
             _samples = audioData.flat();
-            let _splInd = 0;
+
+            let _splIdx = 0;
             const channels = audioData.length;
-            for(let j=0; j < audioData[0].length; j++){
-                for(let i=0; i < channels; i++){
-                    _samples[_splInd] = audioData[i][j];
-                    _splInd++;
+            const singleChannelLength = audioData[0].length;
+            for(let j = 0; j < singleChannelLength; j++){
+                for(let i = 0; i < channels; i++){
+                    _samples[_splIdx] = audioData[i][j];
+                    _splIdx++;
                 }
             }
-            this.progress=60
             return _samples 
-        },
-        encodeWAV(samples, samplingRate){
-            const _channels  = this.wavHeaderInfo[this.ductsInputForm.outputChannels].channels
-            const _blockSize = this.wavHeaderInfo[this.ductsInputForm.outputChannels].blockSize
-            return encodeFunc(samples, samplingRate, _channels, _blockSize)
-        },
-        changeStep(stepVal){
-            this.stepper = this.stepper + stepVal;
-        },
-        determineSpace(name){
-            this.chosenSpace = name;
         },
     },
 }

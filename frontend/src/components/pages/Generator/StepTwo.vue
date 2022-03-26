@@ -2,7 +2,7 @@
     <v-container>
         <v-row v-if="!fileInputShown">
             <v-col>
-                Do you want to use the swept sine wave method? If not, your recording should be recorded as anechoically as possible. If your recording is reverberant, you had better record the swept sine wave but the result of convolution depends on the quality of the swept sine recording.
+                Do you want to use the swept sine wave method? If not, your recording should be recorded as anechoically as possible. If your recording place is reverberant, you had better record the swept sine wave. However, the result of convolution depends on the quality of the swept sine recording.
             </v-col>
         </v-row>
         <v-row v-if="!fileInputShown">
@@ -22,7 +22,7 @@
         </v-row>
         <v-row v-if="fileInputShown">
             <v-col>
-                Prepare the swept sine wave recording and register it. You can download the swept sine wave below. Make sure that the positions of the sound source and receiver should be the same as Step1.
+                Download the swept sine wave below and record it in the same place as Step1. Make sure that the positions of the sound source and receiver should be the same as Step1.
             </v-col>
         </v-row>
         <v-row v-if="fileInputShown">
@@ -59,7 +59,7 @@
     </v-container>
 </template>
 <script>
-import StepChanger from '../../ui/StepChanger'
+import StepChanger from '@/components/ui/StepChanger'
 export default{
     components:{ StepChanger },
     data: () => ({
@@ -73,13 +73,10 @@ export default{
         },
         changeStep(val){
             this.$emit('change-step', val);
-            if(val == -1) {
-                this.fileInputShown = false;
-                this.continueDisabled = true;
-            }
+            this.fileInputShown = (val == -1) ? false : true;
+            this.continueDisabled = (val == -1) ? true : false;
         },
         emitRecordingFile(file){
-            console.log(file);
             this.$emit('accept-recording-file', file);
             this.continueDisabled = false;
         }

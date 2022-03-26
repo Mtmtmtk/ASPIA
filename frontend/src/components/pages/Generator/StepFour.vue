@@ -12,13 +12,14 @@
                             v-bind="attrs"
                             @click="dialog = true"
                         >
-                            <v-img :src="spacePlanImg"/>
+                            <v-img :src="planImg"/>
                         </v-card>
                     </template>
                     <v-card>
-                        <v-img :src="spacePlanImg"/>
+                        <v-img :src="planImg"/>
                         <v-card-text>
                             <v-btn 
+                                dark
                                 color="#26A69A"
                                 @click="dialog = false"
                             >Close
@@ -29,17 +30,19 @@
             </v-col>
             <v-col cols='6'>
                 <v-select
-                    v-model="selectedFormat"
+                    v-model="format"
                     filled
+                    offset-y
                     color="#26A69A"
-                    :items="audioTypes"
+                    :items="formatItems"
                     label="Select IR Audio Format"
                     prepend-inner-icon="mdi-speaker-wireless"
                 />
                 <v-select
-                    v-if="selectedFormat"
-                    v-model="selectedIR"
+                    v-if="formatSelected"
+                    v-model="ir"
                     filled
+                    offset-y
                     color="#26A69A"
                     :items="IRItems"
                     label="Select Impulse Response"
@@ -57,67 +60,59 @@
 </template>
 <script>
 import { library } from '../library.js'
-import StepChanger from '../../ui/StepChanger'
+import StepChanger from '@/components/ui/StepChanger'
 export default{
     components:{ StepChanger },
     data: () => ({
         library,
-        audioTypes:[],
-        IRItems:[],
         abbr:'',
-        selectedFormat:'',
-        selectedIR:'',
+        formatItems:[],
+        IRItems:[],
+        format:'',
+        ir:'',
         dialog:false,
-        continueDisabled:true
     }),
-    props:['spaceName','duct'],
-    computed:{
-        spacePlanImg(){
+    props:[ 'spaceName', 'duct' ],
+    computed: {
+        planImg(){
             const _nameList = this.library.map(el => el.name);
             const _idx = _nameList.indexOf(this.spaceName);
             const _planImgList = this.library.map(el => el.plan);
-            let _planImgAdr = '';
-            if(_idx == -1){
-                _planImgAdr = require('@/assets/plan/noImage.jpeg');
-            }else{
-                if(_planImgList[_idx] != undefined) _planImgAdr = _planImgList[_idx];
-                else _planImgAdr = require('@/assets/plan/noImage.jpeg');
-            } 
+            const _planImgAdr = (_idx == -1 || _planImgList[_idx] == undefined) ? require('@/assets/plan/noImage.jpeg') : _planImgList[_idx];
             return _planImgAdr
         },
-    },
-    methods:{
-        changeStep(val){
-            this.$emit('change-step', val);
-            if(val == 1) this.$emit('send-abbr-audiotype-and-ir', [this.abbr,this.selectedFormat,this.selectedIR])
+        formatSelected(){
+            return (this.format != '') ? true : false
+        },
+        continueDisabled(){
+            return (this.ir == '') ? true : false
         }
     },
-    watch:{
+    watch: {
         async spaceName(){
-            console.log(this.spaceName);
-            this.selectedIR = '';
-            this.selectedFormat = '';
-            this.audioTypes = [];
-            this.IRItems = [];
+            this.initializeData();
             const _nameList = this.library.map(el => el.name);
             const _idx = _nameList.indexOf(this.spaceName);
             this.abbr = this.library.map(el => el.abbr)[_idx];
-            this.audioTypes = await this.duct.call(this.duct.EVENT.AUDIO_TYPE_GET, { abbr: this.abbr })
+            this.formatItems = await this.duct.call(this.duct.EVENT.AUDIO_TYPE_GET, { abbr: this.abbr })
         },
-        async selectedFormat(){
-            this.selectedIR = '';
-            this.IRItems = await this.duct.call(
-                this.duct.EVENT.IR_LIST_GET, 
-                { 
-                    abbr: this.abbr, 
-                    audioType: this.selectedFormat
-                }
-            );
+        async format(){
+            this.ir = '';
+            this.IRItems = await this.duct.call( this.duct.EVENT.IR_LIST_GET, { abbr: this.abbr, audioType: this.format });
         },
-        selectedIR(){
-            if(this.selectedIR != '') this.continueDisabled = false;
-            else this.continueDisabled = true;
-        }
     },
+    methods: {
+        changeStep(val){
+            this.$emit('change-step', val);
+            if(val == 1) 
+                this.$emit('get-ir-path', [ this.abbr, this.format, this.ir ]);
+        },
+        initializeData(){
+            this.ir = '';
+            this.format = '';
+            this.formatItems = [];
+            this.IRItems = [];
+        }
+    }
 }
 </script>
