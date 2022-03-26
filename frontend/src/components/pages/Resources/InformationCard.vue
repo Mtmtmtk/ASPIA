@@ -12,7 +12,7 @@
                 elevation="5"
             >
                 <v-img
-                    :src="image"
+                    :src="images[0]"
                     class="white--text"
                     :aspect-ratio="4/3"
                     gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.8)"
@@ -36,18 +36,10 @@
 <script>
 import CardDialog from './Dialog.vue'
 export default{
-    components:{
-        CardDialog
-    },
+    components:{ CardDialog },
     data:() => ({
         dialog: false,
     }),
-    props:['name','description','images','tableItems','ir'],
-    computed:{
-        image(){
-            if(Array.isArray(this.images)) return this.images[0]
-            else return this.images
-        }
-    }
+    props:['name', 'description', 'images', 'tableItems', 'ir'],
 }
 </script>

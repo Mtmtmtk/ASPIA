@@ -199,7 +199,7 @@ export default{
             this.playIntvlFunc = setInterval(() => {
                 this.currentTime = this.audio.currentTime;
                 this.emitCurrentTime();
-            }, 200);
+            }, 100);
         }, 
         pause(){
             this.audio.pause();
@@ -264,7 +264,7 @@ export default{
                     this.playIntvlFunc = setInterval(() => {
                         this.currentTime = this.audio.currentTime;
                         this.emitCurrentTime();
-                    }, 200);
+                    }, 100);
                 }
             }
         }

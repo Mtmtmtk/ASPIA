@@ -5,7 +5,7 @@
             <v-row justify="center" class="pb-0">
                 <v-col>
                     <v-carousel
-                        hide-delimiter-background
+                        hide-delimiters
                         cycle
                         interval="2000"
                     >
@@ -20,7 +20,7 @@
                     </v-carousel>
                 </v-col>
             </v-row>
-            <v-row class="mt-0">
+            <v-row>
                 <v-col>
                     <strong>Description</strong>
                 </v-col>
@@ -50,13 +50,12 @@
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="6">
+                <!--<v-col cols="6">
                     <v-btn color="#37474F">
                         <v-icon>mdi-download</v-icon>download IR
                     </v-btn>
-                </v-col>
-                <v-spacer />
-                <v-col cols="6" class="d-flex justify-end">
+                </v-col>-->
+                <v-col cols="12" class="d-flex justify-end">
                     <v-btn
                         color="#37474F"
                         @click="closeDialog"
@@ -68,17 +67,16 @@
     </v-card>
 </template>
 <script>
-import AcousticParameterTable from '../../ui/AcousticParameterTable'
-import VAudio from '../../ui/VAudio'
+import AcousticParameterTable from '@/components/ui/AcousticParameterTable'
+import VAudio from '@/components/ui/VAudio'
 export default{
     components:{
         AcousticParameterTable,
         VAudio
     },
-    props: ['name','description','images','tableItems','ir'],
+    props: ['name', 'description', 'images', 'tableItems', 'ir'],
     computed:{
         audioSrc(){
-            console.log(this.ir[0])
             return (this.ir != undefined) ? this.ir[0] : 0
         }
     },
@@ -87,7 +85,5 @@ export default{
             this.$emit('close-dialog', false);
         }
     },
-    created(){
-    }
 }
 </script>
