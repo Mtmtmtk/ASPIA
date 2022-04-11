@@ -11,11 +11,11 @@ const routes = [
     {
         path: '/main',
         component: () => import("@/views/Main"),
-        redirect: 'main/generator',
+        redirect: 'main/convolution',
         children: [
             {
-                path: 'generator',
-                component: () => import("@/components/pages/Generator")
+                path: 'convolution',
+                component: () => import("@/components/pages/Convolution")
             },
             {
                 path: 'ir-analysis',

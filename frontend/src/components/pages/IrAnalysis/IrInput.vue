@@ -18,36 +18,6 @@
             >
             </v-file-input>
         </v-card-text>
-
-        <!--<v-row v-if="manualSplRateInput" class="ps-5 pt-3">
-            <v-col>
-                Coundn't get a sampling rate from the file. Please enter it manually.
-            </v-col>
-        </v-row>
-        <v-card-text v-if="manualSplRateInput">
-            <v-col cols="4">
-                <v-text-field
-                    v-model="manualSplRate"
-                    @blur="changeSplRate"
-                    suffix="Hz"
-                />
-            </v-col>
-        </v-card-text>
-
-        <v-row v-if="manualChannelsInput" class="ps-5 pt-3">
-            <v-col>
-                Coundn't get a number of channels from the file. Please enter it manually.
-            </v-col>
-        </v-row>
-        <v-card-text v-if="manualChannelsInput">
-            <v-col cols="4">
-                <v-text-field
-                    v-model="manualChannels"
-                    @blur="changeChannels"
-                />
-            </v-col>
-        </v-card-text>-->
-
         <v-card-text>
             <v-row>
                 <v-col>
@@ -70,16 +40,34 @@ export default{
         recordingSplRate:null,
         channels:null,
         timestamp:[],
-        manualSplRateInput:false,
-        manualChannelsInput:false,
-        manualSplRate:0,
-        manualChannels:0,
         audioURL:'',
     }),
+    props: ["duct"],
     computed:{
         buttonDisbled(){
             if(this.recording.length != 0  && (![this.recordingSplRate,this.channels].includes(0))) return false
             else return true
+        }
+    },
+    watch: {
+        async recording() {
+            const audioLength = this.recording[0].length;
+            const frameElementsNum = 44100 * 10;
+            const frames = Math.ceil(audioLength/(frameElementsNum));
+            for(let frameNumber = 0; frameNumber < frames; frameNumber++ ){
+                const nextFrameNumber = frameNumber + 1;
+                let data = [];
+                if(audioLength < nextFrameNumber * (frameElementsNum))
+                    data = this.recording.map(el => el.slice(frameNumber * frameElementsNum, audioLength + 1));
+                else
+                    data = this.recording.map(el => el.slice(frameNumber * frameElementsNum, nextFrameNumber * frameElementsNum))
+
+                await this.duct.call(this.duct.EVENT.SAVE_DATA_IN_REDIS, {
+                    frame_no: frameNumber,
+                    group_key: 'analysis',
+                    data: data,
+                });
+            }
         }
     },
     methods:{
@@ -91,12 +79,9 @@ export default{
                 this.recording = [];
                 this.recordingSplRate = null;
                 this.channels = null;
-                this.manualChannelsInput = false;
-                this.manualSplRateInput = false;
             }
         },
         readIRAsArrayBuffer(file){
-            console.log(file)
             this.fileName = file.name;
             const reader = new FileReader();
             const audioContext = new AudioContext();
@@ -109,11 +94,7 @@ export default{
                     let typedArray = new Float32Array(decoded.length);
                     typedArray = decoded.getChannelData(i);
                     let singleArray = [];
-                    if(typedArray.length * channels > 44100*18){
-                        singleArray = Array.from(typedArray).splice(0, 44100*18/channels);
-                    }else{
-                        singleArray = Array.from(typedArray);
-                    }
+                    singleArray = Array.from(typedArray);
                     allChannelsArr.push(singleArray);
                 }
                 vue.recording = allChannelsArr;
@@ -132,12 +113,6 @@ export default{
             reader.onload = function(evt){ vue.audioURL = evt.target.result; };
             reader.readAsDataURL(file);
         },
-        changeSplRate(){
-            this.recordingSplRate = parseInt(this.manualSplRate);
-        },
-        changeChannels(){
-            this.channels = parseInt(this.manualChannels);
-        },
         startAnalysis(){
             this.$emit('get-ir-info', [ 
                 this.recording, 
@@ -146,7 +121,7 @@ export default{
                 this.audioURL,
                 this.fileName
             ]);
-        }
+        },
     }
 
 }

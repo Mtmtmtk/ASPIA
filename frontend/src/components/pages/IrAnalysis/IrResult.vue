@@ -28,7 +28,6 @@
                 :default-order="defaultOrder"
                 :resampled-ir="resampledIr"
                 :channels="channels"
-                :spl-rate="splRate"
                 :timestamp="timestamp"
                 :schroeder-decibels="schroederDecibels"
                 :power-per-freq="powerPerFreq"
@@ -71,24 +70,20 @@ export default{
     }),
     props:['duct','irArr','splRate','channels','audioSrc','fileName'],
     methods:{
-        async callDuct(_filterType, _order, rawIrRequired){
+        async callDuct(_filterType, _order, rawIrRequired=true){
             this.ductCalling = true;
-            if (rawIrRequired == true){
+            if (rawIrRequired){
                 let irDict = {};
-                [ irDict, this.timestamp ] = await this.duct.call(this.duct.EVENT.RESAMPLE_CHART_GET, { arr: this.irArr });
+                [ irDict, this.timestamp ] = await this.duct.call(this.duct.EVENT.RESAMPLE_CHART_GET, {});
                 this.resampledIr = Object.values(irDict);
             }
             this.acousticParameters = await this.duct.call(this.duct.EVENT.ACOUSTIC_PARAMETER_GET, {
-                ir_arr: this.irArr,
                 spl_rate: this.splRate,
-                channels: this.channels,
                 filter_type: _filterType,
                 order: _order
             });
             this.schroederDecibels = await this.duct.call(this.duct.EVENT.SCHROEDER_CURVE, {
-                ir_arr: this.irArr,
                 spl_rate: this.splRate,
-                channels: this.channels,
                 filter_type: _filterType,
                 order: _order
             });
@@ -116,11 +111,14 @@ export default{
     },
     watch:{
         irArr(){
-            this.callDuct(this.defaultFilterType, this.defaultOrder,true);
+            this.callDuct(this.defaultFilterType, this.defaultOrder);
         },
     },
     mounted(){
-        if(this.irArr.length != 0) this.callDuct(this.defaultFilterType, this.defaultOrder,true);
+        if(this.irArr.length != 0) this.callDuct(this.defaultFilterType, this.defaultOrder);
+    },
+    async beforeDestroy(){
+        await this.duct.call(this.duct.EVENT.DELETE_GROUP_IN_REDIS, { group_key: 'analysis' });
     }
 }
 </script>

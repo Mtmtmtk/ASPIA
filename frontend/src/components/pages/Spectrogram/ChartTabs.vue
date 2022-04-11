@@ -33,7 +33,7 @@
             <v-tab-item>
                 <spectrogram-power-card 
                     :sampling-points="samplingPoints"
-                    :data="spectDb"
+                    :data="spectPow"
                 />
             </v-tab-item>
             <v-tab-item>
@@ -47,9 +47,9 @@
 </template>
 <script>
 import AudioChartCard from './AudioChartCard'
-import SpectrogramDecibelCard from './SpectrogramDecibelCard'
-import SpectrogramPowerCard from './SpectrogramPowerCard'
-import SpectrogramAmplitudeCard from './SpectrogramAmplitudeCard.vue'
+import SpectrogramDecibelCard from './Spectrograms/SpectrogramDecibelCard'
+import SpectrogramPowerCard from './Spectrograms/SpectrogramPowerCard'
+import SpectrogramAmplitudeCard from './Spectrograms/SpectrogramAmplitudeCard'
 export default{
     components:{
         AudioChartCard,
@@ -98,12 +98,5 @@ export default{
             default: () => ([])
         },
     },
-    watch:{
-        loading(){
-            console.log(this.loading);
-        }
-    }, 
-    methods:{
-    }
 }
 </script>

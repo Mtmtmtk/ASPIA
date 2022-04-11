@@ -2,7 +2,7 @@
     <v-container>
         <v-row>
             <v-col class="text-h2">
-                <font color="#CFD8DC">Generator</font>
+                <font color="#CFD8DC">Convolution</font>
             </v-col>
         </v-row>
         <v-row>

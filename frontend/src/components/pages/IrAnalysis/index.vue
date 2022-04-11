@@ -8,6 +8,7 @@
         <v-row>
             <v-col>
                 <ir-input
+                    :duct="duct"
                     @get-ir-info="getIrInfo"
                 />
             </v-col>
@@ -46,8 +47,7 @@ export default{
     }),
     props:['duct'],
     methods:{
-        getIrInfo(...args){
-            args = args.flat();
+        getIrInfo(args){
             this.irArr    = args[0];
             this.splRate  = args[1];
             this.channels = args[2];

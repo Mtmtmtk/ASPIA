@@ -19,7 +19,7 @@ class Handler(EventHandler):
         return handler_spec
 
     async def handle(self, event):     
-        return await {}
+        return {}
 
     async def call(self,test_message:str):
         return {}
@@ -29,6 +29,7 @@ class Handler(EventHandler):
         sample_sr = spl_rate
         sample_audio = np.array(data).T
         mono_audio = []
+        
         if(isinstance(sample_audio[0], np.ndarray) == False):
             mono_audio = sample_audio
         elif(len(sample_audio[0]) == 2):
@@ -63,7 +64,6 @@ class Handler(EventHandler):
         np_amp = df_fft['amplitude'].values
         np_amp = np_amp/np.amax(np_amp)
         df_fft.loc[:,'amplitude'] = np_amp
-        print(df_fft)
         return df_fft
 
     async def get_power(self, data:list, spl_rate:int, sampling_points):
@@ -85,7 +85,6 @@ class Handler(EventHandler):
         np_decibel = (np_amp ** 2)/np.amax(np_amp**2)
         df_fft.loc[:,'power']=np_decibel
         df_fft.drop(columns='amplitude')
-        print(df_fft)
         return df_fft
 
     async def get_decibel(self, data:list, spl_rate:int, sampling_points):

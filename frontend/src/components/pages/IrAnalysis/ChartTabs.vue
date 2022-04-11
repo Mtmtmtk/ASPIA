@@ -64,7 +64,6 @@ export default{
         'defaultOrder',
         'resampledIr',
         'channels',
-        'splRate',
         'timestamp',
         'schroederDecibels',
         'powerPerFreq',

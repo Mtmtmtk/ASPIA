@@ -124,11 +124,11 @@ const decodeFunc = function(file, vue, target){
             allChannelsArr.push(singleArray);
         }
         if(target == 'recording'){
-            vue.ductsInputForm.recordingSplRate = decoded.sampleRate;
-            vue.ductsInputForm.recording = (allChannelsArr.length == 1) ? allChannelsArr.flat() : allChannelsArr;
+            vue.recordingSplRate = decoded.sampleRate;
+            vue.recording = allChannelsArr;
         }else if(target == 'swept_sine'){
-            vue.ductsInputForm.sweptSineSplRate = decoded.sampleRate;
-            vue.ductsInputForm.sweptSine = (allChannelsArr.length == 1) ? allChannelsArr.flat() : allChannelsArr;
+            vue.sweptSineSplRate = decoded.sampleRate;
+            vue.sweptSine = allChannelsArr;
         }
     };
     reader.onload = function(evt) {
@@ -137,6 +137,33 @@ const decodeFunc = function(file, vue, target){
     };
     reader.readAsArrayBuffer(file);
 }
+
+//const decodeFunc = function(file, vue, target){
+//    const reader = new FileReader();
+//    const audioContext = new AudioContext();
+//    const postProcessFunc = function(decoded){
+//        let allChannelsArr = [];
+//        const channels = decoded.numberOfChannels;
+//        for(let i = 0; i < channels; i++){
+//            let typedArray = new Float32Array(decoded.length);
+//            typedArray = decoded.getChannelData(i);
+//            const singleArray = Array.from(typedArray);
+//            allChannelsArr.push(singleArray);
+//        }
+//        if(target == 'recording'){
+//            vue.ductsInputForm.recordingSplRate = decoded.sampleRate;
+//            vue.ductsInputForm.recording = (allChannelsArr.length == 1) ? allChannelsArr.flat() : allChannelsArr;
+//        }else if(target == 'swept_sine'){
+//            vue.ductsInputForm.sweptSineSplRate = decoded.sampleRate;
+//            vue.ductsInputForm.sweptSine = (allChannelsArr.length == 1) ? allChannelsArr.flat() : allChannelsArr;
+//        }
+//    };
+//    reader.onload = function(evt) {
+//        const arrayBuffer = evt.target.result;
+//        audioContext.decodeAudioData(arrayBuffer, postProcessFunc);
+//    };
+//    reader.readAsArrayBuffer(file);
+//}
 
 const encodeFunc = function(samples, samplingRate, _channels, _blockSize){
         const _buffer = new ArrayBuffer(44 + samples.length * 2);
@@ -168,6 +195,26 @@ const encodeFunc = function(samples, samplingRate, _channels, _blockSize){
         return _view
 }
 
+const saveDataInRedis = async function(duct, audioArr, groupKey){
+    const audioLength = audioArr[0].length;
+    const frameElementsNum = 44100 * 10;
+    const frames = Math.ceil(audioLength/(frameElementsNum));
+    for(let frameNumber = 0; frameNumber < frames; frameNumber++ ){
+        const nextFrameNumber = frameNumber + 1;
+        let data = [];
+        if(audioLength < nextFrameNumber * (frameElementsNum))
+            data = audioArr.map(el => el.slice(frameNumber * frameElementsNum, audioLength + 1));
+        else
+            data = audioArr.map(el => el.slice(frameNumber * frameElementsNum, nextFrameNumber * frameElementsNum))
+        console.log(frameNumber);
+        await duct.call(duct.EVENT.SAVE_DATA_IN_REDIS, {
+            frame_no: frameNumber,
+            group_key: groupKey,
+            data: data,
+        });
+    }
+}
+
 export default{
     components:{
         StepOne,
@@ -180,14 +227,12 @@ export default{
     },
     data: () => ({
         stepper: 1,
-        ductsInputForm: {
-            recording: [],
-            recordingSplRate: 0,
-            sweptSine: [],
-            sweptSineSplRate: 0,
-            irPath: '',
-            outputChannels: 0
-        },
+        recording: [],
+        recordingSplRate: 0,
+        sweptSine: [],
+        sweptSineSplRate: 0,
+        irPath: '',
+        outputChannels: 0,
         spaceName: '',
         irFormat: '',
         cvAudioArr: [],
@@ -210,8 +255,18 @@ export default{
     }),
     props:['duct'],
     watch:{
-        cvAudioArr(){
+        recording(){
+            saveDataInRedis(this.duct, this.recording, 'convolution_recording')
+        },
+        sweptSine(){
+            saveDataInRedis(this.duct, this.sweptSine, 'convolution_swept_sine')
+        },
+        async cvAudioArr(){
             this.audioUrl = this.exportWAV(this.cvAudioArr);
+            await this.duct.call(this.duct.EVENT.DELETE_GROUP_IN_REDIS, { group_key: 'convolution_recording' });
+            const sweptSineApplied = await this.duct.call(this.duct.EVENT.CHECK_GROUP_EXISTENCE, { group_key: 'convolution_swept_sine' });
+            if(sweptSineApplied)
+                await this.duct.call(this.duct.EVENT.DELETE_GROUP_IN_REDIS, { group_key: 'convolution_swept_sine' });
         },
     }, 
     methods:{
@@ -229,22 +284,20 @@ export default{
         },
         getImpulseResponseData(args){
             this.irFormat = args[1];
-            this.ductsInputForm.irPath = './impulse_response/' + args[0] + '/' + args[1] + '/' + args[2];
+            this.irPath = './impulse_response/' + args[0] + '/' + args[1] + '/' + args[2];
         },
         async callDucts(channels){
-            this.ductsInputForm.outputChannels = channels;
+            this.outputChannels = channels;
             let ret = await this.duct.call(this.duct.EVENT.EXPORT_CONVOLUTION,{
-                recording: this.ductsInputForm.recording, 
-                recording_spl_rate: this.ductsInputForm.recordingSplRate, 
-                ir_path: this.ductsInputForm.irPath,
-                output_channels: this.ductsInputForm.outputChannels,
-                swept_sine: this.ductsInputForm.sweptSine,
-                swept_sine_spl_rate: this.ductsInputForm.sweptSineSplRate,
+                recording_spl_rate: this.recordingSplRate, 
+                swept_sine_spl_rate: this.sweptSineSplRate,
+                ir_path: this.irPath,
+                output_channels: this.outputChannels,
             });
             this.cvAudioArr = ret;
         },
         exportWAV(audioData){
-            const _dataview  = this.encodeWAV(this.mergeBuffers(audioData), this.ductsInputForm.recordingSplRate);
+            const _dataview  = this.encodeWAV(this.mergeBuffers(audioData), this.recordingSplRate);
             const _audioBlob = new Blob([_dataview], { type: 'audio/wav' });
             let _myURL = window.URL || window.webkitURL;
             const url = _myURL.createObjectURL(_audioBlob);
@@ -252,18 +305,16 @@ export default{
             return url
         },
         encodeWAV(samples, samplingRate){
-            const _channels  = this.wavHeaderInfo[this.ductsInputForm.outputChannels].channels;
-            const _blockSize = this.wavHeaderInfo[this.ductsInputForm.outputChannels].blockSize;
+            const _channels  = this.wavHeaderInfo[this.outputChannels].channels;
+            const _blockSize = this.wavHeaderInfo[this.outputChannels].blockSize;
             return encodeFunc(samples, samplingRate, _channels, _blockSize)
         },
         mergeBuffers(audioData){
             let _splLength = 0;
             for(let _idx = 0; _idx < audioData.length; _idx++) 
                 _splLength += audioData[_idx].length;
-
             let _samples = new Float32Array(_splLength);
             _samples = audioData.flat();
-
             let _splIdx = 0;
             const channels = audioData.length;
             const singleChannelLength = audioData[0].length;

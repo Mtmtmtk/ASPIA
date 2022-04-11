@@ -17,23 +17,13 @@ class Handler(EventHandler):
     async def handle(self, event):     
         return {}
 
-    async def call(self, ir_arr, channels:int):
-        np_ir = np.array(ir_arr).T
-        reshaped_ir = []
-        if channels == 4:
-            reshaped_ir = pd.DataFrame(np_ir, columns=['channel_0','channel_1','channel_2','channel_3'])
-        elif channels == 2:
-            reshaped_ir = pd.DataFrame(np_ir, columns=['channel_0','channel_1'])
-        else:
-            reshaped_ir = pd.DataFrame(np_ir, columns=['channel_0'])
-
+    async def call(self, ir_df: pd.DataFrame):
+        channels = len(ir_df.columns)
         average_ir = np.array([])
-        if channels == 4:
-            average_ir = reshaped_ir['channel_0']
+        if (channels == 4) or (channels == 1):
+            average_ir = ir_df.iloc[:,0]
         elif channels == 2:
-            average_ir = (reshaped_ir['channel_0']+reshaped_ir['channel_1'])/2
-        elif channels == 1:
-            average_ir = reshaped_ir['channel_0']
+            average_ir = (ir_df.iloc[:, 0] + ir_df.iloc[:, 1])/2
 
         if np.count_nonzero(np.isnan(average_ir)) != 0:
             average_ir = average_ir.fillna(0)

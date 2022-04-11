@@ -13,6 +13,7 @@ class Handler(EventHandler):
     def setup(self, handler_spec, manager):
         handler_spec.set_description('UK Dissertation')
         try:
+            self.evt_load_data = manager.get_handler_module('LOAD_DATA_FROM_REDIS')
             self.evt_pick_representative_ir = manager.get_handler_module('PICK_REPRESENTATIVE_IR')
         except Exception as e:
             import traceback
@@ -34,8 +35,9 @@ class Handler(EventHandler):
     async def handle(self, event):     
         return await self.call(**event.data)
 
-    async def call(self, ir_arr, spl_rate: int, channels:int, filter_type:str, order:int):
-        average_ir = await self.evt_pick_representative_ir.call(ir_arr,channels)
+    async def call(self, spl_rate: int, filter_type:str, order:int):
+        ir_df = await self.evt_load_data.load_group_data('analysis')
+        average_ir = await self.evt_pick_representative_ir.call(ir_df)
 
         df_output = pd.DataFrame(columns=['31.5','63','125','250','500','1k','2k','4k','8k','16k','time_stamp'])
         for octave in self.octave_band:

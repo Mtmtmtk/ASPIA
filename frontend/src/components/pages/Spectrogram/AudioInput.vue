@@ -62,7 +62,6 @@ export default{
             }
         },
         readAudioAsArrayBuffer(file){
-            console.log(file)
             this.fileName = file.name;
             const reader = new FileReader();
             const audioContext = new AudioContext();

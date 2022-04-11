@@ -12,11 +12,6 @@ class Handler(EventHandler):
 
     def setup(self, handler_spec, manager):
         handler_spec.set_description('UK Dissertation')
-        try:
-            self.evt_pick_representative_ir = manager.get_handler_module('PICK_REPRESENTATIVE_IR')
-        except Exception as e:
-            import traceback
-            traceback.print_exc()
         self.octave_band = [
             { 'center': '31.5', 'bandpass':[22   ,44] },
             { 'center': '63'  , 'bandpass':[44   ,88] },
@@ -35,7 +30,7 @@ class Handler(EventHandler):
         return await self.call(**event.data)
 
     async def call(self, spl_rate:int, filter_type:str, order:int):
-        df_amp = pd.DataFrame(columns=['31.5','63','125','250','500','1k','2k','4k','8k','16k'])
+        df_amp = pd.DataFrame(columns = ['31.5','63','125','250','500','1k','2k','4k','8k','16k'])
         sr_freq = []
         isStableDict = {}
         stabilityCheckList = []
@@ -44,31 +39,29 @@ class Handler(EventHandler):
             [ amp_dB, w, isStable ] = self.bandpassFreqResponse(spl_rate, fbp, filter_type,order)
             df_amp[octave['center']] = amp_dB
             sr_freq = pd.Series(w)
-            #isStableDict[octave['center']] = isStable
             stabilityCheckList.append({ 'hz': octave['center'], 'isStable': isStable })
         return [ df_amp.to_dict(orient='list'), sr_freq.tolist(), stabilityCheckList ]
-        #return df_parameter.to_dict('records')
 
     def bandpassFreqResponse(self, fs, fbp, filter_type, order):
         iir_filters = ['Butterworth','Chebychev1','Chebychev2','Elliptic','Bessel']
         nyq = fs / 2.0 
         normalized_cutoff = np.array(fbp) / nyq
-        b=[]
-        a=[]
+        b = []
+        a = []
         if filter_type=='Butterworth':
             b,a = signal.butter(order, normalized_cutoff, btype='band', analog=False)
         elif filter_type=='Chebychev1':
-            b,a = signal.cheby1(order, rp=5, Wn=normalized_cutoff, btype='band', analog=False)
+            b,a = signal.cheby1(order, rp = 5, Wn=normalized_cutoff, btype='band', analog=False)
         elif filter_type=='Chebychev2':
-            b,a = signal.cheby2(order, rs=5, Wn=normalized_cutoff, btype='band', analog=False)
+            b,a = signal.cheby2(order, rs = 5, Wn=normalized_cutoff, btype='band', analog=False)
         elif filter_type=='Elliptic':
-            b,a = signal.ellip(order, rp=5, rs=5, Wn=normalized_cutoff, btype='band', analog=False)
+            b,a = signal.ellip(order, rp = 5, rs = 5, Wn=normalized_cutoff, btype='band', analog=False)
         elif filter_type=='Bessel':
             b,a = signal.bessel(order, Wn=normalized_cutoff, btype='band', analog=False)
         elif filter_type=='FIR':
             b = signal.firwin(numtaps=order, cutoff=np.array(fbp), fs=fs, pass_zero=False)
             a = 1
-        w,h = signal.freqz(b,a, worN=2048 ,fs=fs)
+        w,h = signal.freqz(b,a, worN = 2048 ,fs=fs)
         isStable = True
         if filter_type in iir_filters:
             if True in (np.abs(np.roots(a)) > 1):

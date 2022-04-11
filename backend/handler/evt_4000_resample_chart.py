@@ -12,14 +12,18 @@ class Handler(EventHandler):
 
     def setup(self, handler_spec, manager):
         handler_spec.set_description('UK Dissertation')
+        try:
+            self.evt_load_data = manager.get_handler_module('LOAD_DATA_FROM_REDIS')
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
         return handler_spec
 
     async def handle(self, event):     
         return {}
 
-    async def call(self, arr):
-        np_ir = np.array(arr).T
-        df = pd.DataFrame(np_ir)
+    async def call(self):
+        df = await self.evt_load_data.load_group_data('analysis')
         df_resampled = pd.DataFrame(columns=df.columns)
         for i in df.columns:
             arr = df.iloc[:,i].values

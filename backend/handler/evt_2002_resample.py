@@ -26,9 +26,9 @@ class Handler(EventHandler):
     async def handle(self, event):     
         return {}
 
-    async def call(self, recording, recording_spl_rate: int, swept_sine, swept_sine_spl_rate:int, ir_path:str, output_channels: str):
+    async def call(self, recording_spl_rate: int, swept_sine_spl_rate:int, ir_path:str, output_channels: str):
         [ir_data, ir_sr] = await self.evt_import_ir.call(ir_path)
-        [anechoic_data, anechoic_sr] = await self.evt_create_anechoic_sound.call(recording, recording_spl_rate, swept_sine, swept_sine_spl_rate)
+        [anechoic_data, anechoic_sr] = await self.evt_create_anechoic_sound.call(recording_spl_rate, swept_sine_spl_rate)
 
         ir_resampled = []
         ir_len = 0
@@ -83,7 +83,7 @@ class Handler(EventHandler):
             ir_len = len(ir_resampled[0])
 
         fft_len = 1
-        while 2*fft_len < ir_len + len(anechoic_data) - 1:
+        while 2*fft_len < ir_len + len(anechoic_data[0]) - 1:
             fft_len *= 2
         fft_len *= 2
 
