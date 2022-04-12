@@ -22,8 +22,8 @@ class Handler(EventHandler):
     async def handle(self, event):     
         return {}
 
-    async def call(self):
-        df = await self.evt_load_data.load_group_data('analysis')
+    async def call(self, group_key: str):
+        df = await self.evt_load_data.load_group_data(group_key)
         df_resampled = pd.DataFrame(columns=df.columns)
         for i in df.columns:
             arr = df.iloc[:,i].values

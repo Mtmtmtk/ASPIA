@@ -43,10 +43,31 @@ export default{
         timestamp:[],
         audioURL:'',
     }),
+    props:['duct'],
     computed:{
         buttonDisabled(){
             if(this.audioURL != '') return false
             else return true
+        }
+    },
+    watch:{
+        async audioArray(){
+            const audioLength = this.audioArray[0].length;
+            const frameElementsNum = 44100 * 10;
+            const frames = Math.ceil(audioLength/(frameElementsNum));
+            for(let frameNumber = 0; frameNumber < frames; frameNumber++ ){
+                const nextFrameNumber = frameNumber + 1;
+                let data = [];
+                if(audioLength < nextFrameNumber * (frameElementsNum))
+                    data = this.audioArray.map(el => el.slice(frameNumber * frameElementsNum, audioLength + 1));
+                else
+                    data = this.audioArray.map(el => el.slice(frameNumber * frameElementsNum, nextFrameNumber * frameElementsNum))
+                await this.duct.call(this.duct.EVENT.SAVE_DATA_IN_REDIS, {
+                    frame_no: frameNumber,
+                    group_key: 'spectrogram',
+                    data: data,
+                });
+            }
         }
     },
     methods:{
@@ -73,13 +94,8 @@ export default{
                 for(let i = 0; i < channels; i++){
                     let typedArray = new Float32Array(decoded.length);
                     typedArray = decoded.getChannelData(i);
-                    let singleArray = [];
-                    if(typedArray.length * channels > 44100*18){
-                        singleArray = Array.from(typedArray).splice(0, 44100*18/channels);
-                    }else{
-                        singleArray = Array.from(typedArray);
-                    }
-                    allChannelsArr.push(singleArray);
+                    let singleChannelArray = Array.from(typedArray);
+                    allChannelsArr.push(singleChannelArray);
                 }
                 vue.audioArray = allChannelsArr;
                 vue.audioSplRate = sampleRate;

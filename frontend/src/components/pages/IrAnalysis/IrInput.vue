@@ -93,9 +93,8 @@ export default{
                 for(let i = 0; i < channels; i++){
                     let typedArray = new Float32Array(decoded.length);
                     typedArray = decoded.getChannelData(i);
-                    let singleArray = [];
-                    singleArray = Array.from(typedArray);
-                    allChannelsArr.push(singleArray);
+                    let singleChannelArray = Array.from(typedArray);
+                    allChannelsArr.push(singleChannelArray);
                 }
                 vue.recording = allChannelsArr;
                 vue.recordingSplRate = sampleRate;

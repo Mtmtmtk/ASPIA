@@ -8,6 +8,7 @@
         <v-row>
             <v-col>
                 <audio-input
+                    :duct="duct"
                     @get-audio-info="getAudioInfo"
                 />
             </v-col>
@@ -73,26 +74,26 @@ export default{
         async callDuct(){
             this.ductCalling = true;
             let resampledDict = {};
-            [ resampledDict, this.timestamp ] = await this.duct.call(this.duct.EVENT.RESAMPLE_CHART_GET, { arr: this.audioArray });
+            [ resampledDict, this.timestamp ] = await this.duct.call(this.duct.EVENT.RESAMPLE_CHART_GET, { group_key: 'spectrogram' });
             this.resampledAudioArray = Object.values(resampledDict);
 
             this.spectDb = await this.duct.call(this.duct.EVENT.SPECTROGRAM_DB_GET,{
-                data: this.audioArray,
                 spl_rate: this.audioSplRate,
                 sampling_points: this.samplingPoints
             });
             this.spectPow = await this.duct.call(this.duct.EVENT.SPECTROGRAM_POWER_GET,{
-                data: this.audioArray,
                 spl_rate: this.audioSplRate,
                 sampling_points: this.samplingPoints
             });
             this.spectAmp = await this.duct.call(this.duct.EVENT.SPECTROGRAM_AMP_GET,{
-                data: this.audioArray,
                 spl_rate: this.audioSplRate,
                 sampling_points: this.samplingPoints
             });
             this.ductCalling = false;
         }
+    },
+    async beforeDestroy(){
+        await this.duct.call(this.duct.EVENT.DELETE_GROUP_IN_REDIS, { group_key: 'spectrogram' });
     }
 }
 </script>

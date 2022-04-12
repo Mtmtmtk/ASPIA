@@ -74,7 +74,7 @@ export default{
             this.ductCalling = true;
             if (rawIrRequired){
                 let irDict = {};
-                [ irDict, this.timestamp ] = await this.duct.call(this.duct.EVENT.RESAMPLE_CHART_GET, {});
+                [ irDict, this.timestamp ] = await this.duct.call(this.duct.EVENT.RESAMPLE_CHART_GET, { group_key: 'analysis' });
                 this.resampledIr = Object.values(irDict);
             }
             this.acousticParameters = await this.duct.call(this.duct.EVENT.ACOUSTIC_PARAMETER_GET, {

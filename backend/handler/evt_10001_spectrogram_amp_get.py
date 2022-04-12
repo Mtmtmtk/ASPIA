@@ -19,6 +19,6 @@ class Handler(EventHandler):
     async def handle(self, event):     
         return await self.call(**event.data)
 
-    async def call(self, data:list, spl_rate:int, sampling_points:int):
-        df_amplitude =  await self.evt_spectrogram.get_amplitude(data, spl_rate, sampling_points)
+    async def call(self, spl_rate:int, sampling_points:int):
+        df_amplitude =  await self.evt_spectrogram.get_amplitude(spl_rate, sampling_points)
         return df_amplitude.to_dict('records')

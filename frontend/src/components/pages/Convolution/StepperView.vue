@@ -4,10 +4,7 @@
         elevation="5" 
         dark 
     >
-        <v-stepper
-            vertical
-            v-model="stepper"
-        >
+        <v-stepper vertical v-model="stepper">
             <v-stepper-step
                 :complete="stepper > 1"
                 step="1"
@@ -137,33 +134,6 @@ const decodeFunc = function(file, vue, target){
     };
     reader.readAsArrayBuffer(file);
 }
-
-//const decodeFunc = function(file, vue, target){
-//    const reader = new FileReader();
-//    const audioContext = new AudioContext();
-//    const postProcessFunc = function(decoded){
-//        let allChannelsArr = [];
-//        const channels = decoded.numberOfChannels;
-//        for(let i = 0; i < channels; i++){
-//            let typedArray = new Float32Array(decoded.length);
-//            typedArray = decoded.getChannelData(i);
-//            const singleArray = Array.from(typedArray);
-//            allChannelsArr.push(singleArray);
-//        }
-//        if(target == 'recording'){
-//            vue.ductsInputForm.recordingSplRate = decoded.sampleRate;
-//            vue.ductsInputForm.recording = (allChannelsArr.length == 1) ? allChannelsArr.flat() : allChannelsArr;
-//        }else if(target == 'swept_sine'){
-//            vue.ductsInputForm.sweptSineSplRate = decoded.sampleRate;
-//            vue.ductsInputForm.sweptSine = (allChannelsArr.length == 1) ? allChannelsArr.flat() : allChannelsArr;
-//        }
-//    };
-//    reader.onload = function(evt) {
-//        const arrayBuffer = evt.target.result;
-//        audioContext.decodeAudioData(arrayBuffer, postProcessFunc);
-//    };
-//    reader.readAsArrayBuffer(file);
-//}
 
 const encodeFunc = function(samples, samplingRate, _channels, _blockSize){
         const _buffer = new ArrayBuffer(44 + samples.length * 2);
