@@ -76,7 +76,7 @@ export default{
             let resampledDict = {};
             [ resampledDict, this.timestamp ] = await this.duct.call(this.duct.EVENT.RESAMPLE_CHART_GET, { group_key: 'spectrogram' });
             this.resampledAudioArray = Object.values(resampledDict);
-
+            console.log(this.resampledAudioArray)
             this.spectDb = await this.duct.call(this.duct.EVENT.SPECTROGRAM_DB_GET,{
                 spl_rate: this.audioSplRate,
                 sampling_points: this.samplingPoints

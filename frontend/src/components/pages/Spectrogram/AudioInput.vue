@@ -62,6 +62,7 @@ export default{
                     data = this.audioArray.map(el => el.slice(frameNumber * frameElementsNum, audioLength + 1));
                 else
                     data = this.audioArray.map(el => el.slice(frameNumber * frameElementsNum, nextFrameNumber * frameElementsNum))
+                console.log(data);
                 await this.duct.call(this.duct.EVENT.SAVE_DATA_IN_REDIS, {
                     frame_no: frameNumber,
                     group_key: 'spectrogram',

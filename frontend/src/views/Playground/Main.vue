@@ -22,19 +22,32 @@
             <v-btn @click="getAcousticParameters"
             >get Acoustic Parameters
             </v-btn>
+            <div ref="sampleChart"/>
+            <spectrogram-canvas 
+                v-if="spectDb.length != 0"
+                :data="spectDb"
+                mode="decibel"
+                :decibel-range="decibelRange"
+                :sampling-points="samplingPoints"
+            />
         </v-card>
     </v-container>
 </template>
 <script>
 import ducts from '@iflb/ducts-client'
+import Plotly from 'plotly.js-dist-min'
+import SpectrogramCanvas from "@/components/ui/SpectrogramCanvas/index.vue"
 export default{
+    components: { SpectrogramCanvas },
     data:() => ({
         duct: new ducts.Duct(),
         fileName: '',
         recording: [],
         recordingSplRate: 0,
         channels: 0,
-        status: ''
+        samplingPoints:2048,  
+        spectDb: [],
+        decibelRange:[-10,0]
     }),
     watch:{
         async recording(){
@@ -48,10 +61,9 @@ export default{
                     data = this.recording.map(el => el.slice(frameNumber * frameElementsNum, audioLength + 1));
                 else
                     data = this.recording.map(el => el.slice(frameNumber * frameElementsNum, nextFrameNumber * frameElementsNum))
-                console.log(data);
                 this.status = await this.duct.call(this.duct.EVENT.SAVE_DATA_IN_REDIS, {
                     frame_no: frameNumber,
-                    group_key: 'analysis',
+                    group_key: 'spectrogram',
                     data: data,
                 });
             }
@@ -88,34 +100,45 @@ export default{
             };
             reader.readAsArrayBuffer(file);
         },
-        //async load(){
-        //    this.ductRet = await this.duct.call(this.duct.EVENT.LOAD_DATA_FROM_REDIS, { group_key: 'hoge' });
-        //    await this.duct.call(this.duct.EVENT.DELETE_GROUP_IN_REDIS, { group_key: 'hoge' });
-        //    console.log(this.ductRet);
-        //},
         async getAcousticParameters(){
-            let irDict = {};
-            [ irDict, this.timestamp ] = await this.duct.call(this.duct.EVENT.RESAMPLE_CHART_GET, {});
-            this.resampledIr = Object.values(irDict);
-            console.log(this.resampledIr);
-            this.acousticParameters = await this.duct.call(this.duct.EVENT.ACOUSTIC_PARAMETER_GET, {
+            this.spectDb = await this.duct.call(this.duct.EVENT.SPECTROGRAM_DB_GET,{
                 spl_rate: this.recordingSplRate,
-                filter_type: 'FIR',
-                order: 5001
+                sampling_points: this.samplingPoints
             });
-            this.schroederDecibels = await this.duct.call(this.duct.EVENT.SCHROEDER_CURVE, {
-                spl_rate: this.recordingSplRate,
-                filter_type: 'FIR',
-                order: 5001
-            });
-            await this.duct.call(this.duct.EVENT.DELETE_GROUP_IN_REDIS, { group_key: 'analysis' });
-            console.log(this.acousticParameters);
-            console.log(this.schroederDecibels)
+            console.log(this.spectDb)
+            await this.duct.call(this.duct.EVENT.DELETE_GROUP_IN_REDIS, { group_key: 'spectrogram' });
+            this.createChartData();
+        },
+        createChartData(){
+            let timestamp = [ ...new Set(this.spectDb.map(el => el.time)) ];
+            let zData = [];
+            for(let _time of timestamp){
+                const rowData = this.spectDb.filter(el => el.time == _time).map(el => el.decibel);
+                zData.push(rowData);
+            }
+            const data = [{
+                z: zData,
+                type: 'surface'
+            }];
+            const layout = {
+                title: 'Spectrogram',
+                autosize: false,
+                width: 500,
+                height: 500,
+                margin: {
+                    l: 65,
+                    r: 50,
+                    b: 65,
+                    t: 90,
+                }
+            };
+            console.log(zData);
+            Plotly.newPlot(this.$refs.sampleChart, data, layout);
         }
     },
     mounted(){
         this.duct.open("/ducts/wsd");
-        console.log(this.duct)
+        console.log(Plotly);
     }
 }
 </script>
