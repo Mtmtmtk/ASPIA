@@ -4,7 +4,6 @@ import pandas as pd
 from scipy.io.wavfile import write
 import soundfile as sf
 import resampy
-
 import logging
 logger = logging.getLogger(__name__)
 
@@ -18,6 +17,7 @@ class Handler(EventHandler):
         try:
             self.evt_import_ir = manager.get_handler_module('IMPORT_IMPULSE_RESPONSE')
             self.evt_create_anechoic_sound = manager.get_handler_module('CREATE_ANECHOIC_SOUND')
+            self.evt_status = manager.get_handler_for(manager.key_ids["STATUS"])[1]
         except Exception as e:
             import traceback
             traceback.print_exc()
@@ -29,6 +29,7 @@ class Handler(EventHandler):
     async def call(self, recording_spl_rate: int, swept_sine_spl_rate:int, ir_path:str, output_channels: str):
         [ir_data, ir_sr] = await self.evt_import_ir.call(ir_path)
         [anechoic_data, anechoic_sr] = await self.evt_create_anechoic_sound.call(recording_spl_rate, swept_sine_spl_rate)
+        #await self.evt_status.set(ForecastStatus.IN_DOWNLOAD)
 
         ir_resampled = []
         ir_len = 0

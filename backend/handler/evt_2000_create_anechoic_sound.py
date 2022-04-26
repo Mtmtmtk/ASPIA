@@ -4,7 +4,6 @@ import pandas as pd
 from scipy.io.wavfile import write
 import soundfile as sf
 import resampy
-
 import logging
 logger = logging.getLogger(__name__)
 
@@ -18,6 +17,7 @@ class Handler(EventHandler):
         try:
             self.evt_load_data = manager.get_handler_module('LOAD_DATA_FROM_REDIS')
             self.evt_group_exists = manager.get_handler_module('MANIPULATE_REDIS').check_group_existence
+            self.evt_status = manager.get_handler_for(manager.key_ids["STATUS"])[1]
         except Exception as e:
             import traceback
             traceback.print_exc()
@@ -27,7 +27,9 @@ class Handler(EventHandler):
         return {}
 
     async def call(self, recording_spl_rate: int, swept_sine_spl_rate: int):
+        #await self.evt_status.set(ForecastStatus.IN_DOWNLOAD)
         recording_df = await self.evt_load_data.load_group_data('convolution_recording')
+        #await self.evt_status.set(ForecastStatus.DOWNLOAD_FINISHED)
         swept_sine_exist = await self.evt_group_exists('convolution_swept_sine', 'pkl')
         if (swept_sine_exist == False):
             anechoic_data = recording_df.values.T
@@ -57,4 +59,5 @@ class Handler(EventHandler):
             anechoic_data = np.fft.ifft(cv_sound_fft)
             anechoic_data = anechoic_data.real
             anechoic_data = anechoic_data / np.amax(anechoic_data)
+        #await self.evt_status.set(ForecastStatus.ANECHOIC_SOUND_FINISHEDyy)
         return [anechoic_data, recording_spl_rate]
