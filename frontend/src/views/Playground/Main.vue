@@ -27,7 +27,6 @@
                     light 
                     ref="chartCard"
                     width="100%"
-                    v-resize="onResize"
                 >
                     <!--<v-card-title>
                         <v-row>
@@ -53,7 +52,14 @@
                             />
                         </v-col>
                     </v-row>-->
-                    <div ref="sampleChart"/>
+                    <spectrogram-canvas 
+                        v-if="spectDb.length != 0"
+                        :data="spectDb"
+                        mode="decibel"
+                        :decibel-range="decibelRange"
+                        :sampling-points="samplingPoints"
+                    />
+                    <!--<div ref="sampleChart"/>-->
                 </v-card>
             </v-card-text>
         </v-card>
@@ -62,9 +68,9 @@
 <script>
 import ducts from '@iflb/ducts-client'
 import Plotly from 'plotly.js-dist-min'
-//import SpectrogramCanvas from "@/components/ui/SpectrogramCanvas/index.vue"
+import SpectrogramCanvas from "@/components/ui/SpectrogramCanvas/index.vue"
 export default{
-    //components: { SpectrogramCanvas },
+    components: { SpectrogramCanvas },
     data:() => ({
         duct: new ducts.Duct(),
         fileName: '',
@@ -100,14 +106,14 @@ export default{
         }   
     }, 
     methods:{
-        onResize(){
-            if(this.cardWidth != this.$refs.sampleChart.clientWidth){
-                this.cardWidth = this.$refs.sampleChart.clientWidth;
-                if(this.$refs.sampleChart.classList.contains('js-plotly-plot')){
-                    this.relayoutChart();
-                }
-            }
-        },
+        //onResize(){
+        //    if(this.cardWidth != this.$refs.sampleChart.clientWidth){
+        //        this.cardWidth = this.$refs.sampleChart.clientWidth;
+        //        if(this.$refs.sampleChart.classList.contains('js-plotly-plot')){
+        //            this.relayoutChart();
+        //        }
+        //    }
+        //},
         async getIRData(file){
             if(file)
                 await this.readIRAsArrayBuffer(file);
@@ -139,16 +145,17 @@ export default{
             reader.readAsArrayBuffer(file);
         },
         async getSpectrograms(){
-            //this.spectDb = await this.duct.call(this.duct.EVENT.SPECTROGRAM_DB_GET,{
-            //    spl_rate: this.recordingSplRate,
-            //    sampling_points: this.samplingPoints
-            //});
+            let ret = await this.duct.call(this.duct.EVENT.SPECTROGRAM_DB_GET,{
+                spl_rate: this.recordingSplRate,
+                sampling_points: this.samplingPoints
+            });
+            this.spectDb = ret[2];
             [ this.frequencies, this.zData, this.timestamp ] = await this.duct.call(this.duct.EVENT.PLAYGROUND,{
                 spl_rate: this.recordingSplRate,
                 sampling_points: this.samplingPoints
             });
             await this.duct.call(this.duct.EVENT.DELETE_GROUP_IN_REDIS, { group_key: 'spectrogram' });
-            this.createChartData();
+            //this.createChartData();
         },
         async createChartData(){
             //let frequencies = [ ...new Set(this.spectDb.map(el => el.center_frequency)) ];
@@ -206,7 +213,7 @@ export default{
     },
     mounted(){
         this.duct.open("/ducts/wsd");
-        this.cardWidth = this.$refs.sampleChart.clientWidth
+        //this.cardWidth = this.$refs.sampleChart.clientWidth
     }
 }
 </script>
