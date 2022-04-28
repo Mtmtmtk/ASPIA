@@ -22,8 +22,8 @@
                     :file-name="fileName"
                     :resampled-audio="resampledAudioArray"
                     :channels="channels"
+                    :frequencies="frequencies"
                     :timestamp="timestamp"
-                    :sampling-points="samplingPoints"
                     :spect-db="spectDb"
                     :spect-pow="spectPow"
                     :spect-amp="spectAmp"
@@ -42,18 +42,19 @@ export default{
         SpectrogramResult, 
     },
     data:() => ({
-        ductCalling:false,
-        audioArray:[],
-        audioSplRate:'',
-        channels:'',
-        src:'',
-        fileName:'',
-        resultShown:false,
-        resampledAudioArray:[],
-        timestamp:[],
-        spectDb:[],
-        spectPow:[],
-        spectAmp:[],
+        ductCalling: false,
+        audioArray: [],
+        audioSplRate: '',
+        channels: '',
+        src: '',
+        fileName: '',
+        resultShown: false,
+        resampledAudioArray: [],
+        timestamp: [],
+        frequencies: [],
+        spectDb: [],
+        spectPow: [],
+        spectAmp: [],
         samplingPoints:2048
     }),
     props:['duct'],
@@ -77,18 +78,23 @@ export default{
             [ resampledDict, this.timestamp ] = await this.duct.call(this.duct.EVENT.RESAMPLE_CHART_GET, { group_key: 'spectrogram' });
             this.resampledAudioArray = Object.values(resampledDict);
 
-            this.spectDb = await this.duct.call(this.duct.EVENT.SPECTROGRAM_DB_GET,{
+            let dBRet= await this.duct.call(this.duct.EVENT.SPECTROGRAM_DB_GET,{
                 spl_rate: this.audioSplRate,
                 sampling_points: this.samplingPoints
             });
-            this.spectPow = await this.duct.call(this.duct.EVENT.SPECTROGRAM_POWER_GET,{
+            let powRet = await this.duct.call(this.duct.EVENT.SPECTROGRAM_POWER_GET,{
                 spl_rate: this.audioSplRate,
                 sampling_points: this.samplingPoints
             });
-            this.spectAmp = await this.duct.call(this.duct.EVENT.SPECTROGRAM_AMP_GET,{
+            let ampRet = await this.duct.call(this.duct.EVENT.SPECTROGRAM_AMP_GET,{
                 spl_rate: this.audioSplRate,
                 sampling_points: this.samplingPoints
             });
+            this.frequencies = dBRet[0];
+            this.timestamp = dBRet[1];
+            this.spectDb = dBRet[2];
+            this.spectPow = powRet[2];
+            this.spectAmp = ampRet[2];
             this.ductCalling = false;
         }
     },

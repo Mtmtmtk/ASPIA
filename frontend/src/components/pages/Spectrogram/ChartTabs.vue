@@ -26,20 +26,23 @@
             </v-tab-item>
             <v-tab-item>
                 <spectrogram-decibel-card 
-                    :sampling-points="samplingPoints"
-                    :data="spectDb"
+                    :z-data="spectDb"
+                    :timestamp="timestamp"
+                    :frequencies="frequencies"
                 />
             </v-tab-item>
             <v-tab-item>
                 <spectrogram-power-card 
-                    :sampling-points="samplingPoints"
-                    :data="spectPow"
+                    :z-data="spectPow"
+                    :timestamp="timestamp"
+                    :frequencies="frequencies"
                 />
             </v-tab-item>
             <v-tab-item>
                 <spectrogram-amplitude-card 
-                    :sampling-points="samplingPoints"
-                    :data="spectAmp"
+                    :z-data="spectAmp"
+                    :timestamp="timestamp"
+                    :frequencies="frequencies"
                 />
             </v-tab-item>
         </v-tabs-items>
@@ -61,10 +64,6 @@ export default{
         chartTab:null,
     }),
     props:{
-        duct:{
-            type: Object,
-            default: () => ({})
-        },
         loading:{
             type: Boolean,
             default: () => (true)
@@ -73,17 +72,17 @@ export default{
             type: Array,
             default: () => ([])
         },
-        channels:{
+        channels: {
             type: Number,
-            default: () => (1)
+            default: 0
+        },
+        frequencies:{
+            type: Array,
+            default: () => ([])
         },
         timestamp:{
             type: Array,
             default: () => ([])
-        },
-        samplingPoints:{
-            type: Number,
-            default: () => (2048)
         },
         spectDb:{
             type: Array,

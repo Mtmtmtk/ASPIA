@@ -26,9 +26,9 @@
             <chart-tabs 
                 :loading="ductCalling"
                 :audio-arr="resampledAudio"
-                :channels="channels"
+                :frequencies="frequencies"
                 :timestamp="timestamp"
-                :sampling-points="samplingPoints"
+                :channels="channels"
                 :spect-db="spectDb"
                 :spect-pow="spectPow"
                 :spect-amp="spectAmp"
@@ -52,7 +52,7 @@ export default{
         'resampledAudio',
         'channels',
         'timestamp',
-        'samplingPoints',
+        'frequencies',
         'spectDb',
         'spectPow',
         'spectAmp',

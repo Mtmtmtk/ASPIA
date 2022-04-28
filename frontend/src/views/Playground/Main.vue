@@ -18,23 +18,72 @@
                     @change="getIRData"
                 >
                 </v-file-input>
+                <v-btn @click="getSpectrograms"
+                >get spectrogram
+                </v-btn>
             </v-card-text>
-            <v-btn @click="getAcousticParameters"
-            >get Acoustic Parameters
-            </v-btn>
+            <v-card-text>
+                <v-card 
+                    light 
+                    ref="chartCard"
+                    width="100%"
+                >
+                    <!--<v-card-title>
+                        <v-row>
+                            <v-col cols="6">
+                                Plotly.js
+                            </v-col>
+                            <v-col cols="6">
+                                Canvas
+                            </v-col>
+                        </v-row>
+                    </v-card-title>
+                    <v-row>
+                        <v-col cols="6">
+                            <div ref="sampleChart"/>
+                        </v-col>
+                        <v-col cols="6">
+                            <spectrogram-canvas 
+                                v-if="spectDb.length != 0"
+                                :data="spectDb"
+                                mode="decibel"
+                                :decibel-range="decibelRange"
+                                :sampling-points="samplingPoints"
+                            />
+                        </v-col>
+                    </v-row>-->
+                    <spectrogram-canvas 
+                        v-if="spectDb.length != 0"
+                        :data="spectDb"
+                        mode="decibel"
+                        :decibel-range="decibelRange"
+                        :sampling-points="samplingPoints"
+                    />
+                    <!--<div ref="sampleChart"/>-->
+                </v-card>
+            </v-card-text>
         </v-card>
     </v-container>
 </template>
 <script>
 import ducts from '@iflb/ducts-client'
+import Plotly from 'plotly.js-dist-min'
+import SpectrogramCanvas from "@/components/ui/SpectrogramCanvas/index.vue"
 export default{
+    components: { SpectrogramCanvas },
     data:() => ({
         duct: new ducts.Duct(),
         fileName: '',
         recording: [],
         recordingSplRate: 0,
         channels: 0,
-        status: ''
+        samplingPoints:2048,  
+        spectDb: [],
+        decibelRange:[-10,0],
+        cardWidth: 0,
+        frequencies: [],
+        timestamp: [],
+        zData: []
     }),
     watch:{
         async recording(){
@@ -48,16 +97,23 @@ export default{
                     data = this.recording.map(el => el.slice(frameNumber * frameElementsNum, audioLength + 1));
                 else
                     data = this.recording.map(el => el.slice(frameNumber * frameElementsNum, nextFrameNumber * frameElementsNum))
-                console.log(data);
                 this.status = await this.duct.call(this.duct.EVENT.SAVE_DATA_IN_REDIS, {
                     frame_no: frameNumber,
-                    group_key: 'analysis',
+                    group_key: 'spectrogram',
                     data: data,
                 });
             }
         }   
     }, 
     methods:{
+        //onResize(){
+        //    if(this.cardWidth != this.$refs.sampleChart.clientWidth){
+        //        this.cardWidth = this.$refs.sampleChart.clientWidth;
+        //        if(this.$refs.sampleChart.classList.contains('js-plotly-plot')){
+        //            this.relayoutChart();
+        //        }
+        //    }
+        //},
         async getIRData(file){
             if(file)
                 await this.readIRAsArrayBuffer(file);
@@ -88,34 +144,76 @@ export default{
             };
             reader.readAsArrayBuffer(file);
         },
-        //async load(){
-        //    this.ductRet = await this.duct.call(this.duct.EVENT.LOAD_DATA_FROM_REDIS, { group_key: 'hoge' });
-        //    await this.duct.call(this.duct.EVENT.DELETE_GROUP_IN_REDIS, { group_key: 'hoge' });
-        //    console.log(this.ductRet);
-        //},
-        async getAcousticParameters(){
-            let irDict = {};
-            [ irDict, this.timestamp ] = await this.duct.call(this.duct.EVENT.RESAMPLE_CHART_GET, {});
-            this.resampledIr = Object.values(irDict);
-            console.log(this.resampledIr);
-            this.acousticParameters = await this.duct.call(this.duct.EVENT.ACOUSTIC_PARAMETER_GET, {
+        async getSpectrograms(){
+            let ret = await this.duct.call(this.duct.EVENT.SPECTROGRAM_DB_GET,{
                 spl_rate: this.recordingSplRate,
-                filter_type: 'FIR',
-                order: 5001
+                sampling_points: this.samplingPoints
             });
-            this.schroederDecibels = await this.duct.call(this.duct.EVENT.SCHROEDER_CURVE, {
+            this.spectDb = ret[2];
+            [ this.frequencies, this.zData, this.timestamp ] = await this.duct.call(this.duct.EVENT.PLAYGROUND,{
                 spl_rate: this.recordingSplRate,
-                filter_type: 'FIR',
-                order: 5001
+                sampling_points: this.samplingPoints
             });
-            await this.duct.call(this.duct.EVENT.DELETE_GROUP_IN_REDIS, { group_key: 'analysis' });
-            console.log(this.acousticParameters);
-            console.log(this.schroederDecibels)
-        }
+            await this.duct.call(this.duct.EVENT.DELETE_GROUP_IN_REDIS, { group_key: 'spectrogram' });
+            //this.createChartData();
+        },
+        async createChartData(){
+            //let frequencies = [ ...new Set(this.spectDb.map(el => el.center_frequency)) ];
+            //let timestamp   = [ ...new Set(this.spectDb.map(el => el.time)) ];
+            //let zDataTransposed = [];
+            //timestamp.forEach(_time => {
+            //    const rowData = this.spectDb.filter(el => el.time == _time).map(el => el.decibel);
+            //    zDataTransposed.push(rowData);
+            //});// the reason of transposing is to reduce calculation time  
+            //const zData = zDataTransposed[0].map((_, col) => zDataTransposed.map(row => row[col]));
+            const data = [{
+                type: 'heatmap',
+                //x: timestamp,
+                x: this.timestamp,
+                y: this.frequencies,
+                z: this.zData,
+                colorscale: 'Jet',
+                colorbar: {
+                    title: {
+                        text: 'Decibel (dB)',
+                        side: 'right'
+                    }
+                },
+                zmax: 0,
+                zmin: -10
+            }];
+            const layout = {
+                title: 'Spectrogram',
+                autosize: false,
+                width: this.cardWidth,
+                height: 500,
+                margin: {
+                    l: 65,
+                    r: 50,
+                    b: 65,
+                    t: 90,
+                },
+                xaxis: {
+                    title: {
+                        text: 'Time (sec)'
+                    }
+                },
+                yaxis: {
+                    title: {
+                        text: 'Frequency (Hz)'
+                    }
+                },
+            };
+            Plotly.newPlot(this.$refs.sampleChart, data, layout);
+        },
+        relayoutChart(){
+            const update = { width: this.cardWidth };
+            Plotly.relayout(this.$refs.sampleChart, update);
+        },
     },
     mounted(){
         this.duct.open("/ducts/wsd");
-        console.log(this.duct)
+        //this.cardWidth = this.$refs.sampleChart.clientWidth
     }
 }
 </script>

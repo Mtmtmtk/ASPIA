@@ -30,19 +30,15 @@ class Handler(EventHandler):
         return {}
 
     async def preprocess(self, spl_rate:int, sampling_points:str):
-        #sample_audio, sample_sr = sf.read('./impulse_response/Stairway/stereo/stairwell_ortf.wav')
         df = await self.evt_load_data.load_group_data('spectrogram')
         sample_sr = spl_rate
         mono_audio = []
-        
         channels = len(df.columns)
         if (channels == 4) or (channels == 1):
             mono_audio = df.iloc[:,0]
         elif channels == 2:
-            mono_audio = (df.iloc[:, 0] + ir_df.iloc[:, 1])/2
-        print(mono_audio)
-        mono_audio = df.values.T.flatten()
-        print(mono_audio)
+            mono_audio = df.mean(axis='columns')
+        mono_audio = np.array(mono_audio.tolist())
         mono_audio = resampy.resample(mono_audio,sample_sr,44100)
         N = sampling_points
         overlap = N / 2

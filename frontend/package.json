@@ -18,17 +18,16 @@
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
     "mathjax": "^2.7.2",
-    "plyr": "^3.6.9",
+    "plotly.js-dist-min": "^2.11.1",
     "require-all": "^3.0.0",
     "vue": "^2.6.11",
     "vue-carousel": "^0.18.0",
     "vue-chartjs": "^3.5.1",
     "vue-mathjax": "^0.0.11",
-    "vue-plyr": "^7.0.0",
     "vue-router": "^3.5.3",
     "vue-template-compiler": "^2.6.11",
     "vuetify": "^2.5.8",
-    "wavesurfer.js":"^6.0.3"
+    "wavesurfer.js": "^6.0.3"
   },
   "eslintConfig": {
     "root": true,

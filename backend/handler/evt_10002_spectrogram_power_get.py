@@ -20,5 +20,8 @@ class Handler(EventHandler):
         return await self.call(**event.data)
 
     async def call(self, spl_rate:int, sampling_points:int):
-        df_amplitude =  await self.evt_spectrogram.get_power(spl_rate, sampling_points)
-        return df_amplitude.to_dict('records')
+        df =  await self.evt_spectrogram.get_decibel(spl_rate, sampling_points)
+        z_data = df.groupby('center_frequency')['power'].apply(list).tolist()
+        freq_bin = df['center_frequency'].drop_duplicates().tolist()
+        timestamp = df['time'].drop_duplicates().tolist()
+        return [ freq_bin, timestamp, z_data ]
