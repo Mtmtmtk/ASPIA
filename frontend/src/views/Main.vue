@@ -126,7 +126,7 @@ export default{
         drawer:true,
         backgroundImage: BackgroundImage,
         menuItems:[
-            { title: 'Convolution', icon: 'mdi-surround-sound', to: '/main/convolution' },
+            { title: 'Auralisation', icon: 'mdi-surround-sound', to: '/main/auralisation' },
             { title: 'IRAnalysis', icon: 'mdi-sine-wave', to: '/main/ir-analysis' },
             { title: 'Spectrogram', icon: 'mdi-chart-bar', to: '/main/spectrogram' },
             { title: 'Theory', icon: 'mdi-calculator-variant-outline', to: '/main/theory' },

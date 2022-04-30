@@ -17,7 +17,7 @@
             class="rounded-b-lg"
         >
             <v-tab-item>
-                <audio-chart-card
+                <raw-audio-chart-card
                     :loading="loading"
                     :audio-arr="audioArr"
                     :channels="channels"
@@ -49,13 +49,13 @@
     </div>
 </template>
 <script>
-import AudioChartCard from './AudioChartCard'
+import RawAudioChartCard from './RawAudioChartCard'
 import SpectrogramDecibelCard from './Spectrograms/SpectrogramDecibelCard'
 import SpectrogramPowerCard from './Spectrograms/SpectrogramPowerCard'
 import SpectrogramAmplitudeCard from './Spectrograms/SpectrogramAmplitudeCard'
 export default{
     components:{
-        AudioChartCard,
+        RawAudioChartCard,
         SpectrogramDecibelCard,
         SpectrogramPowerCard,
         SpectrogramAmplitudeCard

@@ -116,6 +116,9 @@ export default{
     },
     mounted(){
         if(this.irArr.length != 0) this.callDuct(this.defaultFilterType, this.defaultOrder);
+        window.addEventListener('beforeunload', async () => {
+            await this.duct.call(this.duct.EVENT.DELETE_GROUP_IN_REDIS, { group_key: 'analysis' });
+        });
     },
     async beforeDestroy(){
         await this.duct.call(this.duct.EVENT.DELETE_GROUP_IN_REDIS, { group_key: 'analysis' });

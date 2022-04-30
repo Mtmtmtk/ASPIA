@@ -11,11 +11,11 @@ const routes = [
     {
         path: '/main',
         component: () => import("@/views/Main"),
-        redirect: 'main/convolution',
+        redirect: 'main/auralisation',
         children: [
             {
-                path: 'convolution',
-                component: () => import("@/components/pages/Convolution")
+                path: 'auralisation',
+                component: () => import("@/components/pages/Auralisation")
             },
             {
                 path: 'ir-analysis',

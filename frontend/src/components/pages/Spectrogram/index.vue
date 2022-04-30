@@ -96,6 +96,7 @@ export default{
             this.spectPow = powRet[2];
             this.spectAmp = ampRet[2];
             this.ductCalling = false;
+            await this.duct.call(this.duct.EVENT.DELETE_GROUP_IN_REDIS, { group_key: 'spectrogram' });
         }
     },
     async beforeDestroy(){

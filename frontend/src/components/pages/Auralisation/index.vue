@@ -2,7 +2,7 @@
     <v-container>
         <v-row>
             <v-col class="text-h2">
-                <font color="#CFD8DC">Convolution</font>
+                <font color="#CFD8DC">Auralisation</font>
             </v-col>
         </v-row>
         <v-row>
