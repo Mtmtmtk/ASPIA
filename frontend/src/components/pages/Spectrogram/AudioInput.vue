@@ -25,6 +25,7 @@
                     <v-btn
                         color="#26A69A"
                         :disabled="buttonDisabled"
+                        :loading="loading"
                         @click="showSpectrogram"
                     >start analysis
                     </v-btn>
@@ -42,18 +43,16 @@ export default{
         channels:null,
         timestamp:[],
         audioURL:'',
+        loading: false,
+        buttonDisabled: true
     }),
     props:['duct'],
-    computed:{
-        buttonDisabled(){
-            if(this.audioURL != '') return false
-            else return true
-        }
-    },
     watch:{
         async audioArray(){
+            this.buttonDisabled = true;
+            this.loading = true;
             const audioLength = this.audioArray[0].length;
-            const frameElementsNum = 44100 * 10;
+            const frameElementsNum = 44100 * 5;
             const frames = Math.ceil(audioLength/(frameElementsNum));
             for(let frameNumber = 0; frameNumber < frames; frameNumber++ ){
                 const nextFrameNumber = frameNumber + 1;
@@ -62,13 +61,14 @@ export default{
                     data = this.audioArray.map(el => el.slice(frameNumber * frameElementsNum, audioLength + 1));
                 else
                     data = this.audioArray.map(el => el.slice(frameNumber * frameElementsNum, nextFrameNumber * frameElementsNum))
-                console.log(data);
                 await this.duct.call(this.duct.EVENT.SAVE_DATA_IN_REDIS, {
                     frame_no: frameNumber,
                     group_key: 'spectrogram',
                     data: data,
                 });
             }
+            this.buttonDisabled = false;
+            this.loading = false;
         }
     },
     methods:{

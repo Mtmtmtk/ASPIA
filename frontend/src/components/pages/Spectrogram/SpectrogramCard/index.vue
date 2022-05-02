@@ -8,51 +8,42 @@
     >
         <loading-overlay :loading="loading"/>
         <v-card-text class="py-2 my-0">
-            <v-row class="py-0 my-0">
-                <v-col cols="5" class="pb-0">
-                    <v-text-field 
-                        outlined
-                        dense
-                        flat
-                        label="minimum decibel"
-                    />
-                </v-col>
-                <v-col cols="5" class="pb-0">
-                    <v-text-field 
-                        outlined
-                        dense
-                        flat
-                        label="max decibel"
-                    />
-                </v-col>
-                <v-col cols="2" class="pb-0">
-                    <v-btn
-                        color="#26A69A"
-                        dark
-                    >confirm
-                    </v-btn>
-                </v-col>
-            </v-row>
+            <plotly-setting-dialog 
+                :mode="mode"
+                :max-val="maxVal"
+                :min-val="minVal"
+                :color-scale="colorScale"
+                @confirm-changes="restyleChart"
+            />
             <div ref="plotlyChart"/>
         </v-card-text>
     </v-card>
 </template>
 <script>
 import LoadingOverlay from '@/components/ui/LoadingOverlay'
+import PlotlySettingDialog from './PlotlySettingDialog.vue'
 import Plotly from 'plotly.js-dist-min'
 export default{
     components:{ 
-        LoadingOverlay
+        LoadingOverlay,
+        PlotlySettingDialog
     },
     data:()=>({
-        loading:false,
-        mode:'decibel',
-        absMinDB:10,
-        absMaxDB:0,
-        decibelRange:[-10,0],
+        loading: false,
+        maxVal: 0,
+        minVal: 0,
+        colorScale: 'Jet',
         cardWidth: null
     }),
     props:{
+        mode: {
+            type: String,
+            default: 'decibel'
+        },
+        initialValueRange: {
+            type: Array,
+            default: () => ([0, -10])
+        },
         zData:{
             type: Array,
             default: () => ([])
@@ -72,13 +63,6 @@ export default{
         }
     },
     methods:{
-        applyRange(){
-            this.decibelRange = [-1*this.absMinDB, -1*this.absMaxDB];
-        },
-        getCurrentStatus(val){
-            if(val == 'drawing') this.loading = true;
-            else if(val == 'finished') this.loading = false;
-        },
         onResize(){
             if(this.cardWidth != this.$refs.plotlyChart.clientWidth){
                 this.cardWidth = this.$refs.plotlyChart.clientWidth;
@@ -87,48 +71,61 @@ export default{
                 }
             }
         },
-        async createChartData(){
+        async createChartData() {
+            let _text = '';
+            if(this.mode == 'decibel') {
+                _text = 'Decibel(dB)'
+            }else if(this.mode == 'power') {
+                _text = 'Power'
+            }else if(this.mode == 'amplitude') {
+                _text = 'Amplitude'
+            }
             const data = [{
                 type: 'heatmap',
                 x: this.timestamp,
                 y: this.frequencies,
                 z: this.zData,
-                colorscale: 'Jet',
+                colorscale: this.colorScale,
                 colorbar: {
                     title: {
-                        text: 'Decibel (dB)',
+                        text: _text,
                         side: 'right'
                     }
                 },
-                zmax: 0,
-                zmin: -10
+                zmax: this.maxVal,
+                zmin: this.minVal
             }];
             const layout = {
                 autosize: false,
                 width: this.cardWidth,
                 height: 406,
-                margin: {
-                    l: 50,
-                    r: 15,
-                    t: 8,
-                    b: 60
-                },
-                xaxis: {
-                    title: { text: 'Time (sec)' }
-                },
-                yaxis: {
-                    title: { text: 'Frequency (Hz)' },
-                },
+                margin: { l: 50, r: 0, t: 5, b: 60 },
+                xaxis: { title: { text: 'Time (sec)' } },
+                yaxis: { title: { text: 'Frequency (Hz)' } },
                 paper_bgcolor: '#E0E0E0'
             };
             Plotly.newPlot(this.$refs.plotlyChart, data, layout);
         },
-        relayoutChart(){
+        relayoutChart() {
             const update = { width: this.cardWidth };
             Plotly.relayout(this.$refs.plotlyChart, update);
         },
+        restyleChart(settings) {
+            this.maxVal = settings.maxVal;
+            this.minVal = settings.minVal;
+            this.colorScale = settings.colorScale;
+            const update = {
+                zmax: this.maxVal,
+                zmin: this.minVal,
+                colorscale: this.colorScale
+            };
+            console.log(update);
+            Plotly.restyle(this.$refs.plotlyChart, update);
+        }
     },
     mounted(){
+        this.maxVal = this.initialValueRange[0];
+        this.minVal = this.initialValueRange[1];
         this.createChartData();
     }
 }

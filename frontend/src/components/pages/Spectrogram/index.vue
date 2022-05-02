@@ -17,17 +17,16 @@
             <v-col cols="12">
                 <spectrogram-result
                     v-if="resultShown" 
-                    :duct="duct"
+                    :loading="loading"
                     :src="src"
                     :file-name="fileName"
-                    :resampled-audio="resampledAudioArray"
+                    :resampled-audio="resampledAudio"
                     :channels="channels"
                     :frequencies="frequencies"
                     :timestamp="timestamp"
                     :spect-db="spectDb"
                     :spect-pow="spectPow"
                     :spect-amp="spectAmp"
-                    :duct-calling="ductCalling"
                 />
             </v-col>
         </v-row>
@@ -42,14 +41,14 @@ export default{
         SpectrogramResult, 
     },
     data:() => ({
-        ductCalling: false,
+        loading: false,
         audioArray: [],
         audioSplRate: '',
         channels: '',
         src: '',
         fileName: '',
         resultShown: false,
-        resampledAudioArray: [],
+        resampledAudio: [],
         timestamp: [],
         frequencies: [],
         spectDb: [],
@@ -73,31 +72,22 @@ export default{
             this.resultShown=true;
         },
         async callDuct(){
-            this.ductCalling = true;
+            this.loading = true;
             let resampledDict = {};
             [ resampledDict, this.timestamp ] = await this.duct.call(this.duct.EVENT.RESAMPLE_CHART_GET, { group_key: 'spectrogram' });
-            this.resampledAudioArray = Object.values(resampledDict);
-
-            let dBRet= await this.duct.call(this.duct.EVENT.SPECTROGRAM_DB_GET,{
+            this.resampledAudio = Object.values(resampledDict);
+            [ this.frequencies, this.timestamp, this.spectAmp, this.spectPow, this.spectDb ] = await this.duct.call(this.duct.EVENT.SPECTROGRAM_ALL_GET,{
                 spl_rate: this.audioSplRate,
                 sampling_points: this.samplingPoints
             });
-            let powRet = await this.duct.call(this.duct.EVENT.SPECTROGRAM_POWER_GET,{
-                spl_rate: this.audioSplRate,
-                sampling_points: this.samplingPoints
-            });
-            let ampRet = await this.duct.call(this.duct.EVENT.SPECTROGRAM_AMP_GET,{
-                spl_rate: this.audioSplRate,
-                sampling_points: this.samplingPoints
-            });
-            this.frequencies = dBRet[0];
-            this.timestamp = dBRet[1];
-            this.spectDb = dBRet[2];
-            this.spectPow = powRet[2];
-            this.spectAmp = ampRet[2];
-            this.ductCalling = false;
+            this.loading = false;
             await this.duct.call(this.duct.EVENT.DELETE_GROUP_IN_REDIS, { group_key: 'spectrogram' });
         }
+    },
+    mounted(){
+        window.addEventListener('beforeunload', async () => {
+            await this.duct.call(this.duct.EVENT.DELETE_GROUP_IN_REDIS, { group_key: 'spectrogram' });
+        });
     },
     async beforeDestroy(){
         await this.duct.call(this.duct.EVENT.DELETE_GROUP_IN_REDIS, { group_key: 'spectrogram' });

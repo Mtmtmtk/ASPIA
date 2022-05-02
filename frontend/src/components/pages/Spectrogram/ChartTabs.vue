@@ -25,21 +25,30 @@
                 />
             </v-tab-item>
             <v-tab-item>
-                <spectrogram-decibel-card 
+                <spectrogram-card 
+                    mode="decibel"
+                    :initial-value-range="[0, -10]"
+                    :loading="loading"
                     :z-data="spectDb"
                     :timestamp="timestamp"
                     :frequencies="frequencies"
                 />
             </v-tab-item>
             <v-tab-item>
-                <spectrogram-power-card 
+                <spectrogram-card 
+                    mode="power"
+                    :initial-value-range="[0.1, 0]"
+                    :loading="loading"
                     :z-data="spectPow"
                     :timestamp="timestamp"
                     :frequencies="frequencies"
                 />
             </v-tab-item>
             <v-tab-item>
-                <spectrogram-amplitude-card 
+                <spectrogram-card 
+                    mode="amplitude"
+                    :initial-value-range="[0.1, 0]"
+                    :loading="loading"
                     :z-data="spectAmp"
                     :timestamp="timestamp"
                     :frequencies="frequencies"
@@ -50,23 +59,17 @@
 </template>
 <script>
 import RawAudioChartCard from './RawAudioChartCard'
-import SpectrogramDecibelCard from './Spectrograms/SpectrogramDecibelCard'
-import SpectrogramPowerCard from './Spectrograms/SpectrogramPowerCard'
-import SpectrogramAmplitudeCard from './Spectrograms/SpectrogramAmplitudeCard'
+import SpectrogramCard from './SpectrogramCard'
 export default{
     components:{
         RawAudioChartCard,
-        SpectrogramDecibelCard,
-        SpectrogramPowerCard,
-        SpectrogramAmplitudeCard
+        SpectrogramCard,
     },
-    data:() =>({
-        chartTab:null,
-    }),
+    data:() =>({ chartTab:null }),
     props:{
         loading:{
             type: Boolean,
-            default: () => (true)
+            default: true
         },
         audioArr:{
             type: Array,
