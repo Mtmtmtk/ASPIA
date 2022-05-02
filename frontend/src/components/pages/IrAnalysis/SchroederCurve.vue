@@ -64,23 +64,32 @@ export default{
         },
         renderPlotly(){
             if(Object.keys(this.schroederDecibels).length != 0){
+                const _idx = this.octaveBands.map(el => el.value).indexOf(this.selectedHz);
+                const _dataLabel = this.octaveBands.map(el => el.text)[_idx];
                 const data = [{
                     x: this.timestamp,
                     y: this.schroederDecibels[this.selectedHz],
                     type: 'scatter',
                     fill: 'tonexty',
-                    line: { 
-                        width: 2,
-                        color: '#26A69A'
-                    },
+                    name: _dataLabel,
+                    line: { width: 2 }
                 }];
                 const layout = {
                     autosize: false,
                     width: this.cardWidth-2,
                     height: 372,
-                    margin: { l: 50, r: 15, t: 8, b: 60 },
-                    xaxis: { title: { text: 'Time (sec)'   } },
-                    yaxis: { title: { text: 'Decibel (dB)' } },
+                    margin: {
+                        l: 50,
+                        r: 15,
+                        t: 8,
+                        b: 60
+                    },
+                    xaxis: {
+                        title: { text: 'Time (sec)' }
+                    },
+                    yaxis: {
+                        title: { text: 'Decibel (dB)' },
+                    },
                     paper_bgcolor: '#E0E0E0'
                 };
                 Plotly.newPlot(this.$refs.plotlyChart, data, layout);

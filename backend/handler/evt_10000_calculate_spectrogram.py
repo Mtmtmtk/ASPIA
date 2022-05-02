@@ -85,14 +85,14 @@ class Handler(EventHandler):
             df_fft.loc[len(fft_below_fs)*i:len(fft_below_fs)*(i+1)-1,'center_frequency'] = freq_bin
             df_fft.loc[len(fft_below_fs)*i:len(fft_below_fs)*(i+1)-1,'amplitude'] = amp
         np_amp = df_fft['amplitude'].values
-        np_power = (np_amp ** 2)/np.amax(np_amp**2)
-        df_fft.loc[:,'power'] = np_power
+        np_decibel = (np_amp ** 2)/np.amax(np_amp**2)
+        df_fft.loc[:,'power']=np_decibel
         df_fft.drop(columns='amplitude')
         return df_fft
 
     async def get_decibel(self, spl_rate:int, sampling_points):
         [mono_audio, sample_sr, N, overlap, window, overlap_trials, freq_bin] = await self.preprocess(spl_rate, sampling_points)
-        df_fft = pd.DataFrame(index = range(int(N/2)*overlap_trials), columns=[ 'time', 'center_frequency', 'power', 'decibel' ]) 
+        df_fft = pd.DataFrame(index=range(int(N/2)*overlap_trials),columns=['time','center_frequency','power','decibel']) 
         for i in range(overlap_trials):
             start = int((N-overlap) * i)
             end = int(start + N)
@@ -109,29 +109,4 @@ class Handler(EventHandler):
         np_decibel = np.log10((np_power/np.amax(np_power)).astype(np.float64))
         df_fft.loc[:,'decibel'] = np_decibel
         df_fft.drop(columns='power')
-        return df_fft
-    
-    async def get_all(self, spl_rate: int, sampling_points: int):
-        [mono_audio, sample_sr, N, overlap, window, overlap_trials, freq_bin] = await self.preprocess(spl_rate, sampling_points)
-        df_fft = pd.DataFrame(index=range(int(N/2)*overlap_trials),columns=['time','center_frequency', 'amplitude', 'power', 'decibel']) 
-        print(df_fft)
-        for i in range(overlap_trials):
-            start = int((N-overlap) * i)
-            end = int(start + N)
-            windowed_frame = window * mono_audio[start:end]
-            time  = round((start + end) / 2 / sample_sr,3)
-            fft   = np.fft.fft(windowed_frame, n=N)
-            fft_below_fs = fft[0:int(N/2)]
-            amp   = np.abs(fft_below_fs)
-            power = amp ** 2
-            df_fft.loc[len(fft_below_fs)*i:len(fft_below_fs)*(i+1)-1,'time'] = time
-            df_fft.loc[len(fft_below_fs)*i:len(fft_below_fs)*(i+1)-1,'center_frequency'] = freq_bin
-            df_fft.loc[len(fft_below_fs)*i:len(fft_below_fs)*(i+1)-1,'amplitude'] = amp
-        np_amp = df_fft['amplitude'].values
-        np_amp = np_amp/np.amax(np_amp)
-        df_fft.loc[:,'amplitude'] = np_amp
-        np_power = np_amp ** 2
-        df_fft.loc[:,'power'] = np_power
-        np_decibel = np.log10((np_power/np.amax(np_power)).astype(np.float64))
-        df_fft.loc[:,'decibel'] = np_decibel
         return df_fft

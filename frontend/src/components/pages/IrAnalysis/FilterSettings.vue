@@ -26,6 +26,10 @@
                             outlined
                             flat
                         />
+                        <!--<line-chart 
+                            :chart-data="chartData"
+                            :options="chartOptions"
+                        />-->
                         <div ref="plotlyChart" />
                     </v-card>
                 </v-col>
@@ -82,11 +86,15 @@
     </v-card>
 </template>
 <script>
+//import LineChart from '@/components/ui/Charts/LineChart.vue'
 import LoadingOverlay from '@/components/ui/LoadingOverlay'
 import { octaveBands } from '../library.js'
 import Plotly from 'plotly.js-dist-min'
 export default{
-    components:{ LoadingOverlay },
+    components:{
+        //LineChart,
+        LoadingOverlay
+    },
     data:() =>({
         orderWaring:false,
         invalidOrderError:false,
@@ -137,7 +145,9 @@ export default{
         },
         renderPlotly(){
             if(Object.keys(this.powerPerFreq).length != 0){
-                const _octaveVal  = this.octaveBands.map(el => el.value)[Object.keys(this.powerPerFreq).indexOf(this.selectedHz)];
+                const _idx = this.octaveBands.map(el => el.value).indexOf(this.selectedHz);
+                const _octaveText = this.octaveBands.map(el => el.text)[_idx];
+                const _octaveVal  = this.octaveBands.map(el => el.value)[_idx];
                 let _HzRange = [];
                 if(['31.5', '63', '125', '250'].includes(_octaveVal))
                     _HzRange = [0, 3];//in expotensial form
@@ -148,22 +158,27 @@ export default{
                     y: this.powerPerFreq[this.selectedHz],
                     type: 'scatter',
                     fill: 'tonexty',
-                    line: { 
-                        width: 2,
-                        color: '#26A69A'
-                    }
+                    name: _octaveText,
+                    line: { width: 2 }
                 }];
                 const layout = {
                     autosize: false,
-                    width: this.cardWidth,
+                    width: this.cardWidth-2,
                     height: 372,
-                    margin: { l: 50, r: 15, t: 8, b: 60 },
+                    margin: {
+                        l: 50,
+                        r: 15,
+                        t: 8,
+                        b: 60
+                    },
                     xaxis: {
                         title: { text: 'Frequency (Hz)' },
                         type: 'log',
                         range: _HzRange
                     },
-                    yaxis: { title: { text: 'Gain (dB)' } },
+                    yaxis: {
+                        title: { text: 'Gain (dB)' },
+                    },
                     paper_bgcolor: '#E0E0E0'
                 };
                 Plotly.newPlot(this.$refs.plotlyChart, data, layout);
@@ -189,7 +204,10 @@ export default{
             }
         },
         updateAnalysis(){
-            this.$emit('update-analysis', { order: this.filterOrder, filterType: this.filterType });
+            this.$emit('update-analysis', { 
+                order: this.filterOrder, 
+                filterType: this.filterType
+            });
         }
     },  
     mounted(){
