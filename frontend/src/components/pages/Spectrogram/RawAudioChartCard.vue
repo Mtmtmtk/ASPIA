@@ -4,7 +4,6 @@
         flat
         tile
         color="#E0E0E0"
-        class="rounded-b-lg"
         v-resize="onResize"
         height="500"
     >
@@ -18,11 +17,9 @@
 import LoadingOverlay from '@/components/ui/LoadingOverlay'
 import Plotly from 'plotly.js-dist-min'
 export default{
-    components:{
-        LoadingOverlay
-    },
-    data:() => ({
-        cardWidth: null
+    components:{ LoadingOverlay },
+    data: () => ({
+        cardWidth: null,
     }),
     props:{
         audioArr:{
@@ -31,7 +28,7 @@ export default{
         },
         channels:{
             type: Number,
-            default: ()=>(0)
+            default: 0
         },
         timestamp:{
             type:Array,
@@ -39,7 +36,7 @@ export default{
         },
         loading:{
             type:Boolean,
-            default: ()=>(false)
+            default: false
         },
     },
     computed:{

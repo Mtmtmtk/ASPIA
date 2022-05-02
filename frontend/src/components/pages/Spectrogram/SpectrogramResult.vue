@@ -24,7 +24,7 @@
         </v-card-text>
         <v-card-text>
             <chart-tabs 
-                :loading="ductCalling"
+                :loading="loading"
                 :audio-arr="resampledAudio"
                 :frequencies="frequencies"
                 :timestamp="timestamp"
@@ -32,7 +32,6 @@
                 :spect-db="spectDb"
                 :spect-pow="spectPow"
                 :spect-amp="spectAmp"
-                :duct="duct"
             />
         </v-card-text>
     </v-card>
@@ -46,7 +45,6 @@ export default{
         ChartTabs
     },
     props:[
-        'duct',
         'src',
         'fileName',
         'resampledAudio',
@@ -56,7 +54,7 @@ export default{
         'spectDb',
         'spectPow',
         'spectAmp',
-        'ductCalling',
+        'loading',
     ],
 }
 </script>

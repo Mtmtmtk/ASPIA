@@ -5,12 +5,13 @@
         tile
         color="#E0E0E0"
         class="rounded-b-lg"
+        v-resize="onResize"
     >
         <loading-overlay 
             :loading="loading"
         />
-        <v-card-text>
-            <v-row class="pt-0 mt-0">
+        <v-card-text class="py-2 my-0">
+            <v-row class="py-0 my-0">
                 <v-col cols="12">
                     <v-select
                         v-model="selectedHz"
@@ -24,83 +25,74 @@
                         outlined
                         flat
                     />
-                    <line-chart 
-                        :chart-data="chartData"
-                        :options="chartOptions"
-                    /> 
                 </v-col>
             </v-row>
+            <div ref="plotlyChart" />
         </v-card-text>
     </v-card>
 </template>
 <script>
-import LineChart from '@/components/ui/Charts/LineChart.vue'
 import LoadingOverlay from '@/components/ui/LoadingOverlay'
 import { octaveBands } from '../library.js'
+import Plotly from 'plotly.js-dist-min'
 export default{
     components:{
-        LineChart,
         LoadingOverlay
     },
     props:['schroederDecibels','timestamp','loading'],
     data:() => ({
         selectedHz:'31.5',
         octaveBands,
-        chartData: { labels:[], datasets:[] },
-        chartOptions: {
-            maintainAspectRatio:false,
-            animation:{ duration:0 },
-            legend:{ display:false },
-            tooltips:{ enabled:false },
-            scales:{
-                xAxes:[{
-                    scaleLabel: {
-                        display:true,
-                        labelString:'Time (s)'
-                    }
-                }],
-                yAxes:[{
-                    scaleLabel: {
-                        display:true,
-                        labelString:'dB'
-                    }
-                }]
-            },
-        },
+        cardWidth: null
     }),
     watch:{
         schroederDecibels(){
-            this.updateChartData();
+            this.renderPlotly();
         },
         selectedHz(){
-            this.updateChartData();
+            this.renderPlotly();
         },
     },
     methods:{
-        updateChartData(){
-            if(Object.keys(this.schroederDecibels).length != 0){
-                let _data = { labels:[], datasets:[] };
-                _data.labels = this.schroederDecibels.time_stamp.map(el => el.toFixed(2));
-                const color = ['#26A69A','#B2DfD8']
-                const _ind = this.octaveBands.map(el => el.value).indexOf(this.selectedHz);
-                const _dataLabel = this.octaveBands.map(el => el.text)[_ind];
-                _data.datasets.push({
-                    label: _dataLabel,
-                    data: this.schroederDecibels[this.selectedHz],
-                    borderWidth:3,
-                    fill:true,
-                    lineTension:0.2,
-                    borderColor: color[0],
-                    backgroundColor:color[1],
-                    pointRadius:0.01,
-
-                });
-                this.chartData = _data;
+        onResize(){
+            if(this.cardWidth != this.$refs.plotlyChart.clientWidth){
+                this.cardWidth = this.$refs.plotlyChart.clientWidth;
+                if(this.$refs.plotlyChart.classList.contains('js-plotly-plot')){
+                    this.relayoutChart();
+                }
             }
-        }
+        },
+        renderPlotly(){
+            if(Object.keys(this.schroederDecibels).length != 0){
+                const data = [{
+                    x: this.timestamp,
+                    y: this.schroederDecibels[this.selectedHz],
+                    type: 'scatter',
+                    fill: 'tonexty',
+                    line: { 
+                        width: 2,
+                        color: '#26A69A'
+                    },
+                }];
+                const layout = {
+                    autosize: false,
+                    width: this.cardWidth-2,
+                    height: 372,
+                    margin: { l: 50, r: 15, t: 8, b: 60 },
+                    xaxis: { title: { text: 'Time (sec)'   } },
+                    yaxis: { title: { text: 'Decibel (dB)' } },
+                    paper_bgcolor: '#E0E0E0'
+                };
+                Plotly.newPlot(this.$refs.plotlyChart, data, layout);
+            }
+        },
+        relayoutChart(){
+            const update = { width: this.cardWidth };
+            Plotly.relayout(this.$refs.plotlyChart, update);
+        },
     },  
     mounted(){
-        this.updateChartData();
+        this.renderPlotly();
     },
 }
 </script>

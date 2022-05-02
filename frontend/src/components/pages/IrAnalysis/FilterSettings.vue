@@ -5,6 +5,7 @@
         tile
         color="#E0E0E0"
         class="rounded-b-lg"
+        v-resize="onResize"
     >
         <loading-overlay 
             :loading="loading"
@@ -25,10 +26,7 @@
                             outlined
                             flat
                         />
-                        <line-chart 
-                            :chart-data="chartData"
-                            :options="chartOptions"
-                        /> 
+                        <div ref="plotlyChart" />
                     </v-card>
                 </v-col>
                 <v-col cols='6'>
@@ -84,22 +82,17 @@
     </v-card>
 </template>
 <script>
-import LineChart from '@/components/ui/Charts/LineChart.vue'
 import LoadingOverlay from '@/components/ui/LoadingOverlay'
 import { octaveBands } from '../library.js'
+import Plotly from 'plotly.js-dist-min'
 export default{
-    components:{
-        LineChart,
-        LoadingOverlay
-    },
+    components:{ LoadingOverlay },
     data:() =>({
         orderWaring:false,
         invalidOrderError:false,
         unstableFilter:false,
         selectedHz:'31.5',
         octaveBands,
-        chartOptions: {},
-        chartData: { labels:[], datasets:[] },
         filterOrder:3001,
         filterType:'FIR',
         filterTypes:['Butterworth','Chebychev1','Chebychev2','Elliptic','Bessel','FIR'],
@@ -113,10 +106,10 @@ export default{
             this.filterType = this.defaultFilterType;
         },
         powerPerFreq(){
-            this.switchChartByOctave();
+            this.renderPlotly();
         },
         selectedHz(){
-            this.switchChartByOctave()
+            this.renderPlotly()
         },
         stabilityCheckObj(){
             const unstableHzList = this.stabilityCheckObj.filter(el => el.isStable == false).map(el => el.hz);
@@ -135,54 +128,50 @@ export default{
         }
     },
     methods:{
-        switchChartByOctave(){
-            this.switchChartData();
-            this.switchChartOptions();
-        },
-        switchChartData(){
-            if(Object.keys(this.powerPerFreq).length != 0){
-                let _data = { labels:[], datasets:[] };
-                const color = ['#26A69A','#B2DfD8']
-                const _idx = this.octaveBands.map(el => el.value).indexOf(this.selectedHz);
-                const _dataLabel = this.octaveBands.map(el => el.text)[_idx];
-                let _dataInDataset=[];
-                for(let _idx=0; _idx < this.powerPerFreq[this.selectedHz].length; _idx++){
-                    _dataInDataset.push({ x: Number(this.freqList[_idx].toFixed()), y: Number(this.powerPerFreq[this.selectedHz][_idx].toFixed(1)) });
-                }
-                _data.datasets.push({
-                    label: _dataLabel,
-                    data: _dataInDataset,
-                    borderWidth:2,
-                    fill:true,
-                    lineTension:0.2,
-                    borderColor: color[0],
-                    pointRadius:0.01,
-                });
-                this.chartData = _data;
+        onResize(){
+            if(this.cardWidth != this.$refs.plotlyChart.clientWidth){
+                this.cardWidth = this.$refs.plotlyChart.clientWidth;
+                if(this.$refs.plotlyChart.classList.contains('js-plotly-plot'))
+                    this.relayoutChart();
             }
         },
-        switchChartOptions(){
-            let _options = { 
-                maintainAspectRatio:false,
-                animation:{ duration:0 },
-                legend:{ display:false },
-                scales:{
-                    xAxes:[{
-                        scaleLabel: { display:true, labelString:'Frequency (Hz)' },
-                        type:'logarithmic',
-                        ticks:{ callback:(val)=>(val) }
-                    }],
-                    yAxes:[{ scaleLabel: { display:true, labelString:'Gain (dB)' } }]
-                },
-                tooltips:{
-                    callbacks:{ label: (tooltipItem) => (tooltipItem.xLabel + 'Hz: ' + tooltipItem.yLabel + 'dB' ) }
-                }
-            };
-            const rangeToOneKHertz = ['31.5','63','125','250','500'];
-            const rangeToNyq = ['1k','2k','4k','8k','16k'];
-            if(rangeToOneKHertz.includes(this.selectedHz)) _options.scales.xAxes[0].ticks['max'] = 1000;
-            else if(rangeToNyq.includes(this.selectedHz))  _options.scales.xAxes[0].ticks['max'] = 22050;
-            this.chartOptions = _options;
+        renderPlotly(){
+            if(Object.keys(this.powerPerFreq).length != 0){
+                const _octaveVal  = this.octaveBands.map(el => el.value)[Object.keys(this.powerPerFreq).indexOf(this.selectedHz)];
+                let _HzRange = [];
+                if(['31.5', '63', '125', '250'].includes(_octaveVal))
+                    _HzRange = [0, 3];//in expotensial form
+                else
+                    _HzRange = [0, 4.345];
+                const data = [{
+                    x: this.freqList,
+                    y: this.powerPerFreq[this.selectedHz],
+                    type: 'scatter',
+                    fill: 'tonexty',
+                    line: { 
+                        width: 2,
+                        color: '#26A69A'
+                    }
+                }];
+                const layout = {
+                    autosize: false,
+                    width: this.cardWidth,
+                    height: 372,
+                    margin: { l: 50, r: 15, t: 8, b: 60 },
+                    xaxis: {
+                        title: { text: 'Frequency (Hz)' },
+                        type: 'log',
+                        range: _HzRange
+                    },
+                    yaxis: { title: { text: 'Gain (dB)' } },
+                    paper_bgcolor: '#E0E0E0'
+                };
+                Plotly.newPlot(this.$refs.plotlyChart, data, layout);
+            }
+        },
+        relayoutChart(){
+            const update = { width: this.cardWidth };
+            Plotly.relayout(this.$refs.plotlyChart, update);
         },
         updateFilterChart(){
             if(this.filterType == 'FIR' && this.filterOrder%2 == 0){
@@ -200,14 +189,11 @@ export default{
             }
         },
         updateAnalysis(){
-            this.$emit('update-analysis', { 
-                order: this.filterOrder, 
-                filterType: this.filterType
-            });
+            this.$emit('update-analysis', { order: this.filterOrder, filterType: this.filterType });
         }
     },  
     mounted(){
-        this.switchChartByOctave();
+        this.renderPlotly();
     },
 }
 </script>
