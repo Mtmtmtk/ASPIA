@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <v-card>
         <v-tabs
             background-color="#E0E0E0"
             color="#26A69A"
@@ -11,6 +11,7 @@
             <v-tab>spectrogram (decibel)</v-tab>
             <v-tab>spectrogram (power)</v-tab>
             <v-tab>spectrogram (amplitude)</v-tab>
+            <v-tab>spectrogram setting</v-tab>
         </v-tabs>
         <v-tabs-items 
             v-model="chartTab"
@@ -27,8 +28,8 @@
             <v-tab-item>
                 <spectrogram-card 
                     mode="decibel"
-                    :initial-value-range="[0, -10]"
                     :loading="loading"
+                    :initial-value-range="[-10, 0]"
                     :z-data="spectDb"
                     :timestamp="timestamp"
                     :frequencies="frequencies"
@@ -37,8 +38,8 @@
             <v-tab-item>
                 <spectrogram-card 
                     mode="power"
-                    :initial-value-range="[0.1, 0]"
                     :loading="loading"
+                    :initial-value-range="[0, 0.1]"
                     :z-data="spectPow"
                     :timestamp="timestamp"
                     :frequencies="frequencies"
@@ -47,23 +48,33 @@
             <v-tab-item>
                 <spectrogram-card 
                     mode="amplitude"
-                    :initial-value-range="[0.1, 0]"
                     :loading="loading"
+                    :initial-value-range="[0, 0.1]"
                     :z-data="spectAmp"
                     :timestamp="timestamp"
                     :frequencies="frequencies"
                 />
             </v-tab-item>
+            <v-tab-item>
+                <spectrogram-settings
+                    :loading="loading"
+                    :window-vals="windowVals"
+                    @update-window-preview="onUpdateWindowPreview"
+                    @update-spectrogram="onUpdateSpectrogram"
+                />
+            </v-tab-item>
         </v-tabs-items>
-    </div>
+    </v-card>
 </template>
 <script>
 import RawAudioChartCard from './RawAudioChartCard'
 import SpectrogramCard from './SpectrogramCard'
+import SpectrogramSettings from './Settings'
 export default{
     components:{
         RawAudioChartCard,
         SpectrogramCard,
+        SpectrogramSettings
     },
     data:() =>({ chartTab:null }),
     props:{
@@ -99,6 +110,14 @@ export default{
             type: Array,
             default: () => ([])
         },
+        windowVals:{
+            type: Array,
+            default: () => ([])
+        },
     },
+    methods: {
+        onUpdateWindowPreview(arr){ this.$emit('update-window-preview', arr); },
+        onUpdateSpectrogram(){ this.$emit('update-spectrogram'); },
+    }
 }
 </script>

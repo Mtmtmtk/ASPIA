@@ -7,9 +7,7 @@
         class="rounded-b-lg"
         v-resize="onResize"
     >
-        <loading-overlay 
-            :loading="loading"
-        />
+        <loading-overlay :loading="loading"/>
         <v-card-text>
             <v-row class="pt-0 mt-0">
                 <v-col cols="6">

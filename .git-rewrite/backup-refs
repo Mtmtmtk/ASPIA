@@ -1,0 +1,8 @@
+d65f74953049c1dfb6f293c8820e7849c1659957 commit	refs/heads/develop
+518d0970aadd3a5106c1a705b191542ffc07b571 commit	refs/heads/feature/plotly-linechart
+a9773ee6a564d32348fe04682d93c1d71b296640 commit	refs/heads/feature/spectrogram-setting
+4d941c5fd2f20b58271d14a9ba510614525e619c commit	refs/heads/master
+eb6b5374415bff27419c9e5c9b4f6011b362c1fc commit	refs/remotes/origin/HEAD
+ede6d83a7d027bfdb1f2fb56763c681d57419a84 commit	refs/remotes/origin/develop
+eb6b5374415bff27419c9e5c9b4f6011b362c1fc commit	refs/remotes/origin/master
+a4b239d722a9381f78e8ca367235e86f6a69f6e3 tag	refs/tags/0.2.0

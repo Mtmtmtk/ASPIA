@@ -27,6 +27,9 @@
                     :spect-db="spectDb"
                     :spect-pow="spectPow"
                     :spect-amp="spectAmp"
+                    :window-vals="windowVals"
+                    @update-window-preview="calculateWindow"
+                    @update-spectrogram="callDuct"
                 />
             </v-col>
         </v-row>
@@ -54,7 +57,9 @@ export default{
         spectDb: [],
         spectPow: [],
         spectAmp: [],
-        samplingPoints:2048
+        windowType: 'Hamming',
+        samplingPoints:2048,
+        windowVals: []
     }),
     props:['duct'],
     watch:{
@@ -78,10 +83,22 @@ export default{
             this.resampledAudio = Object.values(resampledDict);
             [ this.frequencies, this.timestamp, this.spectAmp, this.spectPow, this.spectDb ] = await this.duct.call(this.duct.EVENT.SPECTROGRAM_ALL_GET,{
                 spl_rate: this.audioSplRate,
-                sampling_points: this.samplingPoints
+                sampling_points: this.samplingPoints,
+                window_type: this.windowType
             });
+            this.windowVals = await this.duct.call(this.duct.EVENT.WINDOW_GET, {
+                window_type: this.windowType,
+                sampling_points: this.samplingPoints
+            })
             this.loading = false;
-            await this.duct.call(this.duct.EVENT.DELETE_GROUP_IN_REDIS, { group_key: 'spectrogram' });
+        },
+        async calculateWindow(arr) {
+            this.windowType = arr[0];
+            this.samplingPoints = arr[1];
+            this.windowVals = await this.duct.call(this.duct.EVENT.WINDOW_GET, {
+                window_type: this.windowType,
+                sampling_points: this.samplingPoints
+            })
         }
     },
     mounted(){

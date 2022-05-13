@@ -1,5 +1,5 @@
 <template>
-    <v-card height="570" class="ma-0 pa-0 overflow-auto">
+    <v-card class="ma-0 pa-0 overflow-auto">
         <v-card-title>Sound Convolution</v-card-title>
         
         <v-card-text class="text-h5 py-0 my-0">

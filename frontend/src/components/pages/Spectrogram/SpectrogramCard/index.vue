@@ -10,10 +10,11 @@
         <v-card-text class="py-2 my-0">
             <plotly-setting-dialog 
                 :mode="mode"
-                :max-val="maxVal"
-                :min-val="minVal"
+                :val-range="valRange"
+                :time-range="timeRange"
+                :frequency-range="frequencyRange"
                 :color-scale="colorScale"
-                @confirm-changes="restyleChart"
+                @confirm-changes="updateChart"
             />
             <div ref="plotlyChart"/>
         </v-card-text>
@@ -29,13 +30,17 @@ export default{
         PlotlySettingDialog
     },
     data:()=>({
-        loading: false,
-        maxVal: 0,
-        minVal: 0,
+        valRange: [0, 0],
+        timeRange: [0, 0],
+        frequencyRange: [0, 22050],
         colorScale: 'Jet',
         cardWidth: null
     }),
     props:{
+        loading: {
+            type: Boolean,
+            default: false
+        },
         mode: {
             type: String,
             default: 'decibel'
@@ -92,8 +97,8 @@ export default{
                         side: 'right'
                     }
                 },
-                zmax: this.maxVal,
-                zmin: this.minVal
+                zmax: this.valRange[1],
+                zmin: this.valRange[0]
             }];
             const layout = {
                 autosize: false,
@@ -110,22 +115,27 @@ export default{
             const update = { width: this.cardWidth };
             Plotly.relayout(this.$refs.plotlyChart, update);
         },
-        restyleChart(settings) {
-            this.maxVal = settings.maxVal;
-            this.minVal = settings.minVal;
+        updateChart(settings) {
+            this.valRange = settings.valRange;
+            this.timeRange = settings.timeRange;
+            this.frequencyRange = settings.frequencyRange;
             this.colorScale = settings.colorScale;
-            const update = {
-                zmax: this.maxVal,
-                zmin: this.minVal,
+            const styleUpdate = {
+                zmax: this.valRange[1],
+                zmin: this.valRange[0],
                 colorscale: this.colorScale
             };
-            console.log(update);
-            Plotly.restyle(this.$refs.plotlyChart, update);
+            const layoutUpdate = {
+                xaxis: { range: this.timeRange },
+                yaxis: { range: this.frequencyRange }
+            }
+            Plotly.restyle(this.$refs.plotlyChart, styleUpdate);
+            Plotly.relayout(this.$refs.plotlyChart, layoutUpdate);
         }
     },
     mounted(){
-        this.maxVal = this.initialValueRange[0];
-        this.minVal = this.initialValueRange[1];
+        this.valRange = this.initialValueRange;
+        this.timeRange = [0, this.timestamp[this.timestamp.length - 1]];
         this.createChartData();
     }
 }

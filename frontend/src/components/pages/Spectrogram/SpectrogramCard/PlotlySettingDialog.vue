@@ -18,8 +18,9 @@
                 </template>
                 <dialog-content
                     :mode="mode"
-                    :max-val.sync="relayVars.maxVal"
-                    :min-val.sync="relayVars.minVal"
+                    :val-range.sync="relayVars.valRange"
+                    :time-range.sync="relayVars.timeRange"
+                    :frequency-range.sync="relayVars.frequencyRange"
                     :color-scale.sync="relayVars.colorScale" 
                     @close-dialog="closeDialog"
                     @confirm-changes="onConfirmChanges"
@@ -35,8 +36,9 @@ export default {
     data: () => ({
         dialog: false,
         relayVars: {
-            maxVal: 0,
-            minVal: 0,
+            valRange: [0, 0],
+            timeRange: [0, 0],
+            frequencyRange: [0, 22050],
             colorScale: 'Jet'
         }
     }),
@@ -45,13 +47,17 @@ export default {
             type: String,
             default: 'decibel'
         },
-        maxVal: {
-            type: Number,
-            default: 0
+        valRange: {
+            type: Array,
+            default: () => ([0, 0])
         },
-        minVal: {
-            type: Number,
-            default: 0
+        timeRange: {
+            type: Array,
+            default: () => ([0, 0])
+        },
+        frequencyRange: {
+            type: Array,
+            default: () => ([0, 22050])
         },
         colorScale: {
             type: String,
@@ -59,11 +65,14 @@ export default {
         }
     },
     watch: {
-        maxVal() {
-            this.relayVars.maxVal = this.maxVal;
+        valRange() {
+            this.relayVars.valRange = this.valRange;
         },
-        minVal() {
-            this.relayVars.minVal = this.minVal;
+        timeRange() {
+            this.relayVars.timeRange = this.timeRange;
+        },
+        frequencyRange() {
+            this.relayVars.frequencyRange = this.frequencyRange;
         },
         colorScale() {
             this.relayVars.colorScale = this.colorScale;
@@ -79,8 +88,8 @@ export default {
         }
     },
     mounted() {
-        this.relayVars.maxVal = this.maxVal;
-        this.relayVars.minVal = this.minVal;
+        this.relayVars.timeRange[1] = this.timeLength;
+        this.relayVars.valRange = this.valRange;
         this.relayVars.colorScale = this.colorScale;
     }
 }

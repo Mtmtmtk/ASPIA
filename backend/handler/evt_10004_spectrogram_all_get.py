@@ -19,8 +19,8 @@ class Handler(EventHandler):
     async def handle(self, event):     
         return await self.call(**event.data)
 
-    async def call(self, spl_rate:int, sampling_points:int):
-        df =  await self.evt_spectrogram.get_all(spl_rate, sampling_points)
+    async def call(self, spl_rate:int, sampling_points:int, window_type: str):
+        df =  await self.evt_spectrogram.get_all(spl_rate, sampling_points, window_type)
         z_amp_data = df.groupby('center_frequency')['amplitude'].apply(list).tolist()
         z_pow_data = df.groupby('center_frequency')['power'].apply(list).tolist()
         z_dB_data  = df.groupby('center_frequency')['decibel'].apply(list).tolist()

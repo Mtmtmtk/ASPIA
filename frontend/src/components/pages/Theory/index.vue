@@ -8,7 +8,6 @@
         <v-card 
             flat
             dark
-            height="600" 
             color="#323232"
             class="mt-5"
         >

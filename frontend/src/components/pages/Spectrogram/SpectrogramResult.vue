@@ -32,6 +32,9 @@
                 :spect-db="spectDb"
                 :spect-pow="spectPow"
                 :spect-amp="spectAmp"
+                :window-vals="windowVals"
+                @update-window-preview="onUpdateWindowPreview"
+                @update-spectrogram="onUpdateSpectrogram"
             />
         </v-card-text>
     </v-card>
@@ -54,7 +57,12 @@ export default{
         'spectDb',
         'spectPow',
         'spectAmp',
+        'windowVals',
         'loading',
     ],
+    methods: {
+        onUpdateWindowPreview(arr) { this.$emit('update-window-preview', arr); },
+        onUpdateSpectrogram() { this.$emit('update-spectrogram'); },
+    }
 }
 </script>

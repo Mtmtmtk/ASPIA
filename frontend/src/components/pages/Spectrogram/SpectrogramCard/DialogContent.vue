@@ -3,28 +3,46 @@
         <v-card-title>Spectrogram ({{ mode[0].toUpperCase() + mode.substring(1) }}) Setting</v-card-title>
         <v-card-text>
             <v-row>
-                <v-col cols="12" class="pb-0">
-                    <v-text-field 
-                        outlined
-                        dense
-                        :value="maxVal"
-                        type="number"
-                        step="0.01"
+                <v-col cols="12" class="pb-0 pt-9">
+                    <v-range-slider
+                        :label="mode[0].toUpperCase() + mode.substring(1) + ' Range:'"
+                        :min="accepectableValueRange[0]"
+                        :max="accepectableValueRange[1]"
+                        :value="valRange"
+                        :step="step"
                         color="#26A69A"
-                        :label="labels[0]"
-                        @change="emitValueChange('maxVal', $event)"
+                        thumb-color="#26A69A"
+                        track-color="#EF5350"
+                        thumb-label="always"
+                        @change="emitValueChange('valRange', $event)"
                     />
                 </v-col>
-                <v-col cols="12" class="py-0">
-                    <v-text-field 
-                        outlined
-                        dense
-                        :value="minVal"
-                        type="number"
+                <v-col cols="12" class="pb-0">
+                    <v-range-slider
+                        label="Time Range (s):"
+                        :min="accepectableTimeRange[0]"
+                        :max="accepectableTimeRange[1]"
+                        :value="timeRange"
                         step="0.01"
                         color="#26A69A"
-                        :label="labels[1]"
-                        @change="emitValueChange('minVal', $event)"
+                        thumb-color="#26A69A"
+                        track-color="#EF5350"
+                        thumb-label="always"
+                        @change="emitValueChange('timeRange', $event)"
+                    />
+                </v-col>
+                <v-col cols="12" class="pb-0">
+                    <v-range-slider
+                        label="Frequency Range (Hz):"
+                        :min="accepectableFrequencyRange[0]"
+                        :max="accepectableFrequencyRange[1]"
+                        :value="frequencyRange"
+                        step="10"
+                        color="#26A69A"
+                        thumb-color="#26A69A"
+                        track-color="#EF5350"
+                        thumb-label="always"
+                        @change="emitValueChange('frequencyRange', $event)"
                     />
                 </v-col>
                 <v-col cols="12" class="py-0">
@@ -42,19 +60,19 @@
             </v-row>
         </v-card-text>
         <v-card-actions>
-            <v-spacer></v-spacer>
-                <v-btn
-                    color="error"
-                    text
-                    @click="onClickCancel"
-                >Cancel
-                </v-btn>
-                <v-btn
-                    dark
-                    color="#26A69A"
-                    @click="onClickConfirm"
-                >Confirm
-                </v-btn>
+            <v-spacer/>
+            <v-btn
+                color="error"
+                text
+                @click="onClickCancel"
+            >Cancel
+            </v-btn>
+            <v-btn
+                dark
+                color="#26A69A"
+                @click="onClickConfirm"
+            >Confirm
+            </v-btn>
         </v-card-actions>
     </v-card>
 </template>
@@ -75,20 +93,26 @@ export default {
             'RdBu',
             'YlGnBu',
             'YlOrRd',
-        ]
+        ],
+        accepectableFrequencyRange: [0, 22050],
+        accepectableTimeRange: [0, 0]
     }),
     props: {
         mode: {
             type: String,
             default: 'decibel'
         },
-        maxVal: {
-            type: Number,
-            default: 0
+        valRange: {
+            type: Array,
+            default: () => ([0, 0])
         },
-        minVal: {
-            type: Number,
-            default: 0
+        timeRange: {
+            type: Array,
+            default: () => ([0, 0])
+        },
+        frequencyRange: {
+            type: Array,
+            default: () => ([0, 22050])
         },
         colorScale: {
             type: String,
@@ -96,27 +120,26 @@ export default {
         },
     },
     computed: {
-        labels() {
-            if(this.mode == 'decibel')
-                return ['Max Decibel', 'Min Decibel']
-            else if(this.mode == 'power')
-                return ['Max Power', 'Min Power']
-            else(this.mode == 'amplitude')
-                return ['Max Amplitude', 'Min Amplitude']
+        accepectableValueRange() {
+            if(this.mode == 'decibel') return [-50, 0]
+            else return [0, 1]
+        },
+        step() {
+            if(this.mode == 'decibel') return 1
+            else return 0.01
         }
     },
     methods: {
-        onClickCancel(){
-            this.$emit('close-dialog');
-        },
-        onClickConfirm(){
-            this.$emit('confirm-changes');
-        },
+        onClickCancel(){ this.$emit('close-dialog'); },
+        onClickConfirm(){ this.$emit('confirm-changes'); },
         emitValueChange(name, val){
             const updateEvent = `update:${name}`;
-            let updateVal = (name == 'colorScale') ? val : parseFloat(val);
+            let updateVal = (name == 'colorScale') ? val : val.map(el => parseFloat(el));
             this.$emit(updateEvent, updateVal);
         }
+    },
+    created(){
+        this.accepectableTimeRange = this.timeRange;
     }
 }
 </script>
