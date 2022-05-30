@@ -69,7 +69,7 @@ export default{
     },
     methods:{
         onResize(){
-            if(this.cardWidth != this.$refs.plotlyChart.clientWidth){
+            if(this.cardWidth != this.$refs.plotlyChart.clientWidth && this.$refs.plotlyChart.clientWidth != 0){
                 this.cardWidth = this.$refs.plotlyChart.clientWidth;
                 if(this.$refs.plotlyChart.classList.contains('js-plotly-plot')){
                     this.relayoutChart();
@@ -101,7 +101,6 @@ export default{
                 zmin: this.valRange[0]
             }];
             const layout = {
-                autosize: false,
                 width: this.cardWidth,
                 height: 406,
                 margin: { l: 50, r: 0, t: 5, b: 60 },
@@ -129,8 +128,7 @@ export default{
                 xaxis: { range: this.timeRange },
                 yaxis: { range: this.frequencyRange }
             }
-            Plotly.restyle(this.$refs.plotlyChart, styleUpdate);
-            Plotly.relayout(this.$refs.plotlyChart, layoutUpdate);
+            Plotly.update(this.$refs.plotlyChart, styleUpdate, layoutUpdate);
         }
     },
     mounted(){

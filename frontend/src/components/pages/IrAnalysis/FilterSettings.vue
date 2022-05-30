@@ -127,7 +127,7 @@ export default{
     },
     methods:{
         onResize(){
-            if(this.cardWidth != this.$refs.plotlyChart.clientWidth){
+            if(this.cardWidth != this.$refs.plotlyChart.clientWidth && this.$refs.plotlyChart.clientWidth != 0){
                 this.cardWidth = this.$refs.plotlyChart.clientWidth;
                 if(this.$refs.plotlyChart.classList.contains('js-plotly-plot'))
                     this.relayoutChart();

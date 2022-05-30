@@ -7,9 +7,7 @@
         v-resize="onResize"
         height="500"
     >
-        <loading-overlay 
-            :loading="loading"
-        />
+        <loading-overlay :loading="loading"/>
         <div ref="plotlyChart" />
     </v-card>
 </template>
@@ -49,7 +47,7 @@ export default{
     },
     methods:{
         onResize(){
-            if(this.cardWidth != this.$refs.plotlyChart.clientWidth){
+            if(this.cardWidth != this.$refs.plotlyChart.clientWidth && this.$refs.plotlyChart.clientWidth != 0){
                 this.cardWidth = this.$refs.plotlyChart.clientWidth;
                 if(this.$refs.plotlyChart.classList.contains('js-plotly-plot')){
                     this.relayoutChart();
@@ -83,7 +81,7 @@ export default{
                     },
                     yaxis: {
                         title: { text: 'Amplitude' },
-                        range: [-1,1]
+                        range: [-1, 1]
                     },
                     legend: {
                         x: 1,
