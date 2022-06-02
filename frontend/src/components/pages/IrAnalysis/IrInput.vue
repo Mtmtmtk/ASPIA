@@ -52,7 +52,7 @@ export default{
     watch: {
         async recording() {
             const audioLength = this.recording[0].length;
-            const frameElementsNum = 44100 * 10;
+            const frameElementsNum = 44100 * 4;
             const frames = Math.ceil(audioLength/(frameElementsNum));
             for(let frameNumber = 0; frameNumber < frames; frameNumber++ ){
                 const nextFrameNumber = frameNumber + 1;
@@ -100,10 +100,7 @@ export default{
                 vue.recordingSplRate = sampleRate;
                 vue.channels = channels;
             }
-            reader.onload = function(evt) {
-                const arrayBuffer = evt.target.result;
-                audioContext.decodeAudioData(arrayBuffer, decodedDone)
-            };
+            reader.onload = function(evt){ audioContext.decodeAudioData(evt.targert.result, decodedDone) };
             reader.readAsArrayBuffer(file);
         },
         readIRAsDataURL(file){

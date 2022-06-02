@@ -4,7 +4,6 @@
         flat
         tile
         color="#E0E0E0"
-        height="500"
         v-resize="onResize"
     >
         <loading-overlay :loading="loading"/>
@@ -30,13 +29,12 @@
                 <v-col cols="6">
                     <v-card color="#E0E0E0" flat>
                         <v-text-field
-                            :value="44100"
-                            label="Sampling Rate (Hz)"
+                            v-model="overlap"
+                            label="Overlapping Percentage (%)"
                             color="#26A69A"
                             type="number"
                             outlined
                             flat
-                            disabled
                         />
                         <v-text-field
                             v-model="samplingPoints"
@@ -46,6 +44,15 @@
                             outlined
                             flat
                             @blur="updateWindowPreview"
+                        />
+                        <v-text-field
+                            :value="44100"
+                            label="Sampling Rate (Hz)"
+                            color="#26A69A"
+                            type="number"
+                            outlined
+                            flat
+                            disabled
                         />
                         <v-text-field
                             :value="(samplingPoints/44100).toFixed(4)"
@@ -92,6 +99,7 @@ export default {
     data: () => ({
         selectedWindow: 'Hamming',
         samplingPoints: 2048,
+        overlap: 50,
         windowTypes: [
             'Hamming',
             'Hann',
@@ -154,7 +162,9 @@ export default {
             }
         },
         updateWindowPreview(){ this.$emit('update-window-preview', [this.selectedWindow, parseInt(this.samplingPoints)]); },
-        updateSpectrogram(){ this.$emit('update-spectrogram'); }
+        updateSpectrogram(){ 
+            this.$emit('update-spectrogram', [this.selectedWindow, parseInt(this.samplingPoints), parseInt(this.overlap)]); 
+        }
     },
     mounted(){
         this.renderPlotly();

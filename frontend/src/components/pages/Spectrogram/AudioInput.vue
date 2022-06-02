@@ -7,7 +7,7 @@
     >
         <v-row class="ps-5 pt-3">
             <v-col>
-                Choose an audio whose spectrogram you want to look at .
+                Choose an audio file whose spectrogram you want to look at.
             </v-col>
         </v-row>
         <v-card-text>
@@ -15,8 +15,8 @@
                 label="Choose Audio Data"
                 prepend-icon="mdi-paperclip"
                 @change="getAudioData"
-            >
-            </v-file-input>
+                accept=".mp3,audio/*"
+            />
         </v-card-text>
 
         <v-card-text>
@@ -41,18 +41,57 @@ export default{
         audioArray:[],
         audioSplRate:null,
         channels:null,
-        timestamp:[],
         audioURL:'',
         loading: false,
         buttonDisabled: true
     }),
     props:['duct'],
-    watch:{
-        async audioArray(){
-            this.buttonDisabled = true;
-            this.loading = true;
+    methods:{
+        async getAudioData(file){
+            if(file){
+                this.getFileName(file);
+                await this.deleteDataInRedis();
+                await this.readAudioAsArrayBuffer(file);
+                await this.readAudioAsDataURL(file);
+            }else{
+                this.switchButtonState(true);
+                this.audioArray = [];
+                this.audioSplRate = null;
+                this.channels = null;
+            }
+        },
+        readAudioAsArrayBuffer(file){
+            const reader = new FileReader();
+            const audioContext = new AudioContext();
+            const vue = this;
+
+            const decodedDone = function(decoded) {
+                let allChannelsArr = [];
+                for(let i = 0; i < decoded.numberOfChannels; i++){
+                    let typedArray = new Float32Array(decoded.length);
+                    typedArray = decoded.getChannelData(i);
+                    let singleChannelArray = Array.from(typedArray);
+                    allChannelsArr.push(singleChannelArray);
+                }
+                vue.audioArray = allChannelsArr;
+                vue.audioSplRate = decoded.sampleRate;
+                vue.channels = decoded.numberOfChannels;
+                vue.sendDataToRedis();
+            }
+
+            reader.onload = function(evt) { audioContext.decodeAudioData(evt.target.result, decodedDone) };
+            reader.readAsArrayBuffer(file);
+        },
+        readAudioAsDataURL(file){
+            const reader = new FileReader();
+            const vue = this;
+            reader.onload = function(evt){ vue.audioURL = evt.target.result; };
+            reader.readAsDataURL(file);
+        },
+        async sendDataToRedis(){
+            this.switchButtonState(true);
             const audioLength = this.audioArray[0].length;
-            const frameElementsNum = 44100 * 5;
+            const frameElementsNum = 44100 * 4;
             const frames = Math.ceil(audioLength/(frameElementsNum));
             for(let frameNumber = 0; frameNumber < frames; frameNumber++ ){
                 const nextFrameNumber = frameNumber + 1;
@@ -67,59 +106,26 @@ export default{
                     data: data,
                 });
             }
-            this.buttonDisabled = false;
-            this.loading = false;
-        }
-    },
-    methods:{
-        async getAudioData(file){
-            if(file){
-                this.getFileName(file);
-                await this.readAudioAsArrayBuffer(file);
-                await this.readAudioAsDataURL(file);
-            }else{
-                this.audioArray = [];
-                this.audioSplRate = null;
-                this.channels = null;
-            }
-        },
-        readAudioAsArrayBuffer(file){
-            this.fileName = file.name;
-            const reader = new FileReader();
-            const audioContext = new AudioContext();
-            const vue = this;
-            const decodedDone = function(decoded){
-                const sampleRate = decoded.sampleRate;
-                const channels = decoded.numberOfChannels;
-                const allChannelsArr = [];
-                for(let i = 0; i < channels; i++){
-                    let typedArray = new Float32Array(decoded.length);
-                    typedArray = decoded.getChannelData(i);
-                    let singleChannelArray = Array.from(typedArray);
-                    allChannelsArr.push(singleChannelArray);
-                }
-                vue.audioArray = allChannelsArr;
-                vue.audioSplRate = sampleRate;
-                vue.channels = channels;
-            }
-            reader.onload = function(evt) {
-                const arrayBuffer = evt.target.result;
-                audioContext.decodeAudioData(arrayBuffer, decodedDone)
-            };
-            reader.readAsArrayBuffer(file);
-        },
-        readAudioAsDataURL(file){
-            const reader = new FileReader();
-            const vue = this;
-            reader.onload = function(evt){ vue.audioURL = evt.target.result; };
-            reader.readAsDataURL(file);
-        },
+            this.switchButtonState();
+        },   
+        async deleteDataInRedis(){
+            const isKeyExists = await this.duct.call(this.duct.EVENT.CHECK_GROUP_EXISTENCE, { group_key: 'spectrogram' });
+            if(isKeyExists) await this.duct.call(this.duct.EVENT.DELETE_GROUP_IN_REDIS, { group_key: 'spectrogram' });
+        },  
         getFileName(file){
             this.fileName = file.name;
         },
+        switchButtonState(forceTrue = false){
+            if(!forceTrue){
+                this.buttonDisabled = !this.buttonDisabled;
+                this.loading = !this.loading;
+            }else{
+                this.buttonDisabled = true;
+                this.loading = true;
+            }
+        },
         showSpectrogram(){
             this.$emit('get-audio-info', [ 
-                this.audioArray, 
                 this.audioSplRate, 
                 this.channels, 
                 this.audioURL,

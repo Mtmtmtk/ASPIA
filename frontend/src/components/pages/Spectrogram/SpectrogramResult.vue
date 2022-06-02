@@ -62,7 +62,7 @@ export default{
     ],
     methods: {
         onUpdateWindowPreview(arr) { this.$emit('update-window-preview', arr); },
-        onUpdateSpectrogram() { this.$emit('update-spectrogram'); },
+        onUpdateSpectrogram(arr) { this.$emit('update-spectrogram', arr); },
     }
 }
 </script>

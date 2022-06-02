@@ -4,6 +4,7 @@
         flat
         tile
         color="#E0E0E0"
+        ref="card"
         v-resize="onResize"
     >
         <loading-overlay :loading="loading"/>
@@ -14,6 +15,7 @@
                 :time-range="timeRange"
                 :frequency-range="frequencyRange"
                 :color-scale="colorScale"
+                :file-changed="fileChanged"
                 @confirm-changes="updateChart"
             />
             <div ref="plotlyChart"/>
@@ -34,7 +36,8 @@ export default{
         timeRange: [0, 0],
         frequencyRange: [0, 22050],
         colorScale: 'Jet',
-        cardWidth: null
+        cardWidth: null,
+        fileChanged: false,
     }),
     props:{
         loading: {
@@ -44,6 +47,10 @@ export default{
         mode: {
             type: String,
             default: 'decibel'
+        },
+        currentTab: {
+            type: Number,
+            default: 0
         },
         initialValueRange: {
             type: Array,
@@ -63,17 +70,27 @@ export default{
         },
     },
     watch: {
+        //currentTab(){
+        //    let tabName = '';
+        //    if( this.currentTab == 1 ) tabName = 'decibel';
+        //    else if ( this.currentTab == 2 ) tabName = 'power';
+        //    else if ( this.currentTab == 3 ) tabName = 'amplitude';
+        //},
         zData(){
             this.createChartData(); 
-        }
+            this.timeRange = [0, this.timestamp[this.timestamp.length - 1]];
+            this.fileChanged = true;
+            this.$nextTick(() => { this.fileChanged = false; });
+        },
     },
     methods:{
         onResize(){
-            if(this.cardWidth != this.$refs.plotlyChart.clientWidth && this.$refs.plotlyChart.clientWidth != 0){
+            const widthChanged = this.cardWidth !== this.$refs.plotlyChart.clientWidth ? true : false ;
+            const isZero = this.$refs.plotlyChart.clientWidth === 0 ? true : false ;
+            const plotlyRendered = this.$refs.plotlyChart.classList.contains('js-plotly-plot');
+            if( widthChanged && !isZero && plotlyRendered ){
                 this.cardWidth = this.$refs.plotlyChart.clientWidth;
-                if(this.$refs.plotlyChart.classList.contains('js-plotly-plot')){
-                    this.relayoutChart();
-                }
+                this.relayoutChart();
             }
         },
         async createChartData() {

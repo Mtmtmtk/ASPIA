@@ -22,6 +22,7 @@
                     :time-range.sync="relayVars.timeRange"
                     :frequency-range.sync="relayVars.frequencyRange"
                     :color-scale.sync="relayVars.colorScale" 
+                    :file-changed="fileChanged"
                     @close-dialog="closeDialog"
                     @confirm-changes="onConfirmChanges"
                 />
@@ -62,6 +63,10 @@ export default {
         colorScale: {
             type: String,
             default: 'Jet'
+        },
+        fileChanged: {
+            type: Boolean,
+            default: false
         }
     },
     watch: {
