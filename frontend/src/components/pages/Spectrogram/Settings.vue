@@ -107,9 +107,14 @@ export default {
             //'Blackman-Harris',
             //'Blackman-Nuttall',
             //'Gaussian',
-        ]
+        ],
+        cardWidth: null
     }),
     props: {
+        currentTab: {
+            type: Number,
+            default: 0
+        },
         loading: {
             type: Boolean,
             default: false
@@ -131,12 +136,20 @@ export default {
         }
     },
     watch: {
+        currentTab(){
+            if(this.currentTab == 4) setTimeout(() => {  this.onResize(); },5); //nextTick doesn't work
+        },
         windowVals(){ this.renderPlotly(); }
     },
     methods: {
         onResize(){
-            if(this.cardWidth != this.$refs.plotlyChart.clientWidth)
+            const widthChanged = this.cardWidth !== this.$refs.plotlyChart.clientWidth ? true : false ;
+            const isZero = this.$refs.plotlyChart.clientWidth === 0 ? true : false ;
+            const plotlyRendered = this.$refs.plotlyChart.classList.contains('js-plotly-plot');
+            if( widthChanged && !isZero && plotlyRendered ){
                 this.cardWidth = this.$refs.plotlyChart.clientWidth;
+                this.relayoutChart();
+            }
         },
         renderPlotly(){
             if(this.windowVals.length != 0){
@@ -161,12 +174,17 @@ export default {
                 Plotly.newPlot(this.$refs.plotlyChart, data, layout);
             }
         },
+        relayoutChart() {
+            const update = { width: this.cardWidth };
+            Plotly.relayout(this.$refs.plotlyChart, update);
+        },
         updateWindowPreview(){ this.$emit('update-window-preview', [this.selectedWindow, parseInt(this.samplingPoints)]); },
         updateSpectrogram(){ 
             this.$emit('update-spectrogram', [this.selectedWindow, parseInt(this.samplingPoints), parseInt(this.overlap)]); 
         }
     },
     mounted(){
+        this.cardWidth = this.$refs.plotlyChart.clientWidth;
         this.renderPlotly();
     },
 }
