@@ -72,10 +72,29 @@
                             flat
                             disabled
                         />
+                        <v-alert
+                            v-if="!overlapAllowed"
+                            dense
+                            type="error"
+                        >Overlapping percentage should be in 0-99 %.
+                        </v-alert>
+                        <v-alert
+                            v-if="!samplingPointsAllowed"
+                            dense
+                            type="error"
+                        >Sampling points should be more than 0.
+                        </v-alert>
+                        <v-alert
+                            v-if="samplingPoints > 4096"
+                            dense
+                            type="warning"
+                        >Large sampling points causes a long calculation time.
+                        </v-alert>
                         <v-card-actions>
                             <v-spacer/>
                             <v-btn
                                 dark
+                                :disabled="buttonDisabled"
                                 color="#26A69A"
                                 @click="updateSpectrogram"    
                             >Apply to Spectrogram
@@ -98,7 +117,7 @@ export default {
     },
     data: () => ({
         selectedWindow: 'Hamming',
-        samplingPoints: 2048,
+        samplingPoints: 512,
         overlap: 50,
         windowTypes: [
             'Hamming',
@@ -133,6 +152,15 @@ export default {
             else if(this.selectedWindow == 'Blackman')
                 return '$${\\omega(t) = 0.42 - 0.5\\cos{2\\pi t} + 0.05\\cos{4\\pi t}}$$'
             else return ''
+        },
+        overlapAllowed() {
+            return (this.overlap >= 0 && this.overlap < 100 && this.overlap != '') ? true : false;
+        },
+        samplingPointsAllowed() {
+            return (this.samplingPoints > 0 && this.samplingPoints != '') ? true : false;
+        },
+        buttonDisabled() {
+            return (this.overlapAllowed && this.samplingPointsAllowed) ? false : true;
         }
     },
     watch: {

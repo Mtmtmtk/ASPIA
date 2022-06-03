@@ -56,7 +56,7 @@ export default{
         spectPow: [],
         spectAmp: [],
         windowType: 'Hamming',
-        samplingPoints:2048,
+        samplingPoints:512,
         overlap: 50,
         windowVals: []
     }),
