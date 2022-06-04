@@ -60,6 +60,20 @@ class Handler(EventHandler):
         freq_bin = np.round(np.arange(first_center_freq, last_center_freq, sample_sr/N),3)
         return [mono_audio, 44100, N, overlap, window, overlap_trials, freq_bin]
 
+    def execute_fft(self, frame_idx, np_time, np_center_freq, np_amp, mono_audio, window, sample_sr, N, overlap, freq_bin):
+        start = int((N-overlap) * frame_idx)
+        end = int(start + N)
+        frame_len = len(mono_audio[start:end])
+        if(frame_len == N):
+            windowed_frame = window * mono_audio[start:end]
+            time  = round((start + end) / 2 / sample_sr,3)
+            fft   = np.fft.fft(windowed_frame, n=N)
+            fft_below_fs = fft[0:int(N/2)]
+            amp   = np.abs(fft_below_fs)
+            np_time[        len(fft_below_fs)*frame_idx : len(fft_below_fs)*(frame_idx+1)] = time
+            np_center_freq[ len(fft_below_fs)*frame_idx : len(fft_below_fs)*(frame_idx+1)] = freq_bin
+            np_amp[         len(fft_below_fs)*frame_idx : len(fft_below_fs)*(frame_idx+1)] = amp
+
     async def get_amplitude(self, spl_rate:int, sampling_points:int, window_type: str, overlap_per: int):
         [mono_audio, sample_sr, N, overlap, window, overlap_trials, freq_bin] = await self.preprocess(spl_rate, sampling_points, window_type, overlap_per)
         df_fft = pd.DataFrame(index=range(int(N/2)*overlap_trials),columns=['time','center_frequency','amplitude']) 
@@ -68,8 +82,8 @@ class Handler(EventHandler):
         np_center_freq = df_fft.loc[:, 'center_frequency'].values
         np_amp = df_fft.loc[:, 'amplitude'].values
 
-        sr_trials = pd.Series(range(overlap_trials))
-        sr_trials.apply(self.execute_fft, args=(np_time, np_center_freq, np_amp, mono_audio, window, sample_sr, N, overlap, freq_bin, ))
+        for i in range(overlap_trials):
+            self.execute_fft(i, np_time, np_center_freq, np_amp, mono_audio, window, sample_sr, N, overlap, freq_bin)
 
         df_fft['time'] = np_time
         df_fft['center_frequency'] = np_center_freq
@@ -109,17 +123,3 @@ class Handler(EventHandler):
         df_fft.loc[:,'decibel'] = np_decibel
         return df_fft
 
-
-    def execute_fft(self, frame_idx, np_time, np_center_freq, np_amp, mono_audio, window, sample_sr, N, overlap, freq_bin):
-        start = int((N-overlap) * frame_idx)
-        end = int(start + N)
-        frame_len = len(mono_audio[start:end])
-        if(frame_len == N):
-            windowed_frame = window * mono_audio[start:end]
-            time  = round((start + end) / 2 / sample_sr,3)
-            fft   = np.fft.fft(windowed_frame, n=N)
-            fft_below_fs = fft[0:int(N/2)]
-            amp   = np.abs(fft_below_fs)
-            np_time[        len(fft_below_fs)*frame_idx : len(fft_below_fs)*(frame_idx+1)] = time
-            np_center_freq[ len(fft_below_fs)*frame_idx : len(fft_below_fs)*(frame_idx+1)] = freq_bin
-            np_amp[         len(fft_below_fs)*frame_idx : len(fft_below_fs)*(frame_idx+1)] = amp
