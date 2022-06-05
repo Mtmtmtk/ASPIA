@@ -47,12 +47,16 @@ export default{
     }),
     props:['duct'],
     methods:{
-        async getAudioData(file){
-            if(file){
-                this.getFileName(file);
-                await this.deleteDataInRedis();
-                await this.readAudioAsArrayBuffer(file);
-                await this.readAudioAsDataURL(file);
+        async getAudioData(file) {
+            if(file) {
+                try {
+                    this.getFileName(file);
+                    await this.deleteDataInRedis();
+                    await this.readAudioAsArrayBuffer(file);
+                    await this.readAudioAsDataURL(file);
+                }catch {
+                    this.$emit('emit-loading-error')
+                }
             }else{
                 this.switchButtonState(true);
                 this.audioArray = [];

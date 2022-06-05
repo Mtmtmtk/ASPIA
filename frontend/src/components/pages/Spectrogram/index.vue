@@ -10,6 +10,7 @@
                 <audio-input
                     :duct="duct"
                     @get-audio-info="getAudioInfo"
+                    @emit-loading-error="showSnackbar"
                 />
             </v-col>
         </v-row>
@@ -33,15 +34,22 @@
                 />
             </v-col>
         </v-row>
+        <error-snackbar
+            :snackbar-model.sync="errorSnackbar"    
+            snackbar-text="Error has occurred. Please reload the page."
+            button-text="close"
+        />
     </v-container>
 </template>
 <script>
 import AudioInput from "./AudioInput"
 import SpectrogramResult from "./SpectrogramResult"
+import ErrorSnackbar from "@/components/ui/Snackbar"
 export default{
     components:{ 
         AudioInput,
         SpectrogramResult, 
+        ErrorSnackbar
     },
     data:() => ({
         loading: false,
@@ -58,7 +66,8 @@ export default{
         windowType: 'Hamming',
         samplingPoints:512,
         overlap: 50,
-        windowVals: []
+        windowVals: [],
+        errorSnackbar: false
     }),
     props:['duct'],
     methods:{
@@ -69,30 +78,41 @@ export default{
         },
         async callDuct(){
             this.loading = true;
-            [ this.resampledAudio, this.timestamp ] = await this.duct.call(this.duct.EVENT.RESAMPLE_CHART_GET, { group_key: 'spectrogram' });
-            [ this.frequencies, this.timestamp, this.spectAmp, this.spectPow, this.spectDb ] = await this.duct.call(this.duct.EVENT.SPECTROGRAM_ALL_GET,{
-                spl_rate: this.audioSplRate,
-                sampling_points: this.samplingPoints,
-                window_type: this.windowType,
-                overlap_per: this.overlap
-            });
-            this.windowVals = await this.duct.call(this.duct.EVENT.WINDOW_GET, {
-                window_type: this.windowType,
-                sampling_points: this.samplingPoints
-            })
-            this.loading = false;
+            try {
+                [ this.resampledAudio, this.timestamp ] = await this.duct.call(this.duct.EVENT.RESAMPLE_CHART_GET, { group_key: 'spectrogram' });
+                [ this.frequencies, this.timestamp, this.spectAmp, this.spectPow, this.spectDb ] = await this.duct.call(this.duct.EVENT.SPECTROGRAM_ALL_GET,{
+                    spl_rate: this.audioSplRate,
+                    sampling_points: this.samplingPoints,
+                    window_type: this.windowType,
+                    overlap_per: this.overlap
+                });
+                this.windowVals = await this.duct.call(this.duct.EVENT.WINDOW_GET, {
+                    window_type: this.windowType,
+                    sampling_points: this.samplingPoints
+                })
+                this.loading = false;
+            }catch {
+                this.showSnackbar();
+            }
         },
         async calculateWindow(arr) {
-            this.windowType = arr[0];
-            this.samplingPoints = arr[1];
-            this.windowVals = await this.duct.call(this.duct.EVENT.WINDOW_GET, {
-                window_type: this.windowType,
-                sampling_points: this.samplingPoints
-            })
+            try {
+                this.windowType = arr[0];
+                this.samplingPoints = arr[1];
+                this.windowVals = await this.duct.call(this.duct.EVENT.WINDOW_GET, {
+                    window_type: this.windowType,
+                    sampling_points: this.samplingPoints
+                })
+            }catch {
+                this.showSnackbar();
+            }
         },
         updateSpectrogram(arr) {
             [ this.windowType, this.samplingPoints, this.overlap ] = arr;
             this.callDuct();
+        },
+        showSnackbar(){
+            this.errorSnackbar = true;
         }
     },
     mounted(){
