@@ -4,9 +4,11 @@
             background-color="#E0E0E0"
             color="#26A69A"
             light
+            show-arrows
             v-model="chartTab"
             class="rounded-t-lg"
         >
+            <v-tabs-slider />
             <v-tab>raw audio</v-tab>
             <v-tab>spectrogram (decibel)</v-tab>
             <v-tab>spectrogram (power)</v-tab>
@@ -17,17 +19,19 @@
             v-model="chartTab"
             class="rounded-b-lg"
         >
-            <v-tab-item>
+            <v-tab-item >
                 <raw-audio-chart-card
+                    :current-tab="chartTab"
                     :loading="loading"
                     :audio-arr="audioArr"
                     :channels="channels"
                     :timestamp="timestamp"
                 />
             </v-tab-item>
-            <v-tab-item>
+            <v-tab-item >
                 <spectrogram-card 
                     mode="decibel"
+                    :current-tab="chartTab"
                     :loading="loading"
                     :initial-value-range="[-10, 0]"
                     :z-data="spectDb"
@@ -35,9 +39,10 @@
                     :frequencies="frequencies"
                 />
             </v-tab-item>
-            <v-tab-item>
+            <v-tab-item >
                 <spectrogram-card 
                     mode="power"
+                    :current-tab="chartTab"
                     :loading="loading"
                     :initial-value-range="[0, 0.1]"
                     :z-data="spectPow"
@@ -45,9 +50,10 @@
                     :frequencies="frequencies"
                 />
             </v-tab-item>
-            <v-tab-item>
+            <v-tab-item >
                 <spectrogram-card 
                     mode="amplitude"
+                    :current-tab="chartTab"
                     :loading="loading"
                     :initial-value-range="[0, 0.1]"
                     :z-data="spectAmp"
@@ -55,8 +61,9 @@
                     :frequencies="frequencies"
                 />
             </v-tab-item>
-            <v-tab-item>
+            <v-tab-item >
                 <spectrogram-settings
+                    :current-tab="chartTab"
                     :loading="loading"
                     :window-vals="windowVals"
                     @update-window-preview="onUpdateWindowPreview"
@@ -76,7 +83,7 @@ export default{
         SpectrogramCard,
         SpectrogramSettings
     },
-    data:() =>({ chartTab:null }),
+    data:() =>({ chartTab:'raw' }),
     props:{
         loading:{
             type: Boolean,
@@ -117,7 +124,7 @@ export default{
     },
     methods: {
         onUpdateWindowPreview(arr){ this.$emit('update-window-preview', arr); },
-        onUpdateSpectrogram(){ this.$emit('update-spectrogram'); },
+        onUpdateSpectrogram(arr){ this.$emit('update-spectrogram', arr); },
     }
 }
 </script>

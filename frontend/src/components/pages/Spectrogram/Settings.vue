@@ -4,7 +4,6 @@
         flat
         tile
         color="#E0E0E0"
-        height="500"
         v-resize="onResize"
     >
         <loading-overlay :loading="loading"/>
@@ -30,13 +29,12 @@
                 <v-col cols="6">
                     <v-card color="#E0E0E0" flat>
                         <v-text-field
-                            :value="44100"
-                            label="Sampling Rate (Hz)"
+                            v-model="overlap"
+                            label="Overlapping Percentage (%)"
                             color="#26A69A"
                             type="number"
                             outlined
                             flat
-                            disabled
                         />
                         <v-text-field
                             v-model="samplingPoints"
@@ -46,6 +44,15 @@
                             outlined
                             flat
                             @blur="updateWindowPreview"
+                        />
+                        <v-text-field
+                            :value="44100"
+                            label="Sampling Rate (Hz)"
+                            color="#26A69A"
+                            type="number"
+                            outlined
+                            flat
+                            disabled
                         />
                         <v-text-field
                             :value="(samplingPoints/44100).toFixed(4)"
@@ -65,10 +72,29 @@
                             flat
                             disabled
                         />
+                        <v-alert
+                            v-if="!overlapAllowed"
+                            dense
+                            type="error"
+                        >Overlapping percentage should be in 0-99 %.
+                        </v-alert>
+                        <v-alert
+                            v-if="!samplingPointsAllowed"
+                            dense
+                            type="error"
+                        >Sampling points should be more than 0.
+                        </v-alert>
+                        <v-alert
+                            v-if="samplingPoints > 4096"
+                            dense
+                            type="warning"
+                        >Large sampling points causes a long calculation time.
+                        </v-alert>
                         <v-card-actions>
                             <v-spacer/>
                             <v-btn
                                 dark
+                                :disabled="buttonDisabled"
                                 color="#26A69A"
                                 @click="updateSpectrogram"    
                             >Apply to Spectrogram
@@ -91,7 +117,8 @@ export default {
     },
     data: () => ({
         selectedWindow: 'Hamming',
-        samplingPoints: 2048,
+        samplingPoints: 512,
+        overlap: 50,
         windowTypes: [
             'Hamming',
             'Hann',
@@ -99,9 +126,14 @@ export default {
             //'Blackman-Harris',
             //'Blackman-Nuttall',
             //'Gaussian',
-        ]
+        ],
+        cardWidth: null
     }),
     props: {
+        currentTab: {
+            type: Number,
+            default: 0
+        },
         loading: {
             type: Boolean,
             default: false
@@ -120,15 +152,32 @@ export default {
             else if(this.selectedWindow == 'Blackman')
                 return '$${\\omega(t) = 0.42 - 0.5\\cos{2\\pi t} + 0.05\\cos{4\\pi t}}$$'
             else return ''
+        },
+        overlapAllowed() {
+            return (this.overlap >= 0 && this.overlap < 100 && this.overlap != '') ? true : false;
+        },
+        samplingPointsAllowed() {
+            return (this.samplingPoints > 0 && this.samplingPoints != '') ? true : false;
+        },
+        buttonDisabled() {
+            return (this.overlapAllowed && this.samplingPointsAllowed) ? false : true;
         }
     },
     watch: {
+        currentTab(){
+            if(this.currentTab == 4) setTimeout(() => {  this.onResize(); },5); //nextTick doesn't work
+        },
         windowVals(){ this.renderPlotly(); }
     },
     methods: {
         onResize(){
-            if(this.cardWidth != this.$refs.plotlyChart.clientWidth)
+            const widthChanged = this.cardWidth !== this.$refs.plotlyChart.clientWidth ? true : false ;
+            const isZero = this.$refs.plotlyChart.clientWidth === 0 ? true : false ;
+            const plotlyRendered = this.$refs.plotlyChart.classList.contains('js-plotly-plot');
+            if( widthChanged && !isZero && plotlyRendered ){
                 this.cardWidth = this.$refs.plotlyChart.clientWidth;
+                this.relayoutChart();
+            }
         },
         renderPlotly(){
             if(this.windowVals.length != 0){
@@ -153,10 +202,17 @@ export default {
                 Plotly.newPlot(this.$refs.plotlyChart, data, layout);
             }
         },
+        relayoutChart() {
+            const update = { width: this.cardWidth };
+            Plotly.relayout(this.$refs.plotlyChart, update);
+        },
         updateWindowPreview(){ this.$emit('update-window-preview', [this.selectedWindow, parseInt(this.samplingPoints)]); },
-        updateSpectrogram(){ this.$emit('update-spectrogram'); }
+        updateSpectrogram(){ 
+            this.$emit('update-spectrogram', [this.selectedWindow, parseInt(this.samplingPoints), parseInt(this.overlap)]); 
+        }
     },
     mounted(){
+        this.cardWidth = this.$refs.plotlyChart.clientWidth;
         this.renderPlotly();
     },
 }

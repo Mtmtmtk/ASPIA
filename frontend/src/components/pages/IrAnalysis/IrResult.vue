@@ -73,9 +73,7 @@ export default{
         async callDuct(_filterType, _order, rawIrRequired=true){
             this.ductCalling = true;
             if (rawIrRequired){
-                let irDict = {};
-                [ irDict, this.timestamp ] = await this.duct.call(this.duct.EVENT.RESAMPLE_CHART_GET, { group_key: 'analysis' });
-                this.resampledIr = Object.values(irDict);
+                [ this.resampledIr, this.timestamp ] = await this.duct.call(this.duct.EVENT.RESAMPLE_CHART_GET, { group_key: 'analysis' });
             }
             this.acousticParameters = await this.duct.call(this.duct.EVENT.ACOUSTIC_PARAMETER_GET, {
                 spl_rate: this.splRate,
@@ -117,11 +115,9 @@ export default{
     mounted(){
         if(this.irArr.length != 0) this.callDuct(this.defaultFilterType, this.defaultOrder);
         window.addEventListener('beforeunload', async () => {
-            await this.duct.call(this.duct.EVENT.DELETE_GROUP_IN_REDIS, { group_key: 'analysis' });
+            const isKeyExists = await this.duct.call(this.duct.EVENT.CHECK_GROUP_EXISTENCE, { group_key: 'analysis'});
+            if(isKeyExists) await this.duct.call(this.duct.EVENT.DELETE_GROUP_IN_REDIS, { group_key: 'analysis' });
         });
     },
-    async beforeDestroy(){
-        await this.duct.call(this.duct.EVENT.DELETE_GROUP_IN_REDIS, { group_key: 'analysis' });
-    }
 }
 </script>

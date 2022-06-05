@@ -4,37 +4,55 @@
         flat
         tile
         color="#E0E0E0"
+        ref="card"
         v-resize="onResize"
     >
         <loading-overlay :loading="loading"/>
-        <v-card-text class="py-2 my-0">
-            <plotly-setting-dialog 
-                :mode="mode"
-                :val-range="valRange"
-                :time-range="timeRange"
-                :frequency-range="frequencyRange"
-                :color-scale="colorScale"
-                @confirm-changes="updateChart"
-            />
+        <v-card-text class="py-0 my-0 pr-6">
+            <v-row class="pr-1">
+                <v-col cols="12" class="pr-9 d-flex justify-end">
+                    <tooltip-button 
+                        :tooltip-props="{ bottom: true }"
+                        tooltip-html-text="<span>Reload if the spectrogram has error</span>"
+                        button-class="mr-1"
+                        button-icon="mdi-reload"
+                        @click="onResize"
+                    />
+                    <plotly-setting-dialog 
+                        :mode="mode"
+                        :val-range="valRange"
+                        :time-range="timeRange"
+                        :frequency-range="frequencyRange"
+                        :color-scale="colorScale"
+                        :file-changed="fileChanged"
+                        @confirm-changes="updateChart"
+                    />
+                </v-col>
+            </v-row>
+        </v-card-text>
+        <v-card-text class="pt-1">    
             <div ref="plotlyChart"/>
         </v-card-text>
     </v-card>
 </template>
 <script>
 import LoadingOverlay from '@/components/ui/LoadingOverlay'
-import PlotlySettingDialog from './PlotlySettingDialog.vue'
+import TooltipButton from '@/components/ui/TooltipButton'
+import PlotlySettingDialog from './PlotlySettingDialog'
 import Plotly from 'plotly.js-dist-min'
 export default{
     components:{ 
         LoadingOverlay,
-        PlotlySettingDialog
+        PlotlySettingDialog,
+        TooltipButton
     },
     data:()=>({
         valRange: [0, 0],
         timeRange: [0, 0],
         frequencyRange: [0, 22050],
         colorScale: 'Jet',
-        cardWidth: null
+        cardWidth: null,
+        fileChanged: false,
     }),
     props:{
         loading: {
@@ -44,6 +62,10 @@ export default{
         mode: {
             type: String,
             default: 'decibel'
+        },
+        currentTab: {
+            type: Number,
+            default: 0
         },
         initialValueRange: {
             type: Array,
@@ -63,17 +85,29 @@ export default{
         },
     },
     watch: {
+        currentTab(){
+            let tabName = '';
+            if( this.currentTab == 1 ) tabName = 'decibel';
+            else if ( this.currentTab == 2 ) tabName = 'power';
+            else if ( this.currentTab == 3 ) tabName = 'amplitude';
+
+            if(tabName == this.mode) setTimeout(() => {  this.onResize(); },5); //nextTick doesn't work
+        },
         zData(){
             this.createChartData(); 
-        }
+            this.timeRange = [0, this.timestamp[this.timestamp.length - 1]];
+            this.fileChanged = true;
+            this.$nextTick(() => { this.fileChanged = false; });
+        },
     },
     methods:{
         onResize(){
-            if(this.cardWidth != this.$refs.plotlyChart.clientWidth && this.$refs.plotlyChart.clientWidth != 0){
+            const widthChanged = this.cardWidth !== this.$refs.plotlyChart.clientWidth ? true : false ;
+            const isZero = this.$refs.plotlyChart.clientWidth === 0 ? true : false ;
+            const plotlyRendered = this.$refs.plotlyChart.classList.contains('js-plotly-plot');
+            if( widthChanged && !isZero && plotlyRendered ){
                 this.cardWidth = this.$refs.plotlyChart.clientWidth;
-                if(this.$refs.plotlyChart.classList.contains('js-plotly-plot')){
-                    this.relayoutChart();
-                }
+                this.relayoutChart();
             }
         },
         async createChartData() {
@@ -103,7 +137,7 @@ export default{
             const layout = {
                 width: this.cardWidth,
                 height: 406,
-                margin: { l: 50, r: 0, t: 5, b: 60 },
+                margin: { l: 50, r: 0, t: 0, b: 40 },
                 xaxis: { title: { text: 'Time (sec)' } },
                 yaxis: { title: { text: 'Frequency (Hz)' } },
                 paper_bgcolor: '#E0E0E0'
@@ -134,6 +168,7 @@ export default{
     mounted(){
         this.valRange = this.initialValueRange;
         this.timeRange = [0, this.timestamp[this.timestamp.length - 1]];
+        this.cardWidth = this.$refs.plotlyChart.clientWidth;
         this.createChartData();
     }
 }

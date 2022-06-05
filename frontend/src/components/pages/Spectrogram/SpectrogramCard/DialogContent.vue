@@ -118,6 +118,10 @@ export default {
             type: String,
             default: 'Jet'
         },
+        fileChanged: {
+            type: Boolean,
+            default: false
+        }
     },
     computed: {
         accepectableValueRange() {
@@ -127,6 +131,15 @@ export default {
         step() {
             if(this.mode == 'decibel') return 1
             else return 0.01
+        }
+    },
+    watch: {
+        fileChanged(){
+            if(this.fileChanged){
+                this.accepectableTimeRange = this.timeRange;
+                this.emitValueChange('timeRange', this.accepectableTimeRange);
+                this.emitValueChange('frequencyRange', this.accepectableFrequencyRange);
+            }
         }
     },
     methods: {

@@ -1,38 +1,37 @@
 <template>
-    <v-row class="py-0 pr-4 my-0">
-        <v-col cols="12" class="pb-0 pr-9 d-flex justify-end">
-            <v-dialog
-                v-model="dialog"
-                width="500"
-            >
-                <template #activator="{ on, attrs }">
-                    <v-btn
-                        v-on="on"
-                        v-bind="attrs"
-                        color="#26A69A"
-                        small
-                        dark  
-                        rounded
-                    ><v-icon>mdi-cog</v-icon>
-                    </v-btn>
-                </template>
-                <dialog-content
-                    :mode="mode"
-                    :val-range.sync="relayVars.valRange"
-                    :time-range.sync="relayVars.timeRange"
-                    :frequency-range.sync="relayVars.frequencyRange"
-                    :color-scale.sync="relayVars.colorScale" 
-                    @close-dialog="closeDialog"
-                    @confirm-changes="onConfirmChanges"
-                />
-            </v-dialog>
-        </v-col>
-    </v-row>
+    <v-dialog
+        v-model="dialog"
+        width="500"
+    >
+        <template #activator="{ on }">
+            <tooltip-button 
+                v-on="{ on }"
+                :tooltip-props="{ bottom: true }"
+                tooltip-html-text="<span>Change styles</span>"
+                button-icon="mdi-cog"
+                @click="dialog = true"
+            />
+        </template>
+        <dialog-content
+            :mode="mode"
+            :val-range.sync="relayVars.valRange"
+            :time-range.sync="relayVars.timeRange"
+            :frequency-range.sync="relayVars.frequencyRange"
+            :color-scale.sync="relayVars.colorScale" 
+            :file-changed="fileChanged"
+            @close-dialog="closeDialog"
+            @confirm-changes="onConfirmChanges"
+        />
+    </v-dialog>
 </template>
 <script>
 import DialogContent from './DialogContent'
+import TooltipButton from '@/components/ui/TooltipButton'
 export default {
-    components: { DialogContent },
+    components: { 
+        DialogContent,
+        TooltipButton
+    },
     data: () => ({
         dialog: false,
         relayVars: {
@@ -62,6 +61,10 @@ export default {
         colorScale: {
             type: String,
             default: 'Jet'
+        },
+        fileChanged: {
+            type: Boolean,
+            default: false
         }
     },
     watch: {

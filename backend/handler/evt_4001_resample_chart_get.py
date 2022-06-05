@@ -19,4 +19,4 @@ class Handler(EventHandler):
 
     async def call(self, group_key: str):
         [ resampled_arr, time_stamp ]  = await self.evt_resample_chart.call(group_key)
-        return [ resampled_arr.to_dict(orient='list'), time_stamp.tolist() ]
+        return [ resampled_arr.T.to_numpy().tolist(), time_stamp.tolist() ]

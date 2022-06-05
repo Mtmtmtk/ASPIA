@@ -20,6 +20,10 @@ export default{
         cardWidth: null,
     }),
     props:{
+        currentTab: {
+            type: Number,
+            default: 0
+        },
         audioArr:{
             type: Array,
             default: ()=>([])
@@ -44,6 +48,12 @@ export default{
             else if(this.channels == 1) return ['channel_1']
             else return []
         }
+    },
+    watch: {
+        currentTab(){
+            if(this.currentTab == 0) setTimeout(() => {  this.onResize(); },5); //nextTick doesn't work
+        },
+        audioArr(){ this.renderPlotly(); },
     },
     methods:{
         onResize(){
@@ -99,12 +109,8 @@ export default{
             Plotly.relayout(this.$refs.plotlyChart, update);
         },
     },
-    watch:{
-        audioArr(){
-            this.renderPlotly();
-        },
-    },
     mounted(){
+        this.cardWidth = this.$refs.plotlyChart.clientWidth;
         this.renderPlotly();
     }
 }

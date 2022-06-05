@@ -10,6 +10,7 @@
                 <audio-input
                     :duct="duct"
                     @get-audio-info="getAudioInfo"
+                    @emit-loading-error="showSnackbar"
                 />
             </v-col>
         </v-row>
@@ -29,24 +30,29 @@
                     :spect-amp="spectAmp"
                     :window-vals="windowVals"
                     @update-window-preview="calculateWindow"
-                    @update-spectrogram="callDuct"
+                    @update-spectrogram="updateSpectrogram"
                 />
             </v-col>
         </v-row>
+        <error-snackbar
+            :snackbar-model.sync="errorSnackbar"    
+            snackbar-text="Error has occurred. Please reload the page."
+            button-text="close"
+        />
     </v-container>
 </template>
 <script>
 import AudioInput from "./AudioInput"
 import SpectrogramResult from "./SpectrogramResult"
+import ErrorSnackbar from "@/components/ui/Snackbar"
 export default{
     components:{ 
         AudioInput,
         SpectrogramResult, 
+        ErrorSnackbar
     },
     data:() => ({
         loading: false,
-        audioArray: [],
-        audioSplRate: '',
         channels: '',
         src: '',
         fileName: '',
@@ -58,56 +64,62 @@ export default{
         spectPow: [],
         spectAmp: [],
         windowType: 'Hamming',
-        samplingPoints:2048,
-        windowVals: []
+        samplingPoints:512,
+        overlap: 50,
+        windowVals: [],
+        errorSnackbar: false
     }),
     props:['duct'],
-    watch:{
-        audioArray(){
-            if(this.audioArray.length != 0) this.callDuct();
-        }
-    },
     methods:{
         getAudioInfo(args){
-            this.audioArray=args[0];
-            this.audioSplRate=args[1];
-            this.channels=args[2];
-            this.src=args[3];
-            this.fileName=args[4];
+            [this.audioSplRate, this.channels, this.src, this.fileName] = args;
+            this.callDuct();
             this.resultShown=true;
         },
         async callDuct(){
             this.loading = true;
-            let resampledDict = {};
-            [ resampledDict, this.timestamp ] = await this.duct.call(this.duct.EVENT.RESAMPLE_CHART_GET, { group_key: 'spectrogram' });
-            this.resampledAudio = Object.values(resampledDict);
-            [ this.frequencies, this.timestamp, this.spectAmp, this.spectPow, this.spectDb ] = await this.duct.call(this.duct.EVENT.SPECTROGRAM_ALL_GET,{
-                spl_rate: this.audioSplRate,
-                sampling_points: this.samplingPoints,
-                window_type: this.windowType
-            });
-            this.windowVals = await this.duct.call(this.duct.EVENT.WINDOW_GET, {
-                window_type: this.windowType,
-                sampling_points: this.samplingPoints
-            })
-            this.loading = false;
+            try {
+                [ this.resampledAudio, this.timestamp ] = await this.duct.call(this.duct.EVENT.RESAMPLE_CHART_GET, { group_key: 'spectrogram' });
+                [ this.frequencies, this.timestamp, this.spectAmp, this.spectPow, this.spectDb ] = await this.duct.call(this.duct.EVENT.SPECTROGRAM_ALL_GET,{
+                    spl_rate: this.audioSplRate,
+                    sampling_points: this.samplingPoints,
+                    window_type: this.windowType,
+                    overlap_per: this.overlap
+                });
+                this.windowVals = await this.duct.call(this.duct.EVENT.WINDOW_GET, {
+                    window_type: this.windowType,
+                    sampling_points: this.samplingPoints
+                })
+                this.loading = false;
+            }catch {
+                this.showSnackbar();
+            }
         },
         async calculateWindow(arr) {
-            this.windowType = arr[0];
-            this.samplingPoints = arr[1];
-            this.windowVals = await this.duct.call(this.duct.EVENT.WINDOW_GET, {
-                window_type: this.windowType,
-                sampling_points: this.samplingPoints
-            })
+            try {
+                this.windowType = arr[0];
+                this.samplingPoints = arr[1];
+                this.windowVals = await this.duct.call(this.duct.EVENT.WINDOW_GET, {
+                    window_type: this.windowType,
+                    sampling_points: this.samplingPoints
+                })
+            }catch {
+                this.showSnackbar();
+            }
+        },
+        updateSpectrogram(arr) {
+            [ this.windowType, this.samplingPoints, this.overlap ] = arr;
+            this.callDuct();
+        },
+        showSnackbar(){
+            this.errorSnackbar = true;
         }
     },
     mounted(){
         window.addEventListener('beforeunload', async () => {
-            await this.duct.call(this.duct.EVENT.DELETE_GROUP_IN_REDIS, { group_key: 'spectrogram' });
+            const isKeyExists = await this.duct.call(this.duct.EVENT.CHECK_GROUP_EXISTENCE, { group_key: 'spectrogram' });
+            if(isKeyExists) await this.duct.call(this.duct.EVENT.DELETE_GROUP_IN_REDIS, { group_key: 'spectrogram' });
         });
     },
-    async beforeDestroy(){
-        await this.duct.call(this.duct.EVENT.DELETE_GROUP_IN_REDIS, { group_key: 'spectrogram' });
-    }
 }
 </script>
