@@ -99,6 +99,10 @@ export default{
         unstableHzStr:''
     }),
     props: {
+        currentTab: {
+            type: Number,
+            default: 0
+        },
         loading: {
             type: Boolean,
             default: true
@@ -134,6 +138,9 @@ export default{
         },
         filterVals() {
             this.renderPlotly();
+        },
+        currentTab(){
+            if(this.currentTab == 2) setTimeout(() => {  this.onResize(); }, 5 ); //nextTick doesn't work
         }
     },
     methods:{

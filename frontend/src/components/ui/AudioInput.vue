@@ -7,12 +7,12 @@
     >
         <v-row class="ps-5 pt-3">
             <v-col>
-                Choose an audio file whose spectrogram you want to look at.
+                {{ text }}
             </v-col>
         </v-row>
         <v-card-text>
             <v-file-input
-                label="Choose Audio Data"
+                label="Choose IR"
                 prepend-icon="mdi-paperclip"
                 @change="getAudioData"
                 accept=".mp3,audio/*"
@@ -26,7 +26,7 @@
                         color="#26A69A"
                         :disabled="buttonDisabled"
                         :loading="loading"
-                        @click="showSpectrogram"
+                        @click="sendAudio"
                     >start analysis
                     </v-btn>
                 </v-col>
@@ -45,10 +45,10 @@ export default{
         loading: false,
         buttonDisabled: true
     }),
-    props:['duct'],
+    props: ['duct', 'groupKey', 'text'],
     methods:{
-        async getAudioData(file) {
-            if(file) {
+        async getAudioData(file){
+            if(file){
                 try {
                     this.getFileName(file);
                     await this.deleteDataInRedis();
@@ -69,7 +69,7 @@ export default{
             const audioContext = new AudioContext();
             const vue = this;
 
-            const decodedDone = function(decoded) {
+            const decodedDone = function(decoded){
                 let allChannelsArr = [];
                 for(let i = 0; i < decoded.numberOfChannels; i++){
                     let typedArray = new Float32Array(decoded.length);
@@ -79,14 +79,14 @@ export default{
                 }
                 vue.audioArray = allChannelsArr;
                 vue.audioSplRate = decoded.sampleRate;
-                vue.channels = decoded.numberOfChannels;
+                vue.channels= decoded.numberOfChannels
                 vue.sendDataToRedis();
             }
 
-            reader.onload = function(evt) { audioContext.decodeAudioData(evt.target.result, decodedDone) };
+            reader.onload = function(evt){ audioContext.decodeAudioData(evt.target.result, decodedDone) };
             reader.readAsArrayBuffer(file);
         },
-        readAudioAsDataURL(file){
+        readAudioAsDataURL(file) {
             const reader = new FileReader();
             const vue = this;
             reader.onload = function(evt){ vue.audioURL = evt.target.result; };
@@ -106,15 +106,15 @@ export default{
                     data = this.audioArray.map(el => el.slice(frameNumber * frameElementsNum, nextFrameNumber * frameElementsNum))
                 await this.duct.call(this.duct.EVENT.SAVE_DATA_IN_REDIS, {
                     frame_no: frameNumber,
-                    group_key: 'spectrogram',
+                    group_key: this.groupKey,
                     data: data,
                 });
             }
             this.switchButtonState();
         },   
         async deleteDataInRedis(){
-            const isKeyExists = await this.duct.call(this.duct.EVENT.CHECK_GROUP_EXISTENCE, { group_key: 'spectrogram' });
-            if(isKeyExists) await this.duct.call(this.duct.EVENT.DELETE_GROUP_IN_REDIS, { group_key: 'spectrogram' });
+            const isKeyExists = await this.duct.call(this.duct.EVENT.CHECK_GROUP_EXISTENCE, { group_key: this.groupKey });
+            if(isKeyExists) await this.duct.call(this.duct.EVENT.DELETE_GROUP_IN_REDIS, { group_key: this.groupKey });
         },  
         getFileName(file){
             this.fileName = file.name;
@@ -128,14 +128,14 @@ export default{
                 this.loading = true;
             }
         },
-        showSpectrogram(){
-            this.$emit('get-audio-info', [ 
+        sendAudio(){
+            this.$emit('send-audio-info', [ 
                 this.audioSplRate, 
                 this.channels, 
                 this.audioURL,
-                this.fileName,
+                this.fileName
             ]);
-        }
+        },
     }
 
 }

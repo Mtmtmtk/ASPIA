@@ -4,13 +4,10 @@
         flat
         tile
         color="#E0E0E0"
-        class="rounded-b-lg"
         v-resize="onResize"
         height="500"
     >
-        <loading-overlay 
-            :loading="loading"
-        />
+        <loading-overlay :loading="loading"/>
         <div ref="plotlyChart" />
     </v-card>
 </template>
@@ -18,20 +15,22 @@
 import LoadingOverlay from '@/components/ui/LoadingOverlay'
 import Plotly from 'plotly.js-dist-min'
 export default{
-    components:{
-        LoadingOverlay
-    },
-    data:() => ({
-        cardWidth: null
+    components:{ LoadingOverlay },
+    data: () => ({
+        cardWidth: null,
     }),
     props:{
-        audioArr:{
+        currentTab: {
+            type: Number,
+            default: 0
+        },
+        irArr:{
             type: Array,
             default: ()=>([])
         },
         channels:{
             type: Number,
-            default: ()=>(0)
+            default: 0
         },
         timestamp:{
             type:Array,
@@ -39,7 +38,7 @@ export default{
         },
         loading:{
             type:Boolean,
-            default: ()=>(false)
+            default: false
         },
     },
     computed:{
@@ -49,6 +48,12 @@ export default{
             else if(this.channels == 1) return ['channel_1']
             else return []
         }
+    },
+    watch: {
+        currentTab(){
+            if(this.currentTab == 0) setTimeout(() => {  this.onResize(); }, 5); //nextTick doesn't work
+        },
+        irArr(){ this.renderPlotly(); },
     },
     methods:{
         onResize(){
@@ -60,12 +65,12 @@ export default{
             }
         },
         renderPlotly(){
-            if(this.audioArr.length != 0){
+            if(this.irArr.length != 0){
                 let data = [];
-                for(let _idx in this.audioArr){
+                for(let _idx in this.irArr){
                     const plotlyChannelData = {
                         x: this.timestamp,
-                        y: this.audioArr[_idx],
+                        y: this.irArr[_idx],
                         type: 'lines',
                         name: this.channelNames[_idx]  
                     }
@@ -86,7 +91,7 @@ export default{
                     },
                     yaxis: {
                         title: { text: 'Amplitude' },
-                        range: [-1,1]
+                        range: [-1, 1]
                     },
                     legend: {
                         x: 1,
@@ -104,12 +109,8 @@ export default{
             Plotly.relayout(this.$refs.plotlyChart, update);
         },
     },
-    watch:{
-        audioArr(){
-            this.renderPlotly();
-        },
-    },
     mounted(){
+        this.cardWidth = this.$refs.plotlyChart.clientWidth;
         this.renderPlotly();
     }
 }

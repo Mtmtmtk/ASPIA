@@ -7,9 +7,7 @@
         class="rounded-b-lg"
         v-resize="onResize"
     >
-        <loading-overlay 
-            :loading="loading"
-        />
+        <loading-overlay :loading="loading"/>
         <v-card-text class="py-2 my-0">
             <v-row class="py-0 my-0">
                 <v-col cols="12">
@@ -36,10 +34,17 @@ import LoadingOverlay from '@/components/ui/LoadingOverlay'
 import { octaveBands } from '../library.js'
 import Plotly from 'plotly.js-dist-min'
 export default{
-    components:{
-        LoadingOverlay
-    },
+    components:{ LoadingOverlay },
+    data:() => ({
+        selectedHz:'31.5',
+        octaveBands,
+        cardWidth: null
+    }),
     props: {
+        currentTab: {
+            type: Number,
+            default: 0
+        },
         loading: {
             type: Boolean,
             default: true
@@ -53,17 +58,15 @@ export default{
             default: () => ({})
         },
     },
-    data:() => ({
-        selectedHz:'31.5',
-        octaveBands,
-        cardWidth: null
-    }),
     watch:{
         schroederVals(){
             this.renderPlotly();
         },
         selectedHz(){
             this.renderPlotly();
+        },
+        currentTab(){
+            if(this.currentTab == 1) setTimeout(() => {  this.onResize(); }, 5); //nextTick doesn't work
         },
     },
     methods:{

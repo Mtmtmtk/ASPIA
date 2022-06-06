@@ -17,14 +17,16 @@
         >
             <v-tab-item>
                 <ir-chart
+                    :current-tab="chartTab"
                     :loading="loading"
-                    :audio-arr="resampledIr"
+                    :ir-arr="irArr"
                     :channels="channels"
                     :timestamp="timestamp"
                 />
             </v-tab-item>
             <v-tab-item>
                 <schroeder-curve
+                    :current-tab="chartTab"
                     :loading="loading"
                     :schroeder-vals="schroederVals"
                     :timestamp="timestamp"
@@ -32,6 +34,7 @@
             </v-tab-item>
             <v-tab-item>
                 <filter-settings 
+                    :current-tab="chartTab"
                     :loading="loading"
                     :filter-vals="filterVals"
                     :freq-list="freqList"
@@ -53,7 +56,7 @@ export default{
         SchroederCurve,
         FilterSettings,
     },
-    data:() =>({
+    data:() => ({
         chartTab:null
     }),
     props: {
@@ -61,7 +64,7 @@ export default{
             type: Boolean,
             default: true
         },
-        resampledIr: {
+        irArr: {
             type: Array,
             default: () => ([])
         },

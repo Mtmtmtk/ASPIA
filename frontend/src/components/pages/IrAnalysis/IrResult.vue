@@ -25,7 +25,7 @@
         <v-card-text>
             <chart-tabs
                 :loading="loading"
-                :resampled-ir="resampledIr"
+                :ir-arr="irArr"
                 :channels="channels"
                 :timestamp="timestamp"
                 :schroeder-vals="schroederVals"
@@ -67,7 +67,7 @@ export default{
             type: String,
             default: ''
         },
-        resampledIr: {
+        irArr: {
             type: Array,
             default: () => ([])
         },
