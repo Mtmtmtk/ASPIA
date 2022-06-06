@@ -32,7 +32,7 @@ class Handler(EventHandler):
         df_resampled = df_resampled / df_resampled.abs().max(axis=0).max(axis=0)
         
         ir_bigger = df_resampled.max(axis=1)
-        offset_ind = ir_bigger[ir_bigger > 0.1].index[0] - 1
+        offset_ind = ir_bigger[ir_bigger > 0.05].index[0] - 1
         df_resampled = df_resampled.drop(index=df_resampled.index[:offset_ind])
         df_resampled = df_resampled.reset_index(drop=True)
 

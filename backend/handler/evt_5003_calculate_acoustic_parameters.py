@@ -36,6 +36,9 @@ class Handler(EventHandler):
         return await self.call(**event.data)
 
     async def call(self, spl_rate: int, filter_type: str, order: int):
+        return {}
+    
+    async def get_parameters(self, spl_rate: int, filter_type: str, order: int):
         ir_df = await self.evt_load_data.load_group_data('analysis')
         average_ir = await self.evt_pick_representative_ir.call(ir_df)
 
@@ -80,7 +83,7 @@ class Handler(EventHandler):
 
         df_parameter = df_parameter.reset_index()
         df_parameter = df_parameter.rename(columns={'index':'parameter'})
-        return df_parameter.to_dict('records')
+        return df_parameter
 
     def bandpassFilter(self, ir, fs, fbp, filter_type, order):
         nyq = fs / 2.0 

@@ -29,7 +29,7 @@ class Handler(EventHandler):
             average_ir = average_ir.fillna(0)
 
         average_ir = average_ir / average_ir.abs().max()
-        offset_ind = average_ir[average_ir > 0.1].index[0] - 1
+        offset_ind = average_ir[average_ir > 0.05].index[0] - 1
         average_ir = average_ir.drop(index=average_ir.index[:offset_ind])
         average_ir = average_ir.reset_index(drop=True)
 

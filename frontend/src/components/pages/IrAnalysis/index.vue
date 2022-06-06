@@ -91,7 +91,7 @@ export default{
                     filter_type: this.filterType,
                     order: this.order
                 });
-                this.schroederVals = await this.duct.call(this.duct.EVENT.SCHROEDER_CURVE, {
+                this.schroederVals = await this.duct.call(this.duct.EVENT.SCHROEDER_CURVE_GET, {
                     spl_rate: this.splRate,
                     filter_type: this.filterType,
                     order: this.order

@@ -106,12 +106,12 @@ export default{
                 const layout = {
                     autosize: false,
                     width: this.cardWidth,
-                    height: 500,
+                    height: 372,
                     margin: {
                         l: 65,
                         r: 20,
                         b: 65,
-                        t: 20,
+                        t: 0,
                     },
                     xaxis: {
                         title: { text: 'Time (sec)' }

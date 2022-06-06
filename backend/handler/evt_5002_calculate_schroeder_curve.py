@@ -36,6 +36,9 @@ class Handler(EventHandler):
         return await self.call(**event.data)
 
     async def call(self, spl_rate: int, filter_type:str, order:int):
+        return {}
+
+    async def get_curves(self, spl_rate: int, filter_type:str, order:int):
         ir_df = await self.evt_load_data.load_group_data('analysis')
         average_ir = await self.evt_pick_representative_ir.call(ir_df)
 
@@ -58,7 +61,7 @@ class Handler(EventHandler):
         df_output['time_stamp'] = df_output.index / spl_rate
 
         df_output = df_output[df_output.index % 10 == 0]
-        return df_output.to_dict(orient='list')
+        return df_output
 
     def bandpassFilter(self, ir, fs, fbp, filter_type,order):
         nyquist = fs / 2.0
