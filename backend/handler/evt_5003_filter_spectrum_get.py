@@ -36,7 +36,7 @@ class Handler(EventHandler):
         stabilityCheckList = []
         for octave in self.octave_band:
             fbp = octave['bandpass']
-            [ amp_dB, w, isStable ] = self.bandpassFreqResponse(spl_rate, fbp, filter_type,order)
+            [ amp_dB, w, isStable ] = self.bandpassFreqResponse(spl_rate, fbp, filter_type, order)
             df_amp[octave['center']] = amp_dB
             sr_freq = pd.Series(w)
             stabilityCheckList.append({ 'hz': octave['center'], 'isStable': isStable })
@@ -59,6 +59,8 @@ class Handler(EventHandler):
         elif filter_type=='Bessel':
             b,a = signal.bessel(order, Wn=normalized_cutoff, btype='band', analog=False)
         elif filter_type=='FIR':
+            print(order)
+            print(fbp)
             b = signal.firwin(numtaps=order, cutoff=np.array(fbp), fs=fs, pass_zero=False)
             a = 1
         w,h = signal.freqz(b,a, worN = 2048 ,fs=fs)

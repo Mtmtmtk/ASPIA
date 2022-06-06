@@ -17,30 +17,27 @@
         >
             <v-tab-item>
                 <ir-chart
+                    :loading="loading"
                     :audio-arr="resampledIr"
                     :channels="channels"
                     :timestamp="timestamp"
-                    :loading="ductCalling"
                 />
             </v-tab-item>
             <v-tab-item>
                 <schroeder-curve
-                    :schroeder-decibels="schroederDecibels"
+                    :loading="loading"
+                    :schroeder-vals="schroederVals"
                     :timestamp="timestamp"
-                    :loading="ductCalling"
                 />
             </v-tab-item>
             <v-tab-item>
                 <filter-settings 
-                    :resampled-ir="resampledIr"
-                    :default-filter-type="defaultFilterType"
-                    :default-order="defaultOrder"
-                    :power-per-freq="powerPerFreq"
+                    :loading="loading"
+                    :filter-vals="filterVals"
                     :freq-list="freqList"
-                    :stability-check-obj="stabilityCheckObj"
-                    :loading="ductCalling"
-                    @emit-filter-info="emitFilterInfo"
-                    @update-analysis="updateAnalysis"
+                    :unstable-hz="unstableHz"
+                    @update-filter-preview="onUpdateFilterPreview"
+                    @update-analysis="onUpdateAnalysis"
                 />
             </v-tab-item>
         </v-tabs-items>
@@ -59,25 +56,43 @@ export default{
     data:() =>({
         chartTab:null
     }),
-    props:[
-        'defaultFilterType',
-        'defaultOrder',
-        'resampledIr',
-        'channels',
-        'timestamp',
-        'schroederDecibels',
-        'powerPerFreq',
-        'freqList',
-        'stabilityCheckObj',
-        'ductCalling'
-    ],
-    methods:{
-        emitFilterInfo(args){
-            this.$emit('emit-filter-info', args);
+    props: {
+        loading: {
+            type: Boolean,
+            default: true
         },
-        updateAnalysis(args){
-            this.$emit('update-analysis', args);
-        }
+        resampledIr: {
+            type: Array,
+            default: () => ([])
+        },
+        channels: {
+            type: Number,
+            default: 0
+        },
+        timestamp: {
+            type: Array,
+            default: () => ([])
+        },
+        schroederVals: {
+            type: Object,
+            default: () => ({})
+        },
+        filterVals: {
+            type: Object,
+            default: () => ({})
+        },
+        freqList: {
+            type: Array,
+            default: () => ([])
+        },
+        unstableHz: {
+            type: Array,
+            default: () => ([])
+        },
+    },
+    methods:{
+        onUpdateFilterPreview(args){ this.$emit('update-filter-preview', args); },
+        onUpdateAnalysis(args){ this.$emit('update-analysis', args); }
     }
 }
 </script>

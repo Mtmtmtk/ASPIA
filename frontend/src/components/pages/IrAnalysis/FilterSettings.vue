@@ -23,6 +23,7 @@
                             color="#26A69A"
                             outlined
                             flat
+                            @change="renderPlotly"
                         />
                         <div ref="plotlyChart" />
                     </v-card>
@@ -34,7 +35,7 @@
                             label="Filter Order"
                             outlined
                             type="number"
-                            @blur="updateFilterChart"
+                            @blur="updateFitlerPreview"
                         />
                         <v-select
                             v-model="filterType"
@@ -42,7 +43,7 @@
                             :items="filterTypes"
                             label="Filter Type"
                             outlined
-                            @change="updateFilterChart"
+                            @change="updateFitlerPreview"
                         />
                         <v-alert
                             v-if="orderWaring"
@@ -54,7 +55,7 @@
                             v-if="unstableFilter"
                             dense
                             type="error"
-                        > The filter is unstable at {{ unstableHz }}. Please change the order or the type.
+                        > The filter is unstable at {{ unstableHzStr }}. Please change the order or the type.
                         </v-alert>
                         <v-alert
                             v-if="invalidOrderError"
@@ -95,22 +96,29 @@ export default{
         filterType:'FIR',
         filterTypes:['Butterworth','Chebychev1','Chebychev2','Elliptic','Bessel','FIR'],
         buttonDisabled:false,
-        unstableHz:''
+        unstableHzStr:''
     }),
-    props:['resampledIr','defaultFilterType','defaultOrder','powerPerFreq','freqList','stabilityCheckObj','loading'],
+    props: {
+        loading: {
+            type: Boolean,
+            default: true
+        },
+        filterVals: {
+            type: Object,
+            default: () => ({})
+        },
+        freqList: {
+            type: Array,
+            default: () => ([])
+        },
+        unstableHz: {
+            type: Array,
+            default: () => ([])
+        },
+    },
     watch:{
-        resampledIr(){
-            this.filterOrder = this.defaultOrder;
-            this.filterType = this.defaultFilterType;
-        },
-        powerPerFreq(){
-            this.renderPlotly();
-        },
-        selectedHz(){
-            this.renderPlotly()
-        },
-        stabilityCheckObj(){
-            const unstableHzList = this.stabilityCheckObj.filter(el => el.isStable == false).map(el => el.hz);
+        unstableHz(){
+            const unstableHzList = this.unstableHz.filter(el => el.isStable == false).map(el => el.hz);
             if(unstableHzList.length != 0){
                 this.unstableFilter = true;
                 this.buttonDisabled = true;
@@ -118,11 +126,14 @@ export default{
                 this.unstableFilter = false;
                 this.buttonDisabled = false;
             }
-            this.unstableHz = unstableHzList.join('Hz, ').concat('','Hz');
+            this.unstableHzStr = unstableHzList.join('Hz, ').concat('','Hz');
         },
         filterOrder(){
             if(this.filterOrder > 5000) this.orderWaring = true;
             else this.orderWaring = false;
+        },
+        filterVals() {
+            this.renderPlotly();
         }
     },
     methods:{
@@ -134,8 +145,8 @@ export default{
             }
         },
         renderPlotly(){
-            if(Object.keys(this.powerPerFreq).length != 0){
-                const _octaveVal  = this.octaveBands.map(el => el.value)[Object.keys(this.powerPerFreq).indexOf(this.selectedHz)];
+            if(Object.keys(this.filterVals).length != 0){
+                const _octaveVal  = this.octaveBands.map(el => el.value)[Object.keys(this.filterVals).indexOf(this.selectedHz)];
                 let _HzRange = [];
                 if(['31.5', '63', '125', '250'].includes(_octaveVal))
                     _HzRange = [0, 3];//in expotensial form
@@ -143,7 +154,7 @@ export default{
                     _HzRange = [0, 4.345];
                 const data = [{
                     x: this.freqList,
-                    y: this.powerPerFreq[this.selectedHz],
+                    y: this.filterVals[this.selectedHz],
                     type: 'scatter',
                     fill: 'tonexty',
                     line: { 
@@ -171,7 +182,7 @@ export default{
             const update = { width: this.cardWidth };
             Plotly.relayout(this.$refs.plotlyChart, update);
         },
-        updateFilterChart(){
+        updateFitlerPreview(){
             if(this.filterType == 'FIR' && this.filterOrder%2 == 0){
                 this.invalidOrderError = true;
                 this.buttonDisabled = true;
@@ -179,7 +190,7 @@ export default{
                 this.orderWaring = true;
                 this.buttonDisabled = true;
             }else{
-                this.$emit('emit-filter-info', { 
+                this.$emit('update-filter-preview', { 
                     order: this.filterOrder, 
                     filterType: this.filterType
                 });

@@ -48,7 +48,6 @@ export default{
         headers(){
             const _headers = Array.from(this.octaveBands);
             _headers.unshift({ text: 'Acoustic Parameter', value: 'parameter' });
-            console.log(_headers)
             return _headers
         }
     },

@@ -100,7 +100,10 @@ export default{
                 vue.recordingSplRate = sampleRate;
                 vue.channels = channels;
             }
-            reader.onload = function(evt){ audioContext.decodeAudioData(evt.targert.result, decodedDone) };
+            reader.onload = function(evt){ 
+                const arrayBuffer = evt.target.result;
+                audioContext.decodeAudioData(arrayBuffer, decodedDone) 
+            };
             reader.readAsArrayBuffer(file);
         },
         readIRAsDataURL(file){
@@ -111,7 +114,6 @@ export default{
         },
         startAnalysis(){
             this.$emit('get-ir-info', [ 
-                this.recording, 
                 this.recordingSplRate, 
                 this.channels, 
                 this.audioURL,

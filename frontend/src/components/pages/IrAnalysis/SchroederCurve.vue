@@ -39,14 +39,27 @@ export default{
     components:{
         LoadingOverlay
     },
-    props:['schroederDecibels','timestamp','loading'],
+    props: {
+        loading: {
+            type: Boolean,
+            default: true
+        },
+        timestamp: {
+            type: Array,
+            default: () => ([])
+        },
+        schroederVals: {
+            type: Object,
+            default: () => ({})
+        },
+    },
     data:() => ({
         selectedHz:'31.5',
         octaveBands,
         cardWidth: null
     }),
     watch:{
-        schroederDecibels(){
+        schroederVals(){
             this.renderPlotly();
         },
         selectedHz(){
@@ -63,10 +76,10 @@ export default{
             }
         },
         renderPlotly(){
-            if(Object.keys(this.schroederDecibels).length != 0){
+            if(Object.keys(this.schroederVals).length != 0){
                 const data = [{
                     x: this.timestamp,
-                    y: this.schroederDecibels[this.selectedHz],
+                    y: this.schroederVals[this.selectedHz],
                     type: 'scatter',
                     fill: 'tonexty',
                     line: { 

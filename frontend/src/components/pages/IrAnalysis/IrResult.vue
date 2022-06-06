@@ -24,24 +24,22 @@
         </v-card-text>
         <v-card-text>
             <chart-tabs
-                :default-filter-type="defaultFilterType"
-                :default-order="defaultOrder"
+                :loading="loading"
                 :resampled-ir="resampledIr"
                 :channels="channels"
                 :timestamp="timestamp"
-                :schroeder-decibels="schroederDecibels"
-                :power-per-freq="powerPerFreq"
+                :schroeder-vals="schroederVals"
+                :filter-vals="filterVals"
                 :freq-list="freqList"
-                :stability-check-obj="stabilityCheckObj"
-                :duct-calling="ductCalling"
-                @emit-filter-info="updateFilterChart"
-                @update-analysis="updateAnalysis"
+                :unstable-hz="unstableHz"
+                @update-filter-preview="onUpdateFilterPreview"
+                @update-analysis="onUpdateAnalysis"
             />
         </v-card-text>
         <v-card-text>
             <acoustic-parameter-table-card 
+                :loading="loading"
                 :acoustic-parameters="acousticParameters"
-                :loading="ductCalling"
             />
         </v-card-text>
     </v-card>
@@ -56,68 +54,55 @@ export default{
         ChartTabs,
         AcousticParameterTableCard,
     },
-    data:() => ({
-        resampledIr:[],
-        acousticParameters:[],
-        schroederDecibels:{},
-        timestamp:[],
-        powerPerFreq:{},
-        freqList:{},
-        ductCalling:false,
-        defaultFilterType:'FIR',
-        defaultOrder:3001,
-        stabilityCheckObj:{}
-    }),
-    props:['duct','irArr','splRate','channels','audioSrc','fileName'],
-    methods:{
-        async callDuct(_filterType, _order, rawIrRequired=true){
-            this.ductCalling = true;
-            if (rawIrRequired){
-                [ this.resampledIr, this.timestamp ] = await this.duct.call(this.duct.EVENT.RESAMPLE_CHART_GET, { group_key: 'analysis' });
-            }
-            this.acousticParameters = await this.duct.call(this.duct.EVENT.ACOUSTIC_PARAMETER_GET, {
-                spl_rate: this.splRate,
-                filter_type: _filterType,
-                order: _order
-            });
-            this.schroederDecibels = await this.duct.call(this.duct.EVENT.SCHROEDER_CURVE, {
-                spl_rate: this.splRate,
-                filter_type: _filterType,
-                order: _order
-            });
-            [this.powerPerFreq, this.freqList, this.stabilityCheckObj] = await this.duct.call(this.duct.EVENT.FILTER_SPECTRUM_GET, {
-                spl_rate: this.splRate,
-                filter_type: _filterType,
-                order: _order
-            });
-            this.ductCalling = false;
+    props: {
+        loading: {
+            type: Boolean,
+            default: true
         },
-        async updateFilterChart(args){
-            const _filterType = args.filterType;
-            const _order = args.order;
-            [this.powerPerFreq, this.freqList, this.stabilityCheckObj] = await this.duct.call(this.duct.EVENT.FILTER_SPECTRUM_GET, {
-                spl_rate: this.splRate,
-                filter_type: _filterType,
-                order: Number(_order)
-            });
+        fileName: {
+            type: String,
+            default: ''
         },
-        updateAnalysis(args){
-            const _filterType = args.filterType;
-            const _order = Number(args.order);
-            this.callDuct(_filterType, _order, false);
+        audioSrc: {
+            type: String,
+            default: ''
+        },
+        resampledIr: {
+            type: Array,
+            default: () => ([])
+        },
+        channels: {
+            type: Number,
+            default: 0
+        },
+        timestamp: {
+            type: Array,
+            default: () => ([])
+        },
+        schroederVals: {
+            type: Object,
+            default: () => ({})
+        },
+        filterVals: {
+            type: Object,
+            default: () => ({})
+        },
+        freqList: {
+            type: Array,
+            default: () => ([])
+        },
+        unstableHz: {
+            type: Array,
+            default: () => ([])
+        },
+        acousticParameters: {
+            type: Array,
+            default: () => ([])
         }
     },
-    watch:{
-        irArr(){
-            this.callDuct(this.defaultFilterType, this.defaultOrder);
-        },
-    },
-    mounted(){
-        if(this.irArr.length != 0) this.callDuct(this.defaultFilterType, this.defaultOrder);
-        window.addEventListener('beforeunload', async () => {
-            const isKeyExists = await this.duct.call(this.duct.EVENT.CHECK_GROUP_EXISTENCE, { group_key: 'analysis'});
-            if(isKeyExists) await this.duct.call(this.duct.EVENT.DELETE_GROUP_IN_REDIS, { group_key: 'analysis' });
-        });
+    methods:{
+        onUpdateAnalysis(args) { this.$emit('update-analysis', args); },
+        onUpdateFilterPreview(args) { this.$emit('update-filter-preview', args); }
     },
 }
 </script>
