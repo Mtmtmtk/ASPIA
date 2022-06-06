@@ -140,7 +140,7 @@ export default{
             this.renderPlotly();
         },
         currentTab(){
-            if(this.currentTab == 2) setTimeout(() => {  this.onResize(); }, 5 ); //nextTick doesn't work
+            if(this.currentTab == 3) setTimeout(() => {  this.onResize(); }, 5 ); //nextTick doesn't work
         }
     },
     methods:{

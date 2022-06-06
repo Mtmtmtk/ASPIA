@@ -8,6 +8,7 @@
             class="rounded-t-lg"
         >
             <v-tab>raw ir</v-tab>
+            <v-tab>filtered ir</v-tab>
             <v-tab>schroeder curve</v-tab>
             <v-tab>Filter Settings</v-tab>
         </v-tabs>
@@ -20,6 +21,15 @@
                     :current-tab="chartTab"
                     :loading="loading"
                     :ir-arr="irArr"
+                    :channels="channels"
+                    :timestamp="timestamp"
+                />
+            </v-tab-item>
+            <v-tab-item>
+                <filtered-ir-chart 
+                    :current-tab="chartTab"
+                    :loading="loading"
+                    :filtered-irs="filteredIrs"
                     :channels="channels"
                     :timestamp="timestamp"
                 />
@@ -48,11 +58,13 @@
 </template>
 <script>
 import IrChart from './IrChart'
+import FilteredIrChart from './FilteredIrChart'
 import SchroederCurve from './SchroederCurve'
 import FilterSettings from './FilterSettings'
 export default{
     components:{
         IrChart,
+        FilteredIrChart,
         SchroederCurve,
         FilterSettings,
     },
@@ -67,6 +79,10 @@ export default{
         irArr: {
             type: Array,
             default: () => ([])
+        },
+        filteredIrs: {
+            type: Object,
+            default: () => ({})
         },
         channels: {
             type: Number,

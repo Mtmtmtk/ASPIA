@@ -34,6 +34,7 @@ export default{
             'D50':'$$ {\\rm D_{50}} = {{\\int_{0}^{0.05} p^{2}(t)dt} \\over {\\int_{0}^{\\infty} p^{2}(t)dt}} $$',
             'C50 (dB)':'$$ {\\rm C_{50}} = 10 \\log_{10} ({{\\int_{0}^{0.05} p^{2}(t)dt} \\over {\\int_{0.05}^{\\infty} p^{2}(t)dt}}) $$',
             'C80 (dB)':'$$ {\\rm C_{80}} = 10 \\log_{10} ({{\\int_{0}^{0.08} p^{2}(t)dt} \\over {\\int_{0.08}^{\\infty} p^{2}(t)dt}}) $$',
+            'Ts (s)': '$$ {\\rm T_s} = {{\\int_{0}^{\\infty} tp^{2}(t)dt} \\over {\\int_{0}^{\\infty} p^{2}(t)dt}} $$'
         },
         tooltipText:{
             'RT60 (s)':'Reverberation time is a measure of the time required for reflecting sound to "fade away" in an enclosed area after the source of the sound has stopped. This parameter can be calculated by the extrapolation of -5 dB and -35 dB, crossing at -60 dB point.', 
@@ -41,6 +42,7 @@ export default{
             'D50':'D50 is one of the parameters that explain a speech intelligibility. D50 can be calculated by the energy ratio of the first 50 ms and the entire sequence',
             'C50 (dB)':'The parameter C means the clarity for the musical listening. C50 is the energy raito of the first 50 ms and the rest of the sequence. Its unit is decibel.',
             'C80 (dB)':'The parameter C means the clarity for the musical listening. C80 is the energy raito of the first 80 ms and the rest of the sequence. Its unit is decibel.',
+            'Ts (s)': 'Centre Time (Ts) is the time of the centre of gravity of the squared impulse response, which typical range for the concert hall is between 60 ms and 260 ms. This parameter also relates to the perceived clarity.'
         },
     }),
     props:['items','colorClass'],

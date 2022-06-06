@@ -26,6 +26,7 @@
             <chart-tabs
                 :loading="loading"
                 :ir-arr="irArr"
+                :filtered-irs="filteredIrs"
                 :channels="channels"
                 :timestamp="timestamp"
                 :schroeder-vals="schroederVals"
@@ -70,6 +71,10 @@ export default{
         irArr: {
             type: Array,
             default: () => ([])
+        },
+        filteredIrs: {
+            type: Object,
+            default: () => ({})
         },
         channels: {
             type: Number,
