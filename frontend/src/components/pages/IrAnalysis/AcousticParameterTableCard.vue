@@ -30,6 +30,7 @@ export default{
                 this.items[1].parameter = 'EDT (s)'
                 this.items[3].parameter = 'C50 (dB)'
                 this.items[4].parameter = 'C80 (dB)'
+                this.items[5].parameter = 'Ts (s)'
             }
         }
     },
