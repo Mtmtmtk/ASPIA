@@ -92,12 +92,12 @@ export default{
                 }];
                 const layout = {
                     autosize: false,
-                    width: this.cardWidth-2,
+                    width: this.cardWidth,
                     height: 372,
-                    margin: { l: 50, r: 15, t: 8, b: 60 },
+                    margin: { l: 50, r: 15, t: 0, b: 40 },
                     xaxis: { title: { text: 'Time (sec)'   } },
                     yaxis: { title: { text: 'Decibel (dB)' } },
-                    paper_bgcolor: '#E0E0E0'
+                    paper_bgcolor: '#E0E0E0',
                 };
                 Plotly.newPlot(this.$refs.plotlyChart, data, layout);
             }

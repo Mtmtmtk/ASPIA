@@ -101,13 +101,11 @@ export default{
                     filter_type: this.filterType,
                     order: this.order
                 });
-
                 this.filteredIrs = await this.duct.call(this.duct.EVENT.FILTERED_SIGNAL_GET, {
                     spl_rate: this.splRate,
                     filter_type: this.filterType,
                     order: this.order
                 });
-                console.log(this.filteredIrs)
                 this.loading = false;
             }catch {
                 this.showSnackbar();

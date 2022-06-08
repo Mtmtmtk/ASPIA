@@ -33,6 +33,7 @@
                 :filter-vals="filterVals"
                 :freq-list="freqList"
                 :unstable-hz="unstableHz"
+                :acoustic-parameters="acousticParameters"
                 @update-filter-preview="onUpdateFilterPreview"
                 @update-analysis="onUpdateAnalysis"
             />

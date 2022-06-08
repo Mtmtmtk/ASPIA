@@ -7,9 +7,11 @@
             v-model="chartTab"
             class="rounded-t-lg"
         >
+            <v-tabs-slider />
             <v-tab>raw ir</v-tab>
             <v-tab>filtered ir</v-tab>
             <v-tab>schroeder curve</v-tab>
+            <v-tab>acoustic parameters</v-tab>
             <v-tab>Filter Settings</v-tab>
         </v-tabs>
         <v-tabs-items 
@@ -43,6 +45,13 @@
                 />
             </v-tab-item>
             <v-tab-item>
+                <acoustic-parameter-graph
+                    :current-tab="chartTab"
+                    :loading="loading"
+                    :acoustic-parameters="acousticParameters"
+                />
+            </v-tab-item>
+            <v-tab-item>
                 <filter-settings 
                     :current-tab="chartTab"
                     :loading="loading"
@@ -60,12 +69,14 @@
 import IrChart from './IrChart'
 import FilteredIrChart from './FilteredIrChart'
 import SchroederCurve from './SchroederCurve'
+import AcousticParameterGraph from './AcousticParameterGraph'
 import FilterSettings from './FilterSettings'
 export default{
     components:{
         IrChart,
         FilteredIrChart,
         SchroederCurve,
+        AcousticParameterGraph,
         FilterSettings,
     },
     data:() => ({
@@ -108,10 +119,14 @@ export default{
             type: Array,
             default: () => ([])
         },
+        acousticParameters: {
+            type: Array,
+            default: () => ([])
+        },
     },
     methods:{
         onUpdateFilterPreview(args){ this.$emit('update-filter-preview', args); },
         onUpdateAnalysis(args){ this.$emit('update-analysis', args); }
-    }
+    },
 }
 </script>
