@@ -41,16 +41,16 @@ class Handler(EventHandler):
 
     async def filter_signal(self, spl_rate: int, filter_type: str, order: int):
         df_ir = await self.evt_load_data.load_group_data('analysis')
+        list_ir = []
+        for channel in df_ir.columns:
+            list_ir.append(df_ir[channel].to_numpy())
         signal_dict = {}
         for octave in self.octave_band:
             df_filtered_signal = pd.DataFrame(columns=range(len(df_ir.columns)))
             fbp = octave['bandpass']
-            for idx in range(len(df_ir.columns)):
-                ir = np.array(df_ir.iloc[:, idx]);
-                filtered_signal = self.bandpassFilter(ir, spl_rate, fbp, filter_type, order)
-                filtered_signal_resampled = resampy.resample(filtered_signal, 44100, 44100/10)
-                df_filtered_signal[idx] = filtered_signal_resampled
-            signal_dict[octave['center']] = df_filtered_signal
+            filtered_signal = self.bandpassFilter(list_ir, spl_rate, fbp, filter_type, order)
+            filtered_signal_resampled = resampy.resample(filtered_signal, 44100, 44100/10)
+            signal_dict[octave['center']] = pd.DataFrame(filtered_signal_resampled).T
         return signal_dict
 
     def bandpassFilter(self, ir, fs, fbp, filter_type, order):

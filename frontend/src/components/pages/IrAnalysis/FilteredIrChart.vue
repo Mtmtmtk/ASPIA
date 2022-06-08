@@ -91,7 +91,6 @@ export default{
             }
         },
         renderPlotly(){
-            console.log(this.filteredIrs[this.selectedHz]);
             if(Object.keys(this.filteredIrs).length != 0){
                 let data = [];
                 for(let _idx in this.filteredIrs[this.selectedHz]){
