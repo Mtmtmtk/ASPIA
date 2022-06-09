@@ -38,14 +38,14 @@ class Handler(EventHandler):
     async def call(self, spl_rate: int, filter_type: str, order: int):
         return {}
     
-    async def get_parameters(self, spl_rate: int, filter_type: str, order: int):
+    async def get_parameters(self, spl_rate: int, filter_type: str, order: int, ripple:int, attenuation:int):
         ir_df = await self.evt_load_data.load_group_data('analysis')
         average_ir = await self.evt_pick_representative_ir.call(ir_df)
 
         df_parameter = pd.DataFrame(0, columns=['31.5','63','125','250','500','1k','2k','4k','8k','16k'], index=['T30(RT60)','EDT','D50','C50','C80','Ts'])
         for octave in self.octave_band:
             fbp = octave['bandpass']
-            filtered_signal = self.bandpassFilter(average_ir, spl_rate, fbp, filter_type, order)
+            filtered_signal = self.bandpassFilter(average_ir, spl_rate, fbp, filter_type, order, ripple, attenuation)
             sr_filtered_signal = pd.Series(filtered_signal)
             df = pd.DataFrame(columns=['energy','remaining_energy','schroeder','time_stamp'])
             df['energy'] = sr_filtered_signal**2
@@ -85,7 +85,7 @@ class Handler(EventHandler):
         df_parameter = df_parameter.rename(columns={'index':'parameter'})
         return df_parameter
 
-    def bandpassFilter(self, ir, fs, fbp, filter_type, order):
+    def bandpassFilter(self, ir, fs, fbp, filter_type, order, ripple, attenuation):
         nyq = fs / 2.0 
         normalized_cutoff = np.array(fbp) / nyq
         b=[]
@@ -93,11 +93,11 @@ class Handler(EventHandler):
         if filter_type=='Butterworth':
             b,a = signal.butter(order, normalized_cutoff, btype='band', analog=False)
         elif filter_type=='Chebychev1':
-            b,a = signal.cheby1(order, rp=5, Wn=normalized_cutoff, btype='band', analog=False)
+            b,a = signal.cheby1(order, rp=ripple, Wn=normalized_cutoff, btype='band', analog=False)
         elif filter_type=='Chebychev2':
-            b,a = signal.cheby2(order, rs=5, Wn=normalized_cutoff, btype='band', analog=False)
+            b,a = signal.cheby2(order, rs=attenuation, Wn=normalized_cutoff, btype='band', analog=False)
         elif filter_type=='Elliptic':
-            b,a = signal.ellip(order, rp=5, rs=5, Wn=normalized_cutoff, btype='band', analog=False)
+            b,a = signal.ellip(order, rp=ripple, rs=attenuation, Wn=normalized_cutoff, btype='band', analog=False)
         elif filter_type=='Bessel':
             b,a = signal.bessel(order, Wn=normalized_cutoff, btype='band', analog=False)
         elif filter_type=='FIR':

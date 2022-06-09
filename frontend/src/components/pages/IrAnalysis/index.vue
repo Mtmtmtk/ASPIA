@@ -71,6 +71,8 @@ export default{
         loading: false,
         filterType: 'FIR',
         order: 3001,
+        maxRipple: 5,
+        minAttenuation: 5,
         unstableHz: [],
         filteredIrs: {}
     }),
@@ -84,27 +86,43 @@ export default{
         async callDuct(rawIrRequired = true) {
             this.loading = true;
             try {
-                if (rawIrRequired)
+                if (rawIrRequired){
                     [ this.irArr, this.timestamp ] = await this.duct.call(this.duct.EVENT.RESAMPLE_CHART_GET, { group_key: 'analysis' });
+                    this.filteredIrs = await this.duct.call(this.duct.EVENT.FILTERED_SIGNAL_GET, {
+                        spl_rate: this.splRate,
+                        filter_type: this.filterType,
+                        order: this.order,
+                        ripple: this.maxRipple,
+                        attenuation: this.minAttenuation
+                    });
+                    [this.filterVals, this.freqList, this.unstableHz] = await this.duct.call(this.duct.EVENT.FILTER_SPECTRUM_GET, {
+                        spl_rate: this.splRate,
+                        filter_type: this.filterType,
+                        order: this.order,
+                        ripple: this.maxRipple,
+                        attenuation: this.minAttenuation
+                    });
+                }
                 this.acousticParameters = await this.duct.call(this.duct.EVENT.ACOUSTIC_PARAMETER_GET, {
                     spl_rate: this.splRate,
                     filter_type: this.filterType,
-                    order: this.order
+                    order: this.order,
+                    ripple: this.maxRipple,
+                    attenuation: this.minAttenuation
                 });
                 this.schroederVals = await this.duct.call(this.duct.EVENT.SCHROEDER_CURVE_GET, {
                     spl_rate: this.splRate,
                     filter_type: this.filterType,
-                    order: this.order
-                });
-                [this.filterVals, this.freqList, this.unstableHz] = await this.duct.call(this.duct.EVENT.FILTER_SPECTRUM_GET, {
-                    spl_rate: this.splRate,
-                    filter_type: this.filterType,
-                    order: this.order
+                    order: this.order,
+                    ripple: this.maxRipple,
+                    attenuation: this.minAttenuation
                 });
                 this.filteredIrs = await this.duct.call(this.duct.EVENT.FILTERED_SIGNAL_GET, {
                     spl_rate: this.splRate,
                     filter_type: this.filterType,
-                    order: this.order
+                    order: this.order,
+                    ripple: this.maxRipple,
+                    attenuation: this.minAttenuation
                 });
                 this.loading = false;
             }catch {
@@ -115,10 +133,14 @@ export default{
             try {
                 this.filterType = args.filterType;
                 this.order = Number(args.order);
+                this.maxRipple = Number(args.ripple);
+                this.minAttenuation = Number(args.attenuation);
                 [this.filterVals, this.freqList, this.unstableHz] = await this.duct.call(this.duct.EVENT.FILTER_SPECTRUM_GET, {
                     spl_rate: this.splRate,
                     filter_type: this.filterType,
-                    order: this.order
+                    order: this.order,
+                    ripple: this.maxRipple,
+                    attenuation: this.minAttenuation
                 });
             }catch {
                 this.showSnackbar();

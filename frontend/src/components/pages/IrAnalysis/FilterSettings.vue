@@ -9,8 +9,8 @@
     >
         <loading-overlay :loading="loading"/>
         <v-card-text>
-            <v-row class="pt-0 mt-0">
-                <v-col cols="6">
+            <v-row class="pb-0 pt-1">
+                <v-col cols="6" class="pb-0">
                     <v-card color="#E0E0E0" flat>
                         <v-select
                             v-model="selectedHz"
@@ -28,7 +28,7 @@
                         <div ref="plotlyChart" />
                     </v-card>
                 </v-col>
-                <v-col cols='6'>
+                <v-col cols="6" class="pb-0">
                     <v-card color='#E0E0E0' flat>
                         <v-text-field
                             v-model="filterOrder"
@@ -45,6 +45,34 @@
                             outlined
                             @change="updateFitlerPreview"
                         />
+                        <v-text-field
+                            v-if="['Chebychev1', 'Elliptic'].includes(filterType)"
+                            v-model="maxRipple"
+                            label="Max ripple in dB allowed below unity gain in the passband"
+                            outlined
+                            type="number"
+                            @blur="updateFitlerPreview"
+                        />
+                        <v-text-field
+                            v-if="['Chebychev2', 'Elliptic'].includes(filterType)"
+                            v-model="minAttenuation"
+                            label="Minimum attenuation required in the stop band"
+                            outlined
+                            type="number"
+                            @blur="updateFitlerPreview"
+                        />
+                        <v-alert
+                            v-if="rippleWaring"
+                            dense
+                            type="warning"
+                        > The ripple value must be positive.
+                        </v-alert>
+                        <v-alert
+                            v-if="attenuationWaring"
+                            dense
+                            type="warning"
+                        > The attenuation value must be positive.
+                        </v-alert>
                         <v-alert
                             v-if="orderWaring"
                             dense
@@ -87,16 +115,20 @@ import Plotly from 'plotly.js-dist-min'
 export default{
     components:{ LoadingOverlay },
     data:() =>({
-        orderWaring:false,
-        invalidOrderError:false,
+        orderWaring: false,
+        invalidOrderError: false,
         unstableFilter:false,
-        selectedHz:'31.5',
+        rippleWaring: false,
+        attenuationWaring: false,
+        selectedHz: '31.5',
         octaveBands,
-        filterOrder:3001,
-        filterType:'FIR',
-        filterTypes:['Butterworth','Chebychev1','Chebychev2','Elliptic','Bessel','FIR'],
-        buttonDisabled:false,
-        unstableHzStr:''
+        filterOrder: 3001,
+        filterType: 'FIR',
+        filterTypes: ['Butterworth','Chebychev1','Chebychev2','Elliptic','Bessel','FIR'],
+        buttonDisabled: false,
+        unstableHzStr: '',
+        maxRipple: 5,
+        minAttenuation: 5
     }),
     props: {
         currentTab: {
@@ -153,12 +185,12 @@ export default{
         },
         renderPlotly(){
             if(Object.keys(this.filterVals).length != 0){
-                const _octaveVal  = this.octaveBands.map(el => el.value)[Object.keys(this.filterVals).indexOf(this.selectedHz)];
                 let _HzRange = [];
-                if(['31.5', '63', '125', '250'].includes(_octaveVal))
+                if(['31.5', '63', '125', '250'].includes(this.selectedHz))
                     _HzRange = [0, 3];//in expotensial form
                 else
-                    _HzRange = [0, 4.345];
+                    _HzRange = [2, 4.345];
+
                 const data = [{
                     x: this.freqList,
                     y: this.filterVals[this.selectedHz],
@@ -190,16 +222,24 @@ export default{
             Plotly.relayout(this.$refs.plotlyChart, update);
         },
         updateFitlerPreview(){
-            if(this.filterType == 'FIR' && this.filterOrder%2 == 0){
+            if(this.filterType == 'FIR' && this.filterOrder % 2 == 0){
                 this.invalidOrderError = true;
                 this.buttonDisabled = true;
             }else if(this.filterType != 'FIR' && this.filterOrder > 10){
                 this.orderWaring = true;
                 this.buttonDisabled = true;
+            }else if(this.maxRipple < 0 || this.maxRipple == ''){
+                this.rippleWaring = true;
+                this.buttonDisabled = true;
+            }else if(this.minAttenuation < 0 || this.minAttenuation == ''){
+                this.attenuationWaring = true;
+                this.buttonDisabled = true;
             }else{
                 this.$emit('update-filter-preview', { 
                     order: this.filterOrder, 
-                    filterType: this.filterType
+                    filterType: this.filterType,
+                    ripple: this.maxRipple,
+                    attenuation: this.minAttenuation
                 });
                 this.invalidOrderError = false;
             }

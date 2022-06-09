@@ -19,8 +19,8 @@ class Handler(EventHandler):
     async def handle(self, event):     
         return await self.call(**event.data)
 
-    async def call(self, spl_rate: int, filter_type: str, order: int):
-        signal_dict =  await self.evt_filtered_signal.filter_signal(spl_rate, filter_type, order)
+    async def call(self, spl_rate: int, filter_type: str, order: int, ripple:int = 5, attenuation:int = 5):
+        signal_dict =  await self.evt_filtered_signal.filter_signal(spl_rate, filter_type, order, ripple, attenuation)
         output_dict = {
             '31.5': [],
             '63'  : [],

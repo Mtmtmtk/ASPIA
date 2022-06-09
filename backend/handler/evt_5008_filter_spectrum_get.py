@@ -19,8 +19,8 @@ class Handler(EventHandler):
     async def handle(self, event):     
         return await self.call(**event.data)
 
-    async def call(self, spl_rate: int, filter_type: str, order: int):
-        ret = await self.evt_filter_spectrum.create_filter_spectrum(spl_rate, filter_type, order)
+    async def call(self, spl_rate: int, filter_type: str, order: int, ripple:int = 5, attenuation:int = 5):
+        ret = await self.evt_filter_spectrum.create_filter_spectrum(spl_rate, filter_type, order, ripple, attenuation)
         ret[0] = ret[0].to_dict(orient='list') 
         ret[1] = ret[1].tolist()
         return ret

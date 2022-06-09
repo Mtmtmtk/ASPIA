@@ -9,8 +9,8 @@
     >
         <loading-overlay :loading="loading"/>
         <v-card-text class="py-2 my-0">
-            <v-row class="py-0 my-0">
-                <v-col cols="12">
+            <v-row class="pb-0 pt-1">
+                <v-col cols="12" class="pb-0">
                     <v-select
                         v-model="selectedHz"
                         prepend-inner-icon="mdi-sine-wave"
