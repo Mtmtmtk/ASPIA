@@ -13,8 +13,8 @@
                 />
             </template>
             <v-app-bar-nav-icon @click='drawer = !drawer'/>
-            <v-app-bar-title>
-                Signal Processing Pedia
+            <v-app-bar-title class="title">
+                ASPIA - Acoustic Signal Processing Introductory App
             </v-app-bar-title>
             <v-spacer />
             <v-btn 
@@ -150,3 +150,8 @@ export default{
     }
 }
 </script>
+<style>
+.title {
+    overflow: visible
+}
+</style>

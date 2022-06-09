@@ -53,20 +53,32 @@ export default{
             type: Array,
             default: () => ([])
         },
-        schroederVals: {
+        filteredIrs: {
             type: Object,
-            default: () => ({})
+            default: () => ([])
+        },
+        channels:{
+            type: Number,
+            default: 0
         },
     },
+    computed:{
+        channelNames(){
+            if(this.channels == 4) return ['channel_W','channel_Y','channel_Z','channel_X']
+            else if(this.channels == 2) return ['channel_left', 'channel_right']
+            else if(this.channels == 1) return ['channel_1']
+            else return []
+        }
+    },
     watch:{
-        schroederVals(){
+        filteredIrs(){
             this.renderPlotly();
         },
         selectedHz(){
             this.renderPlotly();
         },
         currentTab(){
-            if(this.currentTab == 2) setTimeout(() => {  this.onResize(); }, 5); //nextTick doesn't work
+            if(this.currentTab == 1) setTimeout(() => {  this.onResize(); }, 5); //nextTick doesn't work
         },
     },
     methods:{
@@ -79,25 +91,40 @@ export default{
             }
         },
         renderPlotly(){
-            if(Object.keys(this.schroederVals).length != 0){
-                const data = [{
-                    x: this.timestamp,
-                    y: this.schroederVals[this.selectedHz],
-                    type: 'scatter',
-                    fill: 'tonexty',
-                    line: { 
-                        width: 2,
-                        color: '#26A69A'
-                    },
-                }];
+            if(Object.keys(this.filteredIrs).length != 0){
+                let data = [];
+                for(let _idx in this.filteredIrs[this.selectedHz]){
+                    const plotlyChannelData = {
+                        x: this.timestamp,
+                        y: this.filteredIrs[this.selectedHz][_idx],
+                        type: 'lines',
+                        name: this.channelNames[_idx]  
+                    }
+                    data.push(plotlyChannelData);
+                }
                 const layout = {
                     autosize: false,
                     width: this.cardWidth,
                     height: 372,
-                    margin: { l: 50, r: 15, t: 0, b: 40 },
-                    xaxis: { title: { text: 'Time (sec)'   } },
-                    yaxis: { title: { text: 'Decibel (dB)' } },
-                    paper_bgcolor: '#E0E0E0',
+                    margin: {
+                        l: 65,
+                        r: 20,
+                        b: 65,
+                        t: 0,
+                    },
+                    xaxis: {
+                        title: { text: 'Time (sec)' }
+                    },
+                    yaxis: {
+                        title: { text: 'Amplitude' },
+                    },
+                    legend: {
+                        x: 1,
+                        y: 1,
+                        xanchor: 'right',
+                        bgcolor:'#FFFFFF'
+                    },
+                    paper_bgcolor: '#E0E0E0'
                 };
                 Plotly.newPlot(this.$refs.plotlyChart, data, layout);
             }

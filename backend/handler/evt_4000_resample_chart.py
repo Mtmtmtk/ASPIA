@@ -24,15 +24,15 @@ class Handler(EventHandler):
 
     async def call(self, group_key: str):
         df = await self.evt_load_data.load_group_data(group_key)
-        df_resampled = pd.DataFrame(columns=df.columns)
-        for i in df.columns:
-            arr = df.iloc[:,i].values
-            arr_resampled = resampy.resample(arr, 44100, 44100/10)
-            df_resampled.iloc[:,i] = arr_resampled
+        list_ir = []
+        for channel in df.columns:
+            list_ir.append(df[channel].to_numpy())
+        list_ir_resampled = resampy.resample(np.array(list_ir), 44100, 44100/10)
+        df_resampled = pd.DataFrame(list_ir_resampled.T)
         df_resampled = df_resampled / df_resampled.abs().max(axis=0).max(axis=0)
         
         ir_bigger = df_resampled.max(axis=1)
-        offset_ind = ir_bigger[ir_bigger > 0.1].index[0] - 1
+        offset_ind = ir_bigger[ir_bigger > 0.05].index[0] - 1
         df_resampled = df_resampled.drop(index=df_resampled.index[:offset_ind])
         df_resampled = df_resampled.reset_index(drop=True)
 

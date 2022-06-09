@@ -18,5 +18,5 @@ class Handler(EventHandler):
         return await self.call(**event.data)
 
     async def call(self, group_key: str):
-        [ resampled_arr, time_stamp ]  = await self.evt_resample_chart.call(group_key)
-        return [ resampled_arr.T.to_numpy().tolist(), time_stamp.tolist() ]
+        [ resampled_df, time_stamp ]  = await self.evt_resample_chart.call(group_key)
+        return [ resampled_df.T.to_numpy().tolist(), time_stamp.tolist() ]

@@ -7,8 +7,11 @@
             v-model="chartTab"
             class="rounded-t-lg"
         >
+            <v-tabs-slider />
             <v-tab>raw ir</v-tab>
+            <v-tab>filtered ir</v-tab>
             <v-tab>schroeder curve</v-tab>
+            <v-tab>acoustic parameters</v-tab>
             <v-tab>Filter Settings</v-tab>
         </v-tabs>
         <v-tabs-items 
@@ -17,30 +20,46 @@
         >
             <v-tab-item>
                 <ir-chart
-                    :audio-arr="resampledIr"
+                    :current-tab="chartTab"
+                    :loading="loading"
+                    :ir-arr="irArr"
                     :channels="channels"
                     :timestamp="timestamp"
-                    :loading="ductCalling"
+                />
+            </v-tab-item>
+            <v-tab-item>
+                <filtered-ir-chart 
+                    :current-tab="chartTab"
+                    :loading="loading"
+                    :filtered-irs="filteredIrs"
+                    :channels="channels"
+                    :timestamp="timestamp"
                 />
             </v-tab-item>
             <v-tab-item>
                 <schroeder-curve
-                    :schroeder-decibels="schroederDecibels"
+                    :current-tab="chartTab"
+                    :loading="loading"
+                    :schroeder-vals="schroederVals"
                     :timestamp="timestamp"
-                    :loading="ductCalling"
+                />
+            </v-tab-item>
+            <v-tab-item>
+                <acoustic-parameter-graph
+                    :current-tab="chartTab"
+                    :loading="loading"
+                    :acoustic-parameters="acousticParameters"
                 />
             </v-tab-item>
             <v-tab-item>
                 <filter-settings 
-                    :resampled-ir="resampledIr"
-                    :default-filter-type="defaultFilterType"
-                    :default-order="defaultOrder"
-                    :power-per-freq="powerPerFreq"
+                    :current-tab="chartTab"
+                    :loading="loading"
+                    :filter-vals="filterVals"
                     :freq-list="freqList"
-                    :stability-check-obj="stabilityCheckObj"
-                    :loading="ductCalling"
-                    @emit-filter-info="emitFilterInfo"
-                    @update-analysis="updateAnalysis"
+                    :unstable-hz="unstableHz"
+                    @update-filter-preview="onUpdateFilterPreview"
+                    @update-analysis="onUpdateAnalysis"
                 />
             </v-tab-item>
         </v-tabs-items>
@@ -48,36 +67,66 @@
 </template>
 <script>
 import IrChart from './IrChart'
+import FilteredIrChart from './FilteredIrChart'
 import SchroederCurve from './SchroederCurve'
+import AcousticParameterGraph from './AcousticParameterGraph'
 import FilterSettings from './FilterSettings'
 export default{
     components:{
         IrChart,
+        FilteredIrChart,
         SchroederCurve,
+        AcousticParameterGraph,
         FilterSettings,
     },
-    data:() =>({
+    data:() => ({
         chartTab:null
     }),
-    props:[
-        'defaultFilterType',
-        'defaultOrder',
-        'resampledIr',
-        'channels',
-        'timestamp',
-        'schroederDecibels',
-        'powerPerFreq',
-        'freqList',
-        'stabilityCheckObj',
-        'ductCalling'
-    ],
-    methods:{
-        emitFilterInfo(args){
-            this.$emit('emit-filter-info', args);
+    props: {
+        loading: {
+            type: Boolean,
+            default: true
         },
-        updateAnalysis(args){
-            this.$emit('update-analysis', args);
-        }
-    }
+        irArr: {
+            type: Array,
+            default: () => ([])
+        },
+        filteredIrs: {
+            type: Object,
+            default: () => ({})
+        },
+        channels: {
+            type: Number,
+            default: 0
+        },
+        timestamp: {
+            type: Array,
+            default: () => ([])
+        },
+        schroederVals: {
+            type: Object,
+            default: () => ({})
+        },
+        filterVals: {
+            type: Object,
+            default: () => ({})
+        },
+        freqList: {
+            type: Array,
+            default: () => ([])
+        },
+        unstableHz: {
+            type: Array,
+            default: () => ([])
+        },
+        acousticParameters: {
+            type: Array,
+            default: () => ([])
+        },
+    },
+    methods:{
+        onUpdateFilterPreview(args){ this.$emit('update-filter-preview', args); },
+        onUpdateAnalysis(args){ this.$emit('update-analysis', args); }
+    },
 }
 </script>

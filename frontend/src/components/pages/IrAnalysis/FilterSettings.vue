@@ -9,8 +9,8 @@
     >
         <loading-overlay :loading="loading"/>
         <v-card-text>
-            <v-row class="pt-0 mt-0">
-                <v-col cols="6">
+            <v-row class="pb-0 pt-1">
+                <v-col cols="6" class="pb-0">
                     <v-card color="#E0E0E0" flat>
                         <v-select
                             v-model="selectedHz"
@@ -23,18 +23,19 @@
                             color="#26A69A"
                             outlined
                             flat
+                            @change="renderPlotly"
                         />
                         <div ref="plotlyChart" />
                     </v-card>
                 </v-col>
-                <v-col cols='6'>
+                <v-col cols="6" class="pb-0">
                     <v-card color='#E0E0E0' flat>
                         <v-text-field
                             v-model="filterOrder"
                             label="Filter Order"
                             outlined
                             type="number"
-                            @blur="updateFilterChart"
+                            @blur="updateFitlerPreview"
                         />
                         <v-select
                             v-model="filterType"
@@ -42,8 +43,36 @@
                             :items="filterTypes"
                             label="Filter Type"
                             outlined
-                            @change="updateFilterChart"
+                            @change="updateFitlerPreview"
                         />
+                        <v-text-field
+                            v-if="['Chebychev1', 'Elliptic'].includes(filterType)"
+                            v-model="maxRipple"
+                            label="Max ripple in dB allowed below unity gain in the passband"
+                            outlined
+                            type="number"
+                            @blur="updateFitlerPreview"
+                        />
+                        <v-text-field
+                            v-if="['Chebychev2', 'Elliptic'].includes(filterType)"
+                            v-model="minAttenuation"
+                            label="Minimum attenuation required in the stop band"
+                            outlined
+                            type="number"
+                            @blur="updateFitlerPreview"
+                        />
+                        <v-alert
+                            v-if="rippleWaring"
+                            dense
+                            type="warning"
+                        > The ripple value must be positive.
+                        </v-alert>
+                        <v-alert
+                            v-if="attenuationWaring"
+                            dense
+                            type="warning"
+                        > The attenuation value must be positive.
+                        </v-alert>
                         <v-alert
                             v-if="orderWaring"
                             dense
@@ -54,7 +83,7 @@
                             v-if="unstableFilter"
                             dense
                             type="error"
-                        > The filter is unstable at {{ unstableHz }}. Please change the order or the type.
+                        > The filter is unstable at {{ unstableHzStr }}. Please change the order or the type.
                         </v-alert>
                         <v-alert
                             v-if="invalidOrderError"
@@ -86,31 +115,46 @@ import Plotly from 'plotly.js-dist-min'
 export default{
     components:{ LoadingOverlay },
     data:() =>({
-        orderWaring:false,
-        invalidOrderError:false,
+        orderWaring: false,
+        invalidOrderError: false,
         unstableFilter:false,
-        selectedHz:'31.5',
+        rippleWaring: false,
+        attenuationWaring: false,
+        selectedHz: '31.5',
         octaveBands,
-        filterOrder:3001,
-        filterType:'FIR',
-        filterTypes:['Butterworth','Chebychev1','Chebychev2','Elliptic','Bessel','FIR'],
-        buttonDisabled:false,
-        unstableHz:''
+        filterOrder: 3001,
+        filterType: 'FIR',
+        filterTypes: ['Butterworth','Chebychev1','Chebychev2','Elliptic','Bessel','FIR'],
+        buttonDisabled: false,
+        unstableHzStr: '',
+        maxRipple: 5,
+        minAttenuation: 5
     }),
-    props:['resampledIr','defaultFilterType','defaultOrder','powerPerFreq','freqList','stabilityCheckObj','loading'],
+    props: {
+        currentTab: {
+            type: Number,
+            default: 0
+        },
+        loading: {
+            type: Boolean,
+            default: true
+        },
+        filterVals: {
+            type: Object,
+            default: () => ({})
+        },
+        freqList: {
+            type: Array,
+            default: () => ([])
+        },
+        unstableHz: {
+            type: Array,
+            default: () => ([])
+        },
+    },
     watch:{
-        resampledIr(){
-            this.filterOrder = this.defaultOrder;
-            this.filterType = this.defaultFilterType;
-        },
-        powerPerFreq(){
-            this.renderPlotly();
-        },
-        selectedHz(){
-            this.renderPlotly()
-        },
-        stabilityCheckObj(){
-            const unstableHzList = this.stabilityCheckObj.filter(el => el.isStable == false).map(el => el.hz);
+        unstableHz(){
+            const unstableHzList = this.unstableHz.filter(el => el.isStable == false).map(el => el.hz);
             if(unstableHzList.length != 0){
                 this.unstableFilter = true;
                 this.buttonDisabled = true;
@@ -118,11 +162,17 @@ export default{
                 this.unstableFilter = false;
                 this.buttonDisabled = false;
             }
-            this.unstableHz = unstableHzList.join('Hz, ').concat('','Hz');
+            this.unstableHzStr = unstableHzList.join('Hz, ').concat('','Hz');
         },
         filterOrder(){
             if(this.filterOrder > 5000) this.orderWaring = true;
             else this.orderWaring = false;
+        },
+        filterVals() {
+            this.renderPlotly();
+        },
+        currentTab(){
+            if(this.currentTab == 3) setTimeout(() => {  this.onResize(); }, 5 ); //nextTick doesn't work
         }
     },
     methods:{
@@ -134,16 +184,16 @@ export default{
             }
         },
         renderPlotly(){
-            if(Object.keys(this.powerPerFreq).length != 0){
-                const _octaveVal  = this.octaveBands.map(el => el.value)[Object.keys(this.powerPerFreq).indexOf(this.selectedHz)];
+            if(Object.keys(this.filterVals).length != 0){
                 let _HzRange = [];
-                if(['31.5', '63', '125', '250'].includes(_octaveVal))
+                if(['31.5', '63', '125', '250'].includes(this.selectedHz))
                     _HzRange = [0, 3];//in expotensial form
                 else
-                    _HzRange = [0, 4.345];
+                    _HzRange = [2, 4.345];
+
                 const data = [{
                     x: this.freqList,
-                    y: this.powerPerFreq[this.selectedHz],
+                    y: this.filterVals[this.selectedHz],
                     type: 'scatter',
                     fill: 'tonexty',
                     line: { 
@@ -171,17 +221,25 @@ export default{
             const update = { width: this.cardWidth };
             Plotly.relayout(this.$refs.plotlyChart, update);
         },
-        updateFilterChart(){
-            if(this.filterType == 'FIR' && this.filterOrder%2 == 0){
+        updateFitlerPreview(){
+            if(this.filterType == 'FIR' && this.filterOrder % 2 == 0){
                 this.invalidOrderError = true;
                 this.buttonDisabled = true;
             }else if(this.filterType != 'FIR' && this.filterOrder > 10){
                 this.orderWaring = true;
                 this.buttonDisabled = true;
+            }else if(this.maxRipple < 0 || this.maxRipple == ''){
+                this.rippleWaring = true;
+                this.buttonDisabled = true;
+            }else if(this.minAttenuation < 0 || this.minAttenuation == ''){
+                this.attenuationWaring = true;
+                this.buttonDisabled = true;
             }else{
-                this.$emit('emit-filter-info', { 
+                this.$emit('update-filter-preview', { 
                     order: this.filterOrder, 
-                    filterType: this.filterType
+                    filterType: this.filterType,
+                    ripple: this.maxRipple,
+                    attenuation: this.minAttenuation
                 });
                 this.invalidOrderError = false;
             }

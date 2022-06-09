@@ -36,18 +36,20 @@ class Handler(EventHandler):
         return await self.call(**event.data)
 
     async def call(self, spl_rate: int, filter_type: str, order: int):
+        return {}
+    
+    async def get_parameters(self, spl_rate: int, filter_type: str, order: int, ripple:int, attenuation:int):
         ir_df = await self.evt_load_data.load_group_data('analysis')
         average_ir = await self.evt_pick_representative_ir.call(ir_df)
 
-        df_parameter = pd.DataFrame(0, columns=['31.5','63','125','250','500','1k','2k','4k','8k','16k'], index=['T30(RT60)','EDT','D50','C50','C80'])
+        df_parameter = pd.DataFrame(0, columns=['31.5','63','125','250','500','1k','2k','4k','8k','16k'], index=['T30(RT60)','EDT','D50','C50','C80','Ts'])
         for octave in self.octave_band:
             fbp = octave['bandpass']
-            filtered_signal = self.bandpassFilter(average_ir, spl_rate, fbp, filter_type, order)
+            filtered_signal = self.bandpassFilter(average_ir, spl_rate, fbp, filter_type, order, ripple, attenuation)
             sr_filtered_signal = pd.Series(filtered_signal)
-            print({'octave':octave['center']})
-            print(sr_filtered_signal)
-            df = pd.DataFrame(columns=['energy','sum_energy','schroeder','time_stamp'])
+            df = pd.DataFrame(columns=['energy','remaining_energy','schroeder','time_stamp'])
             df['energy'] = sr_filtered_signal**2
+            df['time_stamp'] = df.index * 1/spl_rate
             total_energy = np.sum(df['energy'])
             energy_cumsum = np.cumsum(df['energy'])
             energy_cumsum = np.append(0, energy_cumsum)
@@ -56,14 +58,15 @@ class Handler(EventHandler):
             D_fifty  = round(np.sum(df['energy'][:int(0.05*spl_rate)])/total_energy, 2)
             C_fifty  = round(10 * np.log10(np.sum(df['energy'][:int(0.05*spl_rate)])/np.sum(df['energy'][int(0.05*spl_rate):])), 2)
             C_eighty = round(10 * np.log10(np.sum(df['energy'][:int(0.08*spl_rate)])/np.sum(df['energy'][int(0.08*spl_rate):])), 2)
+            T_s      = round(np.sum(df['energy'] * df['time_stamp'])/total_energy, 2)
             df_parameter.loc['D50',octave['center']] = D_fifty
             df_parameter.loc['C50',octave['center']] = C_fifty
             df_parameter.loc['C80',octave['center']] = C_eighty
-
-            df['sum_energy'] = total_energy - energy_cumsum
-            df['schroeder'] = 10 * np.log10(df['sum_energy']/total_energy)
-            df['time_stamp'] = df.index * 1/spl_rate
-            df = df.drop(columns=['energy','sum_energy'])
+            df_parameter.loc['Ts' ,octave['center']] = T_s
+            
+            df['remaining_energy'] = total_energy - energy_cumsum
+            df['schroeder'] = 10 * np.log10(df['remaining_energy']/total_energy)
+            df = df.drop(columns=['energy','remaining_energy'])
 
             minus_five_db = {}
             minus_five_db['time_stamp'] = (df.query('schroeder >= -5')[::-1].iloc[0]['time_stamp'] + df.query('schroeder <= -5').iloc[0]['time_stamp'])/2
@@ -80,9 +83,9 @@ class Handler(EventHandler):
 
         df_parameter = df_parameter.reset_index()
         df_parameter = df_parameter.rename(columns={'index':'parameter'})
-        return df_parameter.to_dict('records')
+        return df_parameter
 
-    def bandpassFilter(self, ir, fs, fbp, filter_type, order):
+    def bandpassFilter(self, ir, fs, fbp, filter_type, order, ripple, attenuation):
         nyq = fs / 2.0 
         normalized_cutoff = np.array(fbp) / nyq
         b=[]
@@ -90,11 +93,11 @@ class Handler(EventHandler):
         if filter_type=='Butterworth':
             b,a = signal.butter(order, normalized_cutoff, btype='band', analog=False)
         elif filter_type=='Chebychev1':
-            b,a = signal.cheby1(order, rp=5, Wn=normalized_cutoff, btype='band', analog=False)
+            b,a = signal.cheby1(order, rp=ripple, Wn=normalized_cutoff, btype='band', analog=False)
         elif filter_type=='Chebychev2':
-            b,a = signal.cheby2(order, rs=5, Wn=normalized_cutoff, btype='band', analog=False)
+            b,a = signal.cheby2(order, rs=attenuation, Wn=normalized_cutoff, btype='band', analog=False)
         elif filter_type=='Elliptic':
-            b,a = signal.ellip(order, rp=5, rs=5, Wn=normalized_cutoff, btype='band', analog=False)
+            b,a = signal.ellip(order, rp=ripple, rs=attenuation, Wn=normalized_cutoff, btype='band', analog=False)
         elif filter_type=='Bessel':
             b,a = signal.bessel(order, Wn=normalized_cutoff, btype='band', analog=False)
         elif filter_type=='FIR':

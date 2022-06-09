@@ -9,7 +9,9 @@
             <v-col>
                 <audio-input
                     :duct="duct"
-                    @get-audio-info="getAudioInfo"
+                    group-key="spectrogram"
+                    text="Choose an audio file whose spectrogram you want to look at."
+                    @send-audio-info="getAudioInfo"
                     @emit-loading-error="showSnackbar"
                 />
             </v-col>
@@ -42,7 +44,7 @@
     </v-container>
 </template>
 <script>
-import AudioInput from "./AudioInput"
+import AudioInput from "@/components/ui/AudioInput"
 import SpectrogramResult from "./SpectrogramResult"
 import ErrorSnackbar from "@/components/ui/Snackbar"
 export default{
