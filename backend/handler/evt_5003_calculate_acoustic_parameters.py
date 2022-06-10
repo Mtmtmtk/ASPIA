@@ -54,7 +54,6 @@ class Handler(EventHandler):
             energy_cumsum = np.cumsum(df['energy'])
             energy_cumsum = np.append(0, energy_cumsum)
             energy_cumsum = np.delete(energy_cumsum, -1)
-
             D_fifty  = round(np.sum(df['energy'][:int(0.05*spl_rate)])/total_energy, 2)
             C_fifty  = round(10 * np.log10(np.sum(df['energy'][:int(0.05*spl_rate)])/np.sum(df['energy'][int(0.05*spl_rate):])), 2)
             C_eighty = round(10 * np.log10(np.sum(df['energy'][:int(0.08*spl_rate)])/np.sum(df['energy'][int(0.08*spl_rate):])), 2)
@@ -70,13 +69,13 @@ class Handler(EventHandler):
 
             minus_five_db = {}
             minus_five_db['time_stamp'] = (df.query('schroeder >= -5')[::-1].iloc[0]['time_stamp'] + df.query('schroeder <= -5').iloc[0]['time_stamp'])/2
-            minus_five_db['schroeder'] = (df.query('schroeder >= -5')[::-1].iloc[0]['schroeder'] + df.query('schroeder <= -5').iloc[0]['schroeder'])/2
+            minus_five_db['schroeder']  = (df.query('schroeder >= -5')[::-1].iloc[0]['schroeder']  + df.query('schroeder <= -5').iloc[0]['schroeder'] )/2
             minus_ten_db = {}
             minus_ten_db['time_stamp'] = (df.query('schroeder >= -10')[::-1].iloc[0]['time_stamp'] + df.query('schroeder <= -10').iloc[0]['time_stamp'])/2
-            minus_ten_db['schroeder'] = (df.query('schroeder >= -10')[::-1].iloc[0]['schroeder'] + df.query('schroeder <= -10').iloc[0]['schroeder'])/2
+            minus_ten_db['schroeder']  = (df.query('schroeder >= -10')[::-1].iloc[0]['schroeder']  + df.query('schroeder <= -10').iloc[0]['schroeder'] )/2
             minus_thirtyfive_db = {}
             minus_thirtyfive_db['time_stamp'] = (df.query('schroeder >= -35')[::-1].iloc[0]['time_stamp'] + df.query('schroeder <= -35').iloc[0]['time_stamp'])/2
-            minus_thirtyfive_db['schroeder'] = (df.query('schroeder >= -35')[::-1].iloc[0]['schroeder'] + df.query('schroeder <= -35').iloc[0]['schroeder'])/2
+            minus_thirtyfive_db['schroeder']  = (df.query('schroeder >= -35')[::-1].iloc[0]['schroeder']  + df.query('schroeder <= -35').iloc[0]['schroeder'] )/2
 
             df_parameter.loc['T30(RT60)', octave['center']] = round(11/6*minus_thirtyfive_db['time_stamp']-5/6*minus_five_db['time_stamp'],2)
             df_parameter.loc['EDT', octave['center']] = round(6*minus_ten_db['time_stamp'],2)
@@ -88,8 +87,8 @@ class Handler(EventHandler):
     def bandpassFilter(self, ir, fs, fbp, filter_type, order, ripple, attenuation):
         nyq = fs / 2.0 
         normalized_cutoff = np.array(fbp) / nyq
-        b=[]
-        a=[]
+        b = []
+        a = []
         if filter_type=='Butterworth':
             b,a = signal.butter(order, normalized_cutoff, btype='band', analog=False)
         elif filter_type=='Chebychev1':

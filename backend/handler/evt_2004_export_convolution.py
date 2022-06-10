@@ -11,7 +11,6 @@ class Handler(EventHandler):
         handler_spec.set_description('UK Dissertation')
         try:
             self.evt_convolution = manager.get_handler_module('CONVOLUTE')
-            print(self.evt_convolution)
         except Exception as e:
             import traceback
             traceback.print_exc()

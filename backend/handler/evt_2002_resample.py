@@ -5,6 +5,7 @@ from scipy.io.wavfile import write
 import soundfile as sf
 import resampy
 import logging
+from scheme.status import ForecastStatus
 logger = logging.getLogger(__name__)
 
 class Handler(EventHandler):
@@ -29,8 +30,7 @@ class Handler(EventHandler):
     async def call(self, recording_spl_rate: int, swept_sine_spl_rate:int, ir_path:str, output_channels: str):
         [ir_data, ir_sr] = await self.evt_import_ir.call(ir_path)
         [anechoic_data, anechoic_sr] = await self.evt_create_anechoic_sound.call(recording_spl_rate, swept_sine_spl_rate)
-        #await self.evt_status.set(ForecastStatus.IN_DOWNLOAD)
-
+        await self.evt_status.set(ForecastStatus.RESAMPLE_FILES)
         ir_resampled = []
         ir_len = 0
         if output_channels == 'mono':

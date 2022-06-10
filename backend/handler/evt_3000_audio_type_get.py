@@ -18,7 +18,5 @@ class Handler(EventHandler):
 
     async def call(self, abbr:str):
         path = './impulse_response/' + abbr
-        print(path)
         directories = [d for d in os.listdir(path) if not os.path.isfile(os.path.join(path, d))]
-        print(directories)
         return directories

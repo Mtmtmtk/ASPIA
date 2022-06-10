@@ -176,7 +176,6 @@ const saveDataInRedis = async function(duct, audioArr, groupKey){
             data = audioArr.map(el => el.slice(frameNumber * frameElementsNum, audioLength + 1));
         else
             data = audioArr.map(el => el.slice(frameNumber * frameElementsNum, nextFrameNumber * frameElementsNum))
-        console.log(frameNumber);
         await duct.call(duct.EVENT.SAVE_DATA_IN_REDIS, {
             frame_no: frameNumber,
             group_key: groupKey,
@@ -267,6 +266,7 @@ export default{
             this.cvAudioArr = ret;
         },
         exportWAV(audioData){
+            this.progress = 90;
             const _dataview  = this.encodeWAV(this.mergeBuffers(audioData), this.recordingSplRate);
             const _audioBlob = new Blob([_dataview], { type: 'audio/wav' });
             let _myURL = window.URL || window.webkitURL;
@@ -297,5 +297,13 @@ export default{
             return _samples 
         },
     },
+    created() {
+        this.duct.invokeOnOpen(() => {
+            this.duct.setEventHandler(this.duct.EVENT.WATCH_STATUS, (rid, eid, status) => {
+                this.progress = status;
+            });
+            this.duct.send(this.duct.nextRid(), this.duct.EVENT.WATCH_STATUS);
+        });
+    }
 }
 </script>

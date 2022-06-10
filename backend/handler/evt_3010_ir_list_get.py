@@ -18,7 +18,5 @@ class Handler(EventHandler):
 
     async def call(self, abbr:str, audioType:str):
         path = './impulse_response/' + abbr + '/' + audioType
-        print(path)
         files = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
-        print(files)
         return files
