@@ -1,19 +1,24 @@
 <template>
-    <v-expansion-panels
-        focusable
-    >
-        <v-expansion-panel
-            v-for="item in panelItems"
-            :key="item.header"
-        >
-            <v-expansion-panel-header color="#323232">
-                {{item.header}}
-            </v-expansion-panel-header>
-            <v-expansion-panel-content color="#323232">
-                <component :is="item.component"/>
-            </v-expansion-panel-content>
-        </v-expansion-panel>
-    </v-expansion-panels>
+    <v-card>
+        <v-card-text>
+            <v-expansion-panels
+                focusable
+                dense
+            >
+                <v-expansion-panel
+                    v-for="item in panelItems"
+                    :key="item.header"
+                >
+                    <v-expansion-panel-header color="#323232">
+                        {{item.header}}
+                    </v-expansion-panel-header>
+                    <v-expansion-panel-content color="#323232">
+                        <component :is="item.component"/>
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+            </v-expansion-panels>
+        </v-card-text>
+    </v-card>
 </template>
 <script>
 import ReverberationTime from './AcousticParameterCards/ReverberationTime'
