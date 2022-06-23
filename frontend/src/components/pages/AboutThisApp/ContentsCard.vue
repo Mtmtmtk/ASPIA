@@ -31,37 +31,37 @@
 export default{
     data:()=>({
         paragraphs:[
-            [ 
-                'This app is an integrated sound processing tool.',
-                'You can analyse an impulse response, convolute an anechoice sound with an impulse response, and study their theories.',
-                'Do you think they are challenging?',
-                'The answer is "No"!',
-                'This app is accessible for anybody who does not have an academic signal processing background, so you can do it by following the instructions!'
+            [
+                'ASPIA (IPA: /eɪspiə/) is the multi-functional acoustic signal processing (ASP) app using the OpenAIR database.',
+                'This application is developed as part of my MSc plan, which aims to create a new interactive ASP app that expands the functionality of the OpenAIR database and makes the ASP more accessible for everyone.',
+                "The main feature of this app is the compatibility of simplicity and flexibility; there are many settings of the signal processing that the user can change, whereas the app doesn't require any knowledge from the user for the basic process.",
             ],
             [
-                'This app has four sections: Convolution generator, Impulse response analysis, Theory, and Resources.',
+                'This app has five sections; Auralisation, Impulse response (IR) analysis, Spectrogram, Theory, and Resources.'
             ],
             [
-                'Convolution generator (Generator in the sidebar) guides creating a convoluted sound from your recording or an anechoic sound you register.',
-                'There are seven steps to follow, and you can make your recording as if it is recorded in a concert hall, a church, and even a place already collapsed!',
-                'The impulse response data are provided by Openair, which was developed by Audiolab, Department of Electronics, University of York.',
-                'Please click the upper-left banner and go to the offcial website of Openair to see its further information.'
+                'The Auralisation section enables you to create the auralised sound.',
+                'Auralisation is the technique of making an acoustic virtual reality; it is possible to reproduce a reverberant sound as if the sound source is played in an arbitrary space.',
+                'Usually, it is necessary to code the programming language to implement it; however, using this app, what you have to do is only to follow the instructions!',
+                'The prepared data of spaces are collected from the OpenAIR database.'
             ],
             [
-                'The impulse response analysis (IR Analysis) section enables you to analyse an IR without any academic knowledge of signal processing!',
-                'All you have to do is inputting an IR, and you will get a lot of acoustic parameters and other elements that characterise the IR.',
-                'If you are confident with such an academic field, you can customise filters and see the result to compare the effect of the filter!',
-                'It is not only easy but also flexible!'
+                'IR Analysis section lets you explore the acoustic characteristics of the spaces.',
+                'Once you submit an impulse response and click the "Start Analysis" button, the system immediately calculates the Schroeder curve and acoustic parameters!',
+                "If you are confident with acoustic signal processing, you can customise filters and see the result to compare the filter's effect.",
             ],
             [
-                'For those who want to understand what is happening in the background, the Theory section provides everything you should learn.',
-                'This section requires at least high-school mathematics knowledge, yet it is straightforward to master the signal processing skills only by following this section.',
-                'Please take time to read it if you are willing to learn it!'
+                'The Spectrogram section helps you to create the spectrograms, which is tiresome to code.',
+                'The procedure is the same as IR analysis - just input the sound file and press the "Create Spectrogram" button.',
+                'You can also change the settings such as the window function, overlapping percentage, and sampling points.'
             ],
             [
-                'The last section is Resources, a warehouse of the information of the spaces used in the Generator section.',
-                "This section shows each spaces' exterior, interior, sample impulse response, and fundamental acoustic parameters.",
-                'Please use this section to feel what space sounds like and apply it to the convolution.'
+                'If you want to know what is happening in the background system, please look at the Theory section.',
+                'In the section, the description of the mathematical theories and acoustic parameters are written from the beginning.'
+            ],
+            [
+                'The Resources section introduces the information about the spaces/rooms whose impulse responses are prepared in the Auralisation section.',
+                "That information includes the exterior, interior, sample impulse response, and acoustic parameters at the representative position."
             ],
             [
                 'If you have any problems or find errors, please email Motoki Saito (developer of this app!) at ms2676@york.ac.uk.',
