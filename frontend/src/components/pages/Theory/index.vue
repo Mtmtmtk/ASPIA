@@ -44,7 +44,8 @@ import WhatIsSpectrogram from './Spectrogram/WhatIsSpectrogram'
 import SpectrogramFormula from './Spectrogram/SpectrogramFormula'
 import WhatIsImpulse from './IrAnalysis/WhatIsImpulse'
 import HowToAnalyze from './IrAnalysis/HowToAnalyze'
-import SoundConvolution from './SoundConvolution'
+import WhatIsAuralisation from './Auralisation/WhatIsAuralisation'
+import AuralisationFormula from './Auralisation/AuralisationFormula'
 export default{
     components:{
         WhatIsFourier,
@@ -53,7 +54,8 @@ export default{
         SpectrogramFormula,
         WhatIsImpulse,
         HowToAnalyze,
-        SoundConvolution,
+        WhatIsAuralisation,
+        AuralisationFormula
     },
     data:() => ({
         currentComponent:'what-is-fourier',
@@ -100,6 +102,21 @@ export default{
                         name: 'How to analyse?', 
                         id: 'how-to-analyze',
                         icon: 'mdi-poll'
+                    },
+                ],
+            },
+            { 
+                name: 'Auralisation', 
+                children: [
+                    { 
+                        name: 'What is Auralisation?', 
+                        id: 'what-is-auralisation',
+                        icon: 'mdi-comment-question'
+                    },
+                    { 
+                        name: 'Formula', 
+                        id: 'auralisation-formula',
+                        icon: 'mdi-equal'
                     },
                 ],
             },

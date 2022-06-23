@@ -106,6 +106,40 @@ export const contents = {
             { src: require('@/assets/theory/IR.gif'),           caption: 'The relationship between the impulse signal and impulse response.' },
             { src: require('@/assets/theory/Schroeder.png'),    caption: 'Example of the Schroeder curve.' },
         ]
+    },
+    Auralisation: {
+        sentences: [
+            'Auralisation is a method of creating an acoustic virtual reality; it is possible to reproduce a reverberant sound as if the sound source is played in an arbitrary space.',
+            "Let's look at an example - the following sound file is an operatic voice recorded in the anechoic chamber.",
+            'Now, prepare the impulse response. This time, the Usina del Arte concert hall is prepared.',
+            'After the process, you get the operatic voice virtually sung in the concert hall!',
+            'So how to create this kind of auralised sound file? In this app, what you should do is just to follow the instruction in the "Auralisation" section.',
+            'The formula and its actual process are described in the next section.',
+            'Auralisation, in other words, is a process realized by adding a resonance component (i.e. spatial impulse response) to each sample of the original anechoic signal.',
+            'This operation is called convolution, widely used in many academic fields such as image processing, acoustics, and electronics.',
+            'The formula of convolution can be defined as follows:',
+            'where <i>h(t)</i> is an impulse response and <i>x(t)</i> is an input signal.',
+            'Applying this formula directly in this app to create auralised sounds is possible.',
+            'However, this equation takes a long time to calculate - the server may crash due to the amount of calculation if the long sound file is input.',
+            'Therefore, this app embeds the auralisation section with the modified version of convolution, which uses the Fourier transform.',
+            'The convolution in the time domain is the same as the multiplication in the frequency domain.',
+            'The following conversion shows the relationship between the Fourier transform and the convolution.',
+            'Thus, the auralisation can also be achieved by the following steps:',
+            'This is what the system of this app does in the auralisation section.',
+            'The FFT-modified convolution method calculates way faster than the standard convolution; it reduces the computation complexity from <i>O(n<sup>2</sup>)</i> to <i>O(n</i> log<i>(n))</i>[1].'
+        ],
+        formulas: [
+            '$$ { \\begin{eqnarray} y(t) &=& \\int_{-\\infty}^{\\infty}h(t-\\tau)x(\\tau)d\\tau \\\\ &=& h(t) * x(t)\\end{eqnarray} } $$',
+            '$$ { \\begin{eqnarray} F(y(t)) &=& F(h(t) * x(t)) \\\\  &=& \\int_{-\\infty}^{\\infty}(\\int_{-\\infty}^{\\infty}h(t-\\tau)x(\\tau)d\\tau)e^{-j\\omega t}dt \\\\ &=&  \\int_{-\\infty}^{\\infty}x(\\tau) (\\int_{-\\infty}^{\\infty}h(t-\\tau)e^{-j\\omega t}dt) d\\tau \\\\ &=&  \\int_{-\\infty}^{\\infty}x(\\tau) (\\int_{-\\infty}^{\\infty}h(t-\\tau)e^{-j\\omega (t-\\tau)} dt) e^{-j\\omega \\tau}d\\tau \\\\ &=&  \\int_{-\\infty}^{\\infty}x(\\tau) e^{-j\\omega \\tau}d\\tau \\  F(h(t)) \\\\ &=& F(x(t)) \\  F(h(t)) \\end{eqnarray} } $$'
+        ],
+        images: [
+            { src: require('../../../assets/theory/convolution.gif'),    caption: 'The sample gif of the convolution image.' },
+        ],
+        audios: [
+            { src: require('@/assets/theory/singing.wav'),          title: 'Anechoic Operatic Voice' },
+            { src: require('@/assets/theory/usina_main_s1_p1.wav'), title: 'The impulse response of Usina del Arte concert hall, Spain' },
+            { src: require('@/assets/theory/convoluted.wav'),       title: 'Auralised Operatic Voice' },
+        ],
     }
     //WhatIsConvolution:{
     //    sentences:[
@@ -123,31 +157,6 @@ export const contents = {
     //    ],
     //    images:[
     //        require('@/assets/theory/convolution.gif')
-    //    ]
-    //},
-    //ImpulseResponse:{
-    //    sentences:[
-    //        'The impulse response(IR) is an output signal of the convolution substituting the impulse signal for an input signal.',
-    //        'The impulse signal can be expressed by the following equation.',
-    //        "The impulse signal contains equal power at all frequencies, therefore, playing the implse signal in the closed space describes how the reveberation attenuates (which is a character of the space).",
-    //        'Theoretically, this closed space is one of the discrete systems that takes x[n] as an input and creates an output y[n].',
-    //        'T means an time-invariant linear discrete system.',
-    //        'x[n] can be expressed by:',
-    //        'Substituting T for the equation obtains the following process.',
-    //        'Here, by replacing T[δ[n-k]] to h[n-k], you can obtain the following equation.',
-    //        'As you can see, h[n] is the output of the system T inputting the impulse signal, and y[n] is a convolution of an input signal x[n] and the inpulse response h[n-k].',
-    //        'As mentoined, the IR describes a character of a space, and it can be evaluated by the several acoustic parameters.',
-    //        'These parameters are described in the IR Analysis section.',
-    //    ],
-    //    formulas:[
-    //        '$${\\delta[n] = \\begin{cases} \\infty, \\mathrm{n=0} \\\\ 0, \\mathrm{n \\neq 0} \\end{cases}}$$',
-    //        '$${y[n] = T[x[n]]}$$',
-    //        '$${x[n] = \\sum_{k}x[k]\\delta[n-k]}$$',
-    //        '$${\\begin{eqnarray} T[x[n]] &=& T[\\sum_{k}x[k]\\delta[n-k]] \\\\ &=& \\sum_{k}x[k]T[\\delta[n-k]]\\end{eqnarray}}$$',
-    //        '$${y[n] = \\sum_{k}x[k]h[n-k]}$$',
-    //    ],
-    //    images:[
-    //        require('@/assets/theory/IR.gif')
     //    ]
     //},
     //SoundConvolution:{
