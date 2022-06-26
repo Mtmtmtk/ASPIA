@@ -68,9 +68,7 @@
 <script>
 import ducts from '@iflb/ducts-client'
 import Plotly from 'plotly.js-dist-min'
-import SpectrogramCanvas from "@/components/ui/SpectrogramCanvas/index.vue"
 export default{
-    components: { SpectrogramCanvas },
     data:() => ({
         duct: new ducts.Duct(),
         fileName: '',

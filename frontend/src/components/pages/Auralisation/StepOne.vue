@@ -2,7 +2,7 @@
     <v-container>
         <v-row>
             <v-col>
-                Register your recording. (Current acceptable format: monoral .wav)
+                Register your anechoic/semianechoic recording (Current acceptable format: monoral .wav). If you don't have any anechoic sound, you can download it from <a :href="openAirUrl">this link</a>.
             </v-col>
         </v-row>
         <v-row>
@@ -31,7 +31,9 @@ export default{
     components: { StepChanger },
     data: () => ({
         file:'',
-        continueDisabled: true
+       continueDisabled: true,
+       openAirUrl: 'https://www.openair.hosted.york.ac.uk/?page_id=310'
+
     }),
     methods: {
         changeStep(val){

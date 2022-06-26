@@ -9,6 +9,7 @@
             <v-col>
                 <audio-input
                     :duct="duct"
+                    :html-text="false"
                     group-key="spectrogram"
                     text="Choose an audio file whose spectrogram you want to look at."
                     @send-audio-info="getAudioInfo"

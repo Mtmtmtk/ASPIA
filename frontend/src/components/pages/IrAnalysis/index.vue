@@ -8,9 +8,10 @@
         <v-row>
             <v-col>
                 <audio-input
+                    :html-text="true"
                     :duct="duct"
                     group-key="analysis"
-                    text="Choose an impulse response you want to analyse."
+                    :text="inputFormText"
                     @send-audio-info="getIrInfo"
                     @emit-loading-error="showSnackbar"
                 />
@@ -55,6 +56,8 @@ export default{
         ErrorSnackbar
     },
     data:() =>({
+        inputFormText: "Choose an impulse response you want to analyse. If you don't have any impulse responses, you can download it from <a href='https://www.openair.hosted.york.ac.uk/?page_id=36'>this link</a>.",
+
         splRate: 0,
         channels: 0,
         audioSrc: '',
