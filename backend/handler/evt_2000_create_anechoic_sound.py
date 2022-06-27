@@ -35,10 +35,10 @@ class Handler(EventHandler):
         if (swept_sine_exist == False):
             anechoic_data = recording_df.values.T
             anechoic_data = anechoic_data / np.amax(anechoic_data)
+            print(pd.DataFrame(anechoic_data.T))
         else:
             swept_sine_df = await self.evt_load_data.load_group_data('convolution_swept_sine')
             np_inv_swept_sine, inv_spl_rate = np.array(sf.read('./swept_sines/inv_swept_sine.wav'))
-            #np_swept_sine = np.array(swept_sine)
             np_swept_sine = swept_sine_df.values.T
             room_ir = np.convolve(np_swept_sine, np_inv_swept_sine)
             room_ir = room_ir/np.amax(room_ir)

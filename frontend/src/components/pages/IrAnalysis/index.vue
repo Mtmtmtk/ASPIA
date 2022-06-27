@@ -39,8 +39,13 @@
             </v-col>
         </v-row>
         <error-snackbar
+            :snackbar-attrs="{
+                timeout: -1,
+                color: 'grey darken-3',
+                multiLine: true
+            }"
             :snackbar-model.sync="errorSnackbar"    
-            snackbar-text="Error has occurred. Please reload the page."
+            snackbar-text="Error occurred. Please reload the page. Please email the developer (ms2676@york.ac.uk) if you get this message repeatedly."
             button-text="close"
         />
     </v-container>

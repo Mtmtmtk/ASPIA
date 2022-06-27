@@ -2,7 +2,7 @@
     <v-container>
         <v-row>
             <v-col>
-                Register your anechoic/semianechoic recording (Current acceptable format: monoral .wav). If you don't have any anechoic sound, you can download it from <a :href="openAirUrl">this link</a>.
+                Register your anechoic (or semianechoic) recording. You can download it from <a :href="openAirUrl">this link</a> if you have no anechoic sound files.
             </v-col>
         </v-row>
         <v-row>
@@ -30,7 +30,7 @@ import StepChanger from '@/components/ui/StepChanger'
 export default{
     components: { StepChanger },
     data: () => ({
-        file:'',
+       file:'',
        continueDisabled: true,
        openAirUrl: 'https://www.openair.hosted.york.ac.uk/?page_id=310'
 

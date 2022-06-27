@@ -7,15 +7,42 @@
         </v-row>
         <v-row>
             <v-col cols="12">
-                <stepper-view :duct="duct"/>
+                <stepper-view 
+                    :duct="duct"
+                    @notice-error="showSnackbar"
+                />
             </v-col>
         </v-row>
+        <error-snackbar
+            :snackbar-attrs="{
+                timeout: -1,
+                color: 'grey darken-3',
+                multiLine: true
+            }"
+            :snackbar-model.sync="errorSnackbar"    
+            :snackbar-text="text"
+            button-text="close"
+        />
     </v-container>
 </template>
 <script>
 import StepperView from './StepperView.vue'
+import ErrorSnackbar from '../../ui/Snackbar'
 export default{
-    components:{ StepperView },
+    components:{ 
+        StepperView,
+        ErrorSnackbar
+    },
+    data: () => ({
+        errorSnackbar: false,
+        text: ''
+    }),
     props:['duct'],
+    methods: {
+        showSnackbar(errorType) {
+            this.text = `Error occurred. Please reload the page. Please email the developer (ms2676@york.ac.uk) with the error code if you get this message repeatedly. [error_code: ${errorType}]`;
+            this.errorSnackbar = true;
+        }
+    }
 }
 </script>

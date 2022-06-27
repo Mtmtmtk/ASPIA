@@ -1,8 +1,7 @@
 <template>
     <v-snackbar 
         v-model="snackbarModel"
-        timeout="-1"
-        color="#26A69A"
+        v-bind="{ ...snackbarAttrs }"
     >
         {{ snackbarText }}
         <template v-if="buttonRequired" #action="{ attrs }">
@@ -25,6 +24,10 @@ export default {
         snackbarText: {
             type: String,
             default: ''
+        },
+        snackbarAttrs: {
+            type: Object,
+            default: () => ({})
         },
         buttonText: {
             type: String,

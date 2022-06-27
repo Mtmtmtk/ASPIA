@@ -103,7 +103,7 @@ const encodeFunc = function(samples, samplingRate, _channels, _blockSize){
 
 const saveDataInRedis = async function(duct, audioArr, groupKey){
     const audioLength = audioArr[0].length;
-    const frameElementsNum = 44100 * 10;
+    const frameElementsNum = 44100 * 4;
     const frames = Math.ceil(audioLength/(frameElementsNum));
     for(let frameNumber = 0; frameNumber < frames; frameNumber++ ){
         const nextFrameNumber = frameNumber + 1;
@@ -169,8 +169,20 @@ export default{
     }),
     props:['duct'],
     watch:{
-        recording(){ saveDataInRedis(this.duct, this.recording, 'convolution_recording')  },
-        sweptSine(){ saveDataInRedis(this.duct, this.sweptSine, 'convolution_swept_sine') },
+        recording(){ 
+            try {
+                saveDataInRedis(this.duct, this.recording, 'convolution_recording');
+            }catch {
+                this.noticeError('REDIS_RECORDING');
+            }
+        },
+        sweptSine(){
+            try {
+                saveDataInRedis(this.duct, this.sweptSine, 'convolution_swept_sine') 
+            }catch {
+                this.noticeError('REDIS_SWEPT_SINE');
+            }
+        },
         async cvAudioArr(){
             this.audioUrl = this.exportWAV(this.cvAudioArr);
             await this.duct.call(this.duct.EVENT.DELETE_GROUP_IN_REDIS, { group_key: 'convolution_recording' });
@@ -181,8 +193,20 @@ export default{
     }, 
     methods:{
         changeStep(stepVal){ this.stepper = this.stepper + stepVal; },
-        getReordingData(file) { decodeFunc(file, this, 'recording'); },
-        getSweptSineData(file) { decodeFunc(file, this, 'swept_sine'); },
+        getReordingData(file) { 
+            try {
+                decodeFunc(file, this, 'recording'); 
+            }catch {
+                this.noticeError('DECODE_RECORDING');
+            }
+        },
+        getSweptSineData(file) { 
+            try {
+                decodeFunc(file, this, 'swept_sine');
+            }catch {
+                this.noticeError('DECODE_SWEPT_SINE')
+            }
+        },
         getSpaceName(name) { this.spaceName = name; },
         getImpulseResponseData(args) {
             this.irFormat = args[1];
@@ -190,17 +214,27 @@ export default{
         },
         async callDucts(channels) {
             this.outputChannels = channels;
-            let ret = await this.duct.call(this.duct.EVENT.EXPORT_CONVOLUTION, {
-                recording_spl_rate: this.recordingSplRate, 
-                swept_sine_spl_rate: this.sweptSineSplRate,
-                ir_path: this.irPath,
-                output_channels: this.outputChannels,
-            });
+            let ret = '';
+            try {
+                ret = await this.duct.call(this.duct.EVENT.EXPORT_CONVOLUTION, {
+                    recording_spl_rate: this.recordingSplRate, 
+                    swept_sine_spl_rate: this.sweptSineSplRate,
+                    ir_path: this.irPath,
+                    output_channels: this.outputChannels,
+                });
+            }catch {
+                this.noticeError('DUCTS_BACKEND')
+            }
             this.cvAudioArr = ret;
         },
         exportWAV(audioData) {
             this.progress = 90;
-            const _dataview  = this.encodeWAV(this.mergeBuffers(audioData), this.recordingSplRate);
+            let _dataview = '';
+            try {
+                _dataview  = this.encodeWAV(this.mergeBuffers(audioData), this.recordingSplRate);
+            }catch {
+                this.noticeError('ENCODING_WAV');
+            }
             const _audioBlob = new Blob([_dataview], { type: 'audio/wav' });
             let _myURL = window.URL || window.webkitURL;
             const url = _myURL.createObjectURL(_audioBlob);
@@ -228,6 +262,9 @@ export default{
             }
             return _samples 
         },
+        noticeError(type) {
+            this.$emit('notice-error', type);
+        }
     },
     created() {
         this.duct.invokeOnOpen(() => {
