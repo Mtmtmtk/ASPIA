@@ -15,7 +15,7 @@ export const library = [
     {
         name:'1st Baptist Church Nashville',
         abbr:'1stBaptist',
-        description: '1st Baptist Church East Nashville is a historic church at 601 Main Street in Nashville, Tennessee.',
+        description: '1st Baptist Church East Nashville is a historic church at 601 Main Street in Nashville, Tennessee. This church was founded in 1820; however, the sanctuary was re-built in 1970. Its shape is similar to the concert hall, and they hold the public worship there every Sunday.',
         images:[
             require('@/assets/img/1stBaptist/1_1stBaptist.jpg')
         ],
@@ -180,7 +180,7 @@ export const library = [
     {
         name:'Arthur Sykes Rymer Auditorium, University of York',
         abbr:'ArthurSykes',
-        description: '',
+        description: 'Arthur Sykes Rymer Auditorium is a small auditorium located on the west campus of the University of York, UK. It is a well-appointed performance space designed for experimentation, research and performance. It is equipped with an in-house 5.1 Genelec surround sound system and is used for the performance of contemporary electronic music and sound art, along with performances from a variety of musical traditions. The Rymer is connected to the control room of the Trevor Jones Recording Studio and can be used for recording. The auditorium has a unique acoustic and is constructed to prevent external noise from entering the space and performs to a PNC specification better than the PNC 15 standard. The room is built to give the best possible frequency response. The Rymer also contains suspension systems to mount large numbers of surround-sound loudspeakers. The auditorium has a full-wall HD projection screen and houses a Fazioli grand piano.',
         images:[
             require('@/assets/img/ArthurSykes/1_ArthurSykes.jpg'),
             require('@/assets/img/ArthurSykes/2_28741004_1726746860724118_2102034281_n.jpg'),
@@ -352,7 +352,7 @@ export const library = [
     {
         name:'Creswell Crags',
         abbr:'CreswellCrags',
-        description: 'A series of IRs recorded at Creswell Crags – including some recorded inside one of the caves using a sine sweep, and in the main gorge using a starter pistol.',
+        description: "A series of IRs recorded at Creswell Crags – including some recorded inside one of the caves using a sine sweep and in the main gorge using a starter pistol. This place is a magnesian limestone gorge that straddles the border between Derbyshire and Nottinghamshire. It is dotted with many caves, fissures and rock shelters, many of which harboured secrets from the Prehistoric past. Archaeologists have been excavating these caves since the 19th Century when the Victorians first discovered the artefacts that lay beneath the cave floors. So much material was excavated early on that many of today’s archaeologists now excavate the spoil heaps (rubbish dumps) of previous excavations to find any missing artefacts.",
         images:[
             require('@/assets/img/CreswellCrags/1_CreswellCrags.jpg'),
             require('@/assets/img/CreswellCrags/2_outside.jpg'),
@@ -511,7 +511,7 @@ export const library = [
     {
         name:'Falkland Palace Bottle Dungeon',
         abbr:'FalklandPalaceDungeon',
-        description: 'An Impulse Response recorded in the bottle dungeon found in Falkland Palace.',
+        description: "Falkland Palace is a royal place in the Scotland, which has the Britain's oldest tennis courts. Between 1501 and 1541, James IV and his son, James V, commissioned the best stonemasons and craftsmen of the day to create a pleasure ground for their country pursuits, which is now called Falkland. This impulse response was recorded in the bottle dungeon found in Falkland Palace.",
         images:[
             require('@/assets/img/FalklandPalaceDungeon/1_FalklandPalaceDungeon.jpg'),
         ],
@@ -589,7 +589,7 @@ export const library = [
     {
         name:'Falkland Palace Royal Tennis Court',
         abbr:'FalklandPalaceTennis',
-        description: 'These impulse responses were recorded in a tennis court with no roof. The court is designed for Real Tennis, or Caitch and can be found at Falkland Palace in Fife. It was originally built for King James V of Scotland and construction began in 1539.',
+        description: "Falkland Palace is a royal place in the Scotland, which has the Britain's oldest tennis courts. Between 1501 and 1541, James IV and his son, James V, commissioned the best stonemasons and craftsmen of the day to create a pleasure ground for their country pursuits, which is now called Falkland. The impulse responses were recorded in a tennis court with no roof. The court is designed for Real Tennis, or Caitch and can be found at Falkland Palace in Fife.",
         images:[
             require('@/assets/img/FalklandPalaceTennis/1_FalklandPalaceTennis.jpg'),
             require('@/assets/img/FalklandPalaceTennis/2_tennis.jpg'),
@@ -1302,7 +1302,7 @@ export const library = [
     {
         name:'Koli National Park Summer',
         abbr:'KoliSummer',
-        description: 'Impulse Responses measured in the forest of Koli National Park in Finland during mid-summer. There was no snow on the ground at this time. Impulse responses were captured at four sites and were measured using a B-format Soundfield microphone. For each site there are two sets of impulse responses: One is made with a single directional sound source (IR-1), and the other is made with an array of four directional sound sources pointing in different directions in an attempt to better approximate an omni-directional source (IR-2).',
+        description: 'Impulse Responses measured in the forest of Koli National Park in Finland during mid-summer. There was no snow on the ground when recording. Impulse responses were captured at four sites and were measured using a B-format Soundfield microphone. For each site there are two sets of impulse responses: One is made with a single directional sound source (IR-1), and the other is made with an array of four directional sound sources pointing in different directions in an attempt to better approximate an omni-directional source (IR-2).',
         images:[
             require('@/assets/img/KoliSummer/1_KoliSummer.jpg'),
             require('@/assets/img/KoliSummer/2_site1_b.jpg'),
@@ -1641,7 +1641,7 @@ export const library = [
     {
         name:'Newgrange',
         abbr:'Newgrange',
-        description: 'IR recorded using the ESS method at Newgrange, a neolithic passage tomb in County Meath Ireland.',
+        description: "Newgrange is a 5,200 year old passage tomb located in the Boyne Valley in Ireland's Ancient East. It has a passage measuring 19m which leads into a chamber with 3 alcoves. The passage and chamber are aligned with the rising sun on the mornings around the Winter Solstice. The impulse responses were recorded inside of the tomb, applying the ESS method.",
         images:[
             require('@/assets/img/Newgrange/1_Newgrange.jpg'),
             require('@/assets/img/Newgrange/2_20190506_075607.jpg'),
@@ -1733,7 +1733,7 @@ export const library = [
     {
         name:'R1 Nuclear Reactor Hall',
         abbr:'R1Nuclear',
-        description: 'Built in 1954, the R1 Nuclear Reactor has not been used since 1970. However, the reactor hall still remains. It is found 25 metres underneath the KTH Royal Institute of Technology, near to Stolkholm.',
+        description: "R1 nuclear reactor hall was built in 1954 to study and learn the nuclear physics and technology. At the time of 1954, this building has the forefront facility and technology to investigate the nuclear physics; however, it was dismantled in 1970 as it couldn't keep up with the rapid development of technology. The building still remains until now, and the impulse responses were recorded.",
         images:[
             require('@/assets/img/R1Nuclear/1_R1Nuclear.jpg'),
             require('@/assets/img/R1Nuclear/2_dscf0126.jpg'),
@@ -1912,7 +1912,7 @@ export const library = [
     {
         name:'Saint Lawrence Church Molebeek-Wersbeek Belgium',
         abbr:'SaintLawrence',
-        description: 'This impulse response was made with a 4 sec sinesweep playing in the middle of the altar of the church with 2 spaced (70cm) omni DPA 4060 microphones in front of the altar. The recording was done in 96kHz 24bit.',
+        description: "The Saint Lawrence Church in Beckefort, Molenbeek-Wersbeek district, was not built in a single phase. It went through countless building phases. The oldest parts, such as the massive square west tower, date back to the 14th century. The portal is baroque, and the church has a calm interior. The hardstone baptismal font dates from the 18th century and the pulpit from the 17th century.",
         images:[
             require('@/assets/img/SaintLawrence/SaintLawrence.jpg'),
         ],
@@ -1990,7 +1990,7 @@ export const library = [
     {
         name:"Spokane Woman's Club",
         abbr:'Spokane',
-        description: 'The Spokane Woman’s Club hall is a highly reflective space with bare walls, a hardwood floor and a curved ceiling. The space is roughly 84’x42′ with an average ceiling height of about 16′. The sweep was recorded before an event and deconvolved with Voxengo’s Deconvolver. The IR turned out very well. It allowed for seamless transition between the room sound recorded during a number of events, and the IR reverb used during post-production.',
+        description: "The Woman's Club of Spokane is a premier community activity venue with generous spaces of vaulted ceilings and plenty of natural light. The upper level is ADA accessible. The ballroom with stage is 2,200 sq ft and the Northwest Room (1,200 sq ft) are ideal for weddings, receptions, memorials, funerals and special events. A modern Prep kitchen and ADA accessible spaces are on the same floor.  The lower level (an additional 2,600 sq ft), is non ADA accessible. Specialized rooms are used as bridal/groom prep spaces in a wedding package. Other events may be bridal showers, baby showers, family celebrations, meetings, and small concerts and dance events. Conveniently located on the lower South Hill, just off I-90, this historic venue is close to downtown hotels, shopping, and restaurants. The Spokane Woman’s Club hall is a highly reflective space with bare walls, a hardwood floor and a curved ceiling. The space is roughly 84’x42′ with an average ceiling height of about 16′. The sweep was recorded before an event and deconvolved with Voxengo’s Deconvolver.",
         images:[
             require('@/assets/img/Spokane/Spokane.jpg'),
         ],
@@ -2068,7 +2068,7 @@ export const library = [
     {
         name:'Sports Centre, University of York',
         abbr:'SportsCentre',
-        description: 'These measurements were made in a large sports hall in the sports centre at York university. The reverberation tail is very long.',
+        description: 'These measurements were made in a large sports hall in the sports centre at the University of York. Because of its simple shape and large room size, the recorded impulse response was sustained.',
         images:[
             require('@/assets/img/SportsCentre/1_SportsCentre.jpeg'),
             require('@/assets/img/SportsCentre/2_dsc00705.jpg'),
@@ -2403,7 +2403,7 @@ export const library = [
     {
         name:"St George's Episcopal Church",
         abbr:'StGeorges',
-        description: '',
+        description: 'This church is located in Nashville, Tennessee and was built in 1949. The sanctuary is simple cuboid-shaped with the triangle roof. The impulse responses were recorded by applying the ESS method at three receiver positions.',
         images:[
             require('@/assets/img/StGeorges/1_StGeorges.jpg'),
             require('@/assets/img/StGeorges/2_screen_shot_2016-04-30_at_3.18.12_pm.png'),
@@ -2918,7 +2918,7 @@ export const library = [
     {
         name:"Terry's Factory Warehouse",
         abbr:'TerrysFactory',
-        description: 'These Impulse Responses were measured in a large empty warehouse inside the Terry’s chocolate and confectory factory in York. The factory was closed in 2005 and the site is planned for redevelopment.',
+        description: 'These Impulse Responses were measured in a large empty warehouse inside the Terry’s chocolate and confectory factory in York. The factory was closed in 2005 and the site is planned for redevelopment. The impulse responses were recorded using the logarithmic swpet sine method.',
         images:[
             require('@/assets/img/TerrysFactory/1_TerrysFactory.jpg'),
             require('@/assets/img/TerrysFactory/2_dscf0124.jpg'),
@@ -2997,7 +2997,7 @@ export const library = [
     {
         name:"Terry's Typing Room",
         abbr:'TerrysTypingRoom',
-        description: 'These Impulse Responses were measured in the partitioned typing room inside the Terry’s chocolate and confectionery factory in York. The factory was closed in 2005 and the site is planned for redevelopment.',
+        description: 'These Impulse Responses were measured in the partitioned typing room inside the Terry’s chocolate and confectionery factory in York. The factory was closed in 2005 and the site is planned for redevelopment. The impulse responses were recorded using the logarithmic swpet sine method.',
         images:[
             require('@/assets/img/TerrysTypingRoom/1_TerrysTypingRoom.jpg'),
             require('@/assets/img/TerrysTypingRoom/2_dscf0138.jpg'),
@@ -3434,7 +3434,7 @@ export const library = [
     {
         name:"Tyndall Bruce Monument",
         abbr:'TyndallBruce',
-        description: '',
+        description: 'The Tyndall Bruce Monument stands alone on the Blackhill, West Lomond, with panoramic views over the Howe of Fife and beyond. It was built in 1855 by Margaret Tyndall Bruce to honour her late husband, Onesiphorus Tyndall Bruce. The Tyndall Bruces were owners of Falkland Estate at that time and benefactors to the Parish of Falkland.',
         images:[
             require('@/assets/img/TyndallBruce/1_dsc00532.jpg'),
             require('@/assets/img/TyndallBruce/2_dsc00533.jpg'),
