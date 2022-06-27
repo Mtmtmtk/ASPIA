@@ -4,26 +4,59 @@
             <v-col cols="4">
                 <v-dialog
                     v-model="dialog"
-                    width="500"
+                    width="80%"
                 >
                     <template v-slot:activator="{ on, attrs }">
-                        <v-card
+                        <v-carousel
                             v-on="on"
                             v-bind="attrs"
-                            @click="dialog = true"
+                            contiunuous
+                            cycle
+                            height="250"
+                            :show-arrows="false"
+                            interval="2000"
                         >
-                            <v-img :src="planImg"/>
-                        </v-card>
+                            <v-overlay
+                                absolute
+                                light
+                                opacity="0"
+                                class="d-flex justify-end align-start"
+                            >
+                                <v-btn 
+                                    icon
+                                    @click="dialog = true"
+                                ><v-icon color="#616161">mdi-arrow-expand-all</v-icon>
+                                </v-btn>
+                            </v-overlay>
+                            <v-carousel-item 
+                                v-for="(image,i) in planImgs"
+                                :key="`image_no_${i}`"
+                            ><v-card color="white"><v-img contain height="250" :src="image"/></v-card>
+                            </v-carousel-item>
+                        </v-carousel>
                     </template>
-                    <v-card>
-                        <v-img :src="planImg"/>
-                        <v-card-text>
+                    <v-card color="#424242" dark>
+                        <v-card-title>
+                            Plan
+                            <v-spacer/>
                             <v-btn 
-                                dark
-                                color="#26A69A"
                                 @click="dialog = false"
-                            >Close
+                                icon
+                            ><v-icon>mdi-close</v-icon>
                             </v-btn>
+                        </v-card-title>
+                        <v-card-text>
+                            <v-carousel
+                                v-on="on"
+                                v-bind="attrs"
+                                height="700"
+                            >
+                                <v-carousel-item 
+                                    v-for="(image,i) in planImgs"
+                                    :key="`image_no_${i}`"
+                                ><v-card color="white"><v-img contain height="650" :src="image"/></v-card>
+                                </v-carousel-item>
+                            </v-carousel>
                         </v-card-text>
                     </v-card>
                 </v-dialog>
@@ -74,12 +107,12 @@ export default{
     }),
     props:[ 'spaceName', 'duct' ],
     computed: {
-        planImg(){
+        planImgs(){
             const _nameList = this.library.map(el => el.name);
             const _idx = _nameList.indexOf(this.spaceName);
-            const _planImgList = this.library.map(el => el.plan);
-            const _planImgAdr = (_idx == -1 || _planImgList[_idx] == undefined) ? require('@/assets/plan/noImage.jpeg') : _planImgList[_idx];
-            return _planImgAdr
+            const _planImgsList = this.library.map(el => el.plan);
+            const _planImgsAdr = (_idx == -1 || _planImgsList[_idx] == undefined) ? [ require('@/assets/plan/noImage.jpeg')] : _planImgsList[_idx];
+            return _planImgsAdr
         },
         formatSelected(){
             return (this.format != '') ? true : false

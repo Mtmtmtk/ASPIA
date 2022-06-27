@@ -2,7 +2,7 @@
     <v-container>
         <v-row>
             <v-col>
-                Register your anechoic (or semianechoic) recording. You can download it from <a :href="openAirUrl">this link</a> if you have no anechoic sound files.
+                Register your anechoic (or semi-anechoic) recording. You can download it from <a :href="openAirUrl">this link</a> if you have no anechoic sound files.
             </v-col>
         </v-row>
         <v-row>
