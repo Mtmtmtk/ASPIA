@@ -19,7 +19,9 @@ export const library = [
         images:[
             require('@/assets/img/1stBaptist/1_1stBaptist.jpg')
         ],
-        plan:require('@/assets/plan/1stBaptist.png'),
+        plan:[
+            require('../../assets/plan/1stBaptist/1.png'),
+        ],
         ir:[
             require('@/assets/ir/1stBaptist/stereo/1st_baptist_nashville_balcony.wav'),
         ],
@@ -101,7 +103,9 @@ export const library = [
             require('../../assets/img/Alcuin/3_source2receiver1view1.jpg'),
             require('../../assets/img/Alcuin/4_source4view1.jpg'),
         ],
-        plan:require('@/assets/plan/AlcuinCollege.jpg'),
+        plan: [ 
+            require('../../assets/plan/AlcuinCollege/1.jpg'),
+        ],
         ir:[
             require('@/assets/ir/AlcuinCollege/b-format/s1r1_spist_bform.wav'),
         ],
@@ -184,7 +188,9 @@ export const library = [
             require('@/assets/img/ArthurSykes/4_hall_plan.png'),
             require('@/assets/img/ArthurSykes/5_img_3590.png'),
         ],
-        plan:require('../../assets/plan/ArthurSykes.png'),
+        plan: [
+            require('../../assets/plan/ArthurSykes/1.png'),
+        ],
         ir:[
             require('@/assets/ir/ArthurSykes/b-format/s1r2.wav'),
         ],
@@ -260,7 +266,7 @@ export const library = [
         name:'Central Hall, University of York',
         abbr:'CentralHall',
         description: 'These Impulse Responses were recorded in the Central Hall venue of the University of York. The space is primarily used for lectures and conferences; to emulate this scenario; a sound source was placed centered on the stage of the venue while six different microphone positions were chosen to sample the acoustics of the space. As can be seen in the images, the microphone placements were chosen by dividing Central Hall into four audience areas: the stalls on the floor in the centre of the space (Stalls), the central block of seating (positions 3C, 3L), the block to the left of the stage (positions 3C, 3L), and a single position just above the entrance to the Hall and below stairs (diagonal block of seating (2L)). Position 2L was chosen at a non-chair position, because of potential interesting filtering effects of the stairs above the receiver as well as due to the lack of chairs below it. The rear of the stage had a projection screen lowered that was 1.4 m from the source, as would have been the case during the simulated scenario. The microphone in the central region (Stalls) was placed in front of the speaker, 5.1 m from the source. All microphone positions were 1.2 m above the floor at seat positions while the source was positioned at 1.5 m above stage level (both in compliance with ISO 3382-1:2009). The soundfield microphone orientation was always chosen to be orthogonal to the line of seats, facing the centre of the space.',
-        images:[
+        images: [
             require('@/assets/img/CentralHall/1_CentralHall.jpg'),
             require('@/assets/img/CentralHall/2_lxplan_yeah_1.jpg'),
             require('@/assets/img/CentralHall/3_p1060317.jpg'),
@@ -269,11 +275,13 @@ export const library = [
             require('@/assets/img/CentralHall/6_p1060329.jpg'),
             require('@/assets/img/CentralHall/7_p1060335.jpg'),
         ],
-        plan:require('../../assets/plan/CentralHall.jpg'),
+        plan:[
+            require('../../assets/plan/CentralHall/1.jpg'),
+        ],
         ir:[
             require('@/assets/ir/CentralHall/b-format/ir_centre_stalls.wav'),
         ],
-        acousticParams:[
+        acousticParams: [
             {
                 'parameter': 'RT60 (s)',
                 '31.5': '2.67',
@@ -349,7 +357,6 @@ export const library = [
             require('@/assets/img/CreswellCrags/1_CreswellCrags.jpg'),
             require('@/assets/img/CreswellCrags/2_outside.jpg'),
         ],
-        plan:require('../../assets/plan/noImage.jpeg'),
         ir:[
             require('@/assets/ir/CreswellCrags/b-format/2_s_mainlevel_r_mouth.wav'),
         ],
@@ -425,12 +432,11 @@ export const library = [
         name:'Elveden Hall (Suffolk England)',
         abbr:'ElvedenHall',
         description: 'Various rooms of Elveden Hall, captured in 2001 on Sony D10 DAT using pair of AKG 451s in XY, and starter’s pistol. The Hall, formerly the private residence of the Maharajah Duleep Singh and then the first Lord Iveagh, had at the time of these recordings not been lived in for decades. Elveden Hall, which was enlarged to its present size by Lord Iveagh at the end of the 19th century, consists of three floors in two enormous wings flanking a dramatic Marble Hall (which has featured as a location in films such as Eyes Wide Shut and Tomb Raider). The IRs offered here are a small subset of dozens made throughout the entire building, attempting to document every accessible room and closet, as part of research in a collaboration between artists Matt Rogalsky and Chlöe Steele entitled PERFECT IMPERFECT.',
-        images:[
+        images: [
             require('@/assets/img/ElvedenHall/1_ElvedenHall.jpg'),
             require('@/assets/img/ElvedenHall/2_elvedenlocationb.jpg'),
             require('@/assets/img/ElvedenHall/3_elvedensittingroom.jpg'),
         ],
-        plan:require('../../assets/plan/noImage.jpeg'),
         ir:[
             require('../../assets/ir/ElvedenHall/stereo/1a_marble_hall.wav'),
         ],
@@ -509,7 +515,6 @@ export const library = [
         images:[
             require('@/assets/img/FalklandPalaceDungeon/1_FalklandPalaceDungeon.jpg'),
         ],
-        plan:require('../../assets/plan/noImage.jpeg'),
         ir:[
             require('../../assets/ir/FalklandPalaceDungeon/b-format/bottledungeon1_sf_edited.wav'),
         ],
@@ -664,6 +669,9 @@ export const library = [
         name:'Genesis 6 Studio - Live Room Drum Set Up',
         abbr:'Genesis6',
         description: 'Genesis 6 building is located within the York University Campus and is home to the Department of Electronic Engineering Audio Lab. Within this building is a large recording studio which consists of a control room and live recoding room which is used for teaching, researching and other academic practices. The live room is acoustically treated with 12 panels. Each panel consists of an MDF wooden frame and is filled with Rockwool acoustic insulation. Rockwool absorbs noise and reduces acoustic reflections by impeding sound transmission throughout the structure of the fibers, with the panels placed on the wall to absorb both upper and lower frequencies. Despite the low reverberation time caused by the acoustic treatment, the data collected was done so to recreate a 5 piece drum set setup within the space. In total there are 8 omi-directional Impulse Responses (IRs) each directly relating to a specific drum or cymbal, with their own individual location and height. Each drum piece source position was done so using a Swept Sine of 20Hz – 22kHz lasting 10 seconds, this was repeated four times in different directions. This process was used to capture the omnidirectional sound that the drum set would produce. The microphone receiver was positioned directly in front of the kick position and was set at ear level to simulate a listener being in the room.',
+        plan: [
+            require('../../assets/plan/Genesis6/1.jpg'),
+        ],
         images:[
             require('@/assets/img/Genesis6/1_Genesis6.jpg'),
             require('@/assets/img/Genesis6/2_drum_pos.jpg'),
@@ -673,9 +681,7 @@ export const library = [
             require('@/assets/img/Genesis6/6_studio6_2.jpg'),
             require('@/assets/img/Genesis6/7_studio6_3.jpg'),
         ],
-        ir:[
-            require('../../assets/ir/Genesis6/b-format/hh_ir.wav'),
-        ],
+        ir:[ require('../../assets/ir/Genesis6/b-format/hh_ir.wav') ],
         acousticParams:[
             {
                 'parameter': 'RT60 (s)',
@@ -948,6 +954,9 @@ export const library = [
             require('@/assets/img/Heslington/19_heslington_church_impulse_response-5098.jpg'),
             require('@/assets/img/Heslington/20_heslington_church_impulse_response-5099.jpg'),
         ],
+        plan: [
+            require('../../assets/plan/Heslington/1.jpg'),
+        ],
         ir:[
             require('../../assets/ir/Heslington/b-format/impulseresponseheslingtonchurch-001.wav'),
         ],
@@ -1033,6 +1042,10 @@ export const library = [
             require('@/assets/img/Hoffmann/7_p1080845.jpg'),
             require('@/assets/img/Hoffmann/8_p1080846.jpg'),
             require('@/assets/img/Hoffmann/9_p1080852.jpg'),
+        ],
+        plan: [ 
+            require('../../assets/plan/Hoffmann/1.png'),
+            require('../../assets/plan/Hoffmann/2.png'),
         ],
         ir:[
             require('../../assets/ir/Hoffmann/b-format/ir_p1.wav'),
@@ -1128,6 +1141,10 @@ export const library = [
             require('@/assets/img/Innocent/16_tunnel_entrance_3.jpg'),
             require('@/assets/img/Innocent/17_view_from_tunnel_entrance.jpg'),
         ],
+        plan: [
+            require('../../assets/plan/Innocent/1.png'),
+            require('../../assets/plan/Innocent/2.png'),
+        ],
         ir:[
             require('../../assets/ir/Innocent/mono/middle_tunnel_1way_mono.wav'),
         ],
@@ -1207,6 +1224,9 @@ export const library = [
             require('@/assets/img/JackLyons/1_JackLyons.jpg'),
             require('@/assets/img/JackLyons/2_img_2811.jpg'),
             require('@/assets/img/JackLyons/3_recording_position.jpg'),
+        ],
+        plan: [
+            require('../../assets/plan/JackLyons/1.jpg'),
         ],
         ir:[
             require('../../assets/ir/JackLyons/b-format/rir_jack_lyons_lp1_96k.wav'),
@@ -1379,6 +1399,9 @@ export const library = [
             require('@/assets/img/KoliWinter/8_site4_g.jpg'),
             require('@/assets/img/KoliWinter/9_site4_h.jpg'),
         ],
+        plan: [
+            require('../../assets/plan/KoliWinter/1.png'),
+        ],
         ir:[
             require('../../assets/ir/KoliWinter/mono/koli_snow_site1_1way_mono.wav'),
         ],
@@ -1459,6 +1482,9 @@ export const library = [
             require('@/assets/img/LadyChapel/2_source_receiver_positions.png'),
             require('@/assets/img/LadyChapel/3_floor_plan.png'),
             require('@/assets/img/LadyChapel/4_lady_chapel_0.jpg'),
+        ],
+        plan: [
+            require('../../assets/plan/LadyChapel/1.png'),
         ],
         ir:[
             require('../../assets/ir/LadyChapel/stereo/stalbans_a_ortf.wav'),
@@ -1626,6 +1652,12 @@ export const library = [
             require('@/assets/img/Newgrange/7_newgrangeplans45.png'),
             require('@/assets/img/Newgrange/8_newgrangeplans234.png'),
             require('@/assets/img/Newgrange/9_plan-section-1024.gif'),
+        ],
+        plan: [
+            require('../../assets/plan/Newgrange/1.png'),
+            require('../../assets/plan/Newgrange/2.png'),
+            require('../../assets/plan/Newgrange/3.png'),
+            require('../../assets/plan/Newgrange/4.png'),
         ],
         ir:[
             require('../../assets/ir/Newgrange/b-format/newgrange_s1r1.wav'),
@@ -1800,6 +1832,11 @@ export const library = [
             require('@/assets/img/RonCooke/7_rontwo-min.jpg'),
             require('@/assets/img/RonCooke/8_screen_shot_2018-03-08_at_10.51.24.jpg'),
             require('@/assets/img/RonCooke/9_sourcepositions.jpg'),
+        ],
+        plan: [
+            require('../../assets/plan/RonCooke/1.jpeg'),
+            require('../../assets/plan/RonCooke/2.jpg'),
+            require('../../assets/plan/RonCooke/3.jpeg'),
         ],
         ir:[
             require('../../assets/ir/RonCooke/b-format/fsfr.wav'),
@@ -2122,6 +2159,10 @@ export const library = [
             require('@/assets/img/SpringLane/7_exterior.jpg'),
             require('@/assets/img/SpringLane/8_frontentrance-min.jpg'),
         ],
+        plan: [
+            require('../../assets/plan/SpringLane/1.png'),
+            require('../../assets/plan/SpringLane/2.png'),
+        ],
         ir:[
             require('../../assets/ir/SpringLane/stereo/sp1_mp1_ir_stereo_trimmed.wav'),
         ],
@@ -2368,6 +2409,9 @@ export const library = [
             require('@/assets/img/StGeorges/2_screen_shot_2016-04-30_at_3.18.12_pm.png'),
             require('@/assets/img/StGeorges/3_img_0760.jpg'),
         ],
+        plan: [
+            require('../../assets/plan/StGeorges/1.png')  
+        ],
         ir:[
             require('../../assets/ir/StGeorges/stereo/st_georges_far.wav'),
         ],
@@ -2453,6 +2497,9 @@ export const library = [
             require('@/assets/img/StMargarets/7_sl384102.jpg'),
             require('@/assets/img/StMargarets/8_sl384112.jpg'),
         ],
+        plan: [
+            require('../../assets/plan/StMargarets/1.jpeg')
+        ],
         ir:[
             require('../../assets/ir/StMargarets/b-format/r1_1st_configuration.wav'),
         ],
@@ -2536,6 +2583,9 @@ export const library = [
             require('@/assets/img/StMarys/5_inside_model_phase3.png'),
             require('@/assets/img/StMarys/6_source-receiver_positions.png'),
             require('@/assets/img/StMarys/7_wall_columns.png'),
+        ],
+        plan: [
+            require('../../assets/plan/StMarys/1.png')
         ],
         ir:[
             require('../../assets/ir/StMarys/stereo/phase1_stereo.wav'),
@@ -2627,6 +2677,9 @@ export const library = [
             require('@/assets/img/StPatriks/12_sl381571.jpg'),
             require('@/assets/img/StPatriks/13_sl381572.jpg'),
         ],
+        plan: [
+            require('../../assets/plan/StPatricks/1.png')
+        ],
         ir:[
             require('../../assets/ir/StPatricks/stereo/ortf_s1r1.wav'),
         ],
@@ -2709,6 +2762,9 @@ export const library = [
             require('@/assets/img/StPatriksModel/4_background2.png'),
             require('@/assets/img/StPatriksModel/5_background4.png'),
         ],    
+        plan: [
+            require('../../assets/plan/StPatricksModel/1.png')
+        ],
         ir:[
             require('../../assets/ir/StPatricksModel/b-format/stpatricks_s1r1.wav'),
         ],
@@ -3032,6 +3088,9 @@ export const library = [
             require('@/assets/img/DixonStudio/5_img_2274.jpg'),
             require('@/assets/img/DixonStudio/6_screen_shot_2016-03-01_at_21.21.08.png'),
         ],
+        plan: [
+            require('../../assets/plan/DixonStudio/1.png')
+        ],
         ir:[
             require('../../assets/ir/DixonStudio/b-format/r1_rir_bformat.wav'),
         ],
@@ -3115,6 +3174,9 @@ export const library = [
             require('@/assets/img/ShrineAndParish/5_img_7574.jpg'),
             require('@/assets/img/ShrineAndParish/6_img_7772.jpg'),
             require('@/assets/img/ShrineAndParish/7_img_7784.jpg'),
+        ],
+        plan: [
+            require('../../assets/plan/ShrineAndParish/1.jpeg')
         ],
         ir:[
             require('../../assets/ir/ShrineAndParish/mono/r1.wav'),
@@ -3203,6 +3265,11 @@ export const library = [
             require('@/assets/img/TrollersGill/9_site2_g.jpg'),
             require('@/assets/img/TrollersGill/10_site2_k.jpg'),
         ],
+        plan: [
+            require('../../assets/plan/TrollersGill/1.png'),
+            require('../../assets/plan/TrollersGill/2.png'),
+            require('../../assets/plan/TrollersGill/3.png'),
+        ],
         ir:[
             require('../../assets/ir/TrollersGill/mono/dales_site1_1way_mono.wav'),
         ],
@@ -3287,6 +3354,11 @@ export const library = [
             require('@/assets/img/Tvisongur/6_screen_shot_2017-05-03_at_21.31.44.png'),
             require('@/assets/img/Tvisongur/7_screen_shot_2017-05-03_at_20.22.25_copy_2.png'),
             require('@/assets/img/Tvisongur/8_screen_shot_2017-05-03_at_21.07.09_copy_2.png'),
+        ],
+        plan: [
+            require('../../assets/plan/Tvisongur/1.png'),
+            require('../../assets/plan/Tvisongur/2.png'),
+            require('../../assets/plan/Tvisongur/3.png'),
         ],
         ir:[
             require('../../assets/ir/Tvisongur/stereo/source1domefareceiver2domelabinaural.wav'),
@@ -3452,6 +3524,9 @@ export const library = [
             require('@/assets/img/UsinaDelArte/5_3d_ir.png'),
             require('@/assets/img/UsinaDelArte/6_diffusers.png'),
         ],
+        plan: [
+            require('../../assets/plan/UsinaDelArte/1.jpeg')
+        ],
         ir:[
             require('../../assets/ir/UsinaDelArte/stereo/usina_main_s1_p1.wav'),
         ],
@@ -3537,6 +3612,9 @@ export const library = [
             require('@/assets/img/YorkGuildhall/7_img_1558_copy.jpg'),
             require('@/assets/img/YorkGuildhall/8_guildhall_york.jpg'),
             require('@/assets/img/YorkGuildhall/9_thumb_img_6456_1024.jpg'),
+        ],
+        plan: [
+            require('../../assets/plan/YorkGuildHall/1.jpeg')
         ],
         ir:[
             require('../../assets/ir/YorkGuildHall/b-format/councilchamber_s1_r1_ir_1_96000.wav'),

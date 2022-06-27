@@ -36,6 +36,7 @@ class Handler(EventHandler):
         cv_sound = np.fft.ifft(cv_sound_fft)
         cv_sound = cv_sound.real
         cv_sound = cv_sound / np.amax(cv_sound)
-        cv_sound = cv_sound.tolist()
+        cv_sound_cropped = cv_sound[:, :(len(ir_resampled[0]) + len(anechoic_data[0]) -1 )]
+        cv_sound_cropped = cv_sound_cropped.tolist()
         await self.evt_status.set(ForecastStatus.CONVOLUTION_FINISHED)
-        return cv_sound
+        return cv_sound_cropped

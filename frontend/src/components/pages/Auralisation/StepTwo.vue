@@ -77,7 +77,7 @@ export default{
             this.continueDisabled = (val == -1) ? true : false;
         },
         emitRecordingFile(file){
-            this.$emit('accept-recording-file', file);
+            this.$emit('accept-swept-sine-file', file);
             this.continueDisabled = false;
         }
     },

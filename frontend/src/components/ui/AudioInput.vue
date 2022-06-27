@@ -6,9 +6,10 @@
         color="#323232"
     >
         <v-row class="ps-5 pt-3">
-            <v-col>
+            <v-col v-if="!htmlText">
                 {{ text }}
             </v-col>
+            <v-col v-if="htmlText" v-html="text" />
         </v-row>
         <v-card-text>
             <v-file-input
@@ -45,7 +46,7 @@ export default{
         loading: false,
         buttonDisabled: true
     }),
-    props: ['duct', 'groupKey', 'text'],
+    props: ['duct', 'htmlText', 'groupKey', 'text'],
     methods:{
         async getAudioData(file){
             if(file){

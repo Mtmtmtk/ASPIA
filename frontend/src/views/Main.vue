@@ -59,7 +59,6 @@
                 </v-list-item>
             </v-list>
             <v-divider />
-
             <template v-slot:prepend>
                 <v-list>
                     <v-list-item>
@@ -70,8 +69,14 @@
                         </v-list-item-content>
                     </v-list-item>
                     <v-divider />
+                </v-list>
+            </template>
+            <template v-slot:append>
+                <v-list>
+                    <v-divider />
                     <v-list-item>
                         <v-list-item-content>
+                                <small class="mb-1 mt-0">Database provided by:</small>
                                 <v-card
                                     flat
                                     tile
@@ -88,11 +93,7 @@
                                 </v-card>
                         </v-list-item-content>
                     </v-list-item>
-                    <v-divider/>
-                </v-list>
-            </template>
-            <template v-slot:append>
-                <v-list>
+                    <v-divider />
                     <v-list-item @click="closeMenu">
                         <v-list-item-icon>
                             <v-icon>mdi-chevron-left</v-icon>
@@ -123,7 +124,7 @@ import ducts from '@iflb/ducts-client'
 export default{
     data:() => ({
         duct: new ducts.Duct(),
-        drawer:true,
+        drawer: true,
         backgroundImage: BackgroundImage,
         menuItems:[
             { title: 'Auralisation', icon: 'mdi-surround-sound', to: '/main/auralisation' },
