@@ -47,8 +47,6 @@
                         </v-card-title>
                         <v-card-text>
                             <v-carousel
-                                v-on="on"
-                                v-bind="attrs"
                                 height="700"
                             >
                                 <v-carousel-item 
