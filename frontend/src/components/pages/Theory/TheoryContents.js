@@ -1,20 +1,36 @@
 export const contents = {
     Fourier:{
         sentences:[
-            "Fourier Transform is a fundamental transformation formula of all the acoustic signal processing methods used in this app, which can extract the input signal's frequencies.",
-            'For example, if the input signal is a mixed sine wave which contains 440 Hz (A4) and 660 Hz (E5), the result of the Fourier Transform shows the sharp peaks at 440 Hz and 660 Hz points and no power at the other frequencies.',
+            'Every signal in this world can be expressed as the superposition of two or more waves.',
+            'This is called the wave superposition principle, which means that any complex signal can be decomposed into several simple signals.',
+            'Fourier Transform is a fundamental transformation formula of all the acoustic signal processing methods used in this app, which can decompose the input signal into simple sine waves.',
+            "Let's see the easiest example - if the input signal is the 440 Hz sine wave signal, the result of the Fourier Transform shows the sharp peaks at 440 Hz and no power at the other frequencies.",
+
             'Then how can the Fourier Transform be calculated?',
             'The following formula is the definition of the Fourier Transform.',
             'The output of Fourier Transform may include an imaginary number.',
             'There are two ways to plot the strength of the output, amplitude spectrum and power spectrum.',
             'Amplitude spectrum |F(ω)| is the absolute value of the output, and power spectrum |F(ω)|<sup>2</sup> is the square of the amplitude spectrum.',
-            "Now, let's calculate this formula with the input signal mentioned above.",
+            "Now, let's calculate this formula with the input signal mentioned in the last section.",
             'Open the following tab to see the calculation process.',
             'The input signal can be described as follows:',
             'Substituting f(t) to the definition of the Fourier Transform gets the following result.',
             'Fig. 2 is a power spectrum, which is the square of the absolute value of F(ω).',
             'Therefore, the power spectrum can be calculated as follows:',
             'Finally, Fig. 2 in the "What is Fourier Transform?" section is the plot of the equation above when T is 1 seconds.',
+            "Then let's move on to more complicated signal.",
+            "This time, you don't have to calculate as the process is complicated.",
+            'Have you heard the square wave?',
+            'It is often used as one of the timbre of the synthesiser, and the audio player below is the 440 Hz of the square wave.',
+            'The square wave can be defined as the following formula, and its graph is Fig. 1.',
+            'As you can see from the formula and the gif, the square wave is composed of the fundamental wave and the components of its odd multiples.',
+            'Moreover, the amplitude of each wave is decreasing as the number of harmonics increases (1 → 1/3 → 1/5 → 1/7 →...).',
+            "Let's check if we can get the same result from the Fourier Transform.",
+            'Although the definition of <i>g(t)</i> is complicatd, we can write the square wave in the different way as follows:',
+            "Let's type this function in any programming language.",
+            'This time, I used MATLAB.',
+            'As you can see from the result, the ratio of the amplitude is the same as mentioned above.',
+
             'Have you got the same value as written in the tab?',
             'However, this is not what happens on the computer.',
             'The signal inputted in the computer is somewhat sampled as the computer cannot handle the continuous signal.',
@@ -24,15 +40,25 @@ export const contents = {
         ],
         formulas:[
             '$$ { F(\\omega) = \\int_{-\\infty}^{+\\infty}f(t)e^{-j\\omega t}dt}  $$ ',
-            '$$ { f(t) =  \\begin{cases}\\sin{\\omega_{1}t} + \\sin{\\omega_{2}t} & (-T \\le t \\le +T )\\\\ 0 & \\mathrm{else}\\end{cases} } $$',
-            '$$ { \\omega_{1} = 2\\pi\\cdot 440t, \\ \\omega_{2} = 2\\pi\\cdot 690t} $$',
-            '$$ { \\begin{eqnarray} F(\\omega) &=& \\int_{-T}^{+T}(\\sin{\\omega_{1}t} + \\sin{\\omega_{2}t}) \\cdot e^{-j\\omega t}dt \\\\ &=& \\int_{-T}^{+T}(\\frac{e^{\\ j\\omega_{1}t}-e^{-j\\omega_{1}t}}{2j}+ \\frac{e^{\\ j\\omega_{2}t}-e^{-j\\omega_{2}t}}{2j})\\cdot e^{-j\\omega t}dt  \\\\ &=& \\frac{1}{2j}\\int_{-T}^{+T}(e^{\\ j(\\omega_{1} - \\omega)t}-e^{\\ j(-\\omega_{1}-\\omega)t} + e^{\\ j(\\omega_{2}-\\omega)t}-e^{\\ j(-\\omega_{2}-\\omega)t}) \\ dt  \\\\ &=& jT(\\frac{\\sin(\\omega_{1}+\\omega)}{\\omega_{1}+\\omega} - \\frac{\\sin(\\omega_{1}-\\omega)}{\\omega_{1}-\\omega} + \\frac{\\sin(\\omega_{2}+\\omega)}{\\omega_{2}+\\omega} + \\frac{\\sin(\\omega_{2}-\\omega)}{\\omega_{2}-\\omega})  \\end{eqnarray} }  $$ ',
-            '$$ { |F(\\omega)| = T^2(\\frac{\\sin(\\omega_{1}+\\omega)}{\\omega_{1}+\\omega} - \\frac{\\sin(\\omega_{1}-\\omega)}{\\omega_{1}-\\omega} + \\frac{\\sin(\\omega_{2}+\\omega)}{\\omega_{2}+\\omega} + \\frac{\\sin(\\omega_{2}-\\omega)}{\\omega_{2}-\\omega})^2} $$',
+            '$$ { f(t) =  \\begin{cases}\\sin{\\omega_{1}t} & (-T \\le t \\le +T )\\\\ 0 & \\mathrm{else}\\end{cases} } $$',
+            '$$ { \\omega_{1} = 2\\pi\\cdot 440t} $$',
+            '$$ { \\begin{eqnarray} F(\\omega) &=& \\int_{-T}^{+T}\\sin{\\omega_{1}t} \\cdot e^{-j\\omega t}dt \\\\ &=& \\int_{-T}^{+T}(\\frac{e^{\\ j\\omega_{1}t}-e^{-j\\omega_{1}t}}{2j})\\cdot e^{-j\\omega t}dt  \\\\ &=& \\frac{1}{2j}\\int_{-T}^{+T}(e^{\\ j(\\omega_{1} - \\omega)t}-e^{\\ j(-\\omega_{1}-\\omega)t}) \\ dt  \\\\ &=& jT(\\frac{\\sin(\\omega_{1}+\\omega)}{\\omega_{1}+\\omega} - \\frac{\\sin(\\omega_{1}-\\omega)}{\\omega_{1}-\\omega})  \\end{eqnarray} }  $$ ',
+            '$$ { |F(\\omega)|^2 = T^2(\\frac{\\sin(\\omega_{1}+\\omega)}{\\omega_{1}+\\omega} - \\frac{\\sin(\\omega_{1}-\\omega)}{\\omega_{1}-\\omega})^2} $$',
+            '$$ { g(t) = \\frac{4}{\\pi}\\sum_{n=1}^\\infty \\frac{\\sin(2\\pi (2n-1)f_0t)}{2n-1} } $$',
+            '$$ { g(t) = \\begin{cases} 1 & (\\frac{k}{f_0} < t \\leq \\frac{k+0.5}{f_0}) \\\\ -1 & (\\frac{k+0.5}{f_0} < t \\leq \\frac{k+1}{f_0}) \\end{cases} } $$',
+
+
             '$$ { F(k) = \\sum_{n=0}^{N-1}f[n]e^{-j\\frac{2\\pi k}{N} n} \\ \\ (k = 0,1,2,...,N-1)} $$'
         ],
         images: [
             { src: require('@/assets/theory/FFT_raw.jpg'),    caption: 'Raw Signal of A4 and E5' },
             { src: require('@/assets/theory/FFT_Result.jpg'), caption: 'The FFT result of Fig. 1' },
+            { src: require('@/assets/theory/square.gif'),     caption: 'The graph of the square wave (f0 = 1 Hz) increasing the last number of the sigma notation.' },
+            { src: require('../../../assets/theory/square_fft_code.png'), caption: 'The code of generating the square wave and calculating the Fourier transform' },
+            { src: require('../../../assets/theory/square_fft.jpg'),      caption: 'The amplitude spectrum of the square wave' },
+        ],
+        audios: [
+            { src: require('@/assets/theory/square.wav'),          title: '440 Hz square wave (watch out for the volume!)' },
         ]
     },
     Spectrogram: {
@@ -66,7 +92,7 @@ export const contents = {
             { src: require('@/assets/theory/no_window.png'),         caption: 'The simple division without window function. Continuity has disappeared.' },
             { src: require('@/assets/theory/hann_window.jpg'),       caption: 'The graph of Hann window.' },
             { src: require('@/assets/theory/matlab_stft.png'),       caption: 'The outline of the STFT.' },
-        ]
+        ],
     },
     IrAnalysis: {
         sentences: [

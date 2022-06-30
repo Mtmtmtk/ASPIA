@@ -1,5 +1,5 @@
 <template>
-    <v-card class="mt-0">
+    <v-card :color="backgroundColor" class="mt-0">
         <v-card-text class="pl-0 pt-2 font-weight-lighten">
             {{ title }}
         </v-card-text>
@@ -16,6 +16,10 @@ export default {
         VAudio
     },
     props: {
+        backgroundColor: {
+            type: String,
+            default: ''
+        },
         title: {
             type: String,
             default: ''

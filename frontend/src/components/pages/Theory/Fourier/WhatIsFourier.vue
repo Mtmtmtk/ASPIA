@@ -3,10 +3,11 @@
         <v-card-title>What is Fourier Transform?</v-card-title>
         <v-card-text class="text-body-1">
             <theory-sentences :sentences="sentences.slice(0,2)"/>
+            <theory-sentences :sentences="sentences.slice(2,4)"/>
             <image-with-caption
                 :per-row="2"
-                :images="images.map(el => el.src)"
-                :captions="images.map(el => el.caption)"
+                :images="images.map(el => el.src).slice(0,2)"
+                :captions="images.map(el => el.caption).slice(0,2)"
             />
         </v-card-text>
     </v-card>
