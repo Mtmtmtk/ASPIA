@@ -20,20 +20,17 @@
             <v-btn 
                 icon
                 @click='showPage("github")'
-            >
-                <v-icon>mdi-github</v-icon>
+            ><v-icon>mdi-github</v-icon>
             </v-btn>
             <v-btn 
                 icon
                 @click='showPage("wordpress")'
-            >
-                <v-icon>mdi-wordpress</v-icon>
+            ><v-icon>mdi-wordpress</v-icon>
             </v-btn>
             <v-btn 
                 icon
                 @click='showPage("linkedin")'
-            >
-                <v-icon>mdi-linkedin</v-icon>
+            ><v-icon>mdi-linkedin</v-icon>
             </v-btn>
         </v-app-bar>
 
@@ -51,10 +48,10 @@
                     :to='item.to'
                 >
                     <v-list-item-icon>
-                        <v-icon>{{item.icon}}</v-icon>
+                        <v-icon>{{ item.icon }}</v-icon>
                     </v-list-item-icon>
                     <v-list-item-content>
-                        <v-list-item-title>{{item.title}}</v-list-item-title>
+                        <v-list-item-title>{{ item.title }}</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
             </v-list>
@@ -107,13 +104,11 @@
 
         </v-navigation-drawer>
         <v-main app>
-            <router-view
-                :duct='duct'
-            />
+            <router-view :duct='duct'/>
         </v-main>
         <v-footer app dark>
             <v-col class='text-center' >
-                {{new Date().getFullYear()}} - <strong>Motoki Saito, University of York</strong>
+                {{ new Date().getFullYear() }} - <strong>Motoki Saito, University of York</strong>
             </v-col>
         </v-footer>
     </div>
@@ -127,12 +122,12 @@ export default{
         drawer: true,
         backgroundImage: BackgroundImage,
         menuItems:[
-            { title: 'Auralisation', icon: 'mdi-surround-sound', to: '/main/auralisation' },
-            { title: 'IRAnalysis', icon: 'mdi-sine-wave', to: '/main/ir-analysis' },
-            { title: 'Spectrogram', icon: 'mdi-chart-bar', to: '/main/spectrogram' },
-            { title: 'Theory', icon: 'mdi-calculator-variant-outline', to: '/main/theory' },
-            { title: 'Resources', icon: 'mdi-semantic-web', to: '/main/resources' },
-            { title: 'About this app', icon: 'mdi-information', to: '/main/about-this-app' },
+            { title: 'Auralisation',   icon: 'mdi-surround-sound',             to: '/main/auralisation' },
+            { title: 'IR Analysis',    icon: 'mdi-sine-wave',                  to: '/main/ir-analysis' },
+            { title: 'Spectrogram',    icon: 'mdi-chart-bar',                  to: '/main/spectrogram' },
+            { title: 'Theory',         icon: 'mdi-calculator-variant-outline', to: '/main/theory' },
+            { title: 'Resources',      icon: 'mdi-semantic-web',               to: '/main/resources' },
+            { title: 'About this app', icon: 'mdi-information',                to: '/main/about-this-app' },
         ],
     }),
     methods:{
