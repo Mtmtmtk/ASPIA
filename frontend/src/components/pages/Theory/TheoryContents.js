@@ -35,6 +35,7 @@ export const contents = {
             'However, this is not what happens on the computer.',
             'The signal inputted in the computer is somewhat sampled as the computer cannot handle the continuous signal.',
             'Therefore, the Fourier Transform should also correspond with it. The discrete version of the Fourier Transform is called Discrete Fourier Transform (DFT), given by the following formula.',
+            'where <i>N</i> is the number of the sampling times.',
             'In practice, Fast Fourier Transform (FFT), an algorithm for fast and efficient computation of the DFT, is executed in this app.',
             'The usages of FFT are written in the later sections, so please look at them.'
         ],
@@ -54,7 +55,7 @@ export const contents = {
             { src: require('@/assets/theory/FFT_raw.jpg'),    caption: 'Raw Signal of A4 and E5' },
             { src: require('@/assets/theory/FFT_Result.jpg'), caption: 'The FFT result of Fig. 1' },
             { src: require('@/assets/theory/square.gif'),     caption: 'The graph of the square wave (f0 = 1 Hz) increasing the last number of the sigma notation.' },
-            { src: require('../../../assets/theory/square_fft_code.png'), caption: 'The code of generating the square wave and calculating the Fourier transform' },
+            { src: require('../../../assets/theory/square_fft_code.png'), caption: 'The code of generating the square wave (f0 = 1 Hz) and calculating the Fourier transform' },
             { src: require('../../../assets/theory/square_fft.jpg'),      caption: 'The amplitude spectrum of the square wave' },
         ],
         audios: [
@@ -64,6 +65,19 @@ export const contents = {
     Spectrogram: {
         sentences: [
             'The spectrogram is a visualization of the input audio file so that the temporal changes such as pitch and power can be read simultaneously.',
+            'This technology is applied in the many fields (e.g., voiceprint identification, detecting animal sounds, music production, and sonar/radar).',
+            "Let's take a look at the easiest example; 440 Hz sine wave.",
+            'The image below is the spectrogram of the sine wave which lasts 5 seconds.',
+            'You can check the result visually that the wave has a constant value of 440 Hz until the end.',
+            'Then, What will happen when the frequency changes?',
+            'The audio below is called the expotential sine wave whose formula is written as follows:',
+            'where <i>ω<small>1</small></i> and <i>ω<small>2</small></i> are the start and end frequencies of the sweep (in radians) and <i>T</i> is the length of the sweep in seconds.',
+            'As you can hear, this sound starts from the low frequency (20 Hz), and rapidly goes up until 22 kHz.',
+            'So how will the spectrogram be?',
+            'The following image is the spectrogram of the swept sine wave.',
+            'The spectrogram successfully illustrates the variation of the frequency.',
+            'Thus, as you experienced, spectrograms are a useful tool for visualising and sharing with others what is often vague and difficult to describe as auditory information.',
+            'So, how to create the spectrogram?',
             "Before getting into the spectrogram specification, let's remind of the Fourier Transform.",
             'Fourier Transform is the method to extract the frequency component of the entire section of the input signal.',
             "Then, don't you think if the spectrogram can be created by dividing the input signal into small time sections and executing the Fourier Transform to each of them?",
@@ -83,16 +97,22 @@ export const contents = {
             'Therefore, applying the overlap compensates for the missing part of the signal by windowing partially in piles.'
         ],
         formulas: [
+            '$$ { s(t) = \\sin{(\\frac{\\omega_{1}T}{\\mathrm{ln}(\\frac{\\omega_{2}}{\\omega_{1}})}(e^{\\frac{t}{T}\\mathrm{ln}(\\frac{\\omega_{2}}{\\omega_{1}})}-1) )} } $$',
             '$$ { w[n] = 0.5 (1-\\cos{\\frac{2\\pi n}{N}}) } $$',
             '$$ { F(m, k) =  \\sum_{n=0}^{N-1}f[n]w[n-mR]e^{-j\\frac{2\\pi k}{N} n} \\ \\ (k = 0,1,2,...,N-1) } $$'
         ],
         images: [
+            { src: require('@/assets/theory/spectrogram_440.png'),   caption: 'The spetrogram of the constant 440 Hz sine wave.' },
+            { src: require('@/assets/theory/spectrogram_swept_sine.png'),   caption: 'The spetrogram of the swept sine wave.' },
             { src: require('@/assets/theory/spectrogramsource.png'), caption: 'The source sound of operatic voice' },
             { src: require('@/assets/theory/spectrogram.png'),       caption: 'The spectrogram of Fig.1' },
             { src: require('@/assets/theory/no_window.png'),         caption: 'The simple division without window function. Continuity has disappeared.' },
             { src: require('@/assets/theory/hann_window.jpg'),       caption: 'The graph of Hann window.' },
             { src: require('@/assets/theory/matlab_stft.png'),       caption: 'The outline of the STFT.' },
         ],
+        audios: [
+            { src: require('../../../assets/theory/swept_sine.wav'),  title: 'The swept sine wave (T = 5, ω1 = 2π*20, ω2 = 2π*22000). (watch out for the volume!)' },
+        ]
     },
     IrAnalysis: {
         sentences: [
