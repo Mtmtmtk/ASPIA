@@ -115,7 +115,7 @@ export const contents = {
             { src: require('@/assets/theory/matlab_stft.png'),       caption: 'The outline of the STFT.' },
         ],
         audios: [
-            { src: require('../../../assets/theory/swept_sine.wav'),  title: 'The swept sine wave (T = 5, ω1 = 2π*20, ω2 = 2π*22000). (watch out for the volume!)' },
+            { src: require('@/assets/theory/swept_sine.wav'),  title: 'The swept sine wave (T = 5, ω1 = 2π*20, ω2 = 2π*22000). (watch out for the volume!)' },
         ]
     },
     IrAnalysis: {
@@ -123,7 +123,7 @@ export const contents = {
             'In general, the impulse response is the response of the linear time-invariant system when the impulse signal <i>δ(t)</i>, given in the following equation, is input.',
             'This equation is an ideal signal; instead, the unit impulse signal, shown as follows, is used in practical terms.',
             'So, how does this response relate to acoustics?',
-            'Surprisingly, the acoustic space can be approximated as a linear time-invariant system.',
+            'Surprisingly, the acoustic space can be approximated as a linear time-invariant system, and the response of the space against the impulse signal shows the characteristics of the space.',
             "If you don't understand the 'linear' and 'time-invariant', just know that the following equations can be applicable to the acoustic analysis (they are a bit complicated concepts).",
             'In acoustics, the impulse signal is an instantaneous burst.',
             "The hand clap and guns are examples, although they are not 'pure' impulse responses.",
@@ -140,7 +140,7 @@ export const contents = {
             'The acoustic characteristics vary with frequency bands; therefore, it is necessary to filter the impulse response with certain frequency bands.',
             'In general, the impulse response is filtered with the octave bands, shown in Table 1.',
             'The specific method of filtering will be discussed in the last part of this section.',
-            'There are five representive acoustic parameters (Reverberation time, Early decay time, C50, C80, and D50) that describes the character of the closed space.',
+            'There are five representive acoustic parameters (Reverberation time, Early decay time, C50, C80, and D50) that describes the characteristics of the recorded space.',
             'Expand the following panels to see what each parameter means.'
         ],
         formulas: [
@@ -153,7 +153,7 @@ export const contents = {
             { src: require('@/assets/theory/unitIR_dB.jpg'),    caption: 'The power spectrum of the unit impulse signal.' },
             { src: require('@/assets/theory/hand_clap_ir.png'), caption: 'The power spectrum of the hand clap [1].' },
             { src: require('@/assets/theory/gun_ir.png'),       caption: 'The power spectrum of guns [2].' },
-            { src: require('@/assets/theory/IR.gif'),           caption: 'The relationship between the impulse signal and impulse response.' },
+            { src: require('@/assets/theory/IR.png'),           caption: 'The relationship between the impulse signal and impulse response.' },
             { src: require('@/assets/theory/Schroeder.png'),    caption: 'Example of the Schroeder curve.' },
         ]
     },

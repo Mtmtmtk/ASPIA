@@ -2,9 +2,9 @@
     <v-card color="#323232" flat>
         <v-card-title>Clarity</v-card-title>
         <v-card-text class="text-body-1">
-            <theory-sentences is-html :sentences="sentences.slice(0,2)" />
+            <theory-sentences is-html :sentences="sentences.slice(0,1)" />
             <vue-mathjax :formula="formulas[0]"/>
-            <theory-sentences is-html :sentences="sentences.slice(2,6)" />
+            <theory-sentences is-html :sentences="sentences.slice(1,6)" />
             <v-card flat class="mt-0" color="#323232">
                 <v-card-text class="d-flex justify-center pb-0 font-weight-light">
                     Table 3. Clarity in concert halls[4]
@@ -32,9 +32,8 @@ export default{
     },
     data:() => ({
         sentences:[
-            'This parameter refers to how clear the sound quality is.',
             '<i>Cn</i> is the energy raito (in decibel) of the first <i>n</i> ms (early sound energy) and the rest of the sequence (later reverberant energy).',
-            '<i>C80</i> is a popular objective measure for clarity.',
+            '<i>C80</i> is a popular objective parameter for clarity of the musical performance.',
             "Especially, <i>C80(3)</i>, defined as the average of <i>C80</i> values at 500Hz, 1kHz, and 2kHz octave bands, has been developed to evaluate the room's quality.",
             'Generally, acceptable values for <i>C80(3)</i> for concert halls are between +1dB and -4dB[4].',
             "The following table shows famous concert halls' C80(3) values."

@@ -37,7 +37,8 @@
             />
             <vue-mathjax :formula="formulas[2]" />
             <image-with-caption
-                :per-row="2"
+                :start-idx="4"
+                :per-row="1"
                 :images="images.map(el => el.src).slice(3,4)"
                 :captions="images.map(el => el.caption).slice(3,4)"
             />
