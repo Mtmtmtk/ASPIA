@@ -4,6 +4,10 @@
         <v-card-text class="text-body-1">
             <theory-sentences :sentences="sentences.slice(14,16)" />
             <vue-mathjax :formula="formulas[3]"/>
+            <image-with-caption
+                :images="[ images[4].src ]"
+                :captions="[ images[4].caption ]"
+            />
             <theory-sentences 
                 is-html
                 :sentences="sentences.slice(16,20)" 
@@ -16,7 +20,7 @@
     </v-card>
 </template>
 <script>
-//import ImageWithCaption from '../ui/ImageWithCaption'
+import ImageWithCaption from '../ui/ImageWithCaption'
 import TheorySentences from '../ui/TheorySentences'
 import OctaveBandsTable from './OctaveBandsTable'
 import AcousticParametersExpansionPanels from './AcousticParametersExpansionPanels'
@@ -25,7 +29,7 @@ import { VueMathjax } from 'vue-mathjax'
 import { contents } from '../TheoryContents.js'
 export default {
     components: {
-        //ImageWithCaption,  
+        ImageWithCaption,  
         TheorySentences,
         OctaveBandsTable,
         AcousticParametersExpansionPanels,

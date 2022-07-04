@@ -65,7 +65,7 @@ export default{
         ],
         sentences:[
             'Early Decay Time describes a subjective feeling of reverberation rather than <i>RT60</i>.',
-            "This parameter can be calculated as a time that the Schroeder Curve's extrapolation of 0 dB and -10 dB crosses -60 dB point.",
+            "This parameter can be calculated as a time until the Schroeder Curve's extrapolation of 0 dB and -10 dB crosses -60 dB point.",
             'Barron[3] measured and calculated the <i>EDT</i> in many British concert halls and revealed that most of them are between 1.5 and 2.5 seconds.'
         ],
         formulas:[

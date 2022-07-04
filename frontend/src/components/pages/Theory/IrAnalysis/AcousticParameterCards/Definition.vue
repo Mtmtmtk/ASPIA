@@ -34,8 +34,8 @@ export default{
         sentences:[
             'The parameter <i>Dn</i> is one of the parameters that explain speech intelligibility.',
             '<i>Dn</i> can be calculated by the energy ratio (in percentage) of the first <i>n</i> ms and the entire sequence.',
-            '<i>D50</i> is a popular objective measure for definition.',
-            'Marshall[5] suggested this value and defined the evaluation of the speech intelligibility as follows:'
+            'Especially, <i>D50</i> is usually used as the representative parameter.',
+            'Marshall[5] suggested this value, and he investigated the correlation between the speech intelligibility and <i>D50</i> values as follows:'
         ],
         formulas:[
             '$$ {\\rm D_{n}} = {{\\int_{0}^{n \\times 10^{-3}} p^{2}(t)dt} \\over {\\int_{0}^{\\infty} p^{2}(t)dt}} $$'

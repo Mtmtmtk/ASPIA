@@ -75,7 +75,7 @@
                 :sentences="sentences.slice(28,32)"
             />
             <vue-mathjax :formula="formulas[7]"/>
-            <theory-sentences :sentences="sentences.slice(32,34)"/>
+            <theory-sentences is-html :sentences="sentences.slice(32,35)"/>
         </v-card-text>
     </v-card>
 </template>

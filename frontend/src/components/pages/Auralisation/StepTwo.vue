@@ -65,7 +65,7 @@ export default{
     data: () => ({
         fileInputShown:false,
         continueDisabled:true,
-        sweptSine: require('@/assets/swept_sine.wav')
+        sweptSine: require('@/assets/theory/swept_sine.wav')
     }),
     methods:{
         showFileInput(){
