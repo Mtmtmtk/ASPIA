@@ -90,11 +90,14 @@ export const contents = {
             'There are many types of window functions, and one of the most popular windows is the Hann window.',
             'The formula of the Hann window is as follows:',
             'It is possible to eliminate the discontinuity between the extracted signal by multiplying it with the window function.',
-            'Therefore, the formula of the STFT can be expressed by using the hop size <i>R</i> and the current time index <i>m</i> as follows:',
-            'The hop size is the difference between the window length <i>M</i> and the overlap length <i>L</i> given in Fig. 2.',
+            'Therefore, the formula of the STFT can be expressed by using the amount of movement per frame <i>R</i> and the current time index <i>m</i> as follows:',
+            'The amount of movement per frame is the difference between the window length <i>M</i> and the overlap length <i>L</i> given in Fig. 4.',
             'The overlap method is important in extracting the frequency response as much as possible.',
             'If the overlap percentage is zero, both ends of the frame cannot be extracted by the next/previous frame; it causes the frequency information to be missing at those parts.',
-            'Therefore, applying the overlap compensates for the missing part of the signal by windowing partially in piles.'
+            'Therefore, applying the overlap compensates for the missing part of the signal by windowing the partially duplicated section.',
+            'In conclusion, the process of the STFT can be expressed by the following steps.',
+            'The output of the STFT is the collection of the large amount of the DFT.',
+            'Therefore, the power of each element can be expressed by the power spectrum |F(ω)|<sup>2</sup>, and the spectrogram is the plot of the power whose x and y axes are time and frequency, respectively. ',
         ],
         formulas: [
             '$$ { s(t) = \\sin{(\\frac{\\omega_{1}T}{\\mathrm{ln}(\\frac{\\omega_{2}}{\\omega_{1}})}(e^{\\frac{t}{T}\\mathrm{ln}(\\frac{\\omega_{2}}{\\omega_{1}})}-1) )} } $$',
@@ -108,6 +111,7 @@ export const contents = {
             { src: require('@/assets/theory/spectrogram.png'),       caption: 'The spectrogram of Fig.1' },
             { src: require('@/assets/theory/no_window.png'),         caption: 'The simple division without window function. Continuity has disappeared.' },
             { src: require('@/assets/theory/hann_window.jpg'),       caption: 'The graph of Hann window.' },
+            { src: require('@/assets/theory/window_usage.png'),       caption: 'Creating the window-filtered signal. By making the bothend to 0, the continuity is guaranteed.' },
             { src: require('@/assets/theory/matlab_stft.png'),       caption: 'The outline of the STFT.' },
         ],
         audios: [
@@ -187,29 +191,4 @@ export const contents = {
             { src: require('@/assets/theory/convoluted.wav'),       title: 'Auralised Operatic Voice' },
         ],
     }
-    //WhatIsConvolution:{
-    //    sentences:[
-    //        'Convolution is the method of calculation, whose definition can be expressed by the following equation.',
-    //        'This calculation means that the output is a binary operation in which a function g(t) is superimposed on a function f(t) while moving in parallel.',
-    //        'However, this equation is converted into the discrete-time calculation in a computer as the computer cannot calculate the continuous functions.',
-    //        'This app is using Fast Fourier Transform (FFT) instead of this equation, as the calculation time of the convolution is much longer than FFT.',
-    //        'FFT is defined as the follwing equation, and its muplication in the Fourier dimension is as same as the convolution in the time domain.'
-    //    ],
-    //    formulas:[
-    //        '$$ {(f \\ast g)(t) = \\int f(\\tau)g(t-\\tau)d\\tau}$$ ',
-    //        '$$ {(f \\ast g)[n] = \\sum_{k=-\\infty}^\\infty f[k]g[n-k] }$$',
-    //        '$$ {F[f(t)] = \\int f(t)e^{-j\\omega t} dt}$$',
-    //        '$$ {\\begin{eqnarray} F[(f \\ast g)(t)] &=& \\int\\int f(\\tau)g(t-\\tau)d\\tau e^{-j\\omega t}dt \\\\ &=& \\int f(\\tau)\\int g(t-\\tau) e^{-j\\omega t}dt d\\tau8 \\\\ &=& \\int f(\\tau)e^{-j\\omega \\tau} d\\tau \\int g(t-\\tau) e^{-j\\omega (t-\\tau)}dt \\\\ &=& F[f(t)]F[g(t)]\\end{eqnarray}}$$',
-    //    ],
-    //    images:[
-    //        require('@/assets/theory/convolution.gif')
-    //    ]
-    //},
-    //SoundConvolution:{
-    //    sentences:[
-    //        'When analysing the impulse response, the Schroeder Curve is the '
-    //    ],
-    //    formulas:[],
-    //    images:[],
-    //},
 }

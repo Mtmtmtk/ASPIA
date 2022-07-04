@@ -27,6 +27,13 @@
                 :images="[ images[5].src ]"
                 :captions="[ images[5].caption ]"
             />
+            <image-with-caption
+                :start-idx="3"
+                :per-row="1"
+                image-width="400"
+                :images="[ images[6].src ]"
+                :captions="[ images[6].caption ]"
+            />
             <theory-sentences
                 row-class="mt-0" 
                 is-html
@@ -39,11 +46,34 @@
                 :sentences="sentences.slice(27,31)"
             />
             <image-with-caption
-                :start-idx="3"
+                :start-idx="4"
                 :per-row="1"
                 image-width="400"
-                :images="[ images[6].src ]"
-                :captions="[ images[6].caption ]"
+                :images="[ images[7].src ]"
+                :captions="[ images[7].caption ]"
+            />
+            <theory-sentences
+                row-class="my-0" 
+                :sentences="sentences.slice(31,32)"
+            />
+            <v-stepper>
+                <v-stepper-step step="1" complete complete-icon="mdi-numeric-1">
+                    Execute the segmentation to the input signal
+                </v-stepper-step>
+                <v-stepper-step step="2" complete complete-icon="mdi-numeric-2">
+                    Multiply the segmented signal with the window function
+                </v-stepper-step>
+                <v-stepper-step step="3" complete complete-icon="mdi-numeric-3">
+                    Execute the DFT to the window-filtered signal
+                </v-stepper-step>
+                <v-stepper-step step="4" complete complete-icon="mdi-numeric-4">
+                    Go forward by R and move back to the step 1
+                </v-stepper-step>
+            </v-stepper>
+            <theory-sentences
+                is-html
+                row-class="my-0" 
+                :sentences="sentences.slice(32,34)"
             />
         </v-card-text>  
     </v-card>
