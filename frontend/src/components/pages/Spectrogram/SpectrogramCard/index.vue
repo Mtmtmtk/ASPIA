@@ -69,7 +69,7 @@ export default{
         },
         initialValueRange: {
             type: Array,
-            default: () => ([0, -10])
+            default: () => ([0, -80])
         },
         zData:{
             type: Array,

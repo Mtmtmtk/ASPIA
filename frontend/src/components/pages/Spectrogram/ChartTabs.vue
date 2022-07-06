@@ -33,7 +33,7 @@
                     mode="decibel"
                     :current-tab="chartTab"
                     :loading="loading"
-                    :initial-value-range="[-10, 0]"
+                    :initial-value-range="[-80, 0]"
                     :z-data="spectDb"
                     :timestamp="timestamp"
                     :frequencies="frequencies"

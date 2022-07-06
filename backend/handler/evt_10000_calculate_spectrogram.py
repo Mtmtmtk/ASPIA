@@ -92,7 +92,9 @@ class Handler(EventHandler):
         df_fft = df_fft[df_fft['time'].notna()]
 
         np_amp = df_fft['amplitude'].values
+        print(np.amax(np_amp))
         np_amp = np_amp/np.amax(np_amp)
+        print(np.amax(np_amp))
         df_fft['amplitude'] = np_amp
         return df_fft
 
@@ -119,7 +121,8 @@ class Handler(EventHandler):
         np_amp = df_fft['amplitude'].values
         np_power = np_amp ** 2
         df_fft.loc[:,'power'] = np_power
-        np_decibel = np.log10((np_power/np.amax(np_power)).astype(np.float64))
+        print(np.amax(np_power))
+        np_decibel = 10 * np.log10((np_power/np.amax(np_power)).astype(np.float64))
         df_fft.loc[:,'decibel'] = np_decibel
         return df_fft
 

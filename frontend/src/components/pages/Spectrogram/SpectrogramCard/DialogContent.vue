@@ -125,7 +125,7 @@ export default {
     },
     computed: {
         accepectableValueRange() {
-            if(this.mode == 'decibel') return [-50, 0]
+            if(this.mode == 'decibel') return [-200, 0]
             else return [0, 1]
         },
         step() {
