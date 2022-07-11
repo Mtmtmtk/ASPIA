@@ -42,6 +42,7 @@ class Handler(EventHandler):
         ir_df = await self.evt_load_data.load_group_data('analysis')
         average_ir = await self.evt_pick_representative_ir.call(ir_df)
 
+        df_schroeder = pd.DataFrame(columns=['31.5','63','125','250','500','1k','2k','4k','8k','16k','time_stamp'])
         df_parameter = pd.DataFrame(0, columns=['31.5','63','125','250','500','1k','2k','4k','8k','16k'], index=['T30(RT60)','EDT','D50','C50','C80','Ts'])
         for octave in self.octave_band:
             fbp = octave['bandpass']
@@ -67,6 +68,8 @@ class Handler(EventHandler):
             df['schroeder'] = 10 * np.log10(df['remaining_energy']/total_energy)
             df = df.drop(columns=['energy','remaining_energy'])
 
+            df_schroeder[octave['center']] = df['schroeder']
+
             minus_five_db = {}
             minus_five_db['time_stamp'] = (df.query('schroeder >= -5')[::-1].iloc[0]['time_stamp'] + df.query('schroeder <= -5').iloc[0]['time_stamp'])/2
             minus_five_db['schroeder']  = (df.query('schroeder >= -5')[::-1].iloc[0]['schroeder']  + df.query('schroeder <= -5').iloc[0]['schroeder'] )/2
@@ -79,10 +82,11 @@ class Handler(EventHandler):
 
             df_parameter.loc['T30(RT60)', octave['center']] = round(11/6*minus_thirtyfive_db['time_stamp']-5/6*minus_five_db['time_stamp'],2)
             df_parameter.loc['EDT', octave['center']] = round(6*minus_ten_db['time_stamp'],2)
-
+        df_schroeder['time_stamp'] = df_schroeder.index / spl_rate
+        df_schroeder = df_schroeder[df_schroeder.index % 10 == 0]
         df_parameter = df_parameter.reset_index()
         df_parameter = df_parameter.rename(columns={'index':'parameter'})
-        return df_parameter
+        return [ df_schroeder, df_parameter ]
 
     def bandpassFilter(self, ir, fs, fbp, filter_type, order, ripple, attenuation):
         nyq = fs / 2.0 

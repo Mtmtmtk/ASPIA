@@ -51,7 +51,8 @@ class Handler(EventHandler):
             ir_resampled = resampy.resample(ir, ir_sr, anechoic_sr)
 
             ir_resampled = ir_resampled / np.amax(ir_resampled)
-            ir_len = len(ir_resampled)
+            ir_resampled = np.array([ir_resampled])
+            ir_len = len(ir_resampled[0])
         elif output_channels == 'stereo':
             ir_left = []
             ir_right = []

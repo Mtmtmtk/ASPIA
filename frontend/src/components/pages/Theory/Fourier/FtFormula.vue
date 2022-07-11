@@ -27,6 +27,12 @@
                         <theory-sentences :sentences="sentences.slice(13,15)"/>
                         <vue-mathjax :formula="formulas[4]"/>
                         <theory-sentences :sentences="sentences[15]"/>
+                        <image-with-caption
+                            :per-row="1"
+                            color="#323232"
+                            :images="[images[2].src]"
+                            :captions="[images[2].caption]"
+                        />
                     </v-expansion-panel-content>
                 </v-expansion-panel>
             </v-expansion-panels>
@@ -51,9 +57,10 @@
                         <vue-mathjax :formula="formulas[5]"/>
                         <image-with-caption
                             :per-row="2"
+                            :start-idx="2"
                             color="#323232"
-                            :images="[images[2].src]"
-                            :captions="[images[2].caption]"
+                            :images="[images[3].src]"
+                            :captions="[images[3].caption]"
                         />
                         <theory-sentences :sentences="sentences.slice(21,23)"/>
                         <theory-sentences is-html :sentences="sentences.slice(23,25)"/>
@@ -61,10 +68,10 @@
                         <theory-sentences is-html :sentences="sentences.slice(25,27)"/>
                         <image-with-caption
                             :per-row="2"
-                            :start-idx="2"
+                            :start-idx="3"
                             color="#323232"
-                            :images="[images[3].src, images[4].src]"
-                            :captions="[images[3].caption, images[4].caption]"
+                            :images="[images[4].src, images[5].src]"
+                            :captions="[images[4].caption, images[5].caption]"
                         />
                         <theory-sentences is-html :sentences="sentences.slice(27,28)"/>
                     </v-expansion-panel-content>

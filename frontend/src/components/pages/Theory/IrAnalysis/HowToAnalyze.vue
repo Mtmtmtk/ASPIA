@@ -10,10 +10,14 @@
             />
             <theory-sentences 
                 is-html
-                :sentences="sentences.slice(16,20)" 
+                :sentences="sentences.slice(16,17)" 
+            />
+            <theory-sentences 
+                is-html
+                :sentences="sentences.slice(17,19)" 
             />
             <octave-bands-table/>
-            <theory-sentences :sentences="sentences.slice(20,22)" />
+            <theory-sentences :sentences="sentences.slice(19,22)" />
             <acoustic-parameters-expansion-panels />
             <reference-card/>
         </v-card-text>

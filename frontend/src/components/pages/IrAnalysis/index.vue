@@ -111,20 +111,21 @@ export default{
                         attenuation: this.minAttenuation
                     });
                 }
-                this.acousticParameters = await this.duct.call(this.duct.EVENT.ACOUSTIC_PARAMETER_GET, {
+                [ this.schroederVals, this.acousticParameters ] = await this.duct.call(this.duct.EVENT.ACOUSTIC_PARAMETER_GET, {
                     spl_rate: this.splRate,
                     filter_type: this.filterType,
                     order: this.order,
                     ripple: this.maxRipple,
                     attenuation: this.minAttenuation
                 });
-                this.schroederVals = await this.duct.call(this.duct.EVENT.SCHROEDER_CURVE_GET, {
-                    spl_rate: this.splRate,
-                    filter_type: this.filterType,
-                    order: this.order,
-                    ripple: this.maxRipple,
-                    attenuation: this.minAttenuation
-                });
+                this.loading=false;
+                //this.schroederVals = await this.duct.call(this.duct.EVENT.SCHROEDER_CURVE_GET, {
+                //    spl_rate: this.splRate,
+                //    filter_type: this.filterType,
+                //    order: this.order,
+                //    ripple: this.maxRipple,
+                //    attenuation: this.minAttenuation
+                //});
                 this.filteredIrs = await this.duct.call(this.duct.EVENT.FILTERED_SIGNAL_GET, {
                     spl_rate: this.splRate,
                     filter_type: this.filterType,
@@ -132,7 +133,6 @@ export default{
                     ripple: this.maxRipple,
                     attenuation: this.minAttenuation
                 });
-                this.loading = false;
             }catch {
                 this.showSnackbar();
             }

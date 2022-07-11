@@ -67,7 +67,7 @@
                     Execute the DFT to the window-filtered signal
                 </v-stepper-step>
                 <v-stepper-step step="4" complete complete-icon="mdi-numeric-4">
-                    Go forward by R and move back to the step 1
+                    Go forward by R and move back to step 1
                 </v-stepper-step>
             </v-stepper>
             <theory-sentences

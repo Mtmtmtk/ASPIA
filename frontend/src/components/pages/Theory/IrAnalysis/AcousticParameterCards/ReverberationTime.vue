@@ -13,7 +13,7 @@
             />    
             <v-card flat class="mt-0" color="#323232">
                 <v-card-text class="d-flex justify-center pb-0 font-weight-light">
-                    Table 2. Reverberation Time in concert halls[2]
+                    Table 2. Reverberation Time in concert halls[3]
                 </v-card-text>
                 <v-card-text class="pt-0">
                     <v-data-table 
@@ -45,7 +45,7 @@ export default{
             'However, it is sometimes difficult to get the parameter from the definition depending on the quality of the receiver, as the low quality receiver cannot accurately record the response down to -60 dB.',
             'In that case, <i>RT60</i> can be calculated alternatively as the time at the linear regression (two points of -5 and -35 dB) of the Schroeder Curve decreasing to -60 dB.',
             'This app applies this alternative method to calculate the reverberation time.',
-            "Doelle[1] defined the appropriate <i>RT60</i> for the studios in the 500-1000 Hz range. (See Fig.2.)",
+            "Doelle[2] defined the appropriate <i>RT60</i> for the studios in the 500-1000 Hz range. (See Fig.2.)",
         ],
         formulas:[
             '$$ {\\rm RT_{60}} = {11 \\over 6} T_{-35} - {5 \\over 6} T_{-5} \\ \\rm{sec.} $$',

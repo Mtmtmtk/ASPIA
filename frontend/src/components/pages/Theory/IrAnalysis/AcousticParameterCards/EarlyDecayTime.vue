@@ -8,7 +8,7 @@
 
             <v-card flat class="mt-0" color="#323232">
                 <v-card-text class="d-flex justify-center pb-0 font-weight-light">
-                    Table 2. Reverberation Time in concert halls[3]
+                    Table 2. Reverberation Time in concert halls[4]
                 </v-card-text>
                 <v-card-text class="pt-0">
                     <v-data-table 
@@ -66,7 +66,7 @@ export default{
         sentences:[
             'Early Decay Time describes a subjective feeling of reverberation rather than <i>RT60</i>.',
             "This parameter can be calculated as a time until the Schroeder Curve's extrapolation of 0 dB and -10 dB crosses -60 dB point.",
-            'Barron[3] measured and calculated the <i>EDT</i> in many British concert halls and revealed that most of them are between 1.5 and 2.5 seconds.'
+            'Barron[4] measured and calculated the <i>EDT</i> in many British concert halls and revealed that most of them are between 1.5 and 2.5 seconds.'
         ],
         formulas:[
             '$$ {\\rm EDT} = 6 T_{-10} \\ \\rm{sec.}$$',

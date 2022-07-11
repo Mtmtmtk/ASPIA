@@ -158,13 +158,13 @@ export default{
             }
         },
         stepperContents: [
-            { title: 'Your Recording',         component: 'step-one'   },
+            { title: 'Your Recording',          component: 'step-one'   },
             //{ title: 'Swpet Sine Wave',        component: 'step-two'   },
-            { title: 'Select Space',           component: 'step-three' },
-            { title: 'Select Position',        component: 'step-four'  },
-            { title: 'Select Output Channels', component: 'step-five'  },
-            { title: 'Convolution',            component: 'step-six'   },
-            { title: 'Download',               component: 'step-seven' },
+            { title: 'Select Space',            component: 'step-three' },
+            { title: 'Select Impulse Response', component: 'step-four'  },
+            { title: 'Select Output Channels',  component: 'step-five'  },
+            { title: 'Convolution',             component: 'step-six'   },
+            { title: 'Download',                component: 'step-seven' },
         ]
     }),
     props:['duct'],
@@ -232,13 +232,14 @@ export default{
             let _dataview = '';
             try {
                 _dataview  = this.encodeWAV(this.mergeBuffers(audioData), this.recordingSplRate);
+                this.progress = 100;
             }catch {
                 this.noticeError('ENCODING_WAV');
             }
+            this.progress=100;
             const _audioBlob = new Blob([_dataview], { type: 'audio/wav' });
             let _myURL = window.URL || window.webkitURL;
             const url = _myURL.createObjectURL(_audioBlob);
-            this.progress = 100;
             return url
         },
         encodeWAV(samples, samplingRate) {

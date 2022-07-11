@@ -7,7 +7,7 @@
             <theory-sentences is-html :sentences="sentences.slice(2,4)" />
             <v-card flat class="mt-0" color="#323232">
                 <v-card-text class="d-flex justify-center pb-0 font-weight-light">
-                    Table 4. Definition and its score[5]
+                    Table 4. Definition and its score[6]
                 </v-card-text>
                 <v-card-text class="pt-0">
                     <v-data-table 
@@ -35,7 +35,7 @@ export default{
             'The parameter <i>Dn</i> is one of the parameters that explain speech intelligibility.',
             '<i>Dn</i> can be calculated by the energy ratio (in percentage) of the first <i>n</i> ms and the entire sequence.',
             'Especially, <i>D50</i> is usually used as the representative parameter.',
-            'Marshall[5] suggested this value, and he investigated the correlation between the speech intelligibility and <i>D50</i> values as follows:'
+            'Marshall[6] suggested this value, and he investigated the correlation between the speech intelligibility and <i>D50</i> values as follows:'
         ],
         formulas:[
             '$$ {\\rm D_{n}} = {{\\int_{0}^{n \\times 10^{-3}} p^{2}(t)dt} \\over {\\int_{0}^{\\infty} p^{2}(t)dt}} $$'

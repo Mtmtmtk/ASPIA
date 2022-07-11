@@ -1,6 +1,11 @@
 <template>
     <v-container>
         <v-row>
+            <v-col>
+                Select the space you want to virutually create. The information of the spaces are introduced in the 'Resources' page.
+            </v-col>
+        </v-row>
+        <v-row>
             <v-col cols="3" 
                 v-for="hall in library" 
                 :key="hall.name"
