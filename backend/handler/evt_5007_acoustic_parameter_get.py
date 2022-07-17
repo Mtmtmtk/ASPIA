@@ -19,6 +19,6 @@ class Handler(EventHandler):
     async def handle(self, event):     
         return await self.call(**event.data)
 
-    async def call(self, spl_rate: int, filter_type: str, order: int, ripple:int = 5, attenuation:int = 5):
-        [ df_schroeder, df_paramters ] = await self.evt_acoustic_parameters.get_parameters(spl_rate, filter_type, order, ripple, attenuation)
+    async def call(self, group_key: str, spl_rate: int, filter_type: str, order: int, ripple:int = 5, attenuation:int = 5):
+        [ df_schroeder, df_paramters ] = await self.evt_acoustic_parameters.get_parameters(group_key, spl_rate, filter_type, order, ripple, attenuation)
         return [ df_schroeder.to_dict(orient='list'), df_paramters.to_dict('records') ]

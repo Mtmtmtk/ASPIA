@@ -165,13 +165,21 @@ export default{
             { title: 'Select Output Channels',  component: 'step-five'  },
             { title: 'Convolution',             component: 'step-six'   },
             { title: 'Download',                component: 'step-seven' },
-        ]
+        ],
+        randHex: 0x000000,
+        recordingKey: ''
     }),
     props:['duct'],
     watch:{
-        recording(){ 
+        async recording(){ 
             try {
-                saveDataInRedis(this.duct, this.recording, 'convolution_recording');
+                let isExist = true;
+                do {
+                    this.randHex = this.getRandHex();
+                    this.recordingKey = this.randHex + 'convolution_recording';
+                    isExist = await this.duct.call(this.duct.EVENT.CHECK_GROUP_EXISTENCE, { group_key: this.recordingKey });
+                }while(isExist);
+                saveDataInRedis(this.duct, this.recording, this.recordingKey);
             }catch {
                 this.noticeError('REDIS_RECORDING');
             }
@@ -185,13 +193,19 @@ export default{
         },
         async cvAudioArr(){
             this.audioUrl = this.exportWAV(this.cvAudioArr);
-            await this.duct.call(this.duct.EVENT.DELETE_GROUP_IN_REDIS, { group_key: 'convolution_recording' });
+            await this.duct.call(this.duct.EVENT.DELETE_GROUP_IN_REDIS, { group_key: this.recordingKey });
             const sweptSineApplied = await this.duct.call(this.duct.EVENT.CHECK_GROUP_EXISTENCE, { group_key: 'convolution_swept_sine' });
             if(sweptSineApplied)
                 await this.duct.call(this.duct.EVENT.DELETE_GROUP_IN_REDIS, { group_key: 'convolution_swept_sine' });
         },
     }, 
     methods:{
+        getRandHex(){
+            let _hex = Math.floor(Math.random() * 0xFFFFFF).toString(16);
+            for(let count = _hex.length; count < 6; count++)
+                _hex = '0' + _hex;
+            return _hex
+        },
         changeStep(stepVal){ this.stepper = this.stepper + stepVal; },
         getReordingData(file) { 
             try {
@@ -217,6 +231,7 @@ export default{
             let ret = '';
             try {
                 ret = await this.duct.call(this.duct.EVENT.EXPORT_CONVOLUTION, {
+                    recording_key: this.recordingKey,
                     recording_spl_rate: this.recordingSplRate, 
                     swept_sine_spl_rate: this.sweptSineSplRate,
                     ir_path: this.irPath,
@@ -236,7 +251,6 @@ export default{
             }catch {
                 this.noticeError('ENCODING_WAV');
             }
-            this.progress=100;
             const _audioBlob = new Blob([_dataview], { type: 'audio/wav' });
             let _myURL = window.URL || window.webkitURL;
             const url = _myURL.createObjectURL(_audioBlob);
@@ -272,6 +286,12 @@ export default{
             this.duct.setEventHandler(this.duct.EVENT.WATCH_STATUS, (rid, eid, status) => { this.progress = status; });
             this.duct.send(this.duct.nextRid(), this.duct.EVENT.WATCH_STATUS);
         });
-    }
+    },
+    mounted() {
+        window.addEventListener('beforeunload', async () => {
+            const isKeyExists = await this.duct.call(this.duct.EVENT.CHECK_GROUP_EXISTENCE, { group_key: this.recordingKey });
+            if(isKeyExists)     await this.duct.call(this.duct.EVENT.DELETE_GROUP_IN_REDIS, { group_key: this.recordingKey });
+        });
+    },
 }
 </script>

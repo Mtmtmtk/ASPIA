@@ -140,7 +140,7 @@ export default{
                 margin: { l: 50, r: 0, t: 0, b: 40 },
                 xaxis: { title: { text: 'Time (sec)' } },
                 yaxis: { title: { text: 'Frequency (Hz)' } },
-                //paper_bgcolor: '#E0E0E0'
+                paper_bgcolor: '#E0E0E0'
             };
             Plotly.newPlot(this.$refs.plotlyChart, data, layout);
         },

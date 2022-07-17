@@ -10,7 +10,7 @@
                 <audio-input
                     :html-text="true"
                     :duct="duct"
-                    group-key="analysis"
+                    key-type="analysis"
                     :text="inputFormText"
                     @send-audio-info="getIrInfo"
                     @emit-loading-error="showSnackbar"
@@ -82,12 +82,13 @@ export default{
         maxRipple: 5,
         minAttenuation: 5,
         unstableHz: [],
-        filteredIrs: {}
+        filteredIrs: {},
+        redisKey: ''
     }),
     props: ['duct'],
     methods: {
         getIrInfo(args) {
-            [ this.splRate, this.channels, this.audioSrc, this.fileName ] = args;
+            [ this.splRate, this.channels, this.audioSrc, this.fileName, this.redisKey ] = args;
             this.callDuct();
             this.resultShown = true;
         },
@@ -95,8 +96,9 @@ export default{
             this.loading = true;
             try {
                 if (rawIrRequired){
-                    [ this.irArr, this.timestamp ] = await this.duct.call(this.duct.EVENT.RESAMPLE_CHART_GET, { group_key: 'analysis' });
+                    [ this.irArr, this.timestamp ] = await this.duct.call(this.duct.EVENT.RESAMPLE_CHART_GET, { group_key: this.redisKey });
                     this.filteredIrs = await this.duct.call(this.duct.EVENT.FILTERED_SIGNAL_GET, {
+                        group_key: this.redisKey,
                         spl_rate: this.splRate,
                         filter_type: this.filterType,
                         order: this.order,
@@ -112,6 +114,7 @@ export default{
                     });
                 }
                 [ this.schroederVals, this.acousticParameters ] = await this.duct.call(this.duct.EVENT.ACOUSTIC_PARAMETER_GET, {
+                    group_key: this.redisKey,
                     spl_rate: this.splRate,
                     filter_type: this.filterType,
                     order: this.order,
@@ -119,14 +122,8 @@ export default{
                     attenuation: this.minAttenuation
                 });
                 this.loading=false;
-                //this.schroederVals = await this.duct.call(this.duct.EVENT.SCHROEDER_CURVE_GET, {
-                //    spl_rate: this.splRate,
-                //    filter_type: this.filterType,
-                //    order: this.order,
-                //    ripple: this.maxRipple,
-                //    attenuation: this.minAttenuation
-                //});
                 this.filteredIrs = await this.duct.call(this.duct.EVENT.FILTERED_SIGNAL_GET, {
+                    group_key: this.redisKey,
                     spl_rate: this.splRate,
                     filter_type: this.filterType,
                     order: this.order,
@@ -169,8 +166,8 @@ export default{
     },
     mounted() {
         window.addEventListener('beforeunload', async () => {
-            const isKeyExists = await this.duct.call(this.duct.EVENT.CHECK_GROUP_EXISTENCE, { group_key: 'analysis' });
-            if(isKeyExists)     await this.duct.call(this.duct.EVENT.DELETE_GROUP_IN_REDIS, { group_key: 'analysis' });
+            const isKeyExists = await this.duct.call(this.duct.EVENT.CHECK_GROUP_EXISTENCE, { group_key: this.redisKey });
+            if(isKeyExists)     await this.duct.call(this.duct.EVENT.DELETE_GROUP_IN_REDIS, { group_key: this.redisKey });
         });
     },
 }

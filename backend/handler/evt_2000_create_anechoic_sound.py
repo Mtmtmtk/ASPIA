@@ -27,9 +27,9 @@ class Handler(EventHandler):
     async def handle(self, event):     
         return {}
 
-    async def call(self, recording_spl_rate: int, swept_sine_spl_rate: int):
+    async def call(self, recording_key:str, recording_spl_rate: int, swept_sine_spl_rate: int):
         await self.evt_status.set(ForecastStatus.START_DOWNLOAD)
-        recording_df = await self.evt_load_data.load_group_data('convolution_recording')
+        recording_df = await self.evt_load_data.load_group_data(recording_key)
         await self.evt_status.set(ForecastStatus.CREATE_ANECHOIC_SOUND)
         swept_sine_exist = await self.evt_group_exists('convolution_swept_sine', 'pkl')
         if (swept_sine_exist == False):
