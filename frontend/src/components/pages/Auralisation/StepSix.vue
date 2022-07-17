@@ -45,7 +45,7 @@ export default{
             else if(this.progress == 60)  _text = 'Preprocessing the impulse response and the anechoic data';
             else if(this.progress == 70)  _text = 'Executing convolution';
             else if(this.progress == 80)  _text = 'Exporting the output to the browser';
-            else if(this.progress == 90)  _text = 'Excoding convoluted data as WAV';
+            else if(this.progress == 90)  _text = 'Encoding convoluted data as WAV';
             else if(this.progress == 100) _text = 'Processing finished!';
             return _text
         }

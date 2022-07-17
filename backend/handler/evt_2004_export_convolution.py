@@ -19,5 +19,5 @@ class Handler(EventHandler):
     async def handle(self, event):     
         return await self.call(**event.data)
 
-    async def call(self, recording_spl_rate: int, swept_sine_spl_rate: int, ir_path:str, output_channels: str):
-        return await self.evt_convolution.call(recording_spl_rate, swept_sine_spl_rate, ir_path, output_channels)
+    async def call(self, recording_key: str, recording_spl_rate: int, swept_sine_spl_rate: int, ir_path:str, output_channels: str):
+        return await self.evt_convolution.call(recording_key, recording_spl_rate, swept_sine_spl_rate, ir_path, output_channels)
