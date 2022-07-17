@@ -10,7 +10,7 @@
                 <audio-input
                     :duct="duct"
                     :html-text="false"
-                    group-key="spectrogram"
+                    key-type="spectrogram"
                     text="Choose an audio file whose spectrogram you want to look at."
                     @send-audio-info="getAudioInfo"
                     @emit-loading-error="showSnackbar"
@@ -75,20 +75,22 @@ export default{
         samplingPoints:512,
         overlap: 50,
         windowVals: [],
-        errorSnackbar: false
+        errorSnackbar: false,
+        redisKey: '',
     }),
     props:['duct'],
     methods:{
         getAudioInfo(args){
-            [this.audioSplRate, this.channels, this.src, this.fileName] = args;
+            [ this.audioSplRate, this.channels, this.src, this.fileName, this.redisKey ] = args;
             this.callDuct();
             this.resultShown=true;
         },
         async callDuct(){
             this.loading = true;
             try {
-                [ this.resampledAudio, this.timestamp ] = await this.duct.call(this.duct.EVENT.RESAMPLE_CHART_GET, { group_key: 'spectrogram' });
+                [ this.resampledAudio, this.timestamp ] = await this.duct.call(this.duct.EVENT.RESAMPLE_CHART_GET, { group_key: this.redisKey });
                 [ this.frequencies, this.timestamp, this.spectAmp, this.spectPow, this.spectDb ] = await this.duct.call(this.duct.EVENT.SPECTROGRAM_ALL_GET,{
+                    group_key: this.redisKey,
                     spl_rate: this.audioSplRate,
                     sampling_points: this.samplingPoints,
                     window_type: this.windowType,
@@ -125,8 +127,8 @@ export default{
     },
     mounted(){
         window.addEventListener('beforeunload', async () => {
-            const isKeyExists = await this.duct.call(this.duct.EVENT.CHECK_GROUP_EXISTENCE, { group_key: 'spectrogram' });
-            if(isKeyExists) await this.duct.call(this.duct.EVENT.DELETE_GROUP_IN_REDIS, { group_key: 'spectrogram' });
+            const isKeyExists = await this.duct.call(this.duct.EVENT.CHECK_GROUP_EXISTENCE, { group_key: this.redisKey });
+            if(isKeyExists) await this.duct.call(this.duct.EVENT.DELETE_GROUP_IN_REDIS, { group_key: this.redisKey });
         });
     },
 }

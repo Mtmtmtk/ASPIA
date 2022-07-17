@@ -29,8 +29,8 @@ class Handler(EventHandler):
     async def call(self,test_message:str):
         return {}
 
-    async def preprocess(self, spl_rate:int, sampling_points:int, window_type: str, overlap_per: int):
-        df = await self.evt_load_data.load_group_data('spectrogram')
+    async def preprocess(self, group_key:str, spl_rate:int, sampling_points:int, window_type: str, overlap_per: int):
+        df = await self.evt_load_data.load_group_data(group_key)
         sample_sr = spl_rate
         mono_audio = []
         channels = len(df.columns)
@@ -74,8 +74,8 @@ class Handler(EventHandler):
             np_center_freq[ len(fft_below_fs)*frame_idx : len(fft_below_fs)*(frame_idx+1)] = freq_bin
             np_amp[         len(fft_below_fs)*frame_idx : len(fft_below_fs)*(frame_idx+1)] = amp
 
-    async def get_amplitude(self, spl_rate:int, sampling_points:int, window_type: str, overlap_per: int):
-        [mono_audio, sample_sr, N, overlap, window, overlap_trials, freq_bin] = await self.preprocess(spl_rate, sampling_points, window_type, overlap_per)
+    async def get_amplitude(self, group_key:str, spl_rate:int, sampling_points:int, window_type: str, overlap_per: int):
+        [mono_audio, sample_sr, N, overlap, window, overlap_trials, freq_bin] = await self.preprocess(group_key, spl_rate, sampling_points, window_type, overlap_per)
         df_fft = pd.DataFrame(index=range(int(N/2)*overlap_trials),columns=['time','center_frequency','amplitude']) 
 
         np_time = df_fft.loc[:, 'time'].values
@@ -96,16 +96,16 @@ class Handler(EventHandler):
         df_fft['amplitude'] = np_amp
         return df_fft
 
-    async def get_power(self, spl_rate:int, sampling_points:int, window_type: str, overlap_per: int):
-        df_fft = await self.get_amplitude(spl_rate, sampling_points, window_type, overlap_per)
+    async def get_power(self, group_key: str, spl_rate:int, sampling_points:int, window_type: str, overlap_per: int):
+        df_fft = await self.get_amplitude(group_key, spl_rate, sampling_points, window_type, overlap_per)
         np_amp = df_fft['amplitude'].values
         np_power = (np_amp ** 2)/np.amax(np_amp**2)
         df_fft.loc[:,'power'] = np_power
         df_fft.drop(columns='amplitude')
         return df_fft
 
-    async def get_decibel(self, spl_rate:int, sampling_points:int, window_type: str, overlap_per: int):
-        df_fft = await self.get_amplitude(spl_rate, sampling_points, window_type, overlap_per)
+    async def get_decibel(self, group_key: str, spl_rate:int, sampling_points:int, window_type: str, overlap_per: int):
+        df_fft = await self.get_amplitude(group_key, spl_rate, sampling_points, window_type, overlap_per)
         np_amp = df_fft['amplitude'].values
         np_power = np_amp ** 2
         df_fft.loc[:,'power'] = np_power
@@ -114,8 +114,8 @@ class Handler(EventHandler):
         df_fft.drop(columns='power')
         return df_fft
     
-    async def get_all(self, spl_rate: int, sampling_points: int, window_type: str, overlap_per: int):
-        df_fft = await self.get_amplitude(spl_rate, sampling_points, window_type, overlap_per)
+    async def get_all(self, group_key: str, spl_rate: int, sampling_points: int, window_type: str, overlap_per: int):
+        df_fft = await self.get_amplitude(group_key, spl_rate, sampling_points, window_type, overlap_per)
         np_amp = df_fft['amplitude'].values
         np_power = np_amp ** 2
         df_fft.loc[:,'power'] = np_power
