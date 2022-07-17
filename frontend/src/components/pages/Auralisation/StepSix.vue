@@ -2,11 +2,16 @@
     <v-container>
         <v-row>
             <v-col>
-                Now Processing... Please wait for a while.: {{ text }}
+                Now Processing...
             </v-col>
         </v-row>
-        <v-row>
-            <v-col>
+        <v-row class="my-0">
+            <v-col class="pb-0">
+                Status: {{ text }}
+            </v-col>
+        </v-row>
+        <v-row class="mt-0">
+            <v-col class="pt-0">
                 <v-progress-linear
                     v-model="progress"
                     color="#AFB42B"
