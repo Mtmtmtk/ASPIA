@@ -39,8 +39,8 @@ class Handler(EventHandler):
     async def call(self, spl_rate: int, filter_type: str, order: int):
         return {}
 
-    async def filter_signal(self, spl_rate: int, filter_type: str, order: int, ripple: int, attenuation: int):
-        df_ir = await self.evt_load_data.load_group_data('analysis')
+    async def filter_signal(self, group_key: str, spl_rate: int, filter_type: str, order: int, ripple: int, attenuation: int):
+        df_ir = await self.evt_load_data.load_group_data(group_key)
         list_ir = []
         for channel in df_ir.columns:
             list_ir.append(df_ir[channel].to_numpy())

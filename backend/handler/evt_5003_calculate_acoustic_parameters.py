@@ -38,8 +38,8 @@ class Handler(EventHandler):
     async def call(self, spl_rate: int, filter_type: str, order: int):
         return {}
     
-    async def get_parameters(self, spl_rate: int, filter_type: str, order: int, ripple:int, attenuation:int):
-        ir_df = await self.evt_load_data.load_group_data('analysis')
+    async def get_parameters(self, group_key: str, spl_rate: int, filter_type: str, order: int, ripple:int, attenuation:int):
+        ir_df = await self.evt_load_data.load_group_data(group_key)
         average_ir = await self.evt_pick_representative_ir.call(ir_df)
 
         df_schroeder = pd.DataFrame(columns=['31.5','63','125','250','500','1k','2k','4k','8k','16k','time_stamp'])

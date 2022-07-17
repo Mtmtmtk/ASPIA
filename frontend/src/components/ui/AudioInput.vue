@@ -44,15 +44,29 @@ export default{
         channels:null,
         audioURL:'',
         loading: false,
-        buttonDisabled: true
+        buttonDisabled: true,
+        randHex: 0x000000,
+        redisKey: ''
     }),
-    props: ['duct', 'htmlText', 'groupKey', 'text'],
+    props: ['duct', 'htmlText', 'keyType', 'text'],
     methods:{
+        getRandHex(){
+            let _hex = Math.floor(Math.random() * 0xFFFFFF).toString(16);
+            for(let count = _hex.length; count < 6; count++)
+                _hex = '0' + _hex;
+            return _hex
+        },
         async getAudioData(file){
             if(file){
                 try {
-                    this.getFileName(file);
                     await this.deleteDataInRedis();
+                    let isExist = true;
+                    do {
+                        this.randHex = this.getRandHex();
+                        this.redisKey = this.randHex + this.keyType;
+                        isExist = await this.duct.call(this.duct.EVENT.CHECK_GROUP_EXISTENCE, { group_key: this.redisKey });
+                    }while(isExist);
+                    this.getFileName(file);
                     await this.readAudioAsArrayBuffer(file);
                     await this.readAudioAsDataURL(file);
                 }catch {
@@ -107,15 +121,15 @@ export default{
                     data = this.audioArray.map(el => el.slice(frameNumber * frameElementsNum, nextFrameNumber * frameElementsNum))
                 await this.duct.call(this.duct.EVENT.SAVE_DATA_IN_REDIS, {
                     frame_no: frameNumber,
-                    group_key: this.groupKey,
+                    group_key: this.redisKey,
                     data: data,
                 });
             }
             this.switchButtonState();
         },   
         async deleteDataInRedis(){
-            const isKeyExists = await this.duct.call(this.duct.EVENT.CHECK_GROUP_EXISTENCE, { group_key: this.groupKey });
-            if(isKeyExists) await this.duct.call(this.duct.EVENT.DELETE_GROUP_IN_REDIS, { group_key: this.groupKey });
+            const isKeyExists = await this.duct.call(this.duct.EVENT.CHECK_GROUP_EXISTENCE, { group_key: this.redisKey });
+            if(isKeyExists) await this.duct.call(this.duct.EVENT.DELETE_GROUP_IN_REDIS, { group_key: this.redisKey });
         },  
         getFileName(file){
             this.fileName = file.name;
@@ -134,7 +148,8 @@ export default{
                 this.audioSplRate, 
                 this.channels, 
                 this.audioURL,
-                this.fileName
+                this.fileName,
+                this.redisKey
             ]);
         },
     }
