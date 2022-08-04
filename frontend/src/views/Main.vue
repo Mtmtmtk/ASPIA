@@ -106,7 +106,7 @@
         <v-main app>
             <router-view :duct='duct'/>
         </v-main>
-        <v-footer app dark>
+        <v-footer height="50" app dark>
             <v-col class='text-center' >
                 {{ new Date().getFullYear() }} - <strong>Motoki Saito, University of York</strong>
             </v-col>

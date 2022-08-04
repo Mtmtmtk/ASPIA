@@ -1,5 +1,6 @@
 from ducts.spi import EventHandler
 import logging
+import time
 logger = logging.getLogger(__name__)
 
 class Handler(EventHandler):
@@ -21,9 +22,12 @@ class Handler(EventHandler):
 
     async def call(self, group_key: str, spl_rate:int, sampling_points:int, window_type: str, overlap_per: int):
         df =  await self.evt_spectrogram.get_all(group_key, spl_rate, sampling_points, window_type, overlap_per)
+        listing_start = time.time()
         z_amp_data = df.groupby('center_frequency')['amplitude'].apply(list).tolist()
         z_pow_data = df.groupby('center_frequency')['power'].apply(list).tolist()
         z_dB_data  = df.groupby('center_frequency')['decibel'].apply(list).tolist()
         freq_bin = df['center_frequency'].drop_duplicates().tolist()
         timestamp = df['time'].drop_duplicates().tolist()
+        listing_done = time.time()
+        print('--Listing %s seconds--' % (listing_done-listing_start))
         return [ freq_bin, timestamp, z_amp_data, z_pow_data, z_dB_data ]

@@ -1,15 +1,27 @@
 <template>
     <v-container>
         <v-row>
-            <v-col>
-                <v-select
-                    v-model="selectedChannels"
-                    filled
-                    color="#26A69A"
-                    :items="outputChannelItems"
-                    label="Choose output channels"
-                    prepend-inner-icon="mdi-speaker-multiple"
-                />
+            <v-col cols="8">
+                <v-tooltip right>
+                    <template #activator="{ on, attrs }">
+                        <v-select
+                            v-on="on"
+                            v-attrs="attrs"
+                            v-model="selectedChannels"
+                            filled
+                            color="#26A69A"
+                            :items="outputChannelItems"
+                            label="Choose output channels"
+                            prepend-inner-icon="mdi-speaker-multiple"
+                        />
+                    </template>
+                    <span>Selectable numbers of channels depend on the IR channels you chose in the last step.</span>
+                    <ul>
+                        <li>B-format → b-format, stereo, and monaural</li>
+                        <li>Stereo → stereo and monaural</li>
+                        <li>Monaural → monoaural</li>
+                    </ul>
+                </v-tooltip>
             </v-col>
         </v-row>
         <step-changer 
