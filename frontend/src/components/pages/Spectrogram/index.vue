@@ -7,6 +7,11 @@
         </v-row>
         <v-row>
             <v-col>
+                <font color="#CFD8DC">Spectrogram is an audio visualisation tool that can extract a sound strength at a certain frequency and time. Once you input a sound file and press 'Start Analysis' button, you can get three types of spectrogram; amplitude, power, power in decibel unit.</font>
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-col>
                 <audio-input
                     :duct="duct"
                     :html-text="false"

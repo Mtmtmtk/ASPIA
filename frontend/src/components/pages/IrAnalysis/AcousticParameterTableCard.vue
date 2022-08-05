@@ -5,7 +5,9 @@
         dark
     >
         <loading-overlay :loading="loading"/>
+        <v-card-title>Acoustic Parameters Table</v-card-title>
         <v-card-text>
+            Hover over the acoustic paramter columns to see the definition and meaning of each parameter.
             <acoustic-parameter-table :items="items"/>
         </v-card-text>
     </v-card>

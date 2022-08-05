@@ -7,6 +7,11 @@
         </v-row>
         <v-row>
             <v-col>
+                <font color="#CFD8DC">Impulse response is a signal (like a hand clap!) that reflects acoustic characterisrtics of the recorded environment. Once you input an impulse response and  click 'Start Analysis' button, you can get filtered impulse responses, acoustic parameters, and Schroeder curves.</font>
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-col>
                 <audio-input
                     :html-text="true"
                     :duct="duct"
