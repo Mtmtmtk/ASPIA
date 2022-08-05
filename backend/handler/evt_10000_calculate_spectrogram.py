@@ -81,12 +81,8 @@ class Handler(EventHandler):
         np_center_freq = df_fft.loc[:, 'center_frequency'].values
         np_amp = df_fft.loc[:, 'amplitude'].values
 
-        for_start_time = time.time();
         for i in range(overlap_trials):
             self.execute_fft(i, np_time, np_center_freq, np_amp, mono_audio, window, sample_sr, N, overlap, freq_bin)
-        for_end_time = time.time();
-        print('--for-loop %s seconds--' % (for_end_time-for_start_time))
-    
 
         df_fft['time'] = np_time
         df_fft['center_frequency'] = np_center_freq
@@ -119,14 +115,11 @@ class Handler(EventHandler):
     
     async def get_all(self, group_key: str, spl_rate: int, sampling_points: int, window_type: str, overlap_per: int):
         df_fft = await self.get_amplitude(group_key, spl_rate, sampling_points, window_type, overlap_per)
-        dB_start_time = time.time()
         np_amp = df_fft['amplitude'].values
         np_power = np_amp ** 2
         df_fft.loc[:,'power'] = np_power
         np_decibel = 10 * np.log10((np_power/np.amax(np_power)).astype(np.float64))
         np_decibel[np.isinf(np_decibel)] = -511
         df_fft.loc[:,'decibel'] = np_decibel
-        dB_end_time = time.time()
-        print('--decibel calculation %s seconds--' % (dB_end_time-dB_start_time))
         return df_fft
 
