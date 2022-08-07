@@ -3,10 +3,9 @@
         <v-row>
             <v-col cols="8">
                 <v-tooltip right>
-                    <template #activator="{ on, attrs }">
+                    <template #activator="{ on }">
                         <v-select
                             v-on="on"
-                            v-attrs="attrs"
                             v-model="selectedChannels"
                             filled
                             color="#26A69A"

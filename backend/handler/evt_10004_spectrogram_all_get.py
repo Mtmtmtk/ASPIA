@@ -22,6 +22,7 @@ class Handler(EventHandler):
 
     async def call(self, group_key: str, spl_rate:int, sampling_points:int, window_type: str, overlap_per: int):
         df =  await self.evt_spectrogram.get_all(group_key, spl_rate, sampling_points, window_type, overlap_per)
+        
         z_amp_data = df.groupby('center_frequency')['amplitude'].apply(list).tolist()
         z_pow_data = df.groupby('center_frequency')['power'].apply(list).tolist()
         z_dB_data  = df.groupby('center_frequency')['decibel'].apply(list).tolist()
