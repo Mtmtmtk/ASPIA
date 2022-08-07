@@ -5,7 +5,7 @@ from scipy.io.wavfile import write
 import soundfile as sf
 import resampy
 import math
-
+import time
 import logging
 logger = logging.getLogger(__name__)
 
@@ -77,7 +77,6 @@ class Handler(EventHandler):
     async def get_amplitude(self, group_key:str, spl_rate:int, sampling_points:int, window_type: str, overlap_per: int):
         [mono_audio, sample_sr, N, overlap, window, overlap_trials, freq_bin] = await self.preprocess(group_key, spl_rate, sampling_points, window_type, overlap_per)
         df_fft = pd.DataFrame(index=range(int(N/2)*overlap_trials),columns=['time','center_frequency','amplitude']) 
-
         np_time = df_fft.loc[:, 'time'].values
         np_center_freq = df_fft.loc[:, 'center_frequency'].values
         np_amp = df_fft.loc[:, 'amplitude'].values
@@ -116,11 +115,16 @@ class Handler(EventHandler):
     
     async def get_all(self, group_key: str, spl_rate: int, sampling_points: int, window_type: str, overlap_per: int):
         df_fft = await self.get_amplitude(group_key, spl_rate, sampling_points, window_type, overlap_per)
-        np_amp = df_fft['amplitude'].values
+        np_amp = df_fft['amplitude'].values.astype(float)
         np_power = np_amp ** 2
-        df_fft.loc[:,'power'] = np_power
         np_decibel = 10 * np.log10((np_power/np.amax(np_power)).astype(np.float64))
+        np_amp_r = np.around(np_amp, decimals=2)
+        np_power_r = np.around(np_power, decimals=2)
         np_decibel[np.isinf(np_decibel)] = -511
-        df_fft.loc[:,'decibel'] = np_decibel
+        np_decibel_r = np.around(np_decibel, decimals=1)
+
+        df_fft.loc[:,'amplitude'] = np_amp_r
+        df_fft.loc[:,'power'] = np_power_r
+        df_fft.loc[:,'decibel'] = np_decibel_r
         return df_fft
 

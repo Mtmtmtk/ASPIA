@@ -6,6 +6,11 @@
             </v-col>
         </v-row>
         <v-row>
+            <v-col>
+                <font color="#CFD8DC">This function can add sound resonance to sounds recorded in an anechoic room as if they were originally recorded in a certain space. Only by going through the steps below, you can create an auralised sound file!</font>
+            </v-col>
+        </v-row>
+        <v-row>
             <v-col cols="12">
                 <stepper-view 
                     :duct="duct"

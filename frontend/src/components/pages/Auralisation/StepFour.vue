@@ -1,6 +1,11 @@
 <template>
     <v-container>
         <v-row>
+            <v-col>
+                The impulse response is a signal (like a hand clap!) that reflects acoustic characteristics. It depends on the locations of the receiver and source poistions, so you have to choose one of the impulse responses of your chosen space.
+            </v-col>
+        </v-row>
+        <v-row>
             <v-col cols="4">
                 <v-dialog
                     v-model="dialog"
@@ -60,15 +65,27 @@
                 </v-dialog>
             </v-col>
             <v-col cols='6'>
-                <v-select
-                    v-model="format"
-                    filled
-                    offset-y
-                    color="#26A69A"
-                    :items="formatItems"
-                    label="Select IR Audio Format"
-                    prepend-inner-icon="mdi-speaker-wireless"
-                />
+                <v-tooltip right>
+                   <template #activator="{ on, attrs }"> 
+                        <v-select
+                            v-on="on"
+                            v-bind="attrs"
+                            v-model="format"
+                            filled
+                            offset-y
+                            color="#26A69A"
+                            :items="formatItems"
+                            label="Select IR Audio Format"
+                            prepend-inner-icon="mdi-speaker-wireless"
+                        />
+                    </template>
+                    <span>Audio format represents a number of channels.</span>
+                    <ul>
+                        <li>B-format: 4 channels</li>
+                        <li>Stereo: 2 channels</li>
+                        <li>Monaural: 1 channel</li>
+                    </ul>
+                </v-tooltip>
                 <v-select
                     v-if="formatSelected"
                     v-model="ir"

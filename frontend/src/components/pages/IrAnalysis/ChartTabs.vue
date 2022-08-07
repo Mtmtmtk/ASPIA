@@ -1,19 +1,9 @@
 <template>
     <div>
-        <v-tabs
-            background-color="#E0E0E0"
-            color="#26A69A"
-            light
+        <tab-headers
             v-model="chartTab"
-            class="rounded-t-lg"
-        >
-            <v-tabs-slider />
-            <v-tab>raw ir</v-tab>
-            <v-tab>filtered ir</v-tab>
-            <v-tab>schroeder curve</v-tab>
-            <v-tab>acoustic parameters</v-tab>
-            <v-tab>Filter Settings</v-tab>
-        </v-tabs>
+            :tab-header-info="tabHeaderInfo"
+        />
         <v-tabs-items 
             v-model="chartTab"
             class="rounded-b-lg"
@@ -71,6 +61,7 @@ import FilteredIrChart from './FilteredIrChart'
 import SchroederCurve from './SchroederCurve'
 import AcousticParameterGraph from './AcousticParameterGraph'
 import FilterSettings from './FilterSettings'
+import TabHeaders from './TabHeaders'
 export default{
     components:{
         IrChart,
@@ -78,9 +69,32 @@ export default{
         SchroederCurve,
         AcousticParameterGraph,
         FilterSettings,
+        TabHeaders
     },
     data:() => ({
-        chartTab:null
+        chartTab:null,
+        tabHeaderInfo: [
+            {
+                title: 'raw ir',
+                tooltipHtml: '<span>Graph of the input impulse response.</span><br/><span>The graph is resampled into 4410 Hz to render faster  .</span>',
+            },
+            {
+                title: 'filtered ir',
+                tooltipHtml: '<span>Graphs of octave-band-filtered impulse responses.</span>'
+            },
+            {
+                title: 'schroeder curve',
+                tooltipHtml: '<span>Energy decay curves for the filtered impulse responses.</span><br/><span>Usage:</span><ul><li>Check remaining energy at time <i>t</i>.</li></ul>'    
+            },
+            {
+                title: 'acoustic parameters',
+                tooltipHtml: '<span>Acoustic parameters shown in graph format.</span><br/><span>Usage:</span><ul><li>Compare parameters with the typical value ranges of concert hall</li></ul>'
+            },
+            {
+                title: 'filter settings',
+                tooltipHtml: '<span>You can change the octave-band-filter settings applied in the analysis calculation.</span>'
+            },
+        ]
     }),
     props: {
         loading: {

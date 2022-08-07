@@ -7,6 +7,11 @@
         </v-row>
         <v-row>
             <v-col>
+                <font color="#CFD8DC">Spectrogram is an audio visualisation tool that can extract a sound strength at a certain frequency and time. Once you input a sound file and press 'Start Analysis' button, you can get three types of spectrogram; amplitude, power, power in decibel unit.</font>
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-col>
                 <audio-input
                     :duct="duct"
                     :html-text="false"
@@ -88,7 +93,9 @@ export default{
         async callDuct(){
             this.loading = true;
             try {
+                const startTime = performance.now();
                 [ this.resampledAudio, this.timestamp ] = await this.duct.call(this.duct.EVENT.RESAMPLE_CHART_GET, { group_key: this.redisKey });
+                const resampleTime = performance.now();
                 [ this.frequencies, this.timestamp, this.spectAmp, this.spectPow, this.spectDb ] = await this.duct.call(this.duct.EVENT.SPECTROGRAM_ALL_GET,{
                     group_key: this.redisKey,
                     spl_rate: this.audioSplRate,
@@ -96,10 +103,15 @@ export default{
                     window_type: this.windowType,
                     overlap_per: this.overlap
                 });
+                const spectrogramTime = performance.now();
                 this.windowVals = await this.duct.call(this.duct.EVENT.WINDOW_GET, {
                     window_type: this.windowType,
                     sampling_points: this.samplingPoints
-                })
+                });
+                const windowTime = performance.now();
+                console.log(`${(resampleTime-startTime)/1000} seconds`);
+                console.log(`${(spectrogramTime-resampleTime)/1000} seconds`);
+                console.log(`${(windowTime-spectrogramTime)/1000} seconds`);
                 this.loading = false;
             }catch {
                 this.showSnackbar();

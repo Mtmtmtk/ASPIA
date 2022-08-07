@@ -76,19 +76,19 @@
                             v-if="!overlapAllowed"
                             dense
                             type="error"
-                        >Overlapping percentage should be in 0-99 %.
+                        >The overlapping percentage should be 0-99 %.
                         </v-alert>
                         <v-alert
                             v-if="!samplingPointsAllowed"
                             dense
                             type="error"
-                        >Sampling points should be more than 0.
+                        >The sampling points should be more than 0.
                         </v-alert>
                         <v-alert
                             v-if="samplingPoints > 4096"
                             dense
                             type="warning"
-                        >Large sampling points causes a long calculation time.
+                        >Large sampling points may cause a long calculation time.
                         </v-alert>
                         <v-card-actions>
                             <v-spacer/>

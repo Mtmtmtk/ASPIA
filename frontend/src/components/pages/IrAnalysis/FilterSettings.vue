@@ -77,13 +77,26 @@
                             v-if="orderWaring"
                             dense
                             type="warning"
-                        > The larger order might cause a long calculation time. Consider to make the order smaller.
+                        > 
+                            <span>The larger order might cause a long calculation time. Consider to make the order smaller.</span><br/>
+                            <span>Tips:</span>
+                            <ul>
+                                <li>Although the FIR filter order is effective if it's about more than 1000, even the 1st order IIR filters works well!</li>
+                                <li>If the FIR filter order is more than 5000, it takes a really long time to calculate!</li>
+                            </ul>
                         </v-alert>
                         <v-alert
                             v-if="unstableFilter"
                             dense
                             type="error"
-                        > The filter is unstable at {{ unstableHzStr }}. Please change the order or the type.
+                        >
+                            <span>The filter is unstable at {{ unstableHzStr }}. Please change the filter order, type, or the other parameters.</span><br/>
+                            <span>Tips:</span>
+                            <ul>
+                                <li>The FIR filter is always stable, but the IIR often becomes unstable; the filter order has a significant role to solve this!</li>
+                                <li>If you use the filter which requires the minimum attenuation parameter, make the value smaller.</li>
+                                <li>If you use the filter which requires the maximum ripple, make the value larger.</li>
+                            </ul>
                         </v-alert>
                         <v-alert
                             v-if="invalidOrderError"
@@ -162,7 +175,12 @@ export default{
                 this.unstableFilter = false;
                 this.buttonDisabled = false;
             }
-            this.unstableHzStr = unstableHzList.join('Hz, ').concat('','Hz');
+
+            if(unstableHzList.length == 1){
+                this.unstableHzStr = unstableHzList[0] + 'Hz octave band'
+            }else {
+                this.unstableHzStr = unstableHzList.slice(0, unstableHzList.length - 2).join('Hz, ').concat('','Hz, and ') + unstableHzList[ unstableHzList.length - 1 ] + 'Hz octave bands';
+            }
         },
         filterOrder(){
             if(this.filterOrder > 5000) this.orderWaring = true;
