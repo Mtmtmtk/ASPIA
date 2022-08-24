@@ -1,9 +1,10 @@
 # ASPIA - Acoustic Signal Processing Introductory Application
-This application is a part of the MSc project, developed by Motoki Saito, MSc in Audio and Music Technology, University of York.
+This application is a part of the MSc project, developed by Motoki Saito, a student of MSc in Audio and Music Technology at University of York.
 
 ## What it does
 
-- Allows you to execute acoustic signal processing functions using the [OpenAIR](https://www.openairlib.net/) database.
+- Allows you to execute acoustic signal processing functions using the [OpenAIR](https://www.openairlib.net/) database without troublesome coding processes.
+- Lets you learn the mathematical approaches of acoustic signal processing.
 
 ## What it looks like
 
@@ -13,9 +14,9 @@ This application is a part of the MSc project, developed by Motoki Saito, MSc in
 
 ## Database
 
-- Database available at [Google Drive](https://drive.google.com/drive/folders/1WnkeMDKhcHAvowOT6f4N4Q2OtaYNGiWu?usp=sharing)
+- Database available at [Google Drive](https://drive.google.com/drive/folders/1WnkeMDKhcHAvowOT6f4N4Q2OtaYNGiWu?usp=sharing).
 - Place `impulse_response` folder at `/backend/` directory.
-- Place the rest of the files at `/frontend/src/assets/` directory.
+- Place the rest of the folders at `/frontend/src/assets/` directory.
 
 ## Build & Run
 
