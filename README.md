@@ -7,9 +7,9 @@ This application is a part of the MSc project, developed by Motoki Saito, MSc in
 
 ## What it looks like
 
-![Auralisation](/readmesamples/sample_01.png)
-![Impulse Response Analysis](/readmesamples/sample_02.png)
-![Spectrogram](/readmesamples/sample_03.png)
+![Auralisation](https://github.com/Mtmtmtk/UKDissertation/tree/develop/readmesamples/sample_01.png)
+![Impulse Response Analysis](https://github.com/Mtmtmtk/UKDissertation/tree/develop/readmesamples/sample_02.png)
+![Spectrogram](https://github.com/Mtmtmtk/UKDissertation/tree/develop/readmesamples/sample_03.png)
 
 ## Database
 
