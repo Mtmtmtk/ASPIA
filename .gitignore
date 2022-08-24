@@ -6,3 +6,5 @@
 *.zip
 *.git-rewrite
 *.icloud
+
+!/readmesamples/*

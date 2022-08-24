@@ -3,7 +3,19 @@ This application is a part of the MSc project, developed by Motoki Saito, MSc in
 
 ## What it does
 
-- Allows you to execute the acoustic signal processing using the [OpenAIR](https://www.openairlib.net/) database.
+- Allows you to execute acoustic signal processing functions using the [OpenAIR](https://www.openairlib.net/) database.
+
+## What it looks like
+
+![Auralisation](/readmesamples/sample_01.png)
+![Impulse Response Analysis](/readmesamples/sample_02.png)
+![Spectrogram](/readmesamples/sample_03.png)
+
+## Database
+
+- Database available at [Google Drive](https://drive.google.com/drive/folders/1WnkeMDKhcHAvowOT6f4N4Q2OtaYNGiWu?usp=sharing)
+- Place `impulse_response` folder at `/backend/` directory.
+- Place the rest of the files at `/frontend/src/assets/` directory.
 
 ## Build & Run
 
