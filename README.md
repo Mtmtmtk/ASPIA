@@ -1,6 +1,12 @@
 # ASPIA - Acoustic Signal Processing Introductory Application
 This application is a part of the MSc project, developed by Motoki Saito, a student of MSc in Audio and Music Technology at University of York.
 
+## Composition
+- Frontend framework: Vue 2
+- Backend framework: DUCTS (original framework developed by [ifLab Inc](https://www.iflab.co.jp/).)
+- Storage: Redis
+- Virtualisation tool: Docker
+
 ## What it does
 
 - Allows you to execute acoustic signal processing functions using the [OpenAIR](https://www.openairlib.net/) database without troublesome coding processes.
