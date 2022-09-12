@@ -6,6 +6,10 @@ This application is a part of the MSc project, developed by Motoki Saito, a stud
 - Allows you to execute acoustic signal processing functions using the [OpenAIR](https://www.openairlib.net/) database without troublesome coding processes.
 - Lets you learn the mathematical approaches of acoustic signal processing.
 
+## Demo
+
+- You can see a demo video from [this YouTube link](https://www.youtube.com/watch?v=TJ1AxS2TgUM&t=11s).
+
 ## What it looks like
 
 ![Auralisation](readmesamples/sample_1.png)
