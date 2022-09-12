@@ -3,7 +3,7 @@ This application is a part of the MSc project, developed by Motoki Saito, a stud
 
 ## Composition
 - Frontend framework: Vue 2
-- Backend framework: DUCTS (original framework developed by [ifLab Inc](https://www.iflab.co.jp/).)
+- Backend framework: DUCTS (original Python framework developed by [ifLab Inc](https://www.iflab.co.jp/).)
 - Storage: Redis
 - Virtualisation tool: Docker
 
